@@ -3,9 +3,11 @@
 ### My Environment
  - Windows 8.1
  - Visual Studio 2013 with Update3
+
 ### Features
  - **FLV\MKV** Playback (File or NetworkStream).
  - Hardware accelerated
+
 ***
 ### 1. Install VSIX Packages and...
  - Download and Install:
@@ -14,12 +16,14 @@
  - Create a new UAP Project
    - **Windows 8.1 or Windows Phone 8.1 only**
    - Visual C#
+
 ### 2. Add References
 ![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/0.png)
 
  - Windows 8.1: `ShanYe MediaPlayer Engine (Windows 8.1)`
  - Windows Phone 8.1: `ShanYe MediaPlayer Engine (Windows Phone 8.1)`
  - **Change build target to: x86\x64\ARM.**
+
 ### 3. Open `Package.appxmanifest` and Add Code...
 ![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/1.png)
 
@@ -39,13 +43,17 @@
   </Extension>
 </Extensions>
 ```
+
 ### 4. Open `App.xaml.cs` and Add Code...
 ![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/2.png)
 
 ```
-private SYEngineCore.Core _core = new SYEngineCore.Core();
-_core.Instance();
+In Global class App:
+  private SYEngineCore.Core _core = new SYEngineCore.Core();
+In OnLaunched:
+  _core.Instance();
 ```
+
 ### 5. Build and Running
  - use the **MediaElement** Control to Play a Video (File or Network).
  - use the **Windows.Media.Transcoding.MediaTranscoder** API.
