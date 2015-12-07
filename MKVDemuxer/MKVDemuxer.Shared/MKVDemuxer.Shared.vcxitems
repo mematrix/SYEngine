@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{4bbfa052-b2d4-4091-bc57-ac622c9146fd}</ItemsProjectGuid>
+    <ItemsRootNamespace>MKVDemuxer</ItemsRootNamespace>
+    <ItemsProjectName>MKVDemuxer.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVDemuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_AVIO.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_Reader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_Tags.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Audio.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Subtitle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Video.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\AlacCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\FlacCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusHelp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\PcmCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaCodecIds.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlCore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternal.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachments.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapters.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCluster.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCues.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHead.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSegmentInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTags.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTracks.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserCore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserDataSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserZLib.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\TTA1Help.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\WV4Help.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VFWHelp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKVMediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKVMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\AlacCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\DurationCalcInterface.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\FlacCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusHelp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\PcmCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaCodecIds.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaDataSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbml.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlCore.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlDoc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachmentContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachments.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapterContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapters.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCluster.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCueContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCues.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHead.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHeadContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSegmentInfo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTagContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTags.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTrackContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTracks.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaList.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaMisc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParserErrSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParserIO.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\TTA1Help.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\WV4Help.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RealCook.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VFWHelp.h" />
+  </ItemGroup>
+</Project>

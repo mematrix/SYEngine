@@ -1,0 +1,1 @@
+void DbgLogPrintf(const wchar_t* str,...);

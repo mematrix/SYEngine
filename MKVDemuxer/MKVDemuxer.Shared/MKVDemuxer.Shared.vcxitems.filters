@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{88b6673d-1f29-4c3c-be9f-c32ef0812bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parser\Duration">
+      <UniqueIdentifier>{73201f4a-69a6-4226-a850-02fbacf83caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parser\Internal">
+      <UniqueIdentifier>{ab83d856-f04d-4071-88ca-52be3d480de2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParser.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserCore.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserDataSource.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\MKVParserZLib.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\TTA1Help.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\WV4Help.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\AlacCalcEngine.cpp">
+      <Filter>Parser\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\FlacCalcEngine.cpp">
+      <Filter>Parser\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusCalcEngine.cpp">
+      <Filter>Parser\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusHelp.cpp">
+      <Filter>Parser\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Duration\PcmCalcEngine.cpp">
+      <Filter>Parser\Duration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaCodecIds.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbml.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlCore.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternal.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachments.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapters.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCluster.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCues.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHead.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSegmentInfo.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTags.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTracks.cpp">
+      <Filter>Parser\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVDemuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_AVIO.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_Reader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaFormat_Tags.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Audio.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Subtitle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKVMediaStream_Video.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VFWHelp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParser.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParserErrSpec.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\MKVParserIO.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\TTA1Help.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\WV4Help.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\AlacCalcEngine.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\DurationCalcInterface.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\FlacCalcEngine.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusCalcEngine.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\OpusHelp.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Duration\PcmCalcEngine.h">
+      <Filter>Parser\Duration</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaCodecIds.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaDataSource.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbml.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlCore.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaEbmlDoc.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternal.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachmentContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalAttachments.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapterContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalChapters.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCluster.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCueContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalCues.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalError.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHead.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSeekHeadContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalSegmentInfo.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTagContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTags.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTrackContext.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaInternalTracks.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaList.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaMisc.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\Internal\MatroskaSpec.h">
+      <Filter>Parser\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKVMediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKVMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RealCook.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VFWHelp.h" />
+  </ItemGroup>
+</Project>

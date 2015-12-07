@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{d2b05c88-a890-450c-b054-04baf091e41a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Internal">
+      <UniqueIdentifier>{f36c9e5a-781a-4211-910f-b79b51835810}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\GlobalPrehead.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomCodec.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomError.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomGlobal.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomObject.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomParser.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomStreamSource.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\IsomTypes.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Internal\StructTable.h">
+      <Filter>Core\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\Aka4Splitter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4MediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4MediaStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Internal\IsomCodec.cpp">
+      <Filter>Core\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Internal\IsomParser.cpp">
+      <Filter>Core\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Internal\IsomParserCore.cpp">
+      <Filter>Core\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Internal\IsomParserMetadata.cpp">
+      <Filter>Core\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Internal\IsomParserStream.cpp">
+      <Filter>Core\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Aka4Splitter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\Aka4SplitterMisc.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4Demuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4MediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4MediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4Metadata.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NaluHelp.cpp" />
+  </ItemGroup>
+</Project>

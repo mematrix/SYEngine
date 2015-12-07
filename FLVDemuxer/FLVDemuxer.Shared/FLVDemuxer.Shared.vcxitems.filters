@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{5b996f96-6320-487a-ac32-deca3093dffb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVBoxSpec.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVMetaSpec.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVParser.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVParserErrSpec.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVParserIO.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parser\FLVSpec.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLVMediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLVMediaStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\FLVParser.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\FLVParser_Core.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Parser\FLVParser_Misc.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVDemuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaFormat_AVIO.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaFormat_MkKeyFrames.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaFormat_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaFormat_Reader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLVMediaStream.cpp" />
+  </ItemGroup>
+</Project>

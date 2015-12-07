@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{f1079a95-c042-429f-ad7b-97a91ec8be65}</ItemsProjectGuid>
+    <ItemsRootNamespace>CoreCommon</ItemsRootNamespace>
+    <ItemsProjectName>CoreCommon.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AutoMediaBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AutoMediaPacket.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AVDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AVDescription_CH_Layout.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVChapter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVIO.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVMetadata.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaCodecType.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaMemory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaPacket.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AACAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_ADTS_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_LATM_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AC3\A52_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AC3\AC3AudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACMagicCodeParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\CommonAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\CommonVideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACStreamInfoParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\H264\AVC1VideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\H264\X264VideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\LPCM\BDAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\LPCM\BD_LPCM_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MP3\MPEGAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MP3\MPEG_Audio_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MPEG2\MPEG2VideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MPEG4\MPEG4VideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\OGG\VorbisAudioDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\VC1\VC1VideoDescription.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ComDynamicMemoryBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\CrtDynamicMemoryBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DynamicMemoryBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\shared_memory_ptr.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\APEv2TagEx.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\AVIOWin32.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\ESPacketCutter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264AnnexBParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264Spec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264_SPS_Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HEVCAnnexBParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HEVCSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HVC1mkvToAnnexB.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\IOReader\IOPoolReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\IOWriter\IOPoolWriter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MiscUtils.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\Bitstream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\GolombBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\H264Nalu.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPEG2HeadParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPEG4HeadParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Buffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\List.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Queue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABase.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\AString.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Golomb.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Parser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\VC1HeadParser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AV\MediaMemory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AV\MediaPacket.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AACAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_ADTS_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_LATM_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AC3\A52_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AC3\AC3AudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACMagicCodeParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\CommonAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\CommonVideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACStreamInfoParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\H264\AVC1VideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\H264\X264VideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\LPCM\BDAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\LPCM\BD_LPCM_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MP3\MPEGAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MP3\MPEG_Audio_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MPEG2\MPEG2VideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MPEG4\MPEG4VideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\OGG\VorbisAudioDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\VC1\VC1VideoDescription.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Memory\ComDynamicMemoryBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Memory\CrtDynamicMemoryBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\APEv2TagEx.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\AVC1mp4ToAnnexB.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\ESPacketCutter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264AnnexBParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264_Misc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264_SPS_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\HEVCAnnexBParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\HVC1mkvToAnnexB.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\IOReader\IOPoolReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\IOWriter\IOPoolWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MiscUtils.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\Bitstream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\GolombBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\H264Nalu.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPEG2HeadParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPEG4HeadParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Buffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\AString.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\VC1HeadParser.cpp" />
+  </ItemGroup>
+</Project>

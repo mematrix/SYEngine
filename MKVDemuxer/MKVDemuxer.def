@@ -1,0 +1,4 @@
+EXPORTS
+	CreateMKVMediaDemuxer
+	CreateMKVMediaDemuxerSP
+	CheckFileStreamMKV
