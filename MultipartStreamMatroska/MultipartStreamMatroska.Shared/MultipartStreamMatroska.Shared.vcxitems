@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{5589AEDB-6143-4B48-A7A3-1DD0C73E5723}</ItemsProjectGuid>
+    <ItemsRootNamespace>MultipartStreamMatroska</ItemsRootNamespace>
+    <ItemsProjectName>MultipartStreamMatroska.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\DemuxProxy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\downloader\TaskManagerBase.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\MatroskaJoinStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\MatroskaMerge.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\MemoryBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\MemoryStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\MergeManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroska.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaEbml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\AACParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\AVCParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\BitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\FLACParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\RingBlockBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\TextReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDataSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDownloader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsHttpTaskManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsLocalFile.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsTaskManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MultipartStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadImpl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UrlHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\DemuxProxy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\downloader\DownloadCore.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\downloader\DownloadTask.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\downloader\TaskManagerBase.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\DsIOCallback.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\MatroskaJoinStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\MatroskaMerge.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\MemoryBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\MemoryStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\MergeManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroska.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaConst.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaEbml.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaGlobal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaIOCallback.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaPrehead.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\mkv\AkaMatroskaStructTable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\AACParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\AVCParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\BitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\FLACParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\RingBlockBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\TextReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDataSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDownloader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsHttpTaskManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsLocalFile.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsTaskManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MultipartStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadImpl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UrlHandler.h" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{5b969656-ea9b-4479-9dcc-4b47bab474a1}</ItemsProjectGuid>
+    <ItemsRootNamespace>CoreMFSource</ItemsRootNamespace>
+    <ItemsProjectName>CoreMFSource.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbgLogOutput.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\DemuxerFactory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\PathHelp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GlobalSettings.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDCoreByteStreamHandler.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_AudioMediaType.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Base.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Desktop.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_EventGenerator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_GetService.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_InitMediaType.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Metadata.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Misc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_OpenAsync.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Operation.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Parser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Props.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_TaskQueue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_VideoMediaType.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_Base.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_EventGenerator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_PrivateData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MFMediaIOEx.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbgLogOutput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Demuxer\DemuxerFactory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GlobalSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HDCoreByteStreamHandler.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HDMediaSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HDMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MFMediaIO.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MFMediaIOEx.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MFsGlobalSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MyMediaTypeDef.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+  </ItemGroup>
+</Project>
