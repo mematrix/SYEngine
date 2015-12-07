@@ -1,0 +1,25 @@
+*.suo
+*.sdf
+*.opensdf
+*.user
+*.ipch
+*.obj
+*.pdb
+
+[Dd]ebug/
+[Rr]elease/
+ARM/
+x64/
+x86/
+
+build/
+[Bb]in/
+[Oo]bj/
+
+Generated Files/
+AppPackages/
+
+/DllFiles/
+!/ffcodecs/ffmpeg/lib/arm/
+!/ffcodecs/ffmpeg/lib/x64/
+!/ffcodecs/ffmpeg/lib/x86/
