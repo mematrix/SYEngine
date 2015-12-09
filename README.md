@@ -14,6 +14,7 @@
  - 下面的库依据原本的协议：`ffcodecs` (ffmpeg)、`stagefright` (AOSP)
 
 ### 版本历史 (简单信息)
+ - 2015-12-09：重构demuxers，合并到一个工程，原来的工程删除。 
  - 2015-12-07：第一次提交到git进行托管，将与**暗影吉他手**合作维护。
 
 ### 下一步 (预计)
@@ -23,9 +24,7 @@
 ***
 ### 组件1：跨平台的解复用器
  - **CoreCommon**：此为核心模块，组件1中的所有其他的项目都会直接**依赖于此项目**，此项目为静态库，提供基础的抽象、内存管理、解码器标准化定义等。
- - **FLV**Demuxer：Adobe FLV格式的解封装器，兼容的编码有H264、AAC\MP3。
- - **MKV**Demuxer：Matroska 格式的解封装器，兼容的编码有H264\HEVC\MPEG2\MPEG4\VC1\WMV9\、AAC\MP3\DTS\AC3\FLAC\ALAC\TTA\WavPack等。
- - **MP4**Demuxer：ISO标准化定义的MP4容器格式解封装器，兼容的编码有H264\HEVC\MPEG4、AAC\MP3\ALAC\DTS\AC3等。
+ - **CoreDemuxers**：包含自行编写的`FLV\MKV\MP4`解封装器。
 
 ### 组件2：Win32的MF分离器
  - **CoreMFCommon**：提供MF相关的API简单化包装类，比如异步回调、任务队列等。此为静态库。

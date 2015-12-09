@@ -1,5 +1,4 @@
 # Guide: How to Use It (WinRT 8.1)
-***
 ### My Environment
  - Windows 8.1
  - Visual Studio 2013 with Update3
