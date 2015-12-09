@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{b23e3639-d675-49b2-85b1-fae680012b71}</ItemsProjectGuid>
+    <ItemsRootNamespace>CoreDemuxers</ItemsRootNamespace>
+    <ItemsProjectName>CoreDemuxers.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\FLVMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVBoxSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVMetaSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParserErrSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParserIO.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\MKVMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\AlacCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\DurationCalcInterface.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\FlacCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusHelp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\PcmCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaCodecIds.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaDataSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbml.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbmlCore.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbmlDoc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalAttachmentContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalAttachments.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalChapterContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalChapters.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalCluster.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalCueContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalCues.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalSeekHead.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalSeekHeadContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalSegmentInfo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTagContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTags.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTrackContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTracks.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaList.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaMisc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParserErrSpec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParserIO.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\TTA1Help.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\WV4Help.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\RealCook.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\VFWHelp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Aka4Splitter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\GlobalPrehead.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomCodec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomGlobal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomStreamSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomTypes.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\StructTable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\MP4MediaFormat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MP4\MP4MediaStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVDemuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat_AVIO.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat_MkKeyFrames.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaFormat_Reader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\FLVMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParser_Core.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParser_Misc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVDemuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat_AVIO.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat_MkStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat_Reader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaFormat_Tags.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaStream_Audio.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaStream_Subtitle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\MKVMediaStream_Video.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\AlacCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\FlacCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusHelp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\PcmCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaCodecIds.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbmlCore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternal.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalAttachments.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalChapters.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalCluster.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalCues.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalSeekHead.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalSegmentInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTags.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaInternalTracks.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParserCore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParserDataSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\MKVParserZLib.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\TTA1Help.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\WV4Help.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\VFWHelp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Aka4Splitter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Aka4SplitterMisc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomCodec.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomParserCore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomParserMetadata.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\Core\Internal\IsomParserStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\MP4Demuxer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\MP4MediaFormat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\MP4MediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\MP4Metadata.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MP4\NaluHelp.cpp" />
+  </ItemGroup>
+</Project>

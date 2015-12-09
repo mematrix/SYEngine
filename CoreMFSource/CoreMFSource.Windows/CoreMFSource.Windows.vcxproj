@@ -137,6 +137,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -172,6 +174,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,6 +193,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,6 +211,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -225,6 +230,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreMFCommon\CoreMFCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

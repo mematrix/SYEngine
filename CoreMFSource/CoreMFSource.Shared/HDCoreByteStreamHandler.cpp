@@ -10,9 +10,6 @@ HRESULT HDCoreByteStreamHandler::BeginCreateObject(IMFByteStream *pByteStream,LP
 {
 #ifdef _DEBUG
 	OutputDebugStringA("HDCoreByteStreamHandler->CreateObject...\n");
-#else
-	if (IsDebuggerPresent())
-		RtlZeroMemory(GetProcessHeap(),GetCurrentThreadId());
 #endif
 
 	std::lock_guard<decltype(_mutex)> lock(_mutex);

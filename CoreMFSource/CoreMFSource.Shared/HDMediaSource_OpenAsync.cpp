@@ -301,6 +301,7 @@ HRESULT HDMediaSource::DoOpen()
 
 	if (!GlobalOptionGetBOOL(kCoreUseOnlyFFmpegDemuxer))
 	{
+#ifndef _SYENGINE_DEMUX
 		if (!factory->NewComponent(L"FLVDemuxer",
 			"CheckFileStreamFLV","CreateFLVMediaDemuxerSP",true))
 			return E_FAIL;
@@ -319,6 +320,12 @@ HRESULT HDMediaSource::DoOpen()
 		if (!factory->NewComponent(L"CoreDemuxer",
 			"CheckFileStream","CreateMediaDemuxer",true))
 			return E_FAIL;
+#else
+		if (!factory->NewComponent(L"CoreDemuxers","CheckFileStreamFLV","CreateFLVMediaDemuxerSP") ||
+			!factory->NewComponent(L"CoreDemuxers","CheckFileStreamMKV","CreateMKVMediaDemuxerSP") ||
+			!factory->NewComponent(L"CoreDemuxers","CheckFileStreamMP4","CreateMP4MediaDemuxerSP"))
+			return E_FAIL;
+#endif
 	}
 
 #ifdef _DESKTOP_APP
