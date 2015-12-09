@@ -1,4 +1,0 @@
-EXPORTS
-	CreateMP4MediaDemuxer
-	CreateMP4MediaDemuxerSP
-	CheckFileStreamMP4
