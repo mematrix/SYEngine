@@ -1,0 +1,7 @@
+EXPORTS
+	CreateFLVMediaDemuxerSP
+	CheckFileStreamFLV
+	CreateMKVMediaDemuxerSP
+	CheckFileStreamMKV
+	CreateMP4MediaDemuxerSP
+	CheckFileStreamMP4

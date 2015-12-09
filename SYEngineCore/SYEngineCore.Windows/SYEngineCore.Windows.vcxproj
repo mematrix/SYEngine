@@ -27,17 +27,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Windows\CoreDemuxers.Windows.vcxproj">
+      <Project>{927c14c4-15ff-4939-b03c-3176a684ee09}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.Windows\CoreMFSource.Windows.vcxproj">
       <Project>{5f555a02-e82f-415e-8043-d7209194be92}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FLVDemuxer\FLVDemuxer.Windows\FLVDemuxer.Windows.vcxproj">
-      <Project>{54501431-1f9f-426e-81c8-6f6d034acbd4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MKVDemuxer\MKVDemuxer.Windows\MKVDemuxer.Windows.vcxproj">
-      <Project>{7548bbb7-e469-4762-974b-03eacfdaf393}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MP4Demuxer\MP4Demuxer.Windows\MP4Demuxer.Windows.vcxproj">
-      <Project>{be4a55ef-5aef-4444-b79b-3ea05d501b42}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Windows\MultipartStreamMatroska.Windows.vcxproj">
       <Project>{404150b6-9a3a-449e-a410-5d64ff3b85d3}</Project>

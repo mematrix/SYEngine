@@ -19,17 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.WindowsPhone\CoreDemuxers.WindowsPhone.vcxproj">
+      <Project>{12c720a6-7590-4da1-9666-0adf59555e03}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.WindowsPhone\CoreMFSource.WindowsPhone.vcxproj">
       <Project>{32326bd5-23d8-4993-a79f-46a819bcc794}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FLVDemuxer\FLVDemuxer.WindowsPhone\FLVDemuxer.WindowsPhone.vcxproj">
-      <Project>{570b5000-714e-4594-878b-e36d6e304558}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MKVDemuxer\MKVDemuxer.WindowsPhone\MKVDemuxer.WindowsPhone.vcxproj">
-      <Project>{bee9729f-de2d-46f1-8ce6-5e680d80494e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MP4Demuxer\MP4Demuxer.WindowsPhone\MP4Demuxer.WindowsPhone.vcxproj">
-      <Project>{a9414c6a-f3b1-45a3-a955-eeaa662a85ba}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.WindowsPhone\MultipartStreamMatroska.WindowsPhone.vcxproj">
       <Project>{1a1821c0-5072-48d7-93ad-2ecdcd267f4d}</Project>
