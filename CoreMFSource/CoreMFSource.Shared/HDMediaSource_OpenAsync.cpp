@@ -239,7 +239,6 @@ HRESULT HDMediaSource::DoOpen()
 		return MF_E_INVALID_STATE_TRANSITION;
 
 	IAVMediaIO* pMediaIO = nullptr;
-#ifdef _DESKTOP_APP
 	if (_network_mode && !GlobalOptionGetBOOL(kNetworkForceUseSyncIO)) {
 		auto p = new MFMediaIOEx(_pByteStream.Get());
 		_pMediaIOEx.Attach(p);
@@ -248,10 +247,6 @@ HRESULT HDMediaSource::DoOpen()
 		_pMediaIO = std::make_shared<MFMediaIO>(_pByteStream.Get());
 		pMediaIO = _pMediaIO.get();
 	}
-#else
-	_pMediaIO = std::make_shared<MFMediaIO>(_pByteStream.Get());
-	pMediaIO = _pMediaIO.get();
-#endif
 	
 	if (pMediaIO->GetSize() == 0)
 		return MF_E_INVALID_STREAM_DATA;

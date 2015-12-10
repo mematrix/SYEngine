@@ -20,6 +20,7 @@
 ### 下一步 (预计)
  - **移植兼容UWP**。
  - 使用Windows.Web.Http.HttpClient来提供Http下载服务。
+ - 去除ffmpeg模块[ffcodecs]。
 
 ***
 ### 组件1：跨平台的解复用器
