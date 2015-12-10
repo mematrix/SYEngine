@@ -16,7 +16,7 @@ public:
 	{
 		HRESULT hr = MFLockPlatform();
 		if (SUCCEEDED(hr))
-			hr = MFAllocateSerialWorkQueue(MFASYNC_CALLBACK_QUEUE_STANDARD,&_dwWorkQueue);
+			hr = MFAllocateSerialWorkQueue(MFASYNC_CALLBACK_QUEUE_MULTITHREADED,&_dwWorkQueue);
 
 		if (FAILED(hr))
 			_dwWorkQueue = MFASYNC_CALLBACK_QUEUE_STANDARD;
