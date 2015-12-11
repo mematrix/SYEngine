@@ -64,6 +64,16 @@ static bool IsByteStreamFromNetwork(IMFByteStream* pByteStream)
 		if (MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234)
 			return true;
 
+	LPWSTR mimeType = NULL;
+	pAttrs->GetAllocatedString(MF_BYTESTREAM_CONTENT_TYPE,&mimeType,NULL);
+	if (mimeType)
+	{
+		bool ret = (wcsicmp(mimeType,L"video/force-network-stream") == 0);
+		CoTaskMemFree(mimeType);
+		if (ret)
+			return true;
+	}
+
 	ComPtr<IMFByteStreamBuffering> pBuffer;
 	ComPtr<IMFMediaEventGenerator> pStreamEvent;
 
