@@ -85,5 +85,10 @@ namespace SYEngineRuntime
             if (player.BufferingProgress < 1.0)
                 tbPlayStatus.Text = string.Format("Buffering... {0}%", (int)(player.BufferingProgress * 100));
         }
+
+        private void player_DownloadProgressChanged(object sender, RoutedEventArgs e)
+        {
+            tbDownloadProgress.Text = string.Format("Downloaded {0}%", (int)(player.DownloadProgress * 100));
+        }
     }
 }

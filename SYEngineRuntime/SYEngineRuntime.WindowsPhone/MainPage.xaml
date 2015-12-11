@@ -15,7 +15,7 @@
             <StackPanel Margin="20,5,0,0">
                 <Button x:Name="btnPlayFile" Content="Play File..." Width="150" Height="60" Click="btnPlayFile_Click"/>
                 <Button x:Name="btnPlayNetwork" Content="Play Network..." Width="150" Height="60" Click="btnPlayNetwork_Click"/>
-                <TextBox x:Name="tboxNetworkUri" TextWrapping="NoWrap" Margin="10,0,20,0" Height="20" />
+                <TextBox x:Name="tboxNetworkUri" TextWrapping="NoWrap" Margin="10,0,20,0" Height="20" InputScope="Url"/>
                 <Button x:Name="btnMultiFiles" Content="Test for MultipartStreamMatroska" Width="330" Height="60" Margin="0,20,0,0" Click="btnMultiFiles_Click"/>
                 <Button x:Name="btnMultiUrl" Content="MultipartStreamMatroska (Network)" Width="330" Height="60" Margin="0,0,0,0" Click="btnMultiUrl_Click"/>
             </StackPanel>

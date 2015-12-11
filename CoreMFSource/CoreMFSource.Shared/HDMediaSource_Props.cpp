@@ -3,6 +3,7 @@
 
 static const DWORD kPids[] = {
 	MFNETSOURCE_BUFFERPROGRESS_ID,
+	MFNETSOURCE_BUFFERSIZE_ID,
 	MFNETSOURCE_VBR_ID,
 	MFNETSOURCE_CONTENTBITRATE_ID,
 	MFNETSOURCE_MAXBITRATE_ID
@@ -34,12 +35,15 @@ HRESULT HDMediaSource::GetValue(REFPROPERTYKEY key,PROPVARIANT *pv)
 	if (key.fmtid != MFNETSOURCE_STATISTICS)
 		return MF_E_NOT_FOUND;
 
-	if (key.pid != MFNETSOURCE_BUFFERPROGRESS_ID)
+	if (key.pid != MFNETSOURCE_BUFFERPROGRESS_ID && key.pid != MFNETSOURCE_BUFFERSIZE_ID)
 		return MF_E_NOT_FOUND;
 
 	PropVariantInit(pv);
 	pv->vt = VT_I4;
-	pv->lVal = _network_buffer_progress;
+	if (key.pid == MFNETSOURCE_BUFFERPROGRESS_ID)
+		pv->lVal = _network_buffer_progress;
+	else
+		pv->lVal = (LONG)(_network_preroll_time * 1000.0);
 	return S_OK;
 }
 
