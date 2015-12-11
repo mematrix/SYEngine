@@ -24,16 +24,18 @@
 class MultipartStream : 
 	public IMFByteStream,
 	public IMFByteStreamTimeSeek,
+	public IMFByteStreamBuffering,
 	public IMFByteStreamCacheControl,
 	public IMFAttributes,
 	public IMFGetService,
+	public IPropertyStore,
 	protected ThreadImpl,
 	protected MatroskaJoinStream {
 
 public:
 	explicit MultipartStream(const wchar_t* list) :
 		_ref_count(1), _state(Invalid), _flag_eof(false), _flag_user_stop(false),
-		_stm_length(0), _stm_cur_pos(0), _header_prue_size(0), _closed(true) {
+		_stm_length(0), _stm_cur_pos(0), _header_prue_size(0), _download_progress(100), _closed(true) {
 		_event_async_read = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_event_exit_thr = CreateEventExW(NULL, NULL, CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
 		wcscpy_s(_list_file, list);
@@ -87,6 +89,11 @@ public: //IMFByteStreamTimeSeek
 	STDMETHODIMP TimeSeek(QWORD qwTimePosition);
 	STDMETHODIMP GetTimeSeekResult(QWORD *pqwStartTime, QWORD *pqwStopTime, QWORD *pqwDuration)
 	{ return E_NOTIMPL; }
+
+public: //IMFByteStreamBuffering
+	STDMETHODIMP SetBufferingParams(MFBYTESTREAM_BUFFERING_PARAMS *pParams) { return S_OK; }
+	STDMETHODIMP EnableBuffering(BOOL fEnable);
+	STDMETHODIMP StopBuffering() { return StopBackgroundTransfer(); }
 
 public: //IMFByteStreamCacheControl
 	STDMETHODIMP StopBackgroundTransfer();
@@ -154,7 +161,15 @@ public: //IMFAttributes
 	{ return _attrs->CopyAllItems(pDest); }
 
 public: //IMFGetService
-	STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID *ppvObject)
+	STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID *ppvObject);
+
+public: //IPropertyStore
+	STDMETHODIMP GetCount(DWORD* cProps);
+	STDMETHODIMP GetAt(DWORD iProp, PROPERTYKEY *pkey);
+	STDMETHODIMP GetValue(REFPROPERTYKEY key, PROPVARIANT *pv);
+	STDMETHODIMP SetValue(REFPROPERTYKEY key, REFPROPVARIANT propvar)
+	{ return E_NOTIMPL; }
+	STDMETHODIMP Commit()
 	{ return E_NOTIMPL; }
 
 protected:
@@ -211,5 +226,6 @@ private:
 	AsyncReadParameters _async_read_ps; //异步读参数
 	HANDLE _event_async_read, _event_exit_thr; //请求异步读和请求退出事件
 
+	int _download_progress;
 	bool _closed;
 };

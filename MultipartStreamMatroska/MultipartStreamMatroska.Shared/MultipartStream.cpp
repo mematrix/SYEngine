@@ -1,5 +1,11 @@
 #include "MultipartStream.h"
 
+static const DWORD kPropertyStoreId[] = {
+	MFNETSOURCE_PROTOCOL_ID,
+	MFNETSOURCE_TRANSPORT_ID,
+	MFNETSOURCE_CACHE_STATE_ID,
+	MFNETSOURCE_DOWNLOADPROGRESS_ID};
+
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 static bool CheckWin10MatroskaSource(IMFAsyncCallback* cb)
 {
@@ -27,12 +33,16 @@ HRESULT MultipartStream::QueryInterface(REFIID iid, void** ppv)
 		*ppv = static_cast<IMFByteStream*>(this);
 	else if (iid == IID_IMFByteStreamTimeSeek)
 		*ppv = static_cast<IMFByteStreamTimeSeek*>(this);
+	else if (iid == IID_IMFByteStreamBuffering)
+		*ppv = static_cast<IMFByteStreamBuffering*>(this);
 	else if (iid == IID_IMFByteStreamCacheControl)
 		*ppv = static_cast<IMFByteStreamCacheControl*>(this);
 	else if (iid == IID_IMFAttributes)
 		*ppv = static_cast<IMFAttributes*>(this);
 	else if (iid == IID_IMFGetService)
 		*ppv = static_cast<IMFGetService*>(this);
+	else if (iid == IID_IPropertyStore)
+		*ppv = static_cast<IPropertyStore*>(this);
 	else
 		return E_NOINTERFACE;
 
@@ -40,13 +50,76 @@ HRESULT MultipartStream::QueryInterface(REFIID iid, void** ppv)
 	return S_OK;
 }
 
+HRESULT MultipartStream::GetCount(DWORD* cProps)
+{
+	if (cProps == NULL)
+		return E_POINTER;
+	*cProps = _countof(kPropertyStoreId);
+	return S_OK;
+}
+
+HRESULT MultipartStream::GetAt(DWORD iProp, PROPERTYKEY *pkey)
+{
+	if (pkey == NULL)
+		return E_POINTER;
+	if (iProp >= _countof(kPropertyStoreId))
+		return E_INVALIDARG;
+
+	pkey->fmtid = MFNETSOURCE_STATISTICS;
+	pkey->pid = kPropertyStoreId[iProp];
+	return S_OK;
+}
+
+HRESULT MultipartStream::GetValue(REFPROPERTYKEY key,PROPVARIANT *pv)
+{
+	if (pv == NULL)
+		return E_POINTER;
+	if (key.fmtid != MFNETSOURCE_STATISTICS)
+		return MF_E_NOT_FOUND;
+
+	if (key.pid != MFNETSOURCE_PROTOCOL_ID &&
+		key.pid != MFNETSOURCE_TRANSPORT_ID &&
+		key.pid != MFNETSOURCE_CACHE_STATE_ID &&
+		key.pid != MFNETSOURCE_DOWNLOADPROGRESS_ID)
+		return MF_E_NOT_FOUND;
+
+	PropVariantInit(pv);
+	pv->vt = VT_I4;
+	switch (key.pid)
+	{
+	case MFNETSOURCE_PROTOCOL_ID:
+		if (MFGetAttributeUINT32(_attrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234)
+			pv->lVal = 1; //MFNETSOURCE_HTTP
+		else
+			pv->lVal = 3; //MFNETSOURCE_FILE
+		break;
+	case MFNETSOURCE_TRANSPORT_ID:
+		pv->lVal = 1; //1 = MFNETSOURCE_TCP, 0 = MFNETSOURCE_UDP
+		break;
+	case MFNETSOURCE_CACHE_STATE_ID:
+		pv->lVal = MFNETSOURCE_CACHE_STATE::MFNETSOURCE_CACHE_UNAVAILABLE;
+		break;
+	case MFNETSOURCE_DOWNLOADPROGRESS_ID:
+		pv->lVal = _download_progress;
+		break;
+	}
+	return S_OK;
+}
+
+HRESULT MultipartStream::GetService(REFGUID guidService, REFIID riid, LPVOID *ppvObject)
+{
+	if (guidService == MFNETSOURCE_STATISTICS_SERVICE)
+		return QueryInterface(riid,ppvObject);
+	return MF_E_UNSUPPORTED_SERVICE;
+}
+
 HRESULT MultipartStream::GetCapabilities(DWORD *pdwCapabilities)
 {
 	if (pdwCapabilities == NULL)
 		return E_POINTER;
 	*pdwCapabilities = MFBYTESTREAM_IS_READABLE|MFBYTESTREAM_IS_SEEKABLE|
-		MFBYTESTREAM_IS_REMOTE|MFBYTESTREAM_HAS_SLOW_SEEK;
-	//可以读、Seek。流来自远程服务器、Seek很慢。
+		MFBYTESTREAM_IS_REMOTE|(_download_progress > 99 ? 0:MFBYTESTREAM_IS_PARTIALLY_DOWNLOADED);
+	//可以读、Seek。流来自远程服务器。
 	return S_OK;
 }
 
@@ -230,6 +303,17 @@ HRESULT MultipartStream::TimeSeek(QWORD qwTimePosition)
 		return E_FAIL;
 	_flag_eof = false;
 	_state = AfterSeek; //状态从AfterOpen变成AfterSeek，即TimeSeek后
+	return S_OK;
+}
+
+HRESULT MultipartStream::EnableBuffering(BOOL fEnable)
+{
+	if (fEnable == FALSE)
+		return StopBackgroundTransfer();
+
+#ifdef _DEBUG
+	OutputDebugStringA("MultipartStream::EnableBuffering.");
+#endif
 	return S_OK;
 }
 
