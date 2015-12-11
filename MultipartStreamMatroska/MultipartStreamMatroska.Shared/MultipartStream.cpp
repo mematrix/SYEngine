@@ -278,8 +278,10 @@ bool MultipartStream::Open()
 	_attrs->SetUINT64(MF_BYTESTREAM_DURATION, GetConfigs()->DurationMs * 10000);
 	_attrs->SetString(MF_BYTESTREAM_ORIGIN_NAME, _list_file);
 	_attrs->SetString(MF_BYTESTREAM_CONTENT_TYPE, L"video/x-matroska");
-	if (GetItems()->Url[1] != L':') //给自己的MFSource的一个flag
+	if (GetItems()->Url[1] != L':') { //给自己的MFSource的一个flag
+		_attrs->SetString(MF_BYTESTREAM_CONTENT_TYPE, L"video/force-network-stream");
 		_attrs->SetUINT32(MF_BYTESTREAM_TRANSCODED, 1234);
+	}
 
 	_state = AfterOpen; //状态是Open后
 	return true;

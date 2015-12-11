@@ -21,6 +21,10 @@ void Core::Instance()
 
 	_pMediaExtensionManager->RegisterByteStreamHandler(
 		HStringReference(_STM_HANDLER_NAME).Get(),
+		HStringReference(L".mka").Get(), HStringReference(L"video/force-network-stream").Get());
+
+	_pMediaExtensionManager->RegisterByteStreamHandler(
+		HStringReference(_STM_HANDLER_NAME).Get(),
 		HStringReference(L".flv").Get(), HStringReference(L"video/x-flv").Get());
 	_pMediaExtensionManager->RegisterByteStreamHandler(
 		HStringReference(_STM_HANDLER_NAME).Get(),
