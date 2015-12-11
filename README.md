@@ -1,11 +1,11 @@
 # ShanYe MediaFoundation Engine (Windows)
 
-[ > 快速整合指南](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)
+**[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
 ### 开发信息
  - 开发者：**ShanYe**
  - 应用于：BiliBili 客户端 for Windows (8.1)
- - 完成度：90%
+ - 完成度：95%
 
 ### 许可协议
  - Licensed under ***LGPLv3*** or later.
