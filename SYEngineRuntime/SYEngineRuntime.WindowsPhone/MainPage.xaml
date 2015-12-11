@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel>
-            <MediaElement x:Name="player" Width="360" Height="240" HorizontalAlignment="Center" VerticalAlignment="Top" AreTransportControlsEnabled="True" AutoPlay="True" IsLooping="True" CurrentStateChanged="player_CurrentStateChanged"/>
+            <MediaElement x:Name="player" Width="360" Height="240" HorizontalAlignment="Center" VerticalAlignment="Top" AreTransportControlsEnabled="True" AutoPlay="True" IsLooping="True" CurrentStateChanged="player_CurrentStateChanged" BufferingProgressChanged="player_BufferingProgressChanged"/>
             <TextBlock x:Name="tbPlayStatus" Margin="20,5,0,0" FontSize="21" />
             <StackPanel Margin="20,5,0,0">
                 <Button x:Name="btnPlayFile" Content="Play File..." Width="150" Height="60" Click="btnPlayFile_Click"/>

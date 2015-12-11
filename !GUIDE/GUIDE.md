@@ -1,11 +1,12 @@
 # Guide: How to Use It (WinRT 8.1)
 ### My Environment
  - Windows 8.1
- - Visual Studio 2013 with Update3
+ - Visual Studio 2013 with Update 3
 
 ### Features
  - **FLV\MKV** Playback (File or NetworkStream).
- - Hardware accelerated
+ - RTMP over HTTP Live Stream.
+ - Hardware accelerated.
 
 ***
 ### 1. Install VSIX Packages and...

@@ -15,25 +15,17 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Storage.Streams;
 using Windows.Storage.Pickers;
 
-// “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上提供
-
 namespace SYEngineRuntime
 {
-    /// <summary>
-    /// 可独立使用或用于导航至 Frame 内部的空白页。
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
         {
             this.InitializeComponent();
+            Windows.Graphics.Display.DisplayInformation.AutoRotationPreferences = 
+                Windows.Graphics.Display.DisplayOrientations.Portrait;
         }
 
-        /// <summary>
-        /// 在此页将要在 Frame 中显示时进行调用。
-        /// </summary>
-        /// <param name="e">描述如何访问此页的事件数据。
-        /// 此参数通常用于配置页。</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // TODO: 准备此处显示的页面。
@@ -109,6 +101,12 @@ namespace SYEngineRuntime
         private void player_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
             tbPlayStatus.Text = player.CurrentState.ToString();
+        }
+
+        private void player_BufferingProgressChanged(object sender, RoutedEventArgs e)
+        {
+            if (player.BufferingProgress < 1.0)
+                tbPlayStatus.Text = string.Format("Buffering... {0}%", (int)(player.BufferingProgress * 100));
         }
     }
 }

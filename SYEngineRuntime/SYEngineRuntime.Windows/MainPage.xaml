@@ -8,7 +8,7 @@
     mc:Ignorable="d">
     
     <StackPanel>
-        <MediaElement x:Name="player" Width="640" Height="360" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" AreTransportControlsEnabled="True" AutoPlay="True" IsLooping="True" CurrentStateChanged="player_CurrentStateChanged" />
+        <MediaElement x:Name="player" Width="640" Height="360" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" AreTransportControlsEnabled="True" AutoPlay="True" IsLooping="True" CurrentStateChanged="player_CurrentStateChanged" BufferingProgressChanged="player_BufferingProgressChanged" />
         <TextBlock x:Name="tbPlayStatus" Margin="20,0,0,0" FontSize="21" />
         <StackPanel Margin="15">
             <Button x:Name="btnPlayFile" Content="Play File..." Width="150" Height="60" Click="btnPlayFile_Click"/>
