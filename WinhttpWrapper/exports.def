@@ -18,3 +18,4 @@ EXPORTS
 	WinHttpSetStatusCallback @17 NONAME
 	WinHttpSetTimeouts @18 NONAME
 	WinHttpWriteData @19 NONAME
+	ObtainUserAgentString @20 NONAME

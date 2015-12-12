@@ -86,8 +86,8 @@ namespace SYEngineRuntime
             SYEngineCore.PlaylistNetworkConfigs cfgs = default(SYEngineCore.PlaylistNetworkConfigs);
             cfgs.DownloadTryReconnect = true;
             cfgs.GetDurationFromAllParts = true;
-            cfgs.HttpUserAgent = "Android";
-            cfgs.HttpReferer = "www.google.com";
+            cfgs.HttpUserAgent = string.Empty;
+            cfgs.HttpReferer = string.Empty;
             cfgs.HttpCookie = string.Empty;
             cfgs.TempFilePath = string.Empty;
             plist.ConfigNetwork(cfgs);

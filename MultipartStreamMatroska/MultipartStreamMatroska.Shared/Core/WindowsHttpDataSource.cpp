@@ -1,6 +1,8 @@
 #include "WindowsHttpDataSource.h"
 #include <inttypes.h>
 
+EXTERN_C HRESULT WINAPI ObtainUserAgentString(DWORD,LPSTR,DWORD*);
+
 using namespace Downloader::Core;
 using namespace Downloader::Windows;
 
@@ -144,6 +146,12 @@ void WindowsHttpDataSource::ConfigRequestHeaders()
 {
 	if (_downloader == NULL)
 		return;
+
+	_downloader->SetRequestHeader("Accept", "*/*");
+	_downloader->SetRequestHeader("Connection", "Keep-Alive");
+	_downloader->SetRequestHeader("Cache-Control", "no-cache");
+	_downloader->SetRequestHeader("Pragma", "no-cache");
+
 	if (_cfgs.Cookie)
 		_downloader->SetRequestHeader("Cookie", _cfgs.Cookie);
 	if (_cfgs.RefUrl)
@@ -155,8 +163,17 @@ bool WindowsHttpDataSource::StartDownloadTask(bool init)
 #ifdef _DEBUG
 	printf("StartDownloadTask -> %s\n", _cfgs.Url);
 #endif
+	char ua_sys[1024] = {};
+	auto ua = _cfgs.UserAgent;
+	if (ua == NULL || strlen(ua) <= 1) {
+		DWORD sz = _countof(ua_sys);
+		ObtainUserAgentString(0, ua_sys, &sz);
+		if (ua_sys[0] != 0)
+			ua = ua_sys;
+	}
+
 	if (init)
-		if (!_downloader->Initialize(_cfgs.UserAgent,
+		if (!_downloader->Initialize(ua,
 			_cfgs.Timeout,
 			_cfgs.MaxBlockSizeKb,
 			_cfgs.MaxBlockCount))

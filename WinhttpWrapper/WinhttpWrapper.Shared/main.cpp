@@ -140,6 +140,15 @@ EXTERN_C BOOL WINAPI WinHttpWriteData(void* hRequest,void* lpBuffer,DWORD dwNumb
 	return ((Callback)fnWinHttpWriteData)(hRequest,lpBuffer,dwNumberOfBytesToWrite,lpdwNumberOfBytesWritten);
 }
 
+EXTERN_C HRESULT WINAPI ObtainUserAgentString(DWORD dwOption, LPSTR pszUAOut, DWORD* cbSize)
+{
+	AutoLibrary urlmon("urlmon.dll");
+	if (urlmon.GetModule() == NULL)
+		return E_FAIL;
+	typedef HRESULT (WINAPI* Callback)(DWORD,LPSTR,DWORD*);
+	return urlmon.GetProcAddr<Callback>("ObtainUserAgentString")(dwOption,pszUAOut,cbSize);
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
