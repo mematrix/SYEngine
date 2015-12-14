@@ -20,8 +20,6 @@ namespace SYEngineRuntime
 {
     public sealed partial class App : Application
     {
-        private SYEngineCore.Core _core = new SYEngineCore.Core();
-
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 
@@ -37,7 +35,7 @@ namespace SYEngineRuntime
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            _core.Instance();
+            SYEngineCore.Core.Initialize();
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

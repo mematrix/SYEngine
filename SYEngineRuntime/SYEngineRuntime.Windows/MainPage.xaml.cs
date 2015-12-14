@@ -61,16 +61,16 @@ namespace SYEngineRuntime
 
             SYEngineCore.Playlist plist = new SYEngineCore.Playlist(SYEngineCore.PlaylistTypes.NetworkHttp);
             SYEngineCore.PlaylistNetworkConfigs cfgs = default(SYEngineCore.PlaylistNetworkConfigs);
-            cfgs.DownloadTryReconnect = true;
-            cfgs.GetDurationFromAllParts = true;
+            cfgs.DownloadRetryOnFail = true;
+            cfgs.DetectDurationForParts = true;
             cfgs.HttpUserAgent = string.Empty;
             cfgs.HttpReferer = string.Empty;
             cfgs.HttpCookie = string.Empty;
             cfgs.TempFilePath = string.Empty;
-            plist.ConfigNetwork(cfgs);
+            plist.NetworkConfigs = cfgs;
             plist.Append(tboxNetworkUri.Text, 0, 0);
             var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
-
+            
             tbPlayStatus.Text = string.Empty;
             player.Source = new Uri(s);
         }
