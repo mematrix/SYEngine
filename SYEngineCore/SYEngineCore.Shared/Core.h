@@ -5,15 +5,14 @@
 
 namespace SYEngineCore
 {
+	static ComPtr<ABI::Windows::Media::IMediaExtensionManager> _pMediaExtensionManager;
+
 	public ref class Core sealed
 	{
 	public:
-		Core() {}
-
-	public:
-		void Instance();
-
+		static void Initialize();
+		
 	private:
-		ComPtr<ABI::Windows::Media::IMediaExtensionManager> _pMediaExtensionManager;
+		Core() { }
 	};
 }

@@ -49,9 +49,9 @@ bool Playlist::SaveFile(LPWSTR uri)
 {
 	char* str = NULL;
 	if (_type == PlaylistTypes::LocalFile)
-		str = GetStringLocalFile();
+		str = SerializeForLocalFile();
 	else if (_type == PlaylistTypes::NetworkHttp)
-		str = GetStringNetworkHttp();
+		str = SerializeForNetworkHttp();
 	if (str == NULL)
 		return false;
 
@@ -81,7 +81,7 @@ bool Playlist::SaveFile(LPWSTR uri)
 	return true;
 }
 
-char* Playlist::GetStringLocalFile()
+char* Playlist::SerializeForLocalFile()
 {
 	auto p = (char*)calloc(2, 64 + _list.size() * MAX_PATH);
 	if (p == NULL)
@@ -95,7 +95,7 @@ char* Playlist::GetStringLocalFile()
 	return p;
 }
 
-char* Playlist::GetStringNetworkHttp()
+char* Playlist::SerializeForNetworkHttp()
 {
 	auto p = (char*)calloc(2, 2048 + _list.size() * 2048);
 	if (p == NULL)
