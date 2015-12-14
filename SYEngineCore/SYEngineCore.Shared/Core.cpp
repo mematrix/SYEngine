@@ -5,11 +5,11 @@
 
 using namespace SYEngineCore;
 
-void Core::Instance()
+void Core::Initialize()
 {
 	if (_pMediaExtensionManager != nullptr)
 		return;
-
+	
 	{
 		auto p = ref new Windows::Media::MediaExtensionManager();
 		_pMediaExtensionManager = reinterpret_cast<decltype(_pMediaExtensionManager.Get())>(p);

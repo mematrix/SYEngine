@@ -13,10 +13,10 @@ namespace SYEngineCore
 
 	public value struct PlaylistNetworkConfigs
 	{
-		double ForceTotalDurationSeconds;
-		bool GetDurationFromAllParts;
-		int DownloadNextPartInSecondsRemaining;
-		bool DownloadTryReconnect;
+		double ExplicitTotalDurationSeconds;
+		bool DetectDurationForParts;
+		bool DownloadRetryOnFail;
+		int FetchNextPartThresholdSeconds;
 		int BufferBlockSizeKB;
 		int BufferBlockCount;
 		Platform::String^ HttpCookie;
@@ -35,14 +35,18 @@ namespace SYEngineCore
 		bool Append(Platform::String^ url, int sizeInBytes, float durationInSeconds);
 		void Clear();
 
-		void ConfigNetwork(PlaylistNetworkConfigs cfgs)
-		{ _cfgs = cfgs; }
+		property PlaylistNetworkConfigs NetworkConfigs
+		{
+			PlaylistNetworkConfigs get() { return _cfgs; }
+			void set(PlaylistNetworkConfigs value) { _cfgs = value; }
+		}
+
 		Windows::Foundation::IAsyncOperation<Platform::String^>^ SaveAndGetFileUriAsync();
 
 	private:
 		bool SaveFile(LPWSTR uri);
-		char* GetStringLocalFile();
-		char* GetStringNetworkHttp();
+		char* SerializeForLocalFile();
+		char* SerializeForNetworkHttp();
 
 	private:
 		PlaylistTypes _type;
