@@ -112,10 +112,10 @@ char* Playlist::SerializeForNetworkHttp()
 		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpUserAgent->Data(), -1, user_agent, 1024, NULL, NULL);
 
 	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
-		(int)(_cfgs.ForceTotalDurationSeconds * 1000.0),
-		(_cfgs.GetDurationFromAllParts ? "FULL" : "NO"),
-		(_cfgs.DownloadNextPartInSecondsRemaining > 1 ? _cfgs.DownloadNextPartInSecondsRemaining : 30),
-		(_cfgs.DownloadTryReconnect ? "Reconnect" : "NO"),
+		(int)(_cfgs.ExplicitTotalDurationSeconds * 1000.0),
+		(_cfgs.DetectDurationForParts ? "FULL" : "NO"),
+		(_cfgs.FetchNextPartThresholdSeconds > 1 ? _cfgs.FetchNextPartThresholdSeconds : 30),
+		(_cfgs.DownloadRetryOnFail ? "Reconnect" : "NO"),
 		(_cfgs.BufferBlockSizeKB > 8 ? _cfgs.BufferBlockSizeKB : 64),
 		(_cfgs.BufferBlockCount > 2 ? _cfgs.BufferBlockCount : 80),
 		"NULL",
