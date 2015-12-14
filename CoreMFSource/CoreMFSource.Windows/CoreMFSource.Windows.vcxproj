@@ -30,9 +30,6 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.Windows\CoreCommon.Windows.vcxproj">
       <Project>{13d48622-327d-455f-ab40-ccd9b85d50e5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\CoreMFCommon\CoreMFCommon.Windows\CoreMFCommon.Windows.vcxproj">
-      <Project>{91481b90-a020-4507-a8aa-65f6391afe4b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5f555a02-e82f-415e-8043-d7209194be92}</ProjectGuid>

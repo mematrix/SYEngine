@@ -22,9 +22,6 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.WindowsPhone\CoreCommon.WindowsPhone.vcxproj">
       <Project>{abb4bcb5-19ff-4d89-ae67-0c4eb952ef22}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\CoreMFCommon\CoreMFCommon.WindowsPhone\CoreMFCommon.WindowsPhone.vcxproj">
-      <Project>{95227ede-37da-4044-acfa-7ded62850f72}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32326bd5-23d8-4993-a79f-46a819bcc794}</ProjectGuid>
