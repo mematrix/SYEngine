@@ -19,13 +19,16 @@
 #include "MyMediaTypeDef.h"
 #include "Demuxer\DemuxerFactory.h"
 
-#include <CritSec.h>
 #include <MediaAVError.h>
 #include <MediaAVIO.h>
 #include <MediaAVStream.h>
 #include <MediaAVFormat.h>
 #include <AutoMediaBuffer.h>
 #include <AutoMediaPacket.h>
+
+#ifdef _DESKTOP_APP
+#include <CritSec.h>
+#include <Win32MacroTools.h>
 
 #include <AutoComMem.h>
 #include <AutoPropVar.h>
@@ -38,8 +41,22 @@
 #include <MFWorkQueue.h>
 #include <MFWorkQueueOld.h>
 #include <MFMiscHelp.h>
+#else
+#include "Common\CritSec.h"
+#include "Common\Win32MacroTools.h"
 
-#include <Win32MacroTools.h>
+#include "Common\AutoComMem.h"
+#include "Common\AutoPropVar.h"
+#include "Common\AutoStrConv.h"
+
+#include "Common\MFGenericList.h"
+#include "Common\MFGenericQueue.h"
+#include "Common\MFAutoBufLock.h"
+#include "Common\MFAsyncCalback.h"
+#include "Common\MFWorkQueue.h"
+#include "Common\MFWorkQueueOld.h"
+#include "Common\MFMiscHelp.h"
+#endif
 
 #include "MFSeekInfo.hxx"
 

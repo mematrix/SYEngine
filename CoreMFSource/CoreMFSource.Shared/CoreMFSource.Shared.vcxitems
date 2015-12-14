@@ -17,6 +17,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Common\MFComList.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Common\MFComQueue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Common\MFMiscHelp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Common\MFMiscHelp2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DbgLogOutput.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\DemuxerFactory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\PathHelp.cpp" />
@@ -47,6 +51,24 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\AutoComMem.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\AutoPropVar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\AutoStrConv.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\AutoWinHandle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\CritSec.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFAsyncCalback.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFAutoBufLock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFComList.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFCommon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFComQueue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFGenericList.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFGenericQueue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFMiscHelp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFMiscHelp2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFWorkQueue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\MFWorkQueueOld.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\Win32Event.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common\Win32MacroTools.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbgLogOutput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Demuxer\DemuxerFactory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GlobalSettings.h" />

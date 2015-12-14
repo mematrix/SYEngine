@@ -1,5 +1,4 @@
 #include "pch.h"
-#include <CritSec.h>
 
 CRITICAL_SECTION GlobalCS;
 IMFAttributes* GlobalSettings;
