@@ -48,10 +48,8 @@
 ![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/2.png)
 
 ```
-In Global class App:
-  private SYEngineCore.Core _core = new SYEngineCore.Core();
-In OnLaunched:
-  _core.Instance();
+In App::OnLaunched:
+  SYEngineCore.Core.Initialize();
 ```
 
 ### 5. Build and Running
