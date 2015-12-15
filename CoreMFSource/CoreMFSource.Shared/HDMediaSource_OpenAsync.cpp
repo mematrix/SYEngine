@@ -61,7 +61,7 @@ static bool IsByteStreamFromNetwork(IMFByteStream* pByteStream)
 	*/
 	ComPtr<IMFAttributes> pAttrs;
 	if (SUCCEEDED(pByteStream->QueryInterface(IID_PPV_ARGS(&pAttrs))))
-		if (MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234)
+		if (MFGetAttributeUINT32(pAttrs.Get(),MF_BYTESTREAM_TRANSCODED,0) == 1234)
 			return true;
 
 	LPWSTR mimeType = NULL;
@@ -247,6 +247,19 @@ HRESULT HDMediaSource::DoOpen()
 
 	if (_state != STATE_OPENING)
 		return MF_E_INVALID_STATE_TRANSITION;
+
+#ifndef _DESKTOP_APP
+	GlobalSettings->SetUINT32(kNetworkForceUseSyncIO,TRUE);
+
+	ComPtr<IMFAttributes> pAttrs;
+	if (SUCCEEDED(_pByteStream.As(&pAttrs)))
+		if (MFGetAttributeUINT32(pAttrs.Get(),MF_BYTESTREAM_TRANSCODED,0) == 1234) //MultipartStreamMatroska
+			GlobalSettings->DeleteItem(kNetworkForceUseSyncIO);
+
+	QWORD temp;
+	if (FAILED(_pByteStream->GetLength(&temp))) //live stream.
+		GlobalSettings->DeleteItem(kNetworkForceUseSyncIO);
+#endif
 
 	IAVMediaIO* pMediaIO = nullptr;
 	if (_network_mode && !GlobalOptionGetBOOL(kNetworkForceUseSyncIO)) {
