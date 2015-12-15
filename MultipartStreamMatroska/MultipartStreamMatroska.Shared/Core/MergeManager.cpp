@@ -151,7 +151,7 @@ bool MergeManager::InternalNewDemux()
 bool MergeManager::InternalInitDemux(void* demux)
 {
 	DemuxCore* core = (DemuxCore*)demux;
-	if (!core->OpenByteStream(0, true))
+	if (!core->OpenByteStream())
 		return false;
 	if (core->GetTrackCount() < 2)
 		return false;
