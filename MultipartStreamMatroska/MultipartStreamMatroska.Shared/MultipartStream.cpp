@@ -1,6 +1,7 @@
 #include "MultipartStream.h"
 
 static const DWORD kPropertyStoreId[] = {
+	MFNETSOURCE_BYTESRECEIVED_ID,
 	MFNETSOURCE_PROTOCOL_ID,
 	MFNETSOURCE_TRANSPORT_ID,
 	MFNETSOURCE_CACHE_STATE_ID,
@@ -77,7 +78,8 @@ HRESULT MultipartStream::GetValue(REFPROPERTYKEY key,PROPVARIANT *pv)
 	if (key.fmtid != MFNETSOURCE_STATISTICS)
 		return MF_E_NOT_FOUND;
 
-	if (key.pid != MFNETSOURCE_PROTOCOL_ID &&
+	if (key.pid != MFNETSOURCE_BYTESRECEIVED_ID &&
+		key.pid != MFNETSOURCE_PROTOCOL_ID &&
 		key.pid != MFNETSOURCE_TRANSPORT_ID &&
 		key.pid != MFNETSOURCE_CACHE_STATE_ID &&
 		key.pid != MFNETSOURCE_DOWNLOADPROGRESS_ID)
@@ -87,6 +89,10 @@ HRESULT MultipartStream::GetValue(REFPROPERTYKEY key,PROPVARIANT *pv)
 	pv->vt = VT_I4;
 	switch (key.pid)
 	{
+	case MFNETSOURCE_BYTESRECEIVED_ID:
+		pv->vt = VT_UI8;
+		pv->uhVal.QuadPart = _stm_length;
+		break;
 	case MFNETSOURCE_PROTOCOL_ID:
 		if (MFGetAttributeUINT32(_attrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234)
 			pv->lVal = 1; //MFNETSOURCE_HTTP
