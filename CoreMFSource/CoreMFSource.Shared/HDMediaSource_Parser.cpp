@@ -323,7 +323,7 @@ HDMediaSource::QueuePacketResult HDMediaSource::QueueStreamPacket()
 						pts -= _sampleStartTime;
 					}
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 					if (pStream->IsH264Stream() && _enableH264ES2H264)
 					{
 						ComPtr<IMFSample> pNewSample;

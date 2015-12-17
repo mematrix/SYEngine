@@ -21,7 +21,7 @@ _sampleStartTime(0.0), _currentRate(1.0f),
 _network_mode(false), _network_delay(0), _network_buffering(false),
 _network_preroll_time(0.0), _network_buffer_progress(0), _network_live_stream(false),
 _enableH264ES2H264(false), _intelQSDecoder_found(false)
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 ,_taskWorkQueue(this,&_taskInvokeCallback)
 #endif
 {
@@ -49,17 +49,6 @@ HDMediaSource::~HDMediaSource()
 
 	DbgLogPrintf(L"%s::Deleted.",L"HDMediaSource");
 	Module<InProc>::GetModule().DecrementObjectCount();
-#if defined(_DEBUG) && defined(_DESKTOP_APP)
-	CHAR name[MAX_PATH] = {};
-	GetModuleFileNameA(NULL,name,MAX_PATH);
-	strlwr(name);
-	if (strstr(name,"hdcoreplyaer.exe") == NULL) {
-		if (_CrtDumpMemoryLeaks()) {
-			if (strstr(name,"wmplayer.exe") != NULL)
-				MessageBoxA(NULL,"Debug Break...","CrtDumpMemoryLeaks",MB_OK);
-		}
-	}
-#endif
 }
 
 HRESULT HDMediaSource::CreatePresentationDescriptor(IMFPresentationDescriptor **ppPresentationDescriptor)

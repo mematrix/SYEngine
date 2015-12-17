@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include "DemuxerFactory.h"
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #define CoreLoadLib(x) LoadLibraryW((x))
 #else
 #define CoreLoadLib(x) LoadPackagedLibrary((x),0)

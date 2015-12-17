@@ -47,7 +47,7 @@ HRESULT HDMediaSource::InitAudioAACMediaType(IAudioDescription* pDesc,IMFMediaTy
 
 	AudioBasicDescription basicDesc = {};
 	pDesc->GetAudioDescription(&basicDesc);
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	if (basicDesc.nch > 2 && (!skip_err))
 		return MF_E_INVALID_PROFILE;
 #else
@@ -384,10 +384,12 @@ HRESULT HDMediaSource::InitAudioPCMMediaType(IAudioDescription* pDesc,IMFMediaTy
 		codec_type == MEDIA_CODEC_PCM_SINT_BE)
 		pMediaType->SetUINT32(MF_MT_MY_PCM_BE_FLAG,TRUE);
 
+	/*
 #if defined(_DEBUG) && defined(_DESKTOP_APP)
 	if (MFGetAttributeUINT32(pMediaType,MF_MT_MY_PCM_BE_FLAG,0) != 0)
 		pMediaType->SetGUID(MF_MT_SUBTYPE,MFAudioFormat_PCM_BE);
 #endif
+	*/
 
 	return S_OK;
 }

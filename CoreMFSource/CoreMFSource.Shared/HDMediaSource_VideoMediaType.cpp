@@ -6,9 +6,7 @@
 DEFINE_MEDIATYPE_GUID(MFVideoFormat_MP42,FCC('MP42'));
 DEFINE_MEDIATYPE_GUID(MFVideoFormat_MPG4,FCC('MPG4'));
 
-#ifdef _DESKTOP_APP
-#pragma warning(disable:4996)
-
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #define DS_MEDIASUBTYPE_MPEG1Packet L"{e436eb80-524f-11ce-9F53-0020af0ba770}"
 #define DS_MEDIASUBTYPE_MPEG1Payload L"{e436eb81-524f-11ce-9F53-0020af0ba770}"
 #define DS_MEDIASUBTYPE_MPEG2_VIDEO L"{e06d8026-db46-11cf-b4d1-00805f6cbbea}"
@@ -94,7 +92,7 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 	pMediaType->SetGUID(MF_MT_SUBTYPE,
 		es ? MFVideoFormat_H264_ES:MFVideoFormat_H264);
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (!IsWindows8())
 	{
 		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_H264);
@@ -124,7 +122,7 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 	if (basicDesc.frame_rate.num == 0 || basicDesc.frame_rate.den == 0)
 		pMediaType->DeleteItem(MF_MT_FRAME_RATE);
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (!IsWindows8())
 	{
 		if (basicDesc.width > 1920 ||
@@ -217,7 +215,7 @@ HRESULT HDMediaSource::InitVideoMPEG2MediaType(IVideoDescription* pDesc,IMFMedia
 	pMediaType->SetBlob(MF_MT_MPEG_SEQUENCE_HEADER,
 		pUserData.Get(),pDesc->GetExtradataSize());
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	GUID subType = GUID_NULL;
 	if (IsUseDShowFilter())
 	{

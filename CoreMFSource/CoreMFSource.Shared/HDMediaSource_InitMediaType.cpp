@@ -46,7 +46,7 @@ static bool FpsFloatToRatio(float fps,unsigned* num,unsigned* den)
 
 static void AutoSetupFlacDecoderProfile()
 {
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	bool sy = false,system = false,ffmpeg = false;
 	sy = WMF::Misc::IsMFTExists(L"{5F87E609-FE55-4760-B107-D2E54B94A50E}");
 	system = WMF::Misc::IsMFTExists(L"{6B0B3E6B-A2C5-4514-8055-AFE8A95242D9}");
@@ -98,16 +98,10 @@ HRESULT HDMediaSource::CreateAudioMediaType(IAVMediaStream* pAVStream,IMFMediaTy
 	case MEDIA_CODEC_AUDIO_AAC_ADTS:
 		hr = InitAudioAACMediaType(audioDesc,pMediaType.Get(),
 			pAVStream->GetCodecType() == MEDIA_CODEC_AUDIO_AAC_ADTS);
-#if defined(_DEBUG) && defined(_DESKTOP_APP)
-		//if (pAVStream->GetCodecType() != MEDIA_CODEC_AUDIO_AAC_ADTS)
-			//hr = InitAudioFAADMediaType(audioDesc,pMediaType.Get(),
-				//pAVStream->GetCodecType() == MEDIA_CODEC_AUDIO_AAC_ADTS);
-#else
 		if (hr == MF_E_INVALID_PROFILE && 
 			pAVStream->GetCodecType() != MEDIA_CODEC_AUDIO_AAC_ADTS)
 			hr = InitAudioFAADMediaType(audioDesc,pMediaType.Get(),
 				pAVStream->GetCodecType() == MEDIA_CODEC_AUDIO_AAC_ADTS);
-#endif
 		break;
 	case MEDIA_CODEC_AUDIO_MP1:
 	case MEDIA_CODEC_AUDIO_MP2:

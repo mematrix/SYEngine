@@ -1,5 +1,5 @@
 #include "HDMediaSource.h"
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #include <Shlwapi.h>
 #endif
 
@@ -11,7 +11,7 @@ HRESULT HDMediaSource::GetService(REFGUID guidService,REFIID riid,LPVOID *ppvObj
 	if (guidService == MF_RATE_CONTROL_SERVICE) { //针对Store应用必须提供IMFRateControl接口
 		return QueryInterface(riid,ppvObject);
 	}else if (guidService == MF_METADATA_PROVIDER_SERVICE) {
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 		return QueryInterface(riid,ppvObject);
 #else
 		CHAR szBuffer[MAX_PATH] = {};
@@ -30,9 +30,6 @@ HRESULT HDMediaSource::GetService(REFGUID guidService,REFIID riid,LPVOID *ppvObj
 		}
 #endif
 	}else if (guidService == MFNETSOURCE_STATISTICS_SERVICE) {
-#ifndef _DESKTOP_APP
-		DbgLogPrintf(L"%s::GetNetworkStatistics...",L"HDMediaSource");
-#endif
 		if (_network_mode)
 			return QueryInterface(riid,ppvObject);
 	}else if (guidService == MF_SCRUBBING_SERVICE) {

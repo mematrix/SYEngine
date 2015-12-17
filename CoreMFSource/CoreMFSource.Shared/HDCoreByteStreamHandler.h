@@ -14,7 +14,7 @@
 
 #define HDCORE_BYTE_STREAM_HANDLER_UUID "1A0DFC9E-009C-4266-ADFF-CA37D7F8E450"
 
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 class DECLSPEC_UUID(HDCORE_BYTE_STREAM_HANDLER_UUID)
 	HDCoreByteStreamHandler WrlSealed : 
 	public Microsoft::WRL::RuntimeClass<
@@ -35,7 +35,7 @@ class DECLSPEC_UUID(HDCORE_BYTE_STREAM_HANDLER_UUID)
 public:
 	HDCoreByteStreamHandler() = default;
 
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 public: //IMediaExtension (Windows Runtime)
 	IFACEMETHOD (SetProperties) (ABI::Windows::Foundation::Collections::IPropertySet*)
 	{
@@ -44,11 +44,7 @@ public: //IMediaExtension (Windows Runtime)
 #endif
 
 public: //IMFAsyncCallback
-	STDMETHODIMP GetParameters(DWORD*,DWORD*)
-	{
-		return E_NOTIMPL;
-	}
-
+	STDMETHODIMP GetParameters(DWORD*,DWORD*) { return E_NOTIMPL; }
 	STDMETHODIMP Invoke(IMFAsyncResult* pAsyncResult);
 
 public: //IMFByteStreamHandler
@@ -66,16 +62,11 @@ public: //IMFByteStreamHandler
 		/* [out] */ MF_OBJECT_TYPE *pObjectType,
 		/* [out] */ IUnknown **ppObject);
 
-	STDMETHODIMP CancelObjectCreation(IUnknown*)
-	{
-		return E_NOTIMPL;
-	}
-
+	STDMETHODIMP CancelObjectCreation(IUnknown*) { return E_NOTIMPL; }
 	STDMETHODIMP GetMaxNumberOfBytesRequiredForResolution(QWORD* pcb)
 	{
 		if (pcb == nullptr)
 			return E_POINTER;
-
 		*pcb = 1024;
 		return S_OK;
 	}
