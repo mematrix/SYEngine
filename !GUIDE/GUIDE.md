@@ -5,6 +5,7 @@
 
 ### Features
  - **FLV\MKV** Playback (File or NetworkStream).
+ - MP4\FLV Segment Mixed Playback.
  - RTMP over HTTP Live Stream.
  - Hardware accelerated.
 
@@ -24,34 +25,14 @@
  - Windows Phone 8.1: `ShanYe MediaPlayer Engine (Windows Phone 8.1)`
  - **Change build target to: x86\x64\ARM.**
 
-### 3. Open `Package.appxmanifest` and Add Code...
+### 3. Open `App.xaml.cs` and Add Code...
 ![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/1.png)
-
-```
-<Extensions>
-  <Extension Category="windows.activatableClass.inProcessServer">
-    <InProcessServer>
-      <Path>CoreMFSource.dll</Path>
-      <ActivatableClass ActivatableClassId="CoreMFSource.HDCoreByteStreamHandler" ThreadingModel="both"/>
-    </InProcessServer>
-  </Extension>
-  <Extension Category="windows.activatableClass.inProcessServer">
-    <InProcessServer>
-      <Path>MultipartStreamMatroska.dll</Path>
-      <ActivatableClass ActivatableClassId="MultipartStreamMatroska.UrlHandler" ThreadingModel="both" />
-    </InProcessServer>
-  </Extension>
-</Extensions>
-```
-
-### 4. Open `App.xaml.cs` and Add Code...
-![](https://raw.githubusercontent.com/amamiya/SYEngine/master/!GUIDE/2.png)
 
 ```
 In App::OnLaunched:
   SYEngineCore.Core.Initialize();
 ```
 
-### 5. Build and Running
+### 4. Build and Run
  - use the **MediaElement** Control to Play a Video (File or Network).
  - use the **Windows.Media.Transcoding.MediaTranscoder** API.
