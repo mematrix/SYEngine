@@ -4,6 +4,11 @@
 #include <shcore.h>
 #include <strsafe.h>
 #include <ppltasks.h>
+
+#include <mfidl.h>
+#include <mfapi.h>
+#include <mfobjects.h>
+
 #include <wrl.h>
 #include <wrl\wrappers\corewrappers.h>
 
