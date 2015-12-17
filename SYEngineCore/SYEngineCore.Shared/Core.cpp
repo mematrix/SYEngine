@@ -29,4 +29,8 @@ void Core::Initialize()
 	_pMediaExtensionManager->RegisterByteStreamHandler(
 		HStringReference(_STM_HANDLER_NAME).Get(),
 		HStringReference(L".mkv").Get(), HStringReference(L"video/x-matroska").Get());
+
+	_pMediaExtensionManager->RegisterByteStreamHandler(
+		HStringReference(_STM_HANDLER_NAME).Get(),
+		HStringReference(L".f4v").Get(), HStringReference(L"application/octet-stream").Get());
 }
