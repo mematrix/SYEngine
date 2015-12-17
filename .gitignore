@@ -5,6 +5,7 @@
 *.ipch
 *.obj
 *.pdb
+*.log
 
 [Dd]ebug/
 [Rr]elease/
@@ -19,7 +20,7 @@ build/
 Generated Files/
 AppPackages/
 
-/DllFiles/
+/!Packages/
 !/ffcodecs/ffmpeg/lib/arm/
 !/ffcodecs/ffmpeg/lib/x64/
 !/ffcodecs/ffmpeg/lib/x86/

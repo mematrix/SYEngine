@@ -1,18 +1,19 @@
 #pragma once
 
 #include "pch.h"
-#include <windows.media.h>
+#include "MediaExtensionInstaller.h"
 
 namespace SYEngineCore
 {
-	static ComPtr<ABI::Windows::Media::IMediaExtensionManager> _pMediaExtensionManager;
+	static MediaExtensionInstaller* Installer;
 
 	public ref class Core sealed
 	{
 	public:
-		static void Initialize();
+		static bool Initialize();
+		static void Uninitialize();
 		
 	private:
-		Core() { }
+		Core() {}
 	};
 }

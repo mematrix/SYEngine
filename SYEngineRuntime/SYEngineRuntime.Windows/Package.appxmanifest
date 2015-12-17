@@ -35,20 +35,6 @@
         </m2:VisualElements>
     </Application>
   </Applications>
-  <Extensions>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>CoreMFSource.dll</Path>
-        <ActivatableClass ActivatableClassId="CoreMFSource.HDCoreByteStreamHandler" ThreadingModel="both"/>
-      </InProcessServer>
-    </Extension>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>MultipartStreamMatroska.dll</Path>
-        <ActivatableClass ActivatableClassId="MultipartStreamMatroska.UrlHandler" ThreadingModel="both" />
-      </InProcessServer>
-    </Extension>
-  </Extensions>
   <Capabilities>
     <Capability Name="internetClient" />
   </Capabilities>

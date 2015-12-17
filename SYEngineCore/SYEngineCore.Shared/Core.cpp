@@ -1,36 +1,55 @@
 #include "Core.h"
 
+#define _STM_HANDLER_CLSID L"{1A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
+#define _URL_HANDLER_CLSID L"{2A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
+
 #define _STM_HANDLER_NAME L"CoreMFSource.HDCoreByteStreamHandler"
 #define _URL_HANDLER_NAME L"MultipartStreamMatroska.UrlHandler"
 
+#define _STM_HANDLER_FILE L"CoreMFSource.dll"
+#define _URL_HANDLER_FILE L"MultipartStreamMatroska.dll"
+
 using namespace SYEngineCore;
 
-void Core::Initialize()
+bool Core::Initialize()
 {
-	if (_pMediaExtensionManager != nullptr)
-		return;
-	
+	if (Installer != nullptr)
+		return false;
+
+	Installer = new(std::nothrow) MediaExtensionInstaller();
+	if (Installer == nullptr)
+		return false;
+
+	if (!Installer->InstallSchemeHandler(_URL_HANDLER_CLSID,
+		_URL_HANDLER_NAME,
+		_URL_HANDLER_FILE,
+		L"plist:"))
+		return false;
+
+	struct ByteStreamHandlerPair
 	{
-		auto p = ref new Windows::Media::MediaExtensionManager();
-		_pMediaExtensionManager = reinterpret_cast<decltype(_pMediaExtensionManager.Get())>(p);
-	}
+		LPCWSTR FileExtension;
+		LPCWSTR MimeType;
+	};
+	static ByteStreamHandlerPair Handlers[] = {
+		{NULL, L"video/force-network-stream"},
+		{L".mkv", L"video/x-matroska"},
+		{L".flv", L"video/x-flv"},
+		{L".f4v", NULL}
+	};
+	for (auto h : Handlers)
+		Installer->InstallByteStreamHandler(_STM_HANDLER_CLSID,
+		_STM_HANDLER_NAME,
+		_STM_HANDLER_FILE,
+		h.FileExtension,
+		h.MimeType);
 
-	_pMediaExtensionManager->RegisterSchemeHandler(
-		HStringReference(_URL_HANDLER_NAME).Get(),
-		HStringReference(L"plist:").Get());
+	return true;
+}
 
-	_pMediaExtensionManager->RegisterByteStreamHandler(
-		HStringReference(_STM_HANDLER_NAME).Get(),
-		HStringReference(L".mka").Get(), HStringReference(L"video/force-network-stream").Get());
-
-	_pMediaExtensionManager->RegisterByteStreamHandler(
-		HStringReference(_STM_HANDLER_NAME).Get(),
-		HStringReference(L".flv").Get(), HStringReference(L"video/x-flv").Get());
-	_pMediaExtensionManager->RegisterByteStreamHandler(
-		HStringReference(_STM_HANDLER_NAME).Get(),
-		HStringReference(L".mkv").Get(), HStringReference(L"video/x-matroska").Get());
-
-	_pMediaExtensionManager->RegisterByteStreamHandler(
-		HStringReference(_STM_HANDLER_NAME).Get(),
-		HStringReference(L".f4v").Get(), HStringReference(L"application/octet-stream").Get());
+void Core::Uninitialize()
+{
+	if (Installer)
+		delete Installer;
+	Installer = nullptr;
 }
