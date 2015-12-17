@@ -1,6 +1,5 @@
 #include "HDMediaSource.h"
-
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #include <Shlwapi.h>
 extern HMODULE khInstance;
 #endif
@@ -232,7 +231,7 @@ HRESULT HDMediaSource::OpenAsync(IMFByteStream* pByteStream,IMFAsyncCallback* pC
 
 HRESULT HDMediaSource::DoOpen()
 {
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (GetCurrentThreadId() != _dwWorkThreadId)
 	{
 		_dwWorkThreadId = GetCurrentThreadId();
@@ -248,7 +247,7 @@ HRESULT HDMediaSource::DoOpen()
 	if (_state != STATE_OPENING)
 		return MF_E_INVALID_STATE_TRANSITION;
 
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	GlobalSettings->SetUINT32(kNetworkForceUseSyncIO,TRUE);
 
 	ComPtr<IMFAttributes> pAttrs;
@@ -274,7 +273,7 @@ HRESULT HDMediaSource::DoOpen()
 	if (pMediaIO->GetSize() == 0)
 		return MF_E_INVALID_STREAM_DATA;
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	WCHAR szDllPath[MAX_PATH] = {};
 	GetExeModulePath(szDllPath,khInstance);
 
@@ -311,7 +310,7 @@ HRESULT HDMediaSource::DoOpen()
 
 	_pMediaParser.reset();
 	auto factory = AVDemuxerFactory::CreateFactory();
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	if (!factory->NewComponent(L"AudioCoreSource",
 		"CheckFileStream","CreateAudioCoreSource",true))
 		return E_FAIL;
@@ -346,7 +345,7 @@ HRESULT HDMediaSource::DoOpen()
 #endif
 	}
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (!factory->NewComponent(L"AudioCoreSource",
 		"CheckFileStream","CreateAudioCoreSource",true))
 		return E_FAIL;
@@ -381,7 +380,7 @@ HRESULT HDMediaSource::DoOpen()
 	_hCurrentDemuxMod = (decltype(_hCurrentDemuxMod))factory->GetCurrent()->mod;
 	factory->GetCurrent()->mod = nullptr;
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	SetCurrentDirectoryW(szCurPath);
 #endif
 

@@ -1,6 +1,6 @@
 #include "HDMediaSource.h"
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 #define WIN8_CHECK_COND "GetPackageId"
 bool HDMediaSource::IsWindows8()

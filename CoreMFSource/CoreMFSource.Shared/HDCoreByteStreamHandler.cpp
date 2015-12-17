@@ -2,7 +2,7 @@
 #include "HDCoreByteStreamHandler.h"
 
 CoCreatableClass(HDCoreByteStreamHandler);
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 ActivatableClass(HDCoreByteStreamHandler);
 #endif
 
@@ -29,7 +29,7 @@ HRESULT HDCoreByteStreamHandler::BeginCreateObject(IMFByteStream *pByteStream,LP
 
 	double bufferTime = 5.0;
 	if (pProps) {
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 		PROPVARIANT var;
 		PropVariantInit(&var);
 		PROPERTYKEY key;

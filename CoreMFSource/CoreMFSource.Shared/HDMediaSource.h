@@ -26,7 +26,7 @@
 #include <AutoMediaBuffer.h>
 #include <AutoMediaPacket.h>
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #include <CritSec.h>
 #include <Win32MacroTools.h>
 
@@ -366,7 +366,7 @@ private:
 
 	HRESULT MakeKeyFramesIndex() throw();
 
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 private:
 	static bool IsWindows8();
 	HRESULT ProcessMPEG2TSToMP4Sample(IMFSample* pH264ES,IMFSample** ppH264);
@@ -379,7 +379,7 @@ private:
 
 	int _taskMagicNumber;
 	WMF::AsyncCallback<HDMediaSource> _taskInvokeCallback;
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	WMF::AutoWorkQueue _taskWorkQueue;
 #else
 	WMF::AutoWorkQueueOld<HDMediaSource> _taskWorkQueue;

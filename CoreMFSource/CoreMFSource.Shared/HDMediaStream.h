@@ -205,7 +205,7 @@ private:
 	bool _private_state;
 
 	WMF::AsyncCallback<HDMediaStream> _taskInvokeCallback;
-#ifndef _DESKTOP_APP
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	WMF::AutoWorkQueue _taskWorkQueue;
 #else
 	WMF::AutoWorkQueueOld<HDMediaStream> _taskWorkQueue;

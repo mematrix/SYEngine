@@ -52,6 +52,7 @@ HRESULT HDMediaSource::ValidateOperation(SourceOperation* op)
 
 HRESULT HDMediaSource::DispatchOperation(SourceOperation* op)
 {
+	/*
 #if defined(_DEBUG) && defined(_DESKTOP_APP)
 	static DWORD GlobalOperationThreadId;
 	if (GlobalOperationThreadId != GetCurrentThreadId())
@@ -60,6 +61,7 @@ HRESULT HDMediaSource::DispatchOperation(SourceOperation* op)
 		DbgLogPrintf(L"DispatchOperation Thread:%d.",GetCurrentThreadId());
 	}
 #endif
+	*/
 
 	{
 		CritSec::AutoLock lock(_cs);

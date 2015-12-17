@@ -15,7 +15,7 @@ ComPtr<HDMediaStream> HDMediaStream::CreateMediaStream(int index,HDMediaSource* 
 }
 
 HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDescriptor* pStreamDesc)
-#ifdef _DESKTOP_APP
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 : _taskWorkQueue(this,&_taskInvokeCallback)
 #endif
 {

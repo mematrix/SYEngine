@@ -31,7 +31,7 @@
 
 ### 组件2：Win32的MF分离器和混流器
  - **CoreMFSource**：此为最**核心**的实现，其直接依赖CoreCommon，间接依赖FLV、MKV、MP4这三个Demuxer。其提供了高层封装，使组件可以在Win32的MF管道线模型中运行，其也是WinRT应用的MediaElement控件播放时调用的核心模块。
- - **MultipartStreamMatroska**：直接依赖ffcodecs。此库提供多分P的视频流重新混合为一个分P并且输出为MKV容器，然后CoreMFSource即可播放这个混合后的单分P，实现**多分P播放无缝过度**。其可以无缝混合本地文件以及HTTP网络URL流。
+ - **MultipartStreamMatroska**：直接依赖ffcodecs。此库提供多切片分段的视频流重新混合为一个分P并且输出为MKV容器，然后CoreMFSource即可播放这个混合后的单个视频，实现**多分段播放无缝过度**。其可以无缝混合本地文件以及HTTP网络URL流。
 
 ***
 ### 待修复的已知问题
