@@ -68,7 +68,6 @@ bool DemuxProxy::GetTrack(int index, Track* track) throw()
 		return false;
 
 	AVStream* stm = ((AVFormatContext*)_core.FormatContext)->streams[index];
-	track->AVStream = stm;
 	track->Id = stm->index;
 	if (stm->codec->codec_type == AVMEDIA_TYPE_AUDIO)
 		track->Type = Track::TrackType::Audio;
@@ -105,7 +104,6 @@ bool DemuxProxy::ReadPacket(Packet* pkt) throw()
 	if (result < 0)
 		return false;
 
-	pkt->AVPacket = packet;
 	pkt->Id = packet->stream_index;
 	pkt->DTS = packet->dts;
 	pkt->PTS = packet->pts;
