@@ -33,6 +33,8 @@ class FLVMediaFormat : public IAVMediaFormatEx, public FLVParser::IFLVParserIO
 public:
 	FLVMediaFormat() : _av_io(nullptr), _opened(false), _force_avc1(false)
 	{
+		_force_io_pool_size = 0;
+
 		_keyframe_index = nullptr;
 		_keyframe_count = 0;
 
@@ -63,6 +65,8 @@ public: //IAVMediaFormat
 
 	void SetReadFlags(unsigned flags)
 	{ _force_avc1 = (flags == MEDIA_FORMAT_READER_H264_FORCE_AVC1); }
+	void SetIoCacheSize(unsigned size)
+	{ _force_io_pool_size = size; }
 
 	void* StaticCastToInterface(unsigned id)
 	{ if (id == AV_MEDIA_INTERFACE_ID_CASE_EX) return static_cast<IAVMediaFormatEx*>(this); return nullptr; }
@@ -89,6 +93,7 @@ private:
 	bool _opened;
 	IAVMediaIO* _av_io;
 	std::unique_ptr<IOPoolReader> _io_pool;
+	unsigned _force_io_pool_size;
 
 	std::shared_ptr<FLVParser::FLVStreamParser> _parser;
 	FLVParser::FLV_STREAM_GLOBAL_INFO _stream_info;

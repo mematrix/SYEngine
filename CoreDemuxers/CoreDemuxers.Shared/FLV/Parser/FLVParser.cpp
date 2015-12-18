@@ -422,7 +422,7 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 		{
 			if (tag_type == FLV_TAG_TYPE_AUDIO)
 			{
-				_pkt_buf_audio.timestamp = tag_time;
+				_pkt_buf_audio.timestamp = _pkt_buf_audio.dts = tag_time;
 
 				_pkt_buf_audio.type = SupportPacketType::PacketTypeAudio;
 				_pkt_buf_audio.data_size = len;

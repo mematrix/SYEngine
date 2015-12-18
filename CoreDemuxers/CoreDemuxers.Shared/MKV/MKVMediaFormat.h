@@ -37,7 +37,7 @@ class MKVMediaFormat :
 public:
 	MKVMediaFormat() :
 		_av_io(nullptr), _stream_count(0), _read_flags(0), 
-		_skip_av_others_streams(false), _force_avc1(false) {}
+		_skip_av_others_streams(false), _force_avc1(false) { _force_io_pool_size = 0; }
 
 public: //IAVMediaFormat
 	AV_MEDIA_ERR Open(IAVMediaIO* io);
@@ -59,6 +59,8 @@ public: //IAVMediaFormat
 	{ return MEDIA_FORMAT_MKV_MIME; }
 
 	void SetReadFlags(unsigned flags);
+	void SetIoCacheSize(unsigned size)
+	{ _force_io_pool_size = size; }
 
 	AV_MEDIA_ERR Flush() { return AV_ERR_OK; }
 	AV_MEDIA_ERR Reset();
@@ -110,6 +112,7 @@ private:
 private:
 	IAVMediaIO* _av_io;
 	std::shared_ptr<IOPoolReader> _io_pool;
+	unsigned _force_io_pool_size;
 
 	std::shared_ptr<MKVParser::MKVFileParser> _parser;
 	MKVParser::MKVGlobalInfo _global_info;

@@ -34,7 +34,7 @@ AV_MEDIA_ERR MKVMediaFormat::Open(IAVMediaIO* io)
 
 	if (io->IsAliveStream())
 		io_buf_size = 64 * 1024;
-	auto io_pool = std::make_shared<IOPoolReader>(io,io_buf_size);
+	auto io_pool = std::make_shared<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
 	_av_io = io_pool.get();
 
 	auto ret = parser->Open(true,
