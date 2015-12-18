@@ -1,7 +1,10 @@
 EXPORTS
+	CreateFLVMediaDemuxer
 	CreateFLVMediaDemuxerSP
 	CheckFileStreamFLV
+	CreateMKVMediaDemuxer
 	CreateMKVMediaDemuxerSP
 	CheckFileStreamMKV
+	CreateMP4MediaDemuxer
 	CreateMP4MediaDemuxerSP
 	CheckFileStreamMP4

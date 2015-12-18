@@ -524,7 +524,7 @@ bool MatroskaJoinStream::LoadItemInfo(int index)
 	bool result = false;
 	while (1)
 	{
-		if (!demux->OpenByteStream(0, true)) //open流来demux
+		if (!demux->OpenByteStream()) //open流来demux
 			break;
 
 		Item* item = GetItem(index);
