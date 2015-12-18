@@ -80,6 +80,17 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 			_sound_duration = PACKET_NO_PTS;
 	}
 
+	if (_video_stream.get() && _video_stream->GetCodecType() == MEDIA_CODEC_VIDEO_H264) {
+		VideoBasicDescription desc = {};
+		_video_stream->GetVideoInfo()->GetVideoDescription(&desc);
+		if (desc.scan_mode != VideoScanMode::VideoScanModeProgressive)
+			_frame_duration = PACKET_NO_PTS;
+		H264_PROFILE_SPEC profile = {};
+		_video_stream->GetVideoInfo()->GetProfile(&profile);
+		if (profile.variable_framerate)
+			_frame_duration = PACKET_NO_PTS;
+	}
+
 	_parser = parser;
 	_opened = true;
 	return AV_ERR_OK;
