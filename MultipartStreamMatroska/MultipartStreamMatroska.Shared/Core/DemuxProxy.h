@@ -17,8 +17,6 @@ public:
 
 	double GetDuration() const throw()
 	{ return _core.TotalDuration; }
-	void* GetAVFormatContext() throw()
-	{ return _core.FormatContext; }
 
 	struct Track
 	{
@@ -34,7 +32,6 @@ public:
 		char CodecName[32];
 		const unsigned char* CodecPrivate;
 		unsigned CodecPrivateSize;
-		void* AVStream;
 	};
 	bool GetTrack(int index, Track* track) throw();
 	int GetTrackCount() const throw()
@@ -48,7 +45,6 @@ public:
 		bool KeyFrame, Discontinuity;
 		const unsigned char* Data;
 		unsigned DataSize;
-		void* AVPacket;
 	};
 	bool ReadPacket(Packet* pkt) throw();
 	bool TimeSeek(double seconds) throw();
@@ -72,7 +68,7 @@ private:
 		return ((DemuxProxy*)opaque)->ByteStreamTell();
 	}
 
-protected:
+private:
 	struct ProxyCore
 	{
 		void* IOContext;
@@ -81,8 +77,6 @@ protected:
 		int TotalTracks;
 		double TotalDuration;
 	};
-	inline ProxyCore* GetCore() throw() { return &_core; }
-private:
 	ProxyCore _core;
 };
 
