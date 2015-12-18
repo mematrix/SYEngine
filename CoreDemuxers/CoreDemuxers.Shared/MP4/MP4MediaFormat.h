@@ -25,7 +25,8 @@ class MP4MediaFormat :
 	public Isom::IStreamSource {
 
 public:
-	MP4MediaFormat() : _av_io(nullptr), _stream_count(0), _kf_count(0), _force_avc1(false) {}
+	MP4MediaFormat() : _av_io(nullptr), _stream_count(0),
+		_kf_count(0), _force_avc1(false) { _force_io_pool_size = 0; }
 
 public: //IAVMediaFormat
 	AV_MEDIA_ERR Open(IAVMediaIO* io);
@@ -55,6 +56,8 @@ public: //IAVMediaFormat
 
 	void SetReadFlags(unsigned flags)
 	{ _force_avc1 = (flags == MEDIA_FORMAT_READER_H264_FORCE_AVC1); }
+	void SetIoCacheSize(unsigned size)
+	{ _force_io_pool_size = size; }
 
 	void* StaticCastToInterface(unsigned id);
 	void Dispose() { delete this; }
@@ -97,6 +100,7 @@ private:
 private:
 	IAVMediaIO* _av_io;
 	std::shared_ptr<IOPoolReader> _io_pool;
+	unsigned _force_io_pool_size;
 
 	std::shared_ptr<Aka4Splitter> _core;
 	std::shared_ptr<MP4MediaStream> _streams[MAX_MP4_STREAM_COUNT];

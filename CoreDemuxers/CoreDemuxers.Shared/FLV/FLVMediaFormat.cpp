@@ -59,7 +59,7 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 			io_buf_size = _128KB * 6;
 	}
 
-	_io_pool = std::make_unique<IOPoolReader>(io,io_buf_size);
+	_io_pool = std::make_unique<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
 	_av_io = _io_pool.get();
 
 	if (!io->IsAliveStream()) {

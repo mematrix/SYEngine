@@ -354,7 +354,8 @@ HDMediaSource::QueuePacketResult HDMediaSource::QueueStreamPacket()
 						}
 					}
 
-					if (packet.dts != PACKET_NO_PTS && pStream->GetStreamType() == MediaStream_Video)
+					if (pStream->GetStreamType() == MediaStream_Video &&
+						packet.dts != PACKET_NO_PTS && packet.dts <= packet.pts)
 						pSample->SetUINT64(MFSampleExtension_DecodeTimestamp,
 							(LONG64)(packet.dts * 10000000.0));
 
