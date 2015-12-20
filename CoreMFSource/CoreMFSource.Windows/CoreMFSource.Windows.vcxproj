@@ -143,7 +143,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -165,7 +165,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -186,7 +186,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -208,7 +208,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -229,7 +229,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -251,7 +251,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>

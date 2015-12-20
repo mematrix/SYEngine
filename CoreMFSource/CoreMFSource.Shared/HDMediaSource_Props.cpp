@@ -71,6 +71,8 @@ unsigned HDMediaSource::QueryNetworkBufferProgressValue()
 HRESULT HDMediaSource::SendNetworkStartBuffering()
 {
 	DbgLogPrintf(L"%s::MEBufferingStarted %d...",L"HDMediaSource",(int)GetTickCount64());
+
+	CritSec::AutoLock lock(_cs);
 	_network_buffer_progress = 0;
 	_network_buffering = true;
 	return _pEventQueue->QueueEventParamVar(MEBufferingStarted,GUID_NULL,S_OK,nullptr);
@@ -79,6 +81,8 @@ HRESULT HDMediaSource::SendNetworkStartBuffering()
 HRESULT HDMediaSource::SendNetworkStopBuffering()
 {
 	DbgLogPrintf(L"%s::MEBufferingStopped %d.",L"HDMediaSource",(int)GetTickCount64());
+
+	CritSec::AutoLock lock(_cs);
 	_network_buffering = false;
 	_network_buffer_progress = 0;
 	return _pEventQueue->QueueEventParamVar(MEBufferingStopped,GUID_NULL,S_OK,nullptr);
