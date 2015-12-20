@@ -133,6 +133,7 @@ HRESULT HDMediaSource::PreloadStreamPacket()
 		SendNetworkStopBuffering();
 
 		//把所有可激活的流缓存了的样本全部分发出去。。。
+		CritSec::AutoLock lock(_cs);
 		unsigned count = _streamList.Count();
 		for (unsigned i = 0;i < count;i++)
 		{
