@@ -106,7 +106,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -147,7 +147,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -168,7 +168,7 @@
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\CoreCommon\CoreCommon.Shared\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\AV\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Description\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Memory\;$(SolutionDir)\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

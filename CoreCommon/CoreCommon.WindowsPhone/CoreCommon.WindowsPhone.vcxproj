@@ -96,7 +96,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,7 +114,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +149,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(SolutionDir)\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
