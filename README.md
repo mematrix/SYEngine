@@ -9,8 +9,12 @@
 ### 许可协议
  - Licensed under ***LGPLv3*** or later.
  - 在**LGPLv3**许可请求外的情况，请联系`rukino.saki@outlook.com`，并说明目的。
- - 建议直接下载vsix整合使用。
  - 下面的库依据原本的协议：`ffcodecs` (ffmpeg)、`stagefright` (AOSP)
+
+### 使用方式
+ - **直接下载VSIX扩展包，安装后在VS中引用即可使用。**
+ - 使用git submodule进行源码级别的整合。
+ - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
  - 2015-12-18：已经不需要在 `Package.appxmanifest` 中添加相关对象信息，真正实现了**一行代码初始化**即可完美整合。
