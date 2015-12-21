@@ -17,6 +17,7 @@
  - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
+ - 2015-12-22：修复使用MultipartStreamMatroska播放切片的网络视频源的时候，Seek的时候卡住UI响应的问题。
  - 2015-12-18：已经不需要在 `Package.appxmanifest` 中添加相关对象信息，真正实现了**一行代码初始化**即可完美整合。
  - 2015-12-16：修复MediaElement的DownloadProgressChanged事件在播放FLV的时候不触发下载进度的问题，现在**FLV整体播放效果已跟系统播放MP4近乎100%相同**！
  - 2015-12-14：移除CoreMFCommon工程；修复播放网络流的时候，Seek没缓冲进度的问题。
