@@ -65,6 +65,7 @@ CommonResult WindowsHttpDataSource::ReadBytes(void* buf, unsigned size, unsigned
 		size == 0)
 		return CommonResult::kInvalidInput;
 
+	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	unsigned rs = ReadInBuffered(buf, size);
 	if (rs == size) {
 		if (read_size)
@@ -94,6 +95,7 @@ CommonResult WindowsHttpDataSource::ReadBytes(void* buf, unsigned size, unsigned
 CommonResult WindowsHttpDataSource::SetPosition(int64_t offset)
 {
 	//ReadBytes方法必须没有在运行
+	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	if (_content_len != 0 && offset > _content_len)
 		return CommonResult::kInvalidInput;
 	if (offset == _cur_pos)
@@ -131,6 +133,7 @@ CommonResult WindowsHttpDataSource::ReconnectAtOffset(int64_t offset)
 void WindowsHttpDataSource::DestroyObjects()
 {
 	//ReadBytes方法必须没有在运行
+	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	if (_init_with_wait_headers) { //WaitForResponseHeaders
 		ThrowDownloadAbort();
 		WaitProcessDownloadAbort();
@@ -218,10 +221,8 @@ void WindowsHttpDataSource::DiscardDownloadTask()
 	if (_downloader == NULL)
 		return;
 
-	if (_read_more_from_network) {
+	if (_read_more_from_network)
 		ThrowDownloadAbort();
-		WaitProcessDownloadAbort();
-	}
 
 	_downloader->AbortAsync();
 	_downloader->ResumeBuffering(true);

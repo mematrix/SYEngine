@@ -17,7 +17,7 @@ ComPtr<HDMediaSource> HDMediaSource::CreateMediaSource(int QueueSize)
 
 HDMediaSource::HDMediaSource(int QueueSize) : 
 _state(STATE_INVALID), _taskMagicNumber(0), _nPendingEOS(0), 
-_sampleStartTime(0.0), _currentRate(1.0f),
+_start_op_seek_time(PACKET_NO_PTS), _sampleStartTime(0.0), _currentRate(1.0f),
 _network_mode(false), _network_delay(0), _network_buffering(false),
 _network_preroll_time(0.0), _network_buffer_progress(0), _network_live_stream(false),
 _enableH264ES2H264(false), _intelQSDecoder_found(false)
@@ -124,9 +124,13 @@ HRESULT HDMediaSource::Start(IMFPresentationDescriptor *pPresentationDescriptor,
 		DbgLogPrintf(L"%s::was already started.",L"HDMediaSource");
 
 	ComPtr<SourceOperation> op;
-	hr = SourceOperation::CreateStartOperation(pPresentationDescriptor,op.GetAddressOf());
+	hr = SourceOperation::CreateStartOperation(
+		pPresentationDescriptor,
+		_start_op_seek_time,
+		op.GetAddressOf());
 	if (FAILED(hr))
 		return hr;
+	_start_op_seek_time = PACKET_NO_PTS;
 
 	hr = op->SetData(*pvarStartPosition);
 	if (FAILED(hr))
@@ -186,6 +190,7 @@ HRESULT HDMediaSource::Stop()
 HRESULT HDMediaSource::Shutdown()
 {
 	DbgLogPrintf(L"%s::Shutdown...",L"HDMediaSource");
+	auto tick = GetTickCount64();
 
 	if (_key_frames)
 		free(_key_frames);
@@ -194,7 +199,7 @@ HRESULT HDMediaSource::Shutdown()
 
 	if (_pMediaIOEx && _network_mode)
 		_pMediaIOEx->CancelReading();
-	
+
 	if (_network_mode)
 	{
 		IMFByteStream* stream = nullptr;
@@ -387,7 +392,8 @@ HRESULT HDMediaSource::DoStart(SourceOperation* op)
 		return E_UNEXPECTED;
 
 	ComPtr<IMFPresentationDescriptor> ppd;
-	HRESULT hr = static_cast<StartOperation*>(op)->GetPresentationDescriptor(ppd.GetAddressOf());
+	auto start_op = static_cast<StartOperation*>(op);
+	HRESULT hr = start_op->GetPresentationDescriptor(ppd.GetAddressOf());
 	if (FAILED(hr))
 		return hr;
 
@@ -416,8 +422,12 @@ HRESULT HDMediaSource::DoStart(SourceOperation* op)
 	hr = SelectStreams(ppd.Get(),op->GetData(),bSeek,false);
 
 	_seekAfterFlag = false; //指示Seek后的第一个Packet
-	if ((SUCCEEDED(hr) && (propvar.GetInt64() != 0)) || forceSeek)
+	if ((SUCCEEDED(hr) && (propvar.GetInt64() != 0)) || forceSeek) {
 		hr = SeekOpen(propvar.GetInt64()); //to Seek...
+	}else{
+		if (start_op->GetSeekToTime() != PACKET_NO_PTS)
+			hr = SeekOpen(WMF::Misc::SecondsToMFTime(start_op->GetSeekToTime()));
+	}
 
 	if (SUCCEEDED(hr))
 	{
@@ -521,9 +531,14 @@ HRESULT HDMediaSource::DoStop(SourceOperation* op)
 	//忽略那些Stop前还在队列的请求。
 	++_taskMagicNumber;
 
-	auto ave = _pMediaParser->Seek(0.0,true,AVSeekDirection::SeekDirection_Auto);
-	if (AVE_FAILED(ave))
-		return MF_E_INVALID_POSITION;
+	if (!_network_mode) {
+		auto ave = _pMediaParser->Seek(0.0,true,AVSeekDirection::SeekDirection_Auto);
+		if (AVE_FAILED(ave))
+			return MF_E_INVALID_POSITION;
+	}else{
+		_start_op_seek_time = 0.0;
+		//网络流的情况下，为了减少seek，这里不处理。
+	}
 
 	if (_pSampleRequest)
 		_pSampleRequest.Reset();
@@ -531,7 +546,6 @@ HRESULT HDMediaSource::DoStop(SourceOperation* op)
 	_state = STATE_STOPPED;
 
 	DbgLogPrintf(L"%s::DoStop OK (Task Magic:%d).",L"HDMediaSource",_taskMagicNumber);
-
 	return _pEventQueue->QueueEventParamVar(MESourceStopped,GUID_NULL,S_OK,nullptr);
 }
 

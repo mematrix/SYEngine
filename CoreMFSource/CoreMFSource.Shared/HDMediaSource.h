@@ -90,7 +90,7 @@ public:
 	};
 
 	static HRESULT CreateOperation(Operation op,SourceOperation** pp);
-	static HRESULT CreateStartOperation(IMFPresentationDescriptor* ppd,SourceOperation** pp);
+	static HRESULT CreateStartOperation(IMFPresentationDescriptor* ppd,double seek_time,SourceOperation** pp);
 	static HRESULT CreateSetRateOperation(BOOL fThin,FLOAT flRate,SourceOperation** pp);
 
 public: //IUnknown
@@ -120,13 +120,15 @@ private:
 class StartOperation WrlSealed : public SourceOperation
 {
 public:
-	StartOperation(IMFPresentationDescriptor* ppd) throw();
+	StartOperation(IMFPresentationDescriptor* ppd,double seek_time) throw();
 
 public:
 	HRESULT GetPresentationDescriptor(IMFPresentationDescriptor** pp) const throw();
+	double GetSeekToTime() const throw() { return _seek_to_time; }
 
 private:
 	ComPtr<IMFPresentationDescriptor> _pd;
+	double _seek_to_time; //DoStop in Network mode.
 };
 
 class SetRateOperation WrlSealed : public SourceOperation
@@ -389,6 +391,7 @@ private:
 
 	WMF::ComPtrList<HDMediaStream,FALSE> _streamList;
 
+	double _start_op_seek_time;
 	double _sampleStartTime;
 
 	float _currentRate;
