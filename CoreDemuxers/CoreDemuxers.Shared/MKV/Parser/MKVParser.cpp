@@ -126,9 +126,6 @@ unsigned MKVFileParser::Open(bool ignore_duratin_zero,bool do_not_parse_seekhead
 
 bool MKVFileParser::Close()
 {
-	if (_io)
-		_io->Seek();
-
 	memset(&_info,0,sizeof(_info));
 	memset(&_frame,0,sizeof(_frame));
 

@@ -3,6 +3,7 @@
 
 #include "downloader\DownloadCore.h"
 #include "WindowsHttpDownloader.h"
+#include <mutex>
 
 namespace Downloader {
 namespace Windows {
@@ -59,7 +60,7 @@ namespace Windows {
 		NetworkDownloadStatus WaitNetworkDownloadStatus();
 
 		inline void ThrowDownloadAbort() { SetEvent(_abort_event); }
-		inline void WaitProcessDownloadAbort() { WaitForSingleObjectEx(_process_abort_event, INFINITE, FALSE); }
+		inline void WaitProcessDownloadAbort() { WaitForSingleObjectEx(_process_abort_event, 60 * 1000, FALSE); }
 		inline void NotifyCompleteDownloadAbort() { SetEvent(_process_abort_event); }
 
 		struct InitConfigs
@@ -100,6 +101,8 @@ namespace Windows {
 
 		HANDLE _abort_event, _process_abort_event;
 		bool _init_with_wait_headers, _read_more_from_network;
+
+		std::recursive_mutex _mutex;
 	};
 }}
 

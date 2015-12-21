@@ -15,12 +15,12 @@ HRESULT SourceOperation::CreateOperation(SourceOperation::Operation op,SourceOpe
 	return S_OK;
 }
 
-HRESULT SourceOperation::CreateStartOperation(IMFPresentationDescriptor* ppd,SourceOperation** pp)
+HRESULT SourceOperation::CreateStartOperation(IMFPresentationDescriptor* ppd,double seek_time,SourceOperation** pp)
 {
 	if (pp == nullptr)
 		return E_POINTER;
 
-	auto pop = new (std::nothrow)StartOperation(ppd);
+	auto pop = new (std::nothrow)StartOperation(ppd,seek_time);
 	if (pop == nullptr)
 		return E_OUTOFMEMORY;
 
@@ -88,13 +88,14 @@ HRESULT SourceOperation::SetData(const PROPVARIANT& var) throw()
 	return PropVariantCopy(&_data,&var);
 }
 
-StartOperation::StartOperation(IMFPresentationDescriptor* ppd) throw() : SourceOperation(OP_START)
+StartOperation::StartOperation(IMFPresentationDescriptor* ppd,double seek_time) throw() : SourceOperation(OP_START)
 {
 	if (ppd == nullptr)
 		return;
 
 	ppd->AddRef();
 	_pd.Attach(ppd);
+	_seek_to_time = seek_time;
 }
 
 HRESULT StartOperation::GetPresentationDescriptor(IMFPresentationDescriptor** pp) const throw()
