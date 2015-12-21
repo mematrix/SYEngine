@@ -277,6 +277,11 @@ HRESULT MultipartStream::Close()
 	SetEvent(_event_exit_thr); //通知异步读线程可以退出了
 	ThreadWait(); //同步等待异步读线程退出（如果存在）
 
+	if (_async_time_seek.seekThread) {
+		delete _async_time_seek.seekThread;
+		_async_time_seek.seekThread = NULL;
+	}
+
 	DeInit(); //销毁父类资源
 	_header.SetLength(0);
 	_header.Buffer()->Free();
@@ -294,21 +299,19 @@ HRESULT MultipartStream::IsTimeSeekSupported(BOOL *pfTimeSeekIsSupported)
 
 HRESULT MultipartStream::TimeSeek(QWORD qwTimePosition)
 {
-#ifdef _DEBUG
-	char tmp[64] = {};
-	sprintf(tmp, "TimeSeek - %.2f\n", float((double)qwTimePosition / 10000000.0));
-	OutputDebugStringA(tmp);
-#endif
-
-	double time = (double)qwTimePosition / 10000000.0;
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
-	if (time < 0.1) //过小，直接Reset
-		return Reset(true) ? S_OK : E_FAIL;
+	if (_async_time_seek.seekThread)
+		WaitTimeSeekResult();
 
-	if (!MatroskaTimeSeek(time)) //做TimeSeek
-		return E_FAIL;
-	_flag_eof = false;
-	_state = AfterSeek; //状态从AfterOpen变成AfterSeek，即TimeSeek后
+	_async_time_seek.result = false;
+	double time = (double)qwTimePosition / 10000000.0;
+	auto thr = new(std::nothrow) std::thread(&MultipartStream::DoTimeSeekAsync,this,time);
+	if (thr == NULL)
+		return E_OUTOFMEMORY;
+
+	_async_time_seek.seekThread = thr;
+	_async_time_seek.seekThread->detach();
+	WaitForSingleObjectEx(_async_time_seek.eventThrStarted, INFINITE, FALSE);
 	return S_OK;
 }
 
@@ -435,6 +438,11 @@ double MultipartStream::InternalGetStreamDuration()
 unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
+	if (_async_time_seek.seekThread) {
+		if (!WaitTimeSeekResult())
+			return 0; //TimeSeek async failed.
+	}
+
 	unsigned allow_size = size;
 	if (allow_size == 0)
 		return 0;
@@ -473,6 +481,19 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 	return allow_size;
 }
 
+bool MultipartStream::SeekTo(double time)
+{
+	std::lock_guard<decltype(_mutex)> lock(_mutex);
+	if (time < 0.1) //过小，直接Reset
+		return Reset(true);
+
+	if (!MatroskaTimeSeek(time)) //做TimeSeek
+		return false;
+	_flag_eof = false;
+	_state = AfterSeek; //状态从AfterOpen变成AfterSeek，即TimeSeek后
+	return true;
+}
+
 bool MultipartStream::Reset(bool timeseek)
 {
 	if (timeseek) {
@@ -491,4 +512,22 @@ bool MultipartStream::Reset(bool timeseek)
 	for (unsigned i = 1; i < GetItemCount(); i++)
 		DownloadItemStop(i);
 	return true;
+}
+
+bool MultipartStream::WaitTimeSeekResult()
+{
+	//std::lock_guard<decltype(_mutex)> lock(_mutex);
+	WaitForSingleObjectEx(_async_time_seek.eventResult, INFINITE, FALSE);
+	delete _async_time_seek.seekThread;
+	_async_time_seek.seekThread = NULL;
+	return _async_time_seek.result;
+}
+
+void MultipartStream::DoTimeSeekAsync(double time)
+{
+	AddRef();
+	SetEvent(_async_time_seek.eventThrStarted);
+	_async_time_seek.result = SeekTo(time);
+	SetEvent(_async_time_seek.eventResult);
+	Release();
 }

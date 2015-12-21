@@ -190,7 +190,6 @@ HRESULT HDMediaSource::Stop()
 HRESULT HDMediaSource::Shutdown()
 {
 	DbgLogPrintf(L"%s::Shutdown...",L"HDMediaSource");
-	auto tick = GetTickCount64();
 
 	if (_key_frames)
 		free(_key_frames);
@@ -375,7 +374,9 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 		auto hr = _pByteStreamTimeSeek->TimeSeek(seekTo);
 		if (FAILED(hr))
 			return hr;
+
 		_pMediaParser->OnNotifySeek();
+		DbgLogPrintf(L"%s::DoStart->SeekOpen::OnNotifySeek",L"HDMediaSource");
 	}
 
 	_seekAfterFlag = true; //Seek成功后，标识下一次ReadPacket是Seek后的
