@@ -37,6 +37,8 @@ _enableH264ES2H264(false), _intelQSDecoder_found(false)
 	_key_frames_count = 0;
 
 	_hCurrentDemuxMod = nullptr;
+
+	_seekAfterFlag = _notifyParserSeekAfterFlag = false;
 }
 
 HDMediaSource::~HDMediaSource()
@@ -375,8 +377,10 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 		if (FAILED(hr))
 			return hr;
 
-		_pMediaParser->OnNotifySeek();
-		DbgLogPrintf(L"%s::DoStart->SeekOpen::OnNotifySeek",L"HDMediaSource");
+		if (!_network_mode)
+			_pMediaParser->OnNotifySeek();
+		else
+			_notifyParserSeekAfterFlag = true;
 	}
 
 	_seekAfterFlag = true; //Seek成功后，标识下一次ReadPacket是Seek后的
@@ -544,6 +548,7 @@ HRESULT HDMediaSource::DoStop(SourceOperation* op)
 	if (_pSampleRequest)
 		_pSampleRequest.Reset();
 
+	_notifyParserSeekAfterFlag = false;
 	_state = STATE_STOPPED;
 
 	DbgLogPrintf(L"%s::DoStop OK (Task Magic:%d).",L"HDMediaSource",_taskMagicNumber);
@@ -592,9 +597,24 @@ HRESULT HDMediaSource::OnRequestSample(SourceOperation* op)
 		_pSampleRequest = op;
 	}
 
-	DbgLogPrintf(L"OnRequestSample...");;
+	bool notifySeek = false;
+	if (_network_mode)
+	{
+		CritSec::AutoLock lock(_cs);
+		notifySeek = _notifyParserSeekAfterFlag;
+		_notifyParserSeekAfterFlag = false;
+	}
+
+	if (notifySeek)
+	{
+		DbgLogPrintf(L"OnNotifySeek...");
+		_pMediaParser->OnNotifySeek();
+		DbgLogPrintf(L"OnNotifySeek OK.");
+	}
+
+	DbgLogPrintf(L"OnRequestSample...");
 	PreloadStreamPacket();
-	DbgLogPrintf(L"OnRequestSample OK.");;
+	DbgLogPrintf(L"OnRequestSample OK.");
 
 	{
 		CritSec::AutoLock lock(_cs);
