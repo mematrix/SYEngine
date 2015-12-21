@@ -423,6 +423,7 @@ private:
 	HMODULE _hCurrentDemuxMod;
 
 	bool _seekAfterFlag;
+	bool _notifyParserSeekAfterFlag;
 	bool _enterReadPacketFlag;
 
 	double* _key_frames;
