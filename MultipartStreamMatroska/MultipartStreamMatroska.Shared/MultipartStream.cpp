@@ -321,10 +321,6 @@ HRESULT MultipartStream::EnableBuffering(BOOL fEnable)
 {
 	if (fEnable == FALSE)
 		return StopBackgroundTransfer();
-
-#ifdef _DEBUG
-	OutputDebugStringA("MultipartStream::EnableBuffering.");
-#endif
 	return S_OK;
 }
 

@@ -477,7 +477,8 @@ bool MatroskaJoinStream::ProcessItemList()
 		if (!LoadItemInfo(i))
 			return false;
 		_duration_temp += GetItem(i)->Duration;
-#ifdef _DEBUG
+
+#if defined(_WIN32) && defined(_DEBUG)
 		unsigned duration_ms = (unsigned)(GetItem(i)->Duration * 1000.0);
 		printf("Part Item %d - %dms\n", i, duration_ms);
 #endif
@@ -487,7 +488,7 @@ bool MatroskaJoinStream::ProcessItemList()
 
 bool MatroskaJoinStream::RunDownload(int index)
 {
-#ifdef _DEBUG
+#if defined(_WIN32) && defined(_DEBUG)
 	printf("RunDownload - Item:%d, Started:%s, Paused:%s\n",
 		index, _tasks->IsStarted(index) ? "Yes" : "No",
 		_tasks->IsPaused(index) ? "Yes" : "No");
