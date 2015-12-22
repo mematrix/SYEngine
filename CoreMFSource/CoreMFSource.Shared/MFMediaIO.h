@@ -40,7 +40,7 @@ public:
 
 	bool Seek(long long offset,int whence)
 	{
-		DbgLogPrintf(L"MFMediaIO::Seek -> offset=%ill, whence=%d", (int)offset, whence);
+		DbgLogPrintf(L"MFMediaIO::Seek -> offset=%d, whence=%d", (int)offset, whence);
 		if (whence == SEEK_END)
 		{
 			QWORD qwSize = 0;
