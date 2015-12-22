@@ -300,6 +300,9 @@ HRESULT MultipartStream::IsTimeSeekSupported(BOOL *pfTimeSeekIsSupported)
 HRESULT MultipartStream::TimeSeek(QWORD qwTimePosition)
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
+	if (MFGetAttributeUINT32(_attrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 0)
+		return SeekTo((double)qwTimePosition / 10000000.0) ? S_OK : E_FAIL;
+
 	if (_async_time_seek.seekThread)
 		WaitTimeSeekResult();
 
