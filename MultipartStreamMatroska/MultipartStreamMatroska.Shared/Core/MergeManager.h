@@ -93,6 +93,7 @@ private:
 	int _prev_audio_duration, _prev_video_duration; //预保存的av上一个帧的时长
 	int64_t _prev_audio_time, _prev_video_time; //上一个帧的时间，dts优先pts
 	double _audio_time_offset, _video_time_offset; //时间偏移
+	double _start_time_offset; //such as IQIYI
 };
 
 #endif //__MERGE_MANAGER_H

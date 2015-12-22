@@ -101,9 +101,9 @@ loop:
 
 	int timescale = (pkt.Id == 0 ? _video_ts : _audio_ts);
 	if (pkt.PTS != InvalidTimestamp())
-		pkt.ScalePTS = double(pkt.PTS) / double(timescale);
+		pkt.ScalePTS = double(pkt.PTS) / double(timescale) - _start_time_offset;
 	if (pkt.DTS != InvalidTimestamp())
-		pkt.ScaleDTS = double(pkt.DTS) / double(timescale);
+		pkt.ScaleDTS = double(pkt.DTS) / double(timescale) - _start_time_offset;
 	if (pkt.Duration > 0 && pkt.Duration != InvalidTimestamp())
 		pkt.ScaleDuration = double(pkt.Duration) / double(timescale);
 
@@ -165,5 +165,7 @@ bool MergeManager::InternalInitDemux(void* demux)
 
 	_audio_ts = t2.Timescale;
 	_video_ts = t1.Timescale;
+
+	_start_time_offset = core->GetStartTime();
 	return true;
 }

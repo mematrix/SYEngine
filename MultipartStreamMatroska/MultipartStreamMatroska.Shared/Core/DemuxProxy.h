@@ -15,6 +15,7 @@ public:
 	bool OpenByteStream(int io_buf_size = 0, bool non_find_stream_info = true);
 	void CloseByteStream();
 
+	double GetStartTime();
 	double GetDuration() const throw()
 	{ return _core.TotalDuration; }
 
