@@ -62,6 +62,13 @@ void DemuxProxy::CloseByteStream()
 	memset(&_core, 0, sizeof(_core));
 }
 
+double DemuxProxy::GetStartTime()
+{
+	if (((AVFormatContext*)_core.FormatContext)->start_time == 0)
+		return 0.0;
+	return ((double)((AVFormatContext*)_core.FormatContext)->start_time / double(AV_TIME_BASE));
+}
+
 bool DemuxProxy::GetTrack(int index, Track* track) throw()
 {
 	if (index >= _core.TotalTracks)
