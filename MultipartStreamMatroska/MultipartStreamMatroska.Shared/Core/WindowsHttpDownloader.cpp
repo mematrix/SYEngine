@@ -184,7 +184,7 @@ void WindowsHttpDownloader::InternalConnect()
 		return;
 
 	_http.request = WinHttpOpenRequest(_http.connect, L"GET",
-		_url.dwUrlPathLength > 1 ? _url.lpszUrlPath : NULL,
+		_url.dwUrlPathLength > 0 ? _url.lpszUrlPath : NULL,
 		NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, 0);
 	if (_http.connect == NULL) {
 		SetEvent(_events[EventErr]);
