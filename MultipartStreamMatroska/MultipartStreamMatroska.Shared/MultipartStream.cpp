@@ -313,8 +313,7 @@ HRESULT MultipartStream::TimeSeek(QWORD qwTimePosition)
 		return E_OUTOFMEMORY;
 
 	_async_time_seek.seekThread = thr;
-	_async_time_seek.seekThread->detach();
-	WaitForSingleObjectEx(_async_time_seek.eventThrStarted, INFINITE, FALSE);
+	WaitForSingleObjectEx(_async_time_seek.eventStarted, INFINITE, FALSE);
 	return S_OK;
 }
 
@@ -486,7 +485,6 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 
 bool MultipartStream::SeekTo(double time)
 {
-	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	if (time < 0.1) //过小，直接Reset
 		return Reset(true);
 
@@ -519,8 +517,7 @@ bool MultipartStream::Reset(bool timeseek)
 
 bool MultipartStream::WaitTimeSeekResult()
 {
-	//std::lock_guard<decltype(_mutex)> lock(_mutex);
-	WaitForSingleObjectEx(_async_time_seek.eventResult, INFINITE, FALSE);
+	_async_time_seek.seekThread->join();
 	delete _async_time_seek.seekThread;
 	_async_time_seek.seekThread = NULL;
 	return _async_time_seek.result;
@@ -529,8 +526,7 @@ bool MultipartStream::WaitTimeSeekResult()
 void MultipartStream::DoTimeSeekAsync(double time)
 {
 	AddRef();
-	SetEvent(_async_time_seek.eventThrStarted);
+	SetEvent(_async_time_seek.eventStarted);
 	_async_time_seek.result = SeekTo(time);
-	SetEvent(_async_time_seek.eventResult);
 	Release();
 }
