@@ -71,9 +71,9 @@ void MergeManager::ProcessSkipPacket()
 	Packet pkt;
 	if (!_demux->ReadPacket(&pkt)) {
 		_audio_time_offset = _audio_time_offset + 
-			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts));
+			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts)) - _start_time_offset;
 		_video_time_offset = _video_time_offset + 
-			(double(_prev_video_time + _prev_video_duration) / double(_video_ts));
+			(double(_prev_video_time + _prev_video_duration) / double(_video_ts)) - _start_time_offset;
 	}
 }
 
@@ -90,9 +90,9 @@ loop:
 		//如果一个分段已经结束，记录这个分段最后的时间戳和帧时长
 		//生成下一个分段的时间偏移
 		_audio_time_offset = _audio_time_offset + 
-			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts));
+			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts)) - _start_time_offset;
 		_video_time_offset = _video_time_offset + 
-			(double(_prev_video_time + _prev_video_duration) / double(_video_ts));
+			(double(_prev_video_time + _prev_video_duration) / double(_video_ts)) - _start_time_offset;
 		return 0;
 	}
 	pkt.ScalePTS = pkt.ScaleDTS = pkt.ScaleDuration = 0.0;

@@ -146,20 +146,20 @@ protected:
 
 	virtual void OnPartStart()
 	{
-#ifdef _DEBUG
+#if defined(_WIN32) && defined(_DEBUG)
 		printf("OnPartStart...\n");
 #endif
 		OnPartNext(0, _item_count);
 	}
 	virtual void OnPartNext(unsigned index, unsigned total)
 	{
-#ifdef _DEBUG
+#if defined(_WIN32) && defined(_DEBUG)
 		printf("OnPartNext: %d / %d\n", index + 1, total);
 #endif
 	}
 	virtual void OnPartEnded()
 	{
-#ifdef _DEBUG
+#if defined(_WIN32) && defined(_DEBUG)
 		printf("OnPartEnded.\n");
 #endif
 	}
