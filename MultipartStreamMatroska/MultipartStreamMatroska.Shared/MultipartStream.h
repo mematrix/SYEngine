@@ -39,8 +39,7 @@ public:
 		_stm_length(0), _stm_cur_pos(0), _header_prue_size(0), _download_progress(100), _closed(true) {
 		_event_async_read = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_event_exit_thr = CreateEventExW(NULL, NULL, CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
-		_async_time_seek.eventThrStarted = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
-		_async_time_seek.eventResult = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
+		_async_time_seek.eventStarted = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_async_time_seek.seekThread = NULL;
 		wcscpy_s(_list_file, list);
 		MFCreateAttributes(&_attrs, 0);
@@ -52,8 +51,7 @@ public:
 		Close();
 		CloseHandle(_event_async_read);
 		CloseHandle(_event_exit_thr);
-		CloseHandle(_async_time_seek.eventResult);
-		CloseHandle(_async_time_seek.eventThrStarted);
+		CloseHandle(_async_time_seek.eventStarted);
 		Module<InProc>::GetModule().DecrementObjectCount();
 	}
 
@@ -239,8 +237,7 @@ private:
 	struct AsyncTimeSeekStatus
 	{
 		std::thread* seekThread;
-		HANDLE eventThrStarted;
-		HANDLE eventResult;
+		HANDLE eventStarted;
 		bool result;
 	};
 	AsyncTimeSeekStatus _async_time_seek;
