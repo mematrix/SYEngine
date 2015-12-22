@@ -129,6 +129,7 @@ bool DemuxProxy::TimeSeek(double seconds) throw()
 {
 	AVFormatContext* format = (AVFormatContext*)_core.FormatContext;
 	int64_t time = (int64_t)(seconds * double(AV_TIME_BASE));
+	time += format->start_time;
 
 	//ฯศณขสินุผüึกseek
 	int flags = AVSEEK_FLAG_BACKWARD;
