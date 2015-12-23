@@ -424,7 +424,7 @@ bool MatroskaJoinStream::ProcessFirstItem()
 		
 		double duration = double(_cfgs.DurationMs) / 1000.0;
 		if (_duration_temp > 0.5)
-			duration = _duration_temp - 0.5;
+			duration = _duration_temp - 0.1;
 
 		_tasks->GetDataSource(0)->SetPosition(0);
 		_io_stream.SwapDs(_tasks->GetDataSource(0));
