@@ -431,7 +431,7 @@ HRESULT HDMediaSource::DoStart(SourceOperation* op)
 		hr = SeekOpen(propvar.GetInt64()); //to Seek...
 	}else{
 		if (start_op->GetSeekToTime() != PACKET_NO_PTS)
-			hr = SeekOpen(WMF::Misc::SecondsToMFTime(start_op->GetSeekToTime()));
+			_pMediaParser->Seek(start_op->GetSeekToTime(), true, AVSeekDirection::SeekDirection_Auto);
 	}
 
 	if (SUCCEEDED(hr))
