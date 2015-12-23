@@ -64,7 +64,8 @@ void DemuxProxy::CloseByteStream()
 
 double DemuxProxy::GetStartTime()
 {
-	if (((AVFormatContext*)_core.FormatContext)->start_time == 0)
+	if (((AVFormatContext*)_core.FormatContext)->start_time == 0 ||
+		((AVFormatContext*)_core.FormatContext)->start_time == AV_NOPTS_VALUE)
 		return 0.0;
 	return ((double)((AVFormatContext*)_core.FormatContext)->start_time / double(AV_TIME_BASE));
 }
