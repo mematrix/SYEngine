@@ -49,7 +49,7 @@ public:
 	void SetTimeOffset(double audio_offset, double video_offset)
 	{ _audio_time_offset = audio_offset; _video_time_offset = video_offset; }
 
-	bool ProcessHeader(double total_duration = 0.0);
+	bool ProcessHeader(double total_duration = 0.0, bool auto_duration = false);
 	bool ProcessComplete(double total_duration = 0.0);
 
 	void ProcessSkipPacket();
@@ -80,7 +80,7 @@ protected:
 	virtual bool DoProcessPacketOnce(Packet* pkt) = 0;
 
 private:
-	bool InternalNewDemux();
+	bool InternalNewDemux(double* duration = NULL);
 	bool InternalInitDemux(void* demux);
 
 	DemuxCore* _demux;

@@ -44,7 +44,7 @@ bool MatroskaJoinStream::Init(const wchar_t* list_file)
 		return false;
 
 	_duration_temp = 0.0;
-	if (_cfgs.LoadFullItems)
+	if (_cfgs.LoadFullItems && _item_count > 1)
 		if (!ProcessItemList()) //载入所有list项目
 			return false;
 
@@ -430,7 +430,7 @@ bool MatroskaJoinStream::ProcessFirstItem()
 		_io_stream.SwapDs(_tasks->GetDataSource(0));
 		if (!merger->PutNewInput(&_io_stream)) //第一个分段的IO
 			break;
-		if (!merger->ProcessHeader(duration)) //生成MKV头
+		if (!merger->ProcessHeader(duration, _item_count == 1 ? true:false)) //生成MKV头
 			break;
 
 		//更新第一个分段的item信息

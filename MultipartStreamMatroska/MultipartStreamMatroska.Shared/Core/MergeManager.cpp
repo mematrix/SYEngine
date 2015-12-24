@@ -30,7 +30,7 @@ bool MergeManager::PutNewOutput(IOCallback* cb)
 	return true;
 }
 
-bool MergeManager::ProcessHeader(double total_duration)
+bool MergeManager::ProcessHeader(double total_duration, bool auto_duration)
 {
 	_prev_audio_time = _prev_video_time = 0;
 	_prev_audio_duration = _prev_video_duration = 0;
@@ -40,11 +40,12 @@ bool MergeManager::ProcessHeader(double total_duration)
 		_input == NULL)
 		return false;
 
-	if (!InternalNewDemux())
+	double demux_duation;
+	if (!InternalNewDemux(&demux_duation))
 		return false;
 
 	_header.SetLength(0);
-	if (!DoProcessHeader(total_duration))
+	if (!DoProcessHeader(auto_duration ? demux_duation : total_duration))
 		return false;
 
 	if (_header.GetLength() > 0 && _output->Size() == 0)
@@ -130,7 +131,7 @@ loop:
 	return (int)(_output->Tell() - offset);
 }
 
-bool MergeManager::InternalNewDemux()
+bool MergeManager::InternalNewDemux(double* duration)
 {
 	if (_demux)
 		delete _demux;
@@ -144,6 +145,9 @@ bool MergeManager::InternalNewDemux()
 		delete core;
 		return false;
 	}
+	if (duration)
+		*duration = core->GetDuration();
+
 	_demux = core;
 	return true;
 }
