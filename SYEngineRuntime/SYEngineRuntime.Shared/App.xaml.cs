@@ -36,6 +36,8 @@ namespace SYEngineRuntime
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             SYEngineCore.Core.Initialize();
+            SYEngineCore.Core.ChangeNetworkPreloadTime(2.0);
+            //SYEngineCore.Core.ChangeNetworkIOBuffer(32 * 1024);
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

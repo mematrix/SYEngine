@@ -1,5 +1,8 @@
 #include "MediaExtensionActivate.h"
 
+double MediaSourceNetworkIOBufTime;
+unsigned MediaSourceNetworkIOBufSize;
+
 static GUID GetGuidFromString(LPCWSTR str)
 {
 	GUID ret = GUID_NULL;
@@ -16,13 +19,28 @@ void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWS
 #endif
 
 	if (wcsicmp(dllfile, L"CoreMFSource.dll") == 0) {
-		typedef IMFAttributes* (WINAPI* Callback)();
+		typedef void* (WINAPI* Callback)();
 		auto GetCoreMFsGlobalSettings = (Callback)GetProcAddress(hmod, "GetCoreMFsGlobalSettings");
-		if (GetCoreMFsGlobalSettings) {
+		auto GetCoreMFsGlobalCS = (Callback)GetProcAddress(hmod, "GetCoreMFsGlobalCS");
+		if (GetCoreMFsGlobalSettings != NULL && GetCoreMFsGlobalCS != NULL) {
+			EnterCriticalSection((LPCRITICAL_SECTION)GetCoreMFsGlobalCS());
+			auto attrs = (IMFAttributes*)GetCoreMFsGlobalSettings();
+			attrs->AddRef();
+
 			//CoreDisable10bitH264Video
-			GetCoreMFsGlobalSettings()->SetUINT32(GetGuidFromString(L"{9165F81A-C1F8-4818-980E-E7C0A6565553}"), TRUE);
+			attrs->SetUINT32(GetGuidFromString(L"{9165F81A-C1F8-4818-980E-E7C0A6565553}"), TRUE);
 			//CoreUseWin10FLACDecoder
-			GetCoreMFsGlobalSettings()->SetUINT32(GetGuidFromString(L"{1342C27D-A1A7-490C-91E5-4E389B7213F2}"), TRUE);
+			attrs->SetUINT32(GetGuidFromString(L"{1342C27D-A1A7-490C-91E5-4E389B7213F2}"), TRUE);
+
+			if (MediaSourceNetworkIOBufSize > 0)
+				attrs->SetUINT32(GetGuidFromString(L"{BF18CECE-34A6-4601-BA51-EC485D137A06}"),
+				MediaSourceNetworkIOBufSize);
+			if (MediaSourceNetworkIOBufTime > 1.0)
+				attrs->SetDouble(GetGuidFromString(L"{BF18CECE-34A6-4601-BA51-EC485D137A05}"),
+				MediaSourceNetworkIOBufTime);
+
+			attrs->Release();
+			LeaveCriticalSection((LPCRITICAL_SECTION)GetCoreMFsGlobalCS());
 		}
 	}else if (wcsicmp(dllfile, L"MultipartStreamMatroska.dll") == 0) {
 		if (wcscmp(activatableClassId, L"MultipartStreamMatroska.UrlHandler") == 0) {
