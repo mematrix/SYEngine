@@ -3,6 +3,8 @@
 double MediaSourceNetworkIOBufTime;
 unsigned MediaSourceNetworkIOBufSize;
 
+LPSTR CALLBACK DefaultPlaylistSegmentUpdateCallback(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
+
 static GUID GetGuidFromString(LPCWSTR str)
 {
 	GUID ret = GUID_NULL;
@@ -47,7 +49,8 @@ void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWS
 			ComPtr<IMFAttributes> attrs;
 			punk->QueryInterface(IID_PPV_ARGS(&attrs));
 			if (attrs) {
-				//TODO...
+				UINT64 ptr = (UINT64)(&DefaultPlaylistSegmentUpdateCallback);
+				attrs->SetUINT64(GetGuidFromString(L"{402A3476-507D-42A7-AC34-E69E199C1A9D}"), ptr);
 			}
 		}
 	}

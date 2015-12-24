@@ -22,7 +22,7 @@ namespace SYEngineCore
 		Platform::String^ HttpCookie;
 		Platform::String^ HttpReferer;
 		Platform::String^ HttpUserAgent;
-		Platform::String^ TempFilePath; //no used.
+		Platform::String^ UniqueId;
 	};
 
 	public ref class Playlist sealed

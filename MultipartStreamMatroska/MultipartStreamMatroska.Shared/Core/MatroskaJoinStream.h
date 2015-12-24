@@ -79,6 +79,7 @@ protected:
 			char UserAgent[512];
 		};
 		HttpProfile Http;
+		char UniqueId[256];
 	};
 	struct Item //单个分段的信息
 	{
@@ -120,6 +121,9 @@ protected:
 	inline unsigned GetItemCount() const throw()
 	{ return _item_count; }
 
+	inline int GetIndexByTime(double time)
+	{ return FindItemIndexByTime(time); }
+
 	inline unsigned GetCurrentPartTotalSize() throw()
 	{ if (_index >= _item_count) return 0; return GetItem(_index)->Size; }
 	inline unsigned GetCurrentPartReadSize() const throw()
@@ -143,6 +147,18 @@ protected:
 	bool DownloadItemResume(int index) throw()
 	{ if (_tasks == NULL) return false;
 	  return _tasks->ResumeTask(index) == Downloader::Core::CommonResult::kSuccess; }
+	
+	bool DownloadItemIsStarted(int index) throw()
+	{ if (_tasks == NULL) return false;
+	  return _tasks->IsStarted(index); }
+	bool DownloadItemIsStopped(int index) throw()
+	{ if (_tasks == NULL) return false;
+	  return _tasks->IsStopped(index); }
+	bool DownloadItemIsPaused(int index) throw()
+	{ if (_tasks == NULL) return false;
+	  return _tasks->IsPaused(index); }
+
+	void UpdateItemInfo(int index, char* url, unsigned size = 0, double duration = 0.0);
 
 	virtual void OnPartStart()
 	{

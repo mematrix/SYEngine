@@ -293,13 +293,14 @@ void MatroskaJoinStream::PrepareConfigs(TextReader& tr)
 			strcpy(_cfgs.Http.Cookie, tr.GetTextLine()->Line[6]);
 			strcpy(_cfgs.Http.RefUrl, tr.GetTextLine()->Line[7]);
 			strcpy(_cfgs.Http.UserAgent, tr.GetTextLine()->Line[8]);
+			strcpy(_cfgs.UniqueId, tr.GetTextLine()->Line[9]);
 		}
 	}
 }
 
 bool MatroskaJoinStream::PrepareItems(TextReader& tr)
 {
-	static unsigned start_index = 9;
+	static unsigned start_index = 10;
 	unsigned count = (tr.GetTextLine()->Count - start_index) / 2;
 	if (count == 0)
 		return false;
@@ -569,4 +570,21 @@ void MatroskaJoinStream::FreeResources()
 		delete _tasks;
 		_tasks = NULL;
 	}
+}
+
+void MatroskaJoinStream::UpdateItemInfo(int index, char* url, unsigned size, double duration)
+{
+	if (index >= (int)_item_count)
+		return;
+
+	auto item = GetItem(index);
+	if (url) {
+		free(item->Url);
+		item->Url = strdup(url);
+	}
+
+	if (size != item->Size && size > 0)
+		item->Size = size;
+	if (duration != item->Duration && duration > 0.1)
+		item->Duration = duration;
 }

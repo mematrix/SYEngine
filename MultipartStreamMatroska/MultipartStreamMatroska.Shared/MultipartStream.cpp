@@ -1,5 +1,9 @@
 #include "MultipartStream.h"
 
+typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
+//返回NULL表示不更新URL
+//返回一个字符串更新URL，返回值使用CoTaskMemAlloc申请，会被自动释放
+
 static const DWORD kPropertyStoreId[] = {
 	MFNETSOURCE_BYTESRECEIVED_ID,
 	MFNETSOURCE_PROTOCOL_ID,
@@ -335,7 +339,7 @@ HRESULT MultipartStream::StopBackgroundTransfer()
 	return S_OK;
 }
 
-bool MultipartStream::Open()
+bool MultipartStream::Open(IMFAttributes* config)
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 
@@ -372,6 +376,9 @@ bool MultipartStream::Open()
 	if (GetItems()->Url[1] != L':') { //给自己的MFSource的一个flag
 		_attrs->SetString(MF_BYTESTREAM_CONTENT_TYPE, L"video/force-network-stream");
 		_attrs->SetUINT32(MF_BYTESTREAM_TRANSCODED, 1234);
+
+		_network_mode = true;
+		InitUpdateUrlCb(config); //订阅更新每个item的url的callback
 	}
 
 	_state = AfterOpen; //状态是Open后
@@ -464,8 +471,12 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 
 		//如果当前处理的时间已经达到需要缓存下一个的时候
 		if (int(GetCurrentTotalTime() - GetCurrentTimestamp()) <= 
-			GetConfigs()->PreloadNextPartRemainSeconds)
-			DownloadNextItem(); //启动下一个的item的下载
+			GetConfigs()->PreloadNextPartRemainSeconds) {
+			if ((!DownloadItemIsStarted(GetIndex() + 1)) &&
+				(GetIndex() < (GetItemCount() - 1)))
+				TryUpdateItemUrl(GetIndex() + 1);
+				DownloadNextItem(); //启动下一个的item的下载
+		}
 
 		/*
 		//如果当前处理的这个part已经过半，缓存下一个
@@ -484,6 +495,14 @@ bool MultipartStream::SeekTo(double time)
 	if (time < 0.1) //过小，直接Reset
 		return Reset(true);
 
+	int index = GetIndexByTime(time);
+	if (index != -1) {
+		if (TryUpdateItemUrl(index)) {
+			for (unsigned i = (index + 1); i < GetItemCount(); i++)
+				DownloadItemStop(i);
+		}
+	}
+
 	if (!MatroskaTimeSeek(time)) //做TimeSeek
 		return false;
 	_flag_eof = false;
@@ -493,6 +512,7 @@ bool MultipartStream::SeekTo(double time)
 
 bool MultipartStream::Reset(bool timeseek)
 {
+	TryUpdateItemUrl(0);
 	if (timeseek) {
 		//AfterSeek
 		//不需要跳过第一个packet
@@ -525,4 +545,37 @@ void MultipartStream::DoTimeSeekAsync(double time)
 	SetEvent(_async_time_seek.eventStarted);
 	_async_time_seek.result = SeekTo(time);
 	Release();
+}
+
+void MultipartStream::InitUpdateUrlCb(IMFAttributes* cfg)
+{
+	if (cfg == NULL)
+		return;
+
+	GUID g = GUID_NULL;
+	CLSIDFromString(L"{402A3476-507D-42A7-AC34-E69E199C1A9D}", &g);
+	UINT64 ptr = MFGetAttributeUINT64(cfg, g, 0);
+	if (ptr != 0)
+		_update_url_callback = (void*)ptr;
+}
+
+bool MultipartStream::TryUpdateItemUrl(int index)
+{
+	if (!_network_mode)
+		return false;
+	if (_update_url_callback == NULL)
+		return false;
+
+	if (GetConfigs()->UniqueId[0] == 0)
+		return false;
+
+	auto cb = (UPDATE_ITEM_URL_CALLBACK)_update_url_callback;
+	auto item = GetItems() + index;
+	auto url = cb(GetConfigs()->UniqueId, index, GetItemCount(), item->Url);
+	if (url == NULL)
+		return false;
+
+	UpdateItemInfo(index, url);
+	CoTaskMemFree(url);
+	return true;
 }
