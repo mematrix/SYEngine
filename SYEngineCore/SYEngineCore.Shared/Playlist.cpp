@@ -111,9 +111,9 @@ char* Playlist::SerializeForNetworkHttp()
 	if (_cfgs.HttpUserAgent)
 		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpUserAgent->Data(), -1, user_agent, 1024, NULL, NULL);
 
-	auto uniqueId = (char*)calloc(2, 256);
+	auto uniqueId = (char*)calloc(2, _cfgs.UniqueId->Length());
 	if (_cfgs.UniqueId)
-		WideCharToMultiByte(CP_ACP, 0, _cfgs.UniqueId->Data(), -1, uniqueId, 512, NULL, NULL);
+		WideCharToMultiByte(CP_ACP, 0, _cfgs.UniqueId->Data(), -1, uniqueId, _cfgs.UniqueId->Length() * 2, NULL, NULL);
 
 	double duration = _cfgs.ExplicitTotalDurationSeconds;
 	if (duration < 0.1) {

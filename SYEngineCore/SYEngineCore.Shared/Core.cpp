@@ -53,3 +53,29 @@ void Core::Uninitialize()
 		delete Installer;
 	Installer = nullptr;
 }
+
+LPSTR CALLBACK Core::DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl)
+{
+	int len1 = (int)strlen(uniqueId) * 3;
+	int len2 = (int)strlen(strCurrentUrl) * 3;
+	auto w_uniqueId = (wchar_t*)malloc(len1);
+	auto w_strCurrentUrl = (wchar_t*)malloc(len2);
+	MultiByteToWideChar(CP_ACP, 0, uniqueId, -1, w_uniqueId, len1 / 2);
+	MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, w_strCurrentUrl, len2 / 2);
+
+	auto uid = ref new Platform::String(w_uniqueId);
+	auto url = ref new Platform::String(w_strCurrentUrl);
+	free(w_uniqueId);
+	free(w_strCurrentUrl);
+
+	auto result = UrlSegmentUpdateEvent(uid, nCurrentIndex, nTotalCount, url);
+	if (result == nullptr)
+		return NULL;
+	if (result->Length() == 0)
+		return NULL;
+
+	auto str = (char*)CoTaskMemAlloc(result->Length() * 2);
+	memset(str, 0, result->Length() * 2);
+	WideCharToMultiByte(CP_ACP, 0, result->Data(), -1, str, result->Length() * 2, NULL, NULL);
+	return str;
+}

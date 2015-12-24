@@ -7,6 +7,8 @@
 #error "Visual C++ for Win32 Only."
 #endif
 
+#define DEFAULT_DOWNLOAD_TIMEOUT 35
+
 bool MatroskaJoinStream::Init(const wchar_t* list_file)
 {
 	printf("MatroskaJoinStream::Init\n");
@@ -293,7 +295,8 @@ void MatroskaJoinStream::PrepareConfigs(TextReader& tr)
 			strcpy(_cfgs.Http.Cookie, tr.GetTextLine()->Line[6]);
 			strcpy(_cfgs.Http.RefUrl, tr.GetTextLine()->Line[7]);
 			strcpy(_cfgs.Http.UserAgent, tr.GetTextLine()->Line[8]);
-			strcpy(_cfgs.UniqueId, tr.GetTextLine()->Line[9]);
+			if (strlen(tr.GetTextLine()->Line[9]) > 0)
+				_cfgs.UniqueId = strdup(tr.GetTextLine()->Line[9]);
 		}
 	}
 }
@@ -387,7 +390,7 @@ bool MatroskaJoinStream::PrepareDownloader()
 			goto task_err;
 
 		Downloader::Core::Task task = {};
-		task.Timeout = 35;
+		task.Timeout = DEFAULT_DOWNLOAD_TIMEOUT;
 		task.SetUrl(item->Url);
 		task.SetOthers(_cfgs.Http.RefUrl[0] != 0 ? _cfgs.Http.RefUrl : NULL,
 			_cfgs.Http.Cookie[0] != 0 ? _cfgs.Http.Cookie : NULL,
@@ -558,6 +561,9 @@ void MatroskaJoinStream::FreeItems()
 
 void MatroskaJoinStream::FreeResources()
 {
+	if (_cfgs.UniqueId)
+		free(_cfgs.UniqueId);
+
 	_header.Free();
 	_buffer.SetLength(0);
 
@@ -587,4 +593,13 @@ void MatroskaJoinStream::UpdateItemInfo(int index, char* url, unsigned size, dou
 		item->Size = size;
 	if (duration != item->Duration && duration > 0.1)
 		item->Duration = duration;
+
+	Downloader::Core::Task task = {};
+	task.Timeout = DEFAULT_DOWNLOAD_TIMEOUT;
+	task.SetUrl(item->Url);
+	task.SetOthers(_cfgs.Http.RefUrl[0] != 0 ? _cfgs.Http.RefUrl : NULL,
+		_cfgs.Http.Cookie[0] != 0 ? _cfgs.Http.Cookie : NULL,
+		_cfgs.Http.UserAgent[0] != 0 ? _cfgs.Http.UserAgent : NULL);
+
+	_tasks->UpdateTask(index, &task);
 }

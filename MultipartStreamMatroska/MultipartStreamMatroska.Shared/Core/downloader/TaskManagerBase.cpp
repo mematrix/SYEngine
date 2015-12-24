@@ -55,6 +55,17 @@ CommonResult TaskManagerBase::RemoveTask(TaskId id)
 	return CommonResult::kSuccess;
 }
 
+CommonResult TaskManagerBase::UpdateTask(TaskId id, Task* new_task_info)
+{
+	CHECK_TASKID(id);
+	Item item = {};
+	if (!CopyTaskToItem(new_task_info, &item))
+		return CommonResult::kInvalidInput;
+	FreeItem(&_items[id]);
+	_items[id] = item;
+	return CommonResult::kSuccess;
+}
+
 unsigned TaskManagerBase::GetTaskCount()
 {
 	unsigned count = 0;
