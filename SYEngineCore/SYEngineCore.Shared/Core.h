@@ -11,6 +11,8 @@ namespace SYEngineCore
 {
 	static MediaExtensionInstaller* Installer;
 
+	public delegate Platform::String^ UrlSegmentUpdateEventHandler
+	(Platform::String^ uniqueId, int curIndex, int totalCount, Platform::String^ curUrl);
 	public ref class Core sealed
 	{
 	public:
@@ -21,6 +23,8 @@ namespace SYEngineCore
 		{ MediaSourceNetworkIOBufTime = bufTime; }
 		static void ChangeNetworkIOBuffer(int sizeInBytes)
 		{ MediaSourceNetworkIOBufSize = (unsigned)sizeInBytes; }
+
+		static event UrlSegmentUpdateEventHandler^ UrlSegmentUpdateEvent;
 
 	private:
 		Core() {}

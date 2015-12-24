@@ -142,7 +142,7 @@ void UrlHandler::ThreadInvoke(void*)
 		if (s == NULL) {
 			_result->SetStatus(E_OUTOFMEMORY);
 		}else{
-			if (s->Open()) {
+			if (s->Open(this)) {
 				_stream.Attach(static_cast<IMFByteStream*>(s));
 			}else{
 				_result->SetStatus(E_FAIL);

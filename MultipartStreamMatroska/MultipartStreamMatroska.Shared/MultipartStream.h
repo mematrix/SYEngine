@@ -35,7 +35,7 @@ class MultipartStream :
 
 public:
 	explicit MultipartStream(const wchar_t* list) :
-		_ref_count(1), _state(Invalid), _flag_eof(false), _flag_user_stop(false),
+		_ref_count(1), _state(Invalid), _flag_eof(false), _flag_user_stop(false), _update_url_callback(NULL),
 		_stm_length(0), _stm_cur_pos(0), _header_prue_size(0), _download_progress(100), _closed(true) {
 		_event_async_read = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_event_exit_thr = CreateEventExW(NULL, NULL, CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
@@ -55,7 +55,7 @@ public:
 		Module<InProc>::GetModule().DecrementObjectCount();
 	}
 
-	bool Open();
+	bool Open(IMFAttributes* config = NULL);
 
 public: //IUnknown
 	STDMETHODIMP_(ULONG) AddRef()
@@ -198,6 +198,9 @@ private:
 	bool WaitTimeSeekResult();
 	void DoTimeSeekAsync(double time);
 
+	void InitUpdateUrlCb(IMFAttributes* cfg);
+	bool TryUpdateItemUrl(int index);
+
 private:
 	ULONG _ref_count; //COM引用计数
 	std::recursive_mutex _mutex; //安全同步lock
@@ -209,6 +212,9 @@ private:
 
 	MemoryStream _header; //存储MKV头+第一个Cluster
 	unsigned _header_prue_size; //仅MKV头的大小
+
+	bool _network_mode;
+	void* _update_url_callback;
 
 	struct AsyncReadParameters
 	{

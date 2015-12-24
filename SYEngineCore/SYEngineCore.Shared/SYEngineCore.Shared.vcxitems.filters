@@ -14,5 +14,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionActivate.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionInstaller.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionCallback.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SegmentCallback.cpp" />
   </ItemGroup>
 </Project>

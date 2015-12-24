@@ -111,13 +111,17 @@ char* Playlist::SerializeForNetworkHttp()
 	if (_cfgs.HttpUserAgent)
 		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpUserAgent->Data(), -1, user_agent, 1024, NULL, NULL);
 
+	auto uniqueId = (char*)calloc(2, 256);
+	if (_cfgs.UniqueId)
+		WideCharToMultiByte(CP_ACP, 0, _cfgs.UniqueId->Data(), -1, uniqueId, 512, NULL, NULL);
+
 	double duration = _cfgs.ExplicitTotalDurationSeconds;
 	if (duration < 0.1) {
 		for (auto i = _list.begin(); i != _list.end(); ++i)
 			duration += (double)i->DurationInSeconds;
 	}
 
-	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
+	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
 		(int)(duration * 1000.0),
 		(_cfgs.DetectDurationForParts ? "FULL" : "NO"),
 		(_cfgs.FetchNextPartThresholdSeconds > 1 ? _cfgs.FetchNextPartThresholdSeconds : 30),
@@ -127,7 +131,8 @@ char* Playlist::SerializeForNetworkHttp()
 		"NULL",
 		cookie,
 		referer,
-		user_agent);
+		user_agent,
+		uniqueId);
 
 	for (auto i = _list.begin(); i != _list.end(); ++i) {
 		if (i->SizeInBytes > 0 || i->DurationInSeconds > 0.1f) {
@@ -144,5 +149,6 @@ char* Playlist::SerializeForNetworkHttp()
 	free(cookie);
 	free(referer);
 	free(user_agent);
+	free(uniqueId);
 	return p;
 }

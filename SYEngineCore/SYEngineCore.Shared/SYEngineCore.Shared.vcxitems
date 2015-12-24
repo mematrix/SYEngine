@@ -30,5 +30,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionInstaller.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Playlist.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SegmentCallback.cpp" />
   </ItemGroup>
 </Project>
