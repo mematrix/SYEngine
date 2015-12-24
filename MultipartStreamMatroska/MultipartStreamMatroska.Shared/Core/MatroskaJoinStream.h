@@ -79,7 +79,7 @@ protected:
 			char UserAgent[512];
 		};
 		HttpProfile Http;
-		char UniqueId[256];
+		char* UniqueId;
 	};
 	struct Item //单个分段的信息
 	{

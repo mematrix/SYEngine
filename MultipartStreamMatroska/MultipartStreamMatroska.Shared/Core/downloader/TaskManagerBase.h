@@ -19,6 +19,8 @@ namespace Downloader {
 		virtual Core::CommonResult AddTask(Core::Task* task, Core::TaskId* id);
 		virtual Core::CommonResult RemoveTask(Core::TaskId id);
 
+		virtual Core::CommonResult UpdateTask(Core::TaskId id, Core::Task* new_task_info);
+
 		virtual unsigned GetTaskCapacity() { return _MAX_DOWNLOAD_ITEM_COUNT; }
 		virtual unsigned GetTaskCount();
 		virtual Core::DataSource* GetDataSource(Core::TaskId id);

@@ -25,6 +25,8 @@ namespace SYEngineCore
 		{ MediaSourceNetworkIOBufSize = (unsigned)sizeInBytes; }
 
 		static event UrlSegmentUpdateEventHandler^ UrlSegmentUpdateEvent;
+	internal:
+		static LPSTR CALLBACK DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
 
 	private:
 		Core() {}

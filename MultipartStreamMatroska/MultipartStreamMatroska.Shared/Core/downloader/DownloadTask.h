@@ -40,6 +40,9 @@ namespace Core {
 		virtual CommonResult AddTask(Task* task, TaskId* id) = 0;
 		virtual CommonResult RemoveTask(TaskId id) = 0; //±ÿ–Îœ»StopTask
 
+		virtual CommonResult UpdateTask(TaskId id, Task* new_task_info)
+		{ return CommonResult::kUnsupported; }
+
 		virtual unsigned GetTaskCapacity() { return INT32_MAX; }
 		virtual unsigned GetTaskCount() = 0;
 		virtual DataSource* GetDataSource(TaskId id) = 0;

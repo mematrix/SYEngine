@@ -33,11 +33,20 @@ namespace SYEngineRuntime
             this.Suspending += this.OnSuspending;
         }
 
+        private string OnUrlSegmentUpdateEvent(string uniqueId, int curIndex, int totalCount, string curUrl)
+        {
+            System.Diagnostics.Debug.WriteLine(uniqueId);
+            System.Diagnostics.Debug.WriteLine(curUrl);
+            //return "http://ws.acgvideo.com/f/dc/3425953-1.flv";
+            return string.Empty;
+        }
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             SYEngineCore.Core.Initialize();
             SYEngineCore.Core.ChangeNetworkPreloadTime(2.0);
             //SYEngineCore.Core.ChangeNetworkIOBuffer(32 * 1024);
+            SYEngineCore.Core.UrlSegmentUpdateEvent += OnUrlSegmentUpdateEvent;
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

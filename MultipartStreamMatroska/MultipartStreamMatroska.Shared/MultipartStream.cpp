@@ -566,7 +566,8 @@ bool MultipartStream::TryUpdateItemUrl(int index)
 	if (_update_url_callback == NULL)
 		return false;
 
-	if (GetConfigs()->UniqueId[0] == 0)
+	if (GetConfigs()->UniqueId == NULL ||
+		strlen(GetConfigs()->UniqueId) == 0)
 		return false;
 
 	auto cb = (UPDATE_ITEM_URL_CALLBACK)_update_url_callback;
