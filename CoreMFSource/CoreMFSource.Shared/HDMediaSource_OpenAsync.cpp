@@ -402,8 +402,11 @@ HRESULT HDMediaSource::DoOpen()
 
 	if (readFlags != 0)
 		parser->SetReadFlags(readFlags);
-	if (_network_mode)
+	if (_network_mode) {
 		parser->SetIoCacheSize(64 * 1024); //network stream io buf size: 64K
+		if (GlobalOptionGetUINT32(kNetworkPacketIOBufSize) > 1024)
+			parser->SetIoCacheSize(GlobalOptionGetUINT32(kNetworkPacketIOBufSize));
+	}
 
 	auto err = parser->Open(pMediaIO);
 	if (AVE_FAILED(err))

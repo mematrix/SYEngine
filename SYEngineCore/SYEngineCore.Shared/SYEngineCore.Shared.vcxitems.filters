@@ -13,5 +13,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Playlist.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionActivate.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionInstaller.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionCallback.cpp" />
   </ItemGroup>
 </Project>
