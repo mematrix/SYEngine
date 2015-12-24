@@ -2,3 +2,5 @@ EXPORTS
 	DllCanUnloadNow PRIVATE
 	DllGetClassObject PRIVATE
 	DllGetActivationFactory PRIVATE
+	GetCoreMFsGlobalSettings
+	GetCoreMFsGlobalCS

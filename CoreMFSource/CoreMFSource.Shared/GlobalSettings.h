@@ -33,6 +33,11 @@ DEFINE_GUID(kNetworkByteStreamBufferTime,
 DEFINE_GUID(kNetworkPacketBufferTime,
 0xbf18cece,0x34a6,0x4601,0xba,0x51,0xec,0x48,0x5d,0x13,0x7a,0x5);
 
+//NetworkPacketIOBufSize -> Double
+//{BF18CECE-34A6-4601-BA51-EC485D137A06}
+DEFINE_GUID(kNetworkPacketIOBufSize,
+0xbf18cece,0x34a6,0x4601,0xba,0x51,0xec,0x48,0x5d,0x13,0x7a,0x6);
+
 //NetworkForceUseSyncIO
 //{34CBC2F7-5F03-45A4-A3E1-B6783F7E1B9E}
 DEFINE_GUID(kNetworkForceUseSyncIO,

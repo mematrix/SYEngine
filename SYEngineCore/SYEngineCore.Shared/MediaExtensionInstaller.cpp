@@ -1,11 +1,15 @@
 #include "MediaExtensionInstaller.h"
 #include "AutoLib.h"
 
+void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWSTR activatableClassId, HMODULE hmod, IUnknown* punk);
+
 static bool CreateMediaExtensionActivate(REFCLSID clsid, REFIID iid, LPCWSTR activatableClassId, LPCWSTR dllfile, IMFActivate** pa)
 {
 	auto thunk = new(std::nothrow) MediaExtensionActivate(clsid, iid, activatableClassId, dllfile);
 	if (thunk == nullptr)
 		return false;
+
+	thunk->SetCallbackObjectActivated(DefaultMediaExtensionActivatedEventCallback);
 	*pa = thunk;
 	return true;
 }

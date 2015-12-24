@@ -3,11 +3,17 @@
 #include "pch.h"
 #include <mutex>
 
+typedef void (CALLBACK* MediaExtensionActivatedEventCallback)
+(LPCWSTR dllfile, LPCWSTR activatableClassId, HMODULE hmod, IUnknown* punk);
+
 class MediaExtensionActivate sealed : public IMFActivate
 {
 public:
 	MediaExtensionActivate(REFCLSID clsid, REFIID iid, LPCWSTR activatableClassId, LPCWSTR dllfile);
 	~MediaExtensionActivate() {}
+
+	void SetCallbackObjectActivated(MediaExtensionActivatedEventCallback callback) throw()
+	{ _callback = callback; }
 
 public:
 	STDMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&_ref_count); }
@@ -97,6 +103,7 @@ private:
 
 	ComPtr<IUnknown> _instance;
 	HMODULE _module;
+	MediaExtensionActivatedEventCallback _callback;
 
 	std::recursive_mutex _mutex;
 };

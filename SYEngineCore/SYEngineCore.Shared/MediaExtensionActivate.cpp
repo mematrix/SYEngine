@@ -10,6 +10,7 @@ MediaExtensionActivate::MediaExtensionActivate(REFCLSID clsid, REFIID iid, LPCWS
 	_obj_info.clsid = clsid;
 	_obj_info.iid = iid;
 	_module = NULL;
+	_callback = NULL;
 }
 
 HRESULT MediaExtensionActivate::ActivateObject(REFIID riid, void **ppv)
@@ -57,6 +58,9 @@ HRESULT MediaExtensionActivate::ActivateObject(REFIID riid, void **ppv)
 	_module = module;
 	*ppv = _instance.Get();
 	_instance.Get()->AddRef();
+
+	if (_callback)
+		_callback(_obj_info.file, _obj_info.activatableClassId, _module, _instance.Get());
 	return S_OK;
 }
 
