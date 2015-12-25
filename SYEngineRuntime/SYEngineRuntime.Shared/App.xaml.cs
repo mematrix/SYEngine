@@ -33,9 +33,10 @@ namespace SYEngineRuntime
             this.Suspending += this.OnSuspending;
         }
 
-        private string OnUrlSegmentUpdateEvent(string uniqueId, int curIndex, int totalCount, string curUrl)
+        private string OnUrlSegmentUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, string curUrl)
         {
             System.Diagnostics.Debug.WriteLine(uniqueId);
+            System.Diagnostics.Debug.WriteLine(opType);
             System.Diagnostics.Debug.WriteLine(curUrl);
             //return "http://ws.acgvideo.com/f/dc/3425953-1.flv";
             return string.Empty;

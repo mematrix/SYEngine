@@ -54,21 +54,26 @@ void Core::Uninitialize()
 	Installer = nullptr;
 }
 
-LPSTR CALLBACK Core::DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl)
+LPSTR CALLBACK Core::DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl)
 {
 	int len1 = (int)strlen(uniqueId) * 3;
-	int len2 = (int)strlen(strCurrentUrl) * 3;
+	int len2 = (int)strlen(opType) * 3;
+	int len3 = (int)strlen(strCurrentUrl) * 3;
 	auto w_uniqueId = (wchar_t*)malloc(len1);
-	auto w_strCurrentUrl = (wchar_t*)malloc(len2);
+	auto w_opType = (wchar_t*)malloc(len2);
+	auto w_strCurrentUrl = (wchar_t*)malloc(len3);
 	MultiByteToWideChar(CP_ACP, 0, uniqueId, -1, w_uniqueId, len1 / 2);
-	MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, w_strCurrentUrl, len2 / 2);
+	MultiByteToWideChar(CP_ACP, 0, opType, -1, w_opType, len2 / 2);
+	MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, w_strCurrentUrl, len3 / 2);
 
 	auto uid = ref new Platform::String(w_uniqueId);
+	auto typ = ref new Platform::String(w_opType);
 	auto url = ref new Platform::String(w_strCurrentUrl);
 	free(w_uniqueId);
+	free(w_opType);
 	free(w_strCurrentUrl);
 
-	auto result = UrlSegmentUpdateEvent(uid, nCurrentIndex, nTotalCount, url);
+	auto result = UrlSegmentUpdateEvent(uid, typ, nCurrentIndex, nTotalCount, url);
 	if (result == nullptr)
 		return NULL;
 	if (result->Length() == 0)

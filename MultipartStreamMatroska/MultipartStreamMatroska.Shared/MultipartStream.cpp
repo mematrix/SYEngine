@@ -1,6 +1,6 @@
 #include "MultipartStream.h"
 
-typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
+typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
 //返回NULL表示不更新URL
 //返回一个字符串更新URL，返回值使用CoTaskMemAlloc申请，会被自动释放
 
@@ -474,7 +474,7 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 			GetConfigs()->PreloadNextPartRemainSeconds) {
 			if ((!DownloadItemIsStarted(GetIndex() + 1)) &&
 				(GetIndex() < (GetItemCount() - 1)))
-				TryUpdateItemUrl(GetIndex() + 1);
+				TryUpdateItemUrl(GetIndex() + 1, "NEXT");
 				DownloadNextItem(); //启动下一个的item的下载
 		}
 
@@ -497,7 +497,7 @@ bool MultipartStream::SeekTo(double time)
 
 	int index = GetIndexByTime(time);
 	if (index != -1) {
-		if (TryUpdateItemUrl(index)) {
+		if (TryUpdateItemUrl(index, "SEEK")) {
 			for (unsigned i = (index + 1); i < GetItemCount(); i++)
 				DownloadItemStop(i);
 		}
@@ -512,7 +512,7 @@ bool MultipartStream::SeekTo(double time)
 
 bool MultipartStream::Reset(bool timeseek)
 {
-	TryUpdateItemUrl(0);
+	TryUpdateItemUrl(0, "SEEK");
 	if (timeseek) {
 		//AfterSeek
 		//不需要跳过第一个packet
@@ -559,7 +559,7 @@ void MultipartStream::InitUpdateUrlCb(IMFAttributes* cfg)
 		_update_url_callback = (void*)ptr;
 }
 
-bool MultipartStream::TryUpdateItemUrl(int index)
+bool MultipartStream::TryUpdateItemUrl(int index, const char* type)
 {
 	if (!_network_mode)
 		return false;
@@ -572,7 +572,7 @@ bool MultipartStream::TryUpdateItemUrl(int index)
 
 	auto cb = (UPDATE_ITEM_URL_CALLBACK)_update_url_callback;
 	auto item = GetItems() + index;
-	auto url = cb(GetConfigs()->UniqueId, index, GetItemCount(), item->Url);
+	auto url = cb(GetConfigs()->UniqueId, type, index, GetItemCount(), item->Url);
 	if (url == NULL)
 		return false;
 
