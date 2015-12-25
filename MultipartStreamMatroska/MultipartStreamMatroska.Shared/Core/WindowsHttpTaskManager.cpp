@@ -52,6 +52,16 @@ bool WindowsHttpTaskManager::OnResumeTask(int index)
 	return true;
 }
 
+bool WindowsHttpTaskManager::OnUpdateTask(int index, Item* new_task_info)
+{
+	Item* file = InternalGetItem(index);
+	if (file->Source == NULL)
+		return true;
+	auto src = static_cast<WindowsHttpDataSource*>(file->Source);
+	src->UpdateUrl(new_task_info->Url);
+	return true;
+}
+
 void WindowsHttpTaskManager::DestroyTasks() throw()
 {
 	for (unsigned i = 0; i < GetTaskCapacity(); i++) {

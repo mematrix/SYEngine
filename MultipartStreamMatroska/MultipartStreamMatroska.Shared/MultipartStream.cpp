@@ -1,5 +1,7 @@
 #include "MultipartStream.h"
 
+#define DEFAULT_GAP_TICK_TIME_MS (1000 * 60) //60 seconds.
+
 typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
 //返回NULL表示不更新URL
 //返回一个字符串更新URL，返回值使用CoTaskMemAlloc申请，会被自动释放
@@ -318,6 +320,8 @@ HRESULT MultipartStream::TimeSeek(QWORD qwTimePosition)
 
 	_async_time_seek.seekThread = thr;
 	WaitForSingleObjectEx(_async_time_seek.eventStarted, INFINITE, FALSE);
+
+	_prev_readfile_tick = 0;
 	return S_OK;
 }
 
@@ -381,6 +385,7 @@ bool MultipartStream::Open(IMFAttributes* config)
 		InitUpdateUrlCb(config); //订阅更新每个item的url的callback
 	}
 
+	_prev_readfile_tick = 0;
 	_state = AfterOpen; //状态是Open后
 	return true;
 }
@@ -461,6 +466,20 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 		_stm_cur_pos = _header.GetOffset();
 	}else{
 		//当前指针已经超过以上范围，或者是AfterSeek...
+
+		if (_prev_readfile_tick > 0) {
+			int gap_tick = (int)(GetTickCount64() - _prev_readfile_tick);
+			if (gap_tick > DEFAULT_GAP_TICK_TIME_MS) {
+				//如果暂停了一段时间又恢复，通知APP可能需要更新新的URL
+				if (TryUpdateItemUrl(GetIndex(), "GAP")) {
+					if ((GetIndex() < (GetItemCount() - 1))) {
+						if (DownloadItemIsStarted(GetIndex() + 1))
+							DownloadItemStop(GetIndex() + 1);
+					}
+				}
+			}
+		}
+
 		if (_flag_user_stop) {
 			_flag_user_stop = false;
 			DownloadItemStart(GetIndex()); //如果用户暂停了下载，恢复
@@ -478,15 +497,12 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 				DownloadNextItem(); //启动下一个的item的下载
 		}
 
-		/*
-		//如果当前处理的这个part已经过半，缓存下一个
-		if (GetCurrentPartReadSize() > 
-			(GetCurrentPartTotalSize() / 2))
-			DownloadNextItem(); //启动下一个的item的下载
-		*/
+		_prev_readfile_tick = GetTickCount64();
 	}
-	if (allow_size == 0)
+	if (allow_size == 0) {
 		_flag_eof = true;
+		_prev_readfile_tick = 0;
+	}
 	return allow_size;
 }
 

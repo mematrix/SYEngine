@@ -140,9 +140,9 @@ bool MatroskaJoinStream::MatroskaTimeSeek(double seconds)
 		if (RunDownload(new_index)) {
 			_tasks->GetDataSource(new_index)->SetPosition(0); //复原pos
 			_io_stream.SwapDs(_tasks->GetDataSource(new_index));
-			if (_merger->PutNewInput(&_io_stream)) //载入新的分段输入
+			if (_merger->PutNewInput(&_io_stream)) //载入新的分段输入 (网络IO一次)
 				if (_merger->GetDemuxObject() != NULL)
-					result = _merger->GetDemuxObject()->TimeSeek(seek_time); //做seek
+					result = _merger->GetDemuxObject()->TimeSeek(seek_time); //做seek (网络IO两次)
 		}
 	}
 	if (!result)

@@ -60,6 +60,7 @@ namespace Downloader {
 
 		virtual bool OnNewTask(Item* task, int index) { return true; } //还没有添加到list
 		virtual bool OnRemoveTask(int index) { return true; }
+		virtual bool OnUpdateTask(int index, Item* new_task_info) { return true; }
 
 		virtual bool OnStartTask(int index) { return false; }
 		virtual bool OnStopTask(int index) { return false; }

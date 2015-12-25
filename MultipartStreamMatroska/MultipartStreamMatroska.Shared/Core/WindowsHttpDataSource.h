@@ -37,6 +37,11 @@ namespace Windows {
 		virtual Core::CommonResult StopBuffering()
 		{ if (_downloader) _downloader->PauseBuffering(); return Core::CommonResult::kSuccess; }
 
+		void UpdateUrl(const char* url)
+		{ if (_cfgs.Url) free(_cfgs.Url); _cfgs.Url = strdup(url); }
+		void UpdateCookie(const char* cookie)
+		{ if (_cfgs.Cookie) free(_cfgs.Cookie); _cfgs.Cookie = strdup(cookie); }
+
 	private:
 		void DestroyObjects();
 

@@ -22,6 +22,8 @@ namespace Windows {
 		virtual bool OnPauseTask(int index);
 		virtual bool OnResumeTask(int index);
 
+		virtual bool OnUpdateTask(int index, Item* new_task_info);
+
 		virtual void OnUnload() { DestroyTasks(); }
 
 	private:

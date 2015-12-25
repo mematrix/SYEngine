@@ -61,6 +61,11 @@ CommonResult TaskManagerBase::UpdateTask(TaskId id, Task* new_task_info)
 	Item item = {};
 	if (!CopyTaskToItem(new_task_info, &item))
 		return CommonResult::kInvalidInput;
+	if (!OnUpdateTask(id, &item))
+		return CommonResult::kError;
+	item.Source = _items[id].Source;
+	item.Context = _items[id].Context;
+	item.State = _items[id].State;
 	FreeItem(&_items[id]);
 	_items[id] = item;
 	return CommonResult::kSuccess;

@@ -38,8 +38,9 @@ namespace SYEngineRuntime
             System.Diagnostics.Debug.WriteLine(uniqueId);
             System.Diagnostics.Debug.WriteLine(opType);
             System.Diagnostics.Debug.WriteLine(curUrl);
-            //return "http://ws.acgvideo.com/f/dc/3425953-1.flv";
-            return string.Empty;
+            string result = string.Empty;
+            //result = "http://ws.acgvideo.com/f/dc/3425953-1.flv";
+            return result;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
