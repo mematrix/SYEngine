@@ -12,7 +12,7 @@ namespace SYEngineCore
 	static MediaExtensionInstaller* Installer;
 
 	public delegate Platform::String^ UrlSegmentUpdateEventHandler
-	(Platform::String^ uniqueId, int curIndex, int totalCount, Platform::String^ curUrl);
+	(Platform::String^ uniqueId, Platform::String^ opType, int curIndex, int totalCount, Platform::String^ curUrl);
 	public ref class Core sealed
 	{
 	public:
@@ -26,7 +26,7 @@ namespace SYEngineCore
 
 		static event UrlSegmentUpdateEventHandler^ UrlSegmentUpdateEvent;
 	internal:
-		static LPSTR CALLBACK DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
+		static LPSTR CALLBACK DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
 
 	private:
 		Core() {}

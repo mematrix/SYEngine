@@ -199,7 +199,7 @@ private:
 	void DoTimeSeekAsync(double time);
 
 	void InitUpdateUrlCb(IMFAttributes* cfg);
-	bool TryUpdateItemUrl(int index);
+	bool TryUpdateItemUrl(int index, const char* type);
 
 private:
 	ULONG _ref_count; //COM引用计数
