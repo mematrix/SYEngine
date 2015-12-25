@@ -56,15 +56,15 @@ void Core::Uninitialize()
 
 LPSTR CALLBACK Core::DefaultUrlSegmentUpdateCallback(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl)
 {
-	int len1 = (int)strlen(uniqueId) * 3;
-	int len2 = (int)strlen(opType) * 3;
-	int len3 = (int)strlen(strCurrentUrl) * 3;
-	auto w_uniqueId = (wchar_t*)malloc(len1);
-	auto w_opType = (wchar_t*)malloc(len2);
-	auto w_strCurrentUrl = (wchar_t*)malloc(len3);
-	MultiByteToWideChar(CP_ACP, 0, uniqueId, -1, w_uniqueId, len1 / 2);
-	MultiByteToWideChar(CP_ACP, 0, opType, -1, w_opType, len2 / 2);
-	MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, w_strCurrentUrl, len3 / 2);
+	int len1 = MultiByteToWideChar(CP_ACP, 0, uniqueId, -1, NULL, 0);
+	int len2 = MultiByteToWideChar(CP_ACP, 0, opType, -1, NULL, 0);
+	int len3 = MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, NULL, 0);
+	auto w_uniqueId = (wchar_t*)calloc(2, len1);
+	auto w_opType = (wchar_t*)calloc(2, len2);
+	auto w_strCurrentUrl = (wchar_t*)calloc(2, len3);
+	MultiByteToWideChar(CP_ACP, 0, uniqueId, -1, w_uniqueId, len1 + 1);
+	MultiByteToWideChar(CP_ACP, 0, opType, -1, w_opType, len2 + 1);
+	MultiByteToWideChar(CP_ACP, 0, strCurrentUrl, -1, w_strCurrentUrl, len3 + 1);
 
 	auto uid = ref new Platform::String(w_uniqueId);
 	auto typ = ref new Platform::String(w_opType);

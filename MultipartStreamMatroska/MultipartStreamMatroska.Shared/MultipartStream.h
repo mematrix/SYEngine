@@ -216,6 +216,8 @@ private:
 	bool _network_mode;
 	void* _update_url_callback;
 
+	ULONG64 _prev_readfile_tick;
+
 	struct AsyncReadParameters
 	{
 		PBYTE pb;
