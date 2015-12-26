@@ -128,7 +128,7 @@ bool WindowsHttpDownloader::GetIsGZip() throw()
 	return wcsstr(temp, L"gzip") != NULL;
 }
 
-unsigned WindowsHttpDownloader::GetBufferedSize() throw()
+unsigned WindowsHttpDownloader::GetBufferedReadableSize() throw()
 {
 	std::lock_guard<decltype(_buf_lock)> lock(_buf_lock);
 	return _buffered.GetReadableSize();
@@ -141,6 +141,14 @@ unsigned WindowsHttpDownloader::ReadBufferedBytes(void* buf, unsigned size) thro
 	if (_buffered.IsBlockWriteable())
 		SetEvent(_event_download);
 	return result;
+}
+
+bool WindowsHttpDownloader::ForwardSeekInBufferedReadableSize(unsigned skip_bytes) throw()
+{
+	std::lock_guard<decltype(_buf_lock)> lock(_buf_lock);
+	if (skip_bytes >= _buffered.GetReadableSize())
+		return false;
+	return _buffered.ForwardSeekInReadableRange(skip_bytes);
 }
 
 void WindowsHttpDownloader::PauseBuffering()

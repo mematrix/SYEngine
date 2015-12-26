@@ -44,8 +44,9 @@ public:
 	bool GetIsChunked() throw();
 	bool GetIsGZip() throw();
 
-	unsigned GetBufferedSize() throw();
+	unsigned GetBufferedReadableSize() throw();
 	unsigned ReadBufferedBytes(void* buf, unsigned size) throw();
+	bool ForwardSeekInBufferedReadableSize(unsigned skip_bytes) throw();
 
 	void PauseBuffering();
 	void ResumeBuffering(bool force = false);
