@@ -67,6 +67,8 @@ namespace SYEngineRuntime
             cfgs.HttpReferer = string.Empty;
             cfgs.HttpCookie = string.Empty;
             cfgs.UniqueId = System.IO.Path.GetFileNameWithoutExtension(tboxNetworkUri.Text);
+            cfgs.BufferBlockSizeKB = 64; //one block is 64KB
+            cfgs.BufferBlockCount = 160; //160 * 64K = 10M network io buf.
             plist.NetworkConfigs = cfgs;
             plist.Append(tboxNetworkUri.Text, 0, 0);
             var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());

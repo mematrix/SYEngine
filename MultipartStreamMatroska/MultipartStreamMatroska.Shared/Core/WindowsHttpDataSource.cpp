@@ -101,6 +101,20 @@ CommonResult WindowsHttpDataSource::SetPosition(int64_t offset)
 	if (offset == _cur_pos)
 		return CommonResult::kSuccess;
 
+	if (offset != 0 && offset > _cur_pos) {
+		//尝试在已经缓冲的区域内seek（不执行ReconnectAtOffset，这样会重新下载）
+		unsigned buf_size = _downloader->GetBufferedReadableSize();
+		if (buf_size > 0) {
+			if (offset < (buf_size + _cur_pos - 1024)) {
+				unsigned skip_bytes = (unsigned)(offset - _cur_pos);
+				if (_downloader->ForwardSeekInBufferedReadableSize(skip_bytes)) {
+					_cur_pos = offset;
+					return CommonResult::kSuccess;
+				}
+			}
+		}
+	}
+
 	return ReconnectAtOffset(offset);
 }
 
@@ -232,7 +246,7 @@ void WindowsHttpDataSource::DiscardDownloadTask()
 
 unsigned WindowsHttpDataSource::ReadInBuffered(void* buf, unsigned size)
 {
-	unsigned rs = _downloader->GetBufferedSize();
+	unsigned rs = _downloader->GetBufferedReadableSize();
 	if (rs == 0)
 		return 0;
 	rs = size > rs ? rs : size;

@@ -143,12 +143,46 @@ unsigned RingBlockBuffer::GetReadableSize()
 {
 	unsigned size = 0;
 	for (unsigned i = _read_block_index; i < _max_block_count; i++) {
-		Block* b = GetBlock(i); //取得每一个block
+		auto b = GetBlock(i); //取得每一个block
 		if (b->Stream->GetLength() == 0) //如果有一个block没有任何数据，就break
 			break;
-		size += b->Stream->GetLength(); //累加每个block的数据量
+		size += (b->Stream->GetLength() - b->ReadOffset); //累加每个block的数据量
 	}
 	return size;
+}
+
+bool RingBlockBuffer::ForwardSeekInReadableRange(unsigned skip_bytes)
+{
+	unsigned prev_total_size = 0;
+	unsigned block_index = INT_MAX;
+	for (unsigned i = _read_block_index; i < _max_block_count; i++) {
+		auto b = GetBlock(i);
+		if (b->Stream->GetLength() == 0)
+			break;
+		unsigned now_size = b->Stream->GetLength() - b->ReadOffset;
+		if ((now_size + prev_total_size) >= skip_bytes) {
+			block_index = i;
+			break;
+		}
+		prev_total_size += now_size;
+	}
+	if (block_index == INT_MAX)
+		return false;
+
+	auto cur_block = GetBlock(block_index);
+	unsigned cur_block_read_offset = skip_bytes - prev_total_size;
+	if (cur_block->ReadOffset + cur_block_read_offset >= cur_block->Stream->GetLength())
+		return false;
+
+	for (unsigned i = _read_block_index; i < block_index; i++) {
+		auto b = GetBlock(i);
+		b->Stream->SetLength(0);
+		b->ReadOffset = 0;
+		b->WriteAllowFlag = true;
+	}
+	cur_block->ReadOffset += cur_block_read_offset;
+	_read_block_index = block_index;
+	return true;
 }
 
 bool RingBlockBuffer::AllocBlockList()

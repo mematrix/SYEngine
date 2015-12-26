@@ -33,6 +33,8 @@ public:
 	bool IsBlockWriteable()
 	{ return GetBlock(_write_block_index)->WriteAllowFlag; }
 
+	bool ForwardSeekInReadableRange(unsigned skip_bytes);
+
 private:
 	inline Block* GetBlock(unsigned index)
 	{ return _blocks + index; }
