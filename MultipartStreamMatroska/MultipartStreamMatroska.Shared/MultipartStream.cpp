@@ -386,6 +386,7 @@ bool MultipartStream::Open(IMFAttributes* config)
 	}
 
 	_prev_readfile_tick = 0;
+	_closed = false;
 	_state = AfterOpen; //×´Ì¬ÊÇOpenºó
 	return true;
 }

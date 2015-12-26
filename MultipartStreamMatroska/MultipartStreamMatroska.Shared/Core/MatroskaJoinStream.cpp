@@ -563,6 +563,7 @@ void MatroskaJoinStream::FreeResources()
 {
 	if (_cfgs.UniqueId)
 		free(_cfgs.UniqueId);
+	_cfgs.UniqueId = NULL;
 
 	_header.Free();
 	_buffer.SetLength(0);
