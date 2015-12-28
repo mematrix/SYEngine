@@ -45,6 +45,7 @@ namespace SYEngineRuntime
         private bool OnPlaylistSegmentDetailUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, SYEngineCore.IPlaylistNetworkUpdateInfo info)
         {
             System.Diagnostics.Debug.WriteLine(info.Url);
+            info.SetRequestHeader("User-Agent", "SYEngine Demo Application");
             info.SetRequestHeader("Cookie", uniqueId);
             info.SetRequestHeader("Referer", "http://www.example.com");
             info.Url = "http://example.com/xxx/xxx.flv";
