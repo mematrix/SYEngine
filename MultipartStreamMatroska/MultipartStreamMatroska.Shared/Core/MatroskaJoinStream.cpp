@@ -50,10 +50,12 @@ bool MatroskaJoinStream::Init(const wchar_t* list_file)
 		if (!ProcessItemList()) //载入所有list项目
 			return false;
 
+	if (!OnPartInit())
+		return false;
+
 	if (!ProcessFirstItem() ||
 		!ProcessFirstPacket()) //初始化容器
 		return false;
-
 	return true;
 }
 

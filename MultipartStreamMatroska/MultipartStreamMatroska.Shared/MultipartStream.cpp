@@ -363,6 +363,7 @@ bool MultipartStream::Open(IMFAttributes* config)
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 
+	InitUpdateUrlCb(config); //订阅更新每个item的url的callback
 	if (!Init(_list_file)) //初始化父类资源，核心代码
 		return false;
 	if (MatroskaHeadBytes()->Length() == 0)
@@ -396,9 +397,6 @@ bool MultipartStream::Open(IMFAttributes* config)
 	if (GetItems()->Url[1] != L':') { //给自己的MFSource的一个flag
 		_attrs->SetString(MF_BYTESTREAM_CONTENT_TYPE, L"video/force-network-stream");
 		_attrs->SetUINT32(MF_BYTESTREAM_TRANSCODED, 1234);
-
-		_network_mode = true;
-		InitUpdateUrlCb(config); //订阅更新每个item的url的callback
 	}
 
 	_prev_readfile_tick = 0;
@@ -599,8 +597,6 @@ void MultipartStream::InitUpdateUrlCb(IMFAttributes* cfg)
 
 bool MultipartStream::TryUpdateItemUrl(int index, const char* type)
 {
-	if (!_network_mode)
-		return false;
 	if (_update_url_callback == NULL &&
 		_update_detail_callback == NULL)
 		return false;
