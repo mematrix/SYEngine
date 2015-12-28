@@ -216,6 +216,8 @@ BOOL CALLBACK Core::DefaultPlaylistSegmentDetailUpdateCallback(LPCSTR uniqueId, 
 	if (info->Url->Length() == 0 ||
 		wcsstr(info->Url->Data(), L":") == NULL)
 		return FALSE;
+	if (wcscmp(info->Url->Data(), url->Data()) == 0)
+		return FALSE;
 
 	auto result = info->GetAllRequestHeaders();
 	if (result == NULL)
