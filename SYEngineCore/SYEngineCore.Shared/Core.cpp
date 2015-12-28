@@ -227,5 +227,7 @@ BOOL CALLBACK Core::DefaultPlaylistSegmentDetailUpdateCallback(LPCSTR uniqueId, 
 	int len = WideCharToMultiByte(CP_ACP, 0, result, -1, NULL, 0, NULL, NULL);
 	v->pszRequestHeaders = (LPSTR)CoTaskMemAlloc(len * 2);
 	WideCharToMultiByte(CP_ACP, 0, result, -1, v->pszRequestHeaders, len + 1, NULL, NULL);
+
+	free(result);
 	return TRUE;
 }
