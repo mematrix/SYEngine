@@ -389,7 +389,7 @@ bool MatroskaJoinStream::PrepareDownloader()
 		if (item->Url == NULL)
 			goto task_err;
 
-		Downloader::Core::Task task = {};
+		Downloader::Core::Task task;
 		task.Timeout = DEFAULT_DOWNLOAD_TIMEOUT;
 		task.SetUrl(item->Url);
 		task.SetOthers(_cfgs.Http.RefUrl[0] != 0 ? _cfgs.Http.RefUrl : NULL,
@@ -579,7 +579,7 @@ void MatroskaJoinStream::FreeResources()
 	}
 }
 
-void MatroskaJoinStream::UpdateItemInfo(int index, char* url, unsigned size, double duration)
+void MatroskaJoinStream::UpdateItemInfo(int index, const char* url, const char* req_headers, int timeout, unsigned size, double duration)
 {
 	if (index >= (int)_item_count)
 		return;
@@ -595,9 +595,10 @@ void MatroskaJoinStream::UpdateItemInfo(int index, char* url, unsigned size, dou
 	if (duration != item->Duration && duration > 0.1)
 		item->Duration = duration;
 
-	Downloader::Core::Task task = {};
-	task.Timeout = DEFAULT_DOWNLOAD_TIMEOUT;
+	Downloader::Core::Task task;
+	task.Timeout = timeout > 1 ? timeout : DEFAULT_DOWNLOAD_TIMEOUT;
 	task.SetUrl(item->Url);
+	task.SetRequestHeaders(req_headers);
 	task.SetOthers(_cfgs.Http.RefUrl[0] != 0 ? _cfgs.Http.RefUrl : NULL,
 		_cfgs.Http.Cookie[0] != 0 ? _cfgs.Http.Cookie : NULL,
 		_cfgs.Http.UserAgent[0] != 0 ? _cfgs.Http.UserAgent : NULL);

@@ -35,8 +35,9 @@ class MultipartStream :
 
 public:
 	explicit MultipartStream(const wchar_t* list) :
-		_ref_count(1), _state(Invalid), _flag_eof(false), _flag_user_stop(false), _update_url_callback(NULL),
+		_ref_count(1), _state(Invalid), _flag_eof(false), _flag_user_stop(false),
 		_stm_length(0), _stm_cur_pos(0), _header_prue_size(0), _download_progress(100), _closed(true) {
+		_update_url_callback = _update_detail_callback = NULL;
 		_event_async_read = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_event_exit_thr = CreateEventExW(NULL, NULL, CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
 		_async_time_seek.eventStarted = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
@@ -214,7 +215,7 @@ private:
 	unsigned _header_prue_size; //仅MKV头的大小
 
 	bool _network_mode;
-	void* _update_url_callback;
+	void *_update_url_callback, *_update_detail_callback;
 
 	ULONG64 _prev_readfile_tick;
 

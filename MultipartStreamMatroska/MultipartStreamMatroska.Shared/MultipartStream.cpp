@@ -2,9 +2,25 @@
 
 #define DEFAULT_GAP_TICK_TIME_MS (1000 * 60) //60 seconds.
 
-typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId, LPCSTR opType, int nCurrentIndex, int nTotalCount, LPCSTR strCurrentUrl);
+typedef LPSTR (CALLBACK* UPDATE_ITEM_URL_CALLBACK)(LPCSTR uniqueId,
+	LPCSTR opType,
+	int nCurrentIndex,
+	int nTotalCount,
+	LPCSTR strCurrentUrl);
 //返回NULL表示不更新URL
 //返回一个字符串更新URL，返回值使用CoTaskMemAlloc申请，会被自动释放
+struct UpdateItemDetailValues
+{
+	LPSTR pszUrl; //CoTaskMemAlloc
+	LPSTR pszRequestHeaders; //CoTaskMemAlloc
+	int timeout;
+};
+typedef BOOL (CALLBACK* UPDATE_ITEM_DELAIL_CALLBACK)(LPCSTR uniqueId,
+	LPCSTR opType,
+	int nCurrentIndex,
+	int nTotalCount,
+	LPCSTR strCurrentUrl,
+	UpdateItemDetailValues* values);
 
 static const DWORD kPropertyStoreId[] = {
 	MFNETSOURCE_BYTESRECEIVED_ID,
@@ -574,26 +590,48 @@ void MultipartStream::InitUpdateUrlCb(IMFAttributes* cfg)
 	UINT64 ptr = MFGetAttributeUINT64(cfg, g, 0);
 	if (ptr != 0)
 		_update_url_callback = (void*)ptr;
+
+	CLSIDFromString(L"{502A3476-507D-42A7-AC34-E69E199C1A9D}", &g);
+	ptr = MFGetAttributeUINT64(cfg, g, 0);
+	if (ptr != 0)
+		_update_detail_callback = (void*)ptr;
 }
 
 bool MultipartStream::TryUpdateItemUrl(int index, const char* type)
 {
 	if (!_network_mode)
 		return false;
-	if (_update_url_callback == NULL)
+	if (_update_url_callback == NULL &&
+		_update_detail_callback == NULL)
 		return false;
 
 	if (GetConfigs()->UniqueId == NULL ||
 		strlen(GetConfigs()->UniqueId) == 0)
 		return false;
 
-	auto cb = (UPDATE_ITEM_URL_CALLBACK)_update_url_callback;
+	char *url = NULL, *headers = NULL;
+	int timeout = 0;
+	auto cb_url = (UPDATE_ITEM_URL_CALLBACK)_update_url_callback;
+	auto cb_detail = (UPDATE_ITEM_DELAIL_CALLBACK)_update_detail_callback;
 	auto item = GetItems() + index;
-	auto url = cb(GetConfigs()->UniqueId, type, index, GetItemCount(), item->Url);
+
+	if (cb_detail) {
+		UpdateItemDetailValues values = {};
+		if (cb_detail(GetConfigs()->UniqueId, type, index, GetItemCount(), item->Url, &values)) {
+			url = values.pszUrl;
+			headers = values.pszRequestHeaders;
+			timeout = values.timeout;
+		}
+	}
+	if (url == NULL && cb_url)
+		url = cb_url(GetConfigs()->UniqueId, type, index, GetItemCount(), item->Url);
+
 	if (url == NULL)
 		return false;
 
-	UpdateItemInfo(index, url);
+	UpdateItemInfo(index, url, headers, timeout);
+	if (headers)
+		CoTaskMemFree(headers);
 	CoTaskMemFree(url);
 	return true;
 }

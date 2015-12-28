@@ -158,7 +158,11 @@ protected:
 	{ if (_tasks == NULL) return false;
 	  return _tasks->IsPaused(index); }
 
-	void UpdateItemInfo(int index, char* url, unsigned size = 0, double duration = 0.0);
+	void UpdateItemInfo(int index,
+		const char* url,
+		const char* req_headers = NULL,
+		int timeout = 0,
+		unsigned size = 0, double duration = 0.0);
 
 	virtual void OnPartStart()
 	{

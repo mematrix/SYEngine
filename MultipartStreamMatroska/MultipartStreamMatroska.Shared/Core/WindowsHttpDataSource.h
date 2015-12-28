@@ -39,12 +39,17 @@ namespace Windows {
 
 		void UpdateUrl(const char* url)
 		{ if (_cfgs.Url) free(_cfgs.Url); _cfgs.Url = strdup(url); }
+		void UpdateRefUrl(const char* url)
+		{ if (_cfgs.RefUrl) free(_cfgs.RefUrl); _cfgs.RefUrl = strdup(url); }
 		void UpdateCookie(const char* cookie)
 		{ if (_cfgs.Cookie) free(_cfgs.Cookie); _cfgs.Cookie = strdup(cookie); }
+		void UpdateAppendHeaders(const char* headers)
+		{ if (_cfgs.AppendHeaders) free(_cfgs.AppendHeaders); _cfgs.AppendHeaders = strdup(headers); }
 
 	private:
 		void DestroyObjects();
 
+		bool CheckForAppendHeaders(const char* name);
 		void ConfigRequestHeaders();
 		bool StartDownloadTask(bool init = true);
 
@@ -74,12 +79,13 @@ namespace Windows {
 			char* RefUrl;
 			char* Cookie;
 			char* UserAgent;
+			char* AppendHeaders;
 			int Timeout;
 			unsigned MaxBlockSizeKb, MaxBlockCount;
 			InitConfigs() { Init(); }
 
 			inline void Init() throw()
-			{ Url = RefUrl = Cookie = UserAgent = NULL;
+			{ Url = RefUrl = Cookie = UserAgent = AppendHeaders = NULL;
 			  Timeout = 0; MaxBlockSizeKb = MaxBlockCount = 0; }
 
 			inline void Free() throw()
@@ -92,6 +98,8 @@ namespace Windows {
 					free(Cookie);
 				if (UserAgent)
 					free(UserAgent);
+				if (AppendHeaders)
+					free(AppendHeaders);
 				Init();
 			}
 		};

@@ -33,14 +33,22 @@ namespace SYEngineRuntime
             this.Suspending += this.OnSuspending;
         }
 
-        private string OnUrlSegmentUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, string curUrl)
+        private string OnPlaylistSegmentUrlUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, string curUrl)
         {
             System.Diagnostics.Debug.WriteLine(uniqueId);
             System.Diagnostics.Debug.WriteLine(opType);
             System.Diagnostics.Debug.WriteLine(curUrl);
             string result = string.Empty;
-            //result = "http://ws.acgvideo.com/f/dc/3425953-1.flv";
+            //result = "http://example.com/xxx/xxx.flv";
             return result;
+        }
+        private bool OnPlaylistSegmentDetailUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, SYEngineCore.IPlaylistNetworkUpdateInfo info)
+        {
+            System.Diagnostics.Debug.WriteLine(info.Url);
+            info.SetRequestHeader("Cookie", uniqueId);
+            info.SetRequestHeader("Referer", "http://www.example.com");
+            info.Url = "http://example.com/xxx/xxx.flv";
+            return false; //true to Update...
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
@@ -48,7 +56,8 @@ namespace SYEngineRuntime
             SYEngineCore.Core.Initialize();
             SYEngineCore.Core.ChangeNetworkPreloadTime(2.0);
             //SYEngineCore.Core.ChangeNetworkIOBuffer(32 * 1024);
-            SYEngineCore.Core.UrlSegmentUpdateEvent += OnUrlSegmentUpdateEvent;
+            SYEngineCore.Core.PlaylistSegmentUrlUpdateEvent += OnPlaylistSegmentUrlUpdateEvent;
+            SYEngineCore.Core.PlaylistSegmentDetailUpdateEvent += OnPlaylistSegmentDetailUpdateEvent;
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

@@ -170,6 +170,8 @@ bool TaskManagerBase::CopyTaskToItem(Task* task, Item* item)
 		item->Cookie = strdup(task->Cookie);
 	if (task->UserAgent[0] != 0)
 		item->UserAgent = strdup(task->UserAgent);
+	if (task->RequestHeaders && strlen(task->RequestHeaders) > 0)
+		item->RequestHeaders = strdup(task->RequestHeaders);
 	item->Timeout = task->Timeout;
 	return true;
 }
@@ -184,7 +186,9 @@ void TaskManagerBase::FreeItem(Item* item)
 		free(item->Cookie);
 	if (item->UserAgent)
 		free(item->UserAgent);
-	item->Url = item->RefUrl = item->Cookie = item->UserAgent = NULL;
+	if (item->RequestHeaders)
+		free(item->RequestHeaders);
+	item->Url = item->RefUrl = item->Cookie = item->UserAgent = item->RequestHeaders = NULL;
 }
 
 void TaskManagerBase::FreeAllItems()

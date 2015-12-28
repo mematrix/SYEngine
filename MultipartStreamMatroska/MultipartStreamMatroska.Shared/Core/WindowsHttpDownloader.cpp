@@ -41,7 +41,7 @@ bool WindowsHttpDownloader::SetRequestHeader(const char* name, const char* value
 	return true;
 }
 
-bool WindowsHttpDownloader::StartAsync(const char* url)
+bool WindowsHttpDownloader::StartAsync(const char* url, const char* append_headers)
 {
 	int len = strlen(url);
 	if (len < 8 || len > 2047)
@@ -59,7 +59,7 @@ bool WindowsHttpDownloader::StartAsync(const char* url)
 		_url.dwSchemeLength = -1;
 	if (!WinHttpCrackUrl(_urls, 0, 0, &_url))
 		return false;
-	return ThreadStart();
+	return ThreadStart(append_headers ? strdup(append_headers) : NULL);
 }
 
 const wchar_t* WindowsHttpDownloader::GetResponseHeader(const char* name, bool text_match_case)
@@ -169,7 +169,7 @@ void WindowsHttpDownloader::ResumeBuffering(bool force)
 	}
 }
 
-void WindowsHttpDownloader::InternalConnect()
+void WindowsHttpDownloader::InternalConnect(char* append_headers)
 {
 	WCHAR host_name[1024] = {};
 	if (wcslen(_url.lpszHostName) > 1024) {
@@ -221,13 +221,27 @@ void WindowsHttpDownloader::InternalConnect()
 		WinHttpAddRequestHeaders(_http.request, str, -1, WINHTTP_ADDREQ_FLAG_ADD);
 		free(str);
 	}
+
+	LPWSTR add_headers = NULL;
+	if (append_headers) {
+		int add_head_len = MultiByteToWideChar(CP_ACP, 0, append_headers, -1, NULL, 0);
+		if (add_head_len > 1) {
+			add_headers = (LPWSTR)calloc(2, add_head_len);
+			if (add_headers)
+				MultiByteToWideChar(CP_ACP, 0, append_headers, -1, add_headers, add_head_len + 1);
+		}
+	}
 	if (!WinHttpSendRequest(_http.request,
-		WINHTTP_NO_ADDITIONAL_HEADERS, 0,
+		add_headers, -1,
 		WINHTTP_NO_REQUEST_DATA, 0, 0, 0)) {
+		if (add_headers)
+			free(add_headers);
 		_http.Close();
 		SetEvent(_events[EventErr]);
 		return;
 	}
+	if (add_headers)
+		free(add_headers);
 	SetEvent(_events[EventSendRequest]);
 	if (_abort_download)
 		return;
