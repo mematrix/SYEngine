@@ -164,6 +164,7 @@ protected:
 		int timeout = 0,
 		unsigned size = 0, double duration = 0.0);
 
+	virtual bool OnPartInit() { return true; }
 	virtual void OnPartStart()
 	{
 #if defined(_WIN32) && defined(_DEBUG)

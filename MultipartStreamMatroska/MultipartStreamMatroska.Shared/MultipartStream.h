@@ -188,6 +188,8 @@ protected:
 	};
 	CurrentState _state;
 
+	virtual bool OnPartInit() { TryUpdateItemUrl(0, "OPEN"); return true; }
+
 private:
 	unsigned InternalGetStreamSize();
 	double InternalGetStreamDuration();
@@ -214,9 +216,7 @@ private:
 	MemoryStream _header; //存储MKV头+第一个Cluster
 	unsigned _header_prue_size; //仅MKV头的大小
 
-	bool _network_mode;
 	void *_update_url_callback, *_update_detail_callback;
-
 	ULONG64 _prev_readfile_tick;
 
 	struct AsyncReadParameters
