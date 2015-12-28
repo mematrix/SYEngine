@@ -20,6 +20,8 @@ bool WindowsHttpTaskManager::OnStartTask(int index)
 		_block_size_kb, _block_count);
 	if (src == NULL)
 		return false;
+	if (file->RequestHeaders)
+		src->UpdateAppendHeaders(file->RequestHeaders);
 	file->Source = static_cast<DataSource*>(src);
 	return true;
 }
@@ -58,7 +60,14 @@ bool WindowsHttpTaskManager::OnUpdateTask(int index, Item* new_task_info)
 	if (file->Source == NULL)
 		return true;
 	auto src = static_cast<WindowsHttpDataSource*>(file->Source);
-	src->UpdateUrl(new_task_info->Url);
+	if (new_task_info->Url)
+		src->UpdateUrl(new_task_info->Url);
+	if (new_task_info->RefUrl)
+		src->UpdateRefUrl(new_task_info->RefUrl);
+	if (new_task_info->Cookie)
+		src->UpdateCookie(new_task_info->Cookie);
+	if (new_task_info->RequestHeaders)
+		src->UpdateAppendHeaders(new_task_info->RequestHeaders);
 	return true;
 }
 

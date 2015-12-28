@@ -159,19 +159,32 @@ void WindowsHttpDataSource::DestroyObjects()
 	_cfgs.Free();
 }
 
+bool WindowsHttpDataSource::CheckForAppendHeaders(const char* name)
+{
+	if (_cfgs.AppendHeaders == NULL)
+		return false;
+	if (strstr(_cfgs.AppendHeaders, name) == NULL)
+		return false;
+	return true;
+}
+
 void WindowsHttpDataSource::ConfigRequestHeaders()
 {
 	if (_downloader == NULL)
 		return;
 
-	_downloader->SetRequestHeader("Accept", "*/*");
-	_downloader->SetRequestHeader("Connection", "Keep-Alive");
-	_downloader->SetRequestHeader("Cache-Control", "no-cache");
-	_downloader->SetRequestHeader("Pragma", "no-cache");
+	if (!CheckForAppendHeaders("Accept"))
+		_downloader->SetRequestHeader("Accept", "*/*");
+	if (!CheckForAppendHeaders("Connection"))
+		_downloader->SetRequestHeader("Connection", "Keep-Alive");
+	if (!CheckForAppendHeaders("Cache-Control"))
+		_downloader->SetRequestHeader("Cache-Control", "no-cache");
+	if (!CheckForAppendHeaders("Pragma"))
+		_downloader->SetRequestHeader("Pragma", "no-cache");
 
-	if (_cfgs.Cookie)
+	if (_cfgs.Cookie && !CheckForAppendHeaders("Cookie"))
 		_downloader->SetRequestHeader("Cookie", _cfgs.Cookie);
-	if (_cfgs.RefUrl)
+	if (_cfgs.RefUrl && !CheckForAppendHeaders("Referer"))
 		_downloader->SetRequestHeader("Referer", _cfgs.RefUrl);
 }
 
@@ -197,7 +210,7 @@ bool WindowsHttpDataSource::StartDownloadTask(bool init)
 			return false;
 
 	ConfigRequestHeaders();
-	return _downloader->StartAsync(_cfgs.Url);
+	return _downloader->StartAsync(_cfgs.Url, _cfgs.AppendHeaders);
 }
 
 bool WindowsHttpDataSource::WaitForResponseHeaders()

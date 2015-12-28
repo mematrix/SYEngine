@@ -60,4 +60,22 @@ namespace SYEngineCore
 		};
 		std::vector<Item> _list;
 	};
+
+	public interface class IPlaylistNetworkUpdateInfo
+	{
+		property Platform::String^ Url
+		{
+			Platform::String^ get();
+			void set(Platform::String^ value);
+		}
+
+		property int Timeout
+		{
+			int get();
+			void set(int value);
+		}
+
+		bool SetRequestHeader(Platform::String^ name, Platform::String^ value);
+		Platform::String^ GetRequestHeader(Platform::String^ name);
+	};
 }

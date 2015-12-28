@@ -32,7 +32,7 @@ public: //IUnknown
 public:
 	bool Initialize(const char* user_agent, int timeout_sec = 0, unsigned buf_block_size_kb = 64, unsigned buf_block_count = 80);
 	bool SetRequestHeader(const char* name, const char* value);
-	bool StartAsync(const char* url);
+	bool StartAsync(const char* url, const char* append_headers = NULL);
 	void AbortAsync()
 	{ InterlockedExchange(&_abort_download, 1); }
 
@@ -78,10 +78,10 @@ private:
 	~WindowsHttpDownloader() throw() { InternalClose(); }
 
 	void InternalClose();
-	void InternalConnect();
+	void InternalConnect(char* append_headers);
 	void InternalDownload();
 
-	virtual void ThreadInvoke(void*) { AddRef(); InternalConnect(); }
+	virtual void ThreadInvoke(void* param) { AddRef(); InternalConnect((char*)param); if (param) free(param); }
 	virtual void ThreadEnded() { Release(); }
 
 private:

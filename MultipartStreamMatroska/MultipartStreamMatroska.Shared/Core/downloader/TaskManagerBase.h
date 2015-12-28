@@ -42,6 +42,7 @@ namespace Downloader {
 			char* RefUrl;
 			char* Cookie;
 			char* UserAgent;
+			char* RequestHeaders;
 			int Timeout;
 			Core::TaskManager::TaskState State;
 			Core::DataSource* Source;

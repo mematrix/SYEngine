@@ -3,6 +3,7 @@
 
 #include "DownloadCore.h"
 #include <string.h>
+#include <malloc.h>
 
 namespace Downloader {
 namespace Core {
@@ -13,7 +14,12 @@ namespace Core {
 		char RefUrl[2048];
 		char Cookie[1024];
 		char UserAgent[512];
+		char* RequestHeaders;
 		int Timeout;
+
+		Task()
+		{ RequestHeaders = NULL; Url[0] = RefUrl[0] = Cookie[0] = UserAgent[0] = 0; Timeout = 0; }
+		~Task() { FreeRequestHeaders(); }
 
 		inline void SetUrl(const char* src) throw()
 		{ strcpy(Url, src); }
@@ -25,6 +31,22 @@ namespace Core {
 				strcpy(Cookie, cook);
 			if (ua)
 				strcpy(UserAgent, ua);
+		}
+
+		bool SetRequestHeaders(const char* headers)
+		{
+			FreeRequestHeaders();
+			if (headers) {
+				RequestHeaders = strdup(headers);
+				return RequestHeaders != NULL;
+			}
+			return false;
+		}
+		void FreeRequestHeaders()
+		{
+			if (RequestHeaders)
+				free(RequestHeaders);
+			RequestHeaders = NULL;
 		}
 	};
 
