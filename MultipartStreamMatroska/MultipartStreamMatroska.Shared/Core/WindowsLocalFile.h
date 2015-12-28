@@ -21,6 +21,8 @@ namespace Windows {
 		virtual Core::CommonResult Delete(const char* name);
 		virtual bool IsExists(const char* name);
 
+		virtual Core::CommonResult New(const char* name, Core::LocalFile** new_file);
+
 	protected:
 		virtual ~WindowsLocalFile();
 

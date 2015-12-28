@@ -34,7 +34,7 @@ WindowsLocalFile::~WindowsLocalFile()
 
 CommonResult WindowsLocalFile::Create(OpenMode open_mode, ReadMode read_mode, const char* name, LocalStream** stream)
 {
-	if (name == NULL ||
+	if (name == NULL || strlen(name) == 0 ||
 		stream == NULL)
 		return CommonResult::kInvalidInput;
 
@@ -75,7 +75,7 @@ CommonResult WindowsLocalFile::Create(OpenMode open_mode, ReadMode read_mode, co
 
 CommonResult WindowsLocalFile::Delete(const char* name)
 {
-	if (name == NULL)
+	if (name == NULL || strlen(name) == 0)
 		return CommonResult::kInvalidInput;
 	if (_local_path == NULL)
 		return CommonResult::kSuccess;
@@ -93,7 +93,7 @@ CommonResult WindowsLocalFile::Delete(const char* name)
 
 bool WindowsLocalFile::IsExists(const char* name)
 {
-	if (name == NULL)
+	if (name == NULL || strlen(name) == 0)
 		return false;
 
 	WCHAR file_path[MAX_PATH] = {};
@@ -115,6 +115,25 @@ bool WindowsLocalFile::IsExists(const char* name)
 	if (file != INVALID_HANDLE_VALUE)
 		CloseHandle(file);
 	return file != INVALID_HANDLE_VALUE;
+}
+
+CommonResult WindowsLocalFile::New(const char* name, LocalFile** new_file)
+{
+	if (name == NULL || strlen(name) == 0 ||
+		new_file == NULL)
+		return CommonResult::kInvalidInput;
+	
+	WCHAR dir_name[MAX_PATH] = {}, dir_path[MAX_PATH] = {};
+	MultiByteToWideChar(CP_ACP, 0, name, -1, dir_name, _countof(dir_name));
+	wcscpy_s(dir_path, _local_path);
+	wcscat_s(dir_path, L"\\");
+	wcscat_s(dir_path, dir_name);
+	auto p = new(std::nothrow) WindowsLocalFile(dir_path);
+	if (p == NULL)
+		return CommonResult::kError;
+
+	*new_file = p;
+	return CommonResult::kSuccess;
 }
 
 WindowsLocalFile::WindowsLocalStream::WindowsLocalStream(HANDLE hFile) : _hFile(hFile)

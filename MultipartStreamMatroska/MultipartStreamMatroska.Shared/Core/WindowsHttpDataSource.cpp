@@ -181,6 +181,8 @@ void WindowsHttpDataSource::ConfigRequestHeaders()
 		_downloader->SetRequestHeader("Cache-Control", "no-cache");
 	if (!CheckForAppendHeaders("Pragma"))
 		_downloader->SetRequestHeader("Pragma", "no-cache");
+	if (!CheckForAppendHeaders("If-Modified-Since"))
+		_downloader->SetRequestHeader("If-Modified-Since", "Tue, 01 Jan 1901 00:00:00 GMT");
 
 	if (_cfgs.Cookie && !CheckForAppendHeaders("Cookie"))
 		_downloader->SetRequestHeader("Cookie", _cfgs.Cookie);
@@ -201,6 +203,8 @@ bool WindowsHttpDataSource::StartDownloadTask(bool init)
 		if (ua_sys[0] != 0)
 			ua = ua_sys;
 	}
+	if (CheckForAppendHeaders("User-Agent"))
+		ua = NULL;
 
 	if (init)
 		if (!_downloader->Initialize(ua,
