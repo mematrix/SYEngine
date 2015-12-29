@@ -35,9 +35,6 @@ bool Core::Initialize()
 	};
 	static ByteStreamHandlerPair Handlers[] = {
 		{NULL, L"video/force-network-stream"},
-#ifdef _DEBUG
-		{L".mp4", L"video/mp4"},
-#endif
 		{L".mkv", L"video/x-matroska"},
 		{L".flv", L"video/x-flv"},
 		{L".f4v", NULL}
