@@ -332,6 +332,7 @@ private:
 	double GetAllStreamMaxQueueTime();
 	bool IsNeedNetworkBuffering();
 	unsigned QueryNetworkBufferProgressValue();
+	bool UpdateNetworkDynamicPrerollTime(double now_pkt_time); //seek after
 
 	HRESULT SendNetworkStartBuffering();
 	HRESULT SendNetworkStopBuffering();
@@ -425,6 +426,8 @@ private:
 	bool _seekAfterFlag;
 	bool _notifyParserSeekAfterFlag;
 	bool _enterReadPacketFlag;
+
+	double _seekToTime;
 
 	double* _key_frames;
 	unsigned _key_frames_count;

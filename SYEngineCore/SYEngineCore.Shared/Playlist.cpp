@@ -3,6 +3,9 @@
 using namespace SYEngineCore;
 using namespace Windows::Foundation;
 
+wchar_t* AnsiToUnicode(const char* str);
+char* UnicodeToAnsi(const wchar_t* str);
+
 bool Playlist::Append(Platform::String^ url, int sizeInBytes, float durationInSeconds)
 {
 	auto str = url->Data();
@@ -28,11 +31,27 @@ bool Playlist::Append(Platform::String^ url, int sizeInBytes, float durationInSe
 
 void Playlist::Clear()
 {
+	if (_debugFile)
+		free(_debugFile);
+	_debugFile = NULL;
+
 	if (_list.size() > 0)
 	{
 		for (auto i = _list.begin(); i != _list.end(); ++i)
 			free(i->Url);
 		_list.clear();
+	}
+}
+
+void Playlist::SetDebugFile(Platform::String^ fileName)
+{
+	if (_debugFile)
+		free(_debugFile);
+	_debugFile = NULL;
+
+	if (fileName != nullptr && fileName->Length() > 0) {
+		DeleteFileW(fileName->Data());
+		_debugFile = _wcsdup(fileName->Data());
 	}
 }
 
@@ -121,7 +140,7 @@ char* Playlist::SerializeForNetworkHttp()
 			duration += (double)i->DurationInSeconds;
 	}
 
-	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
+	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
 		(int)(duration * 1000.0),
 		(_cfgs.DetectDurationForParts ? "FULL" : "NO"),
 		(_cfgs.FetchNextPartThresholdSeconds > 1 ? _cfgs.FetchNextPartThresholdSeconds : 30),
@@ -132,7 +151,8 @@ char* Playlist::SerializeForNetworkHttp()
 		cookie,
 		referer,
 		user_agent,
-		uniqueId);
+		uniqueId,
+		"NULL");
 
 	for (auto i = _list.begin(); i != _list.end(); ++i) {
 		if (i->SizeInBytes > 0 || i->DurationInSeconds > 0.1f) {

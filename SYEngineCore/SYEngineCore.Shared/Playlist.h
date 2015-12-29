@@ -28,12 +28,14 @@ namespace SYEngineCore
 	public ref class Playlist sealed
 	{
 	public:
-		Playlist(PlaylistTypes type) : _type(type) {}
+		Playlist(PlaylistTypes type) : _type(type) { _debugFile = NULL; }
 		virtual ~Playlist() { Clear(); }
 
 	public:
 		bool Append(Platform::String^ url, int sizeInBytes, float durationInSeconds);
 		void Clear();
+
+		void SetDebugFile(Platform::String^ fileName);
 
 		property PlaylistNetworkConfigs NetworkConfigs
 		{
@@ -51,6 +53,7 @@ namespace SYEngineCore
 	private:
 		PlaylistTypes _type;
 		PlaylistNetworkConfigs _cfgs;
+		WCHAR* _debugFile;
 
 		struct Item
 		{
