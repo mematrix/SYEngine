@@ -99,6 +99,10 @@ public:
 	{ _preroll_time = (LONG64)(timeInSeconds * 10000000.0); }
 	inline double GetPrerollTime() const throw()
 	{ return (double)_preroll_time / 10000000.0; }
+	inline void SetDynamicPrerollTime(double timeInSeconds = 0.0) throw()
+	{ _preroll_dynamic_time = (LONG64)(timeInSeconds * 10000000.0); }
+	inline void ClearDynamicPrerollTime() throw()
+	{ _preroll_dynamic_time = 0; }
 
 	inline ComPtrList<IMFSample>* GetSampleList() throw() { return &_samples; }
 
@@ -188,8 +192,9 @@ private:
 
 	int _index;
 	
-	LONG64 _preroll_time;
-	DWORD _dwQueueSize;
+	LONG64 _preroll_time; //网络缓存的时间
+	LONG64 _preroll_dynamic_time; //seek后的只增加一次的网络缓存时间
+	DWORD _dwQueueSize; //本地文件的队列大小
 
 	ComPtr<HDMediaSource> _pMediaSource;
 	ComPtr<IMFStreamDescriptor> _pStreamDesc;

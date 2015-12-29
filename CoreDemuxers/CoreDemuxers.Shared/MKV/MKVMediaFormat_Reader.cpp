@@ -271,7 +271,6 @@ AV_MEDIA_ERR MKVMediaFormat::ReadPacket(AVMediaPacket* packet)
 		else
 			packet->duration = PACKET_NO_PTS;
 
-
 	if (_streams[n]->HasBFrameExists() &&
 		_streams[n]->GetFrameDuration() > 0.0 &&
 		_streams[n]->GetDecodeTimestamp() != PACKET_NO_PTS) {

@@ -26,7 +26,7 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 	_pStreamDesc.Attach(pStreamDesc);
 
 	_dwQueueSize = 10;
-	_preroll_time = 0;
+	_preroll_time = _preroll_dynamic_time = 0;
 
 	_index = index;
 
@@ -400,7 +400,7 @@ bool HDMediaStream::NeedsDataUseNetworkTime()
 	if (ptsStart == 0 && ptsEnd == 0)
 		return _samples.GetCount() < _dwQueueSize ? true:false;
 
-	if (ptsEnd - ptsStart >= _preroll_time)
+	if ((ptsEnd - ptsStart) >= (_preroll_time + _preroll_dynamic_time))
 		return false;
 	return true;
 }
@@ -423,7 +423,7 @@ unsigned HDMediaStream::QueryNetworkBufferProgressValue()
 		return 0;
 
 	LONG64 temp = ptsEnd - ptsStart;
-	return (unsigned)((float)temp / (float)_preroll_time * 100.0f);
+	return (unsigned)((float)temp / float(_preroll_time + _preroll_dynamic_time) * 100.0f);
 }
 
 HRESULT HDMediaStream::SendSampleDirect(IUnknown* pToken)
