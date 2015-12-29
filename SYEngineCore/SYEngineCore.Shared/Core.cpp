@@ -177,7 +177,12 @@ LPSTR CALLBACK Core::DefaultPlaylistSegmentUrlUpdateCallback(LPCSTR uniqueId, LP
 	free(w_opType);
 	free(w_strCurrentUrl);
 
-	auto result = PlaylistSegmentUrlUpdateEvent(uid, typ, nCurrentIndex, nTotalCount, url);
+	Platform::String^ result = nullptr;
+	try {
+		result = PlaylistSegmentUrlUpdateEvent(uid, typ, nCurrentIndex, nTotalCount, url);
+	}catch(...) {
+		return NULL;
+	}
 	if (result == nullptr)
 		return NULL;
 	if (result->Length() == 0)
@@ -210,8 +215,13 @@ BOOL CALLBACK Core::DefaultPlaylistSegmentDetailUpdateCallback(LPCSTR uniqueId, 
 	};
 	auto v = (UpdateItemDetailValues*)values;
 	auto info = ref new PlaylistNetworkUpdateInfo(url);
-	if (!PlaylistSegmentDetailUpdateEvent(uid, typ, nCurrentIndex, nTotalCount, info))
+
+	try {
+		if (!PlaylistSegmentDetailUpdateEvent(uid, typ, nCurrentIndex, nTotalCount, info))
+			return FALSE;
+	}catch(...) {
 		return FALSE;
+	}
 
 	if (info->Url->Length() == 0 ||
 		wcsstr(info->Url->Data(), L":") == NULL)
