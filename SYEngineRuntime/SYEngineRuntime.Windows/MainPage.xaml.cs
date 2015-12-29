@@ -72,6 +72,11 @@ namespace SYEngineRuntime
             plist.NetworkConfigs = cfgs;
             plist.Append(tboxNetworkUri.Text, 0, 0);
             var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
+
+#if DEBUG
+            var debugFile = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.TemporaryFolder.Path, "DebugFile.mkv");
+            plist.SetDebugFile(debugFile);
+#endif
             
             tbPlayStatus.Text = string.Empty;
             player.Source = new Uri(s);

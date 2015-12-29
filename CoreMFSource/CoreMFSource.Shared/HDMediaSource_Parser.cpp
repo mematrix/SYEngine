@@ -203,16 +203,13 @@ HDMediaSource::QueuePacketResult HDMediaSource::QueueStreamPacket()
 
 		if ((packet.flag & MEDIA_PACKET_BUFFER_NONE_FLAG) == 0)
 		{
-#ifdef _DEBUG
+			CritSec::AutoLock lock(_cs);
 			if (_seekAfterFlag)
 			{
 				_seekAfterFlag = false;
-				DbgLogPrintf(L"%s -> Seek After -> %.2f",L"HDMediaSource",float(packet.pts));
-				wprintf(L"%s -> Seek After -> %.2f\n",L"HDMediaSource",float(packet.pts));
+				if (_network_buffering)
+					UpdateNetworkDynamicPrerollTime(packet.pts); //保证缓存的packet数据量达到关键帧范围
 			}
-#endif
-
-			CritSec::AutoLock lock(_cs);
 
 			ComPtr<HDMediaStream> pStream;
 			HRESULT hr = FindMediaStreamById(packet.stream_index,
@@ -423,4 +420,44 @@ void HDMediaSource::NotifyParseEnded()
 
 		CallStreamMethod(pStream,EndOfStream)();
 	}
+}
+
+bool HDMediaSource::UpdateNetworkDynamicPrerollTime(double now_pkt_time)
+{
+	if (now_pkt_time == PACKET_NO_PTS)
+		return false;
+	if (now_pkt_time >= _seekToTime)
+		return false;
+	if (_seekToTime + _network_preroll_time >= _pMediaParser->GetDuration())
+		return false;
+
+	if (FAILED(MakeKeyFramesIndex()))
+		return false;
+
+	PROPVARIANT var = {};
+	var.vt = VT_I8;
+	var.hVal.QuadPart = WMF::Misc::SecondsToMFTime(_seekToTime);
+	GUID timeFormat = GUID_NULL;
+	PROPVARIANT prev = {}, next = {};
+	if (FAILED(GetNearestKeyFrames(&timeFormat,&var,&prev,&next)))
+		return false;
+
+	if (prev.vt != next.vt)
+		return false;
+	if (prev.hVal.QuadPart == next.hVal.QuadPart)
+		return false;
+
+	double prev_keyframe_time = (double)prev.hVal.QuadPart / 10000000.0;
+	double dyn_offset = (_seekToTime + _network_preroll_time) - (prev_keyframe_time + _network_preroll_time);
+	if (dyn_offset > _network_preroll_time) {
+		unsigned count = _streamList.Count();
+		for (unsigned i = 0;i < count;i++)
+		{
+			ComPtr<HDMediaStream> pStream;
+			HRESULT hr = _streamList.GetAt(i,pStream.GetAddressOf());
+			if (pStream->IsActive())
+				pStream->SetDynamicPrerollTime(dyn_offset);
+		}
+	}
+	return true;
 }

@@ -299,13 +299,15 @@ void MatroskaJoinStream::PrepareConfigs(TextReader& tr)
 			strcpy(_cfgs.Http.UserAgent, tr.GetTextLine()->Line[8]);
 			if (strlen(tr.GetTextLine()->Line[9]) > 0)
 				_cfgs.UniqueId = strdup(tr.GetTextLine()->Line[9]);
+			if (strlen(tr.GetTextLine()->Line[10]) > 0)
+				_cfgs.DebugInfo = strdup(tr.GetTextLine()->Line[10]);
 		}
 	}
 }
 
 bool MatroskaJoinStream::PrepareItems(TextReader& tr)
 {
-	static unsigned start_index = 10;
+	static unsigned start_index = 11;
 	unsigned count = (tr.GetTextLine()->Count - start_index) / 2;
 	if (count == 0)
 		return false;
@@ -566,6 +568,9 @@ void MatroskaJoinStream::FreeResources()
 	if (_cfgs.UniqueId)
 		free(_cfgs.UniqueId);
 	_cfgs.UniqueId = NULL;
+	if (_cfgs.DebugInfo)
+		free(_cfgs.DebugInfo);
+	_cfgs.DebugInfo = NULL;
 
 	_header.Free();
 	_buffer.SetLength(0);

@@ -26,7 +26,7 @@ class MP4MediaFormat :
 
 public:
 	MP4MediaFormat() : _av_io(nullptr), _stream_count(0),
-		_kf_count(0), _force_avc1(false) { _force_io_pool_size = 0; }
+		_kf_count(0), _force_avc1(false), _is_m4a_file(false) { _force_io_pool_size = 0; }
 
 public: //IAVMediaFormat
 	AV_MEDIA_ERR Open(IAVMediaIO* io);

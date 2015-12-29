@@ -35,6 +35,9 @@ bool Core::Initialize()
 	};
 	static ByteStreamHandlerPair Handlers[] = {
 		{NULL, L"video/force-network-stream"},
+#ifdef _DEBUG
+		{L".mp4", L"video/mp4"},
+#endif
 		{L".mkv", L"video/x-matroska"},
 		{L".flv", L"video/x-flv"},
 		{L".f4v", NULL}
@@ -58,7 +61,7 @@ void Core::Uninitialize()
 
 ///////////////// Playlist Events /////////////////
 
-static wchar_t* AnsiToUnicode(const char* str)
+wchar_t* AnsiToUnicode(const char* str)
 {
 	int len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
 	if (len == 0)
@@ -69,7 +72,7 @@ static wchar_t* AnsiToUnicode(const char* str)
 	return result;
 }
 
-static char* UnicodeToAnsi(const wchar_t* str)
+char* UnicodeToAnsi(const wchar_t* str)
 {
 	int len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
 	if (len == 0)

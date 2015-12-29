@@ -80,6 +80,7 @@ protected:
 		};
 		HttpProfile Http;
 		char* UniqueId;
+		char* DebugInfo;
 	};
 	struct Item //单个分段的信息
 	{

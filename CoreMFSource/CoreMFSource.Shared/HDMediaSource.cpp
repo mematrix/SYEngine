@@ -383,6 +383,7 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 			_notifyParserSeekAfterFlag = true;
 	}
 
+	_seekToTime = (double)seekTo / 10000000.0;
 	_seekAfterFlag = true; //Seek成功后，标识下一次ReadPacket是Seek后的
 	DbgLogPrintf(L"%s::DoStart->SeekOpen OK.",L"HDMediaSource");
 
