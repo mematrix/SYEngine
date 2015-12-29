@@ -230,16 +230,16 @@ BOOL CALLBACK Core::DefaultPlaylistSegmentDetailUpdateCallback(LPCSTR uniqueId, 
 		return FALSE;
 
 	auto result = info->GetAllRequestHeaders();
-	if (result == NULL)
-		return FALSE;
+	if (result != NULL) {
+		int len = WideCharToMultiByte(CP_ACP, 0, result, -1, NULL, 0, NULL, NULL);
+		v->pszRequestHeaders = (LPSTR)CoTaskMemAlloc(len * 2);
+		WideCharToMultiByte(CP_ACP, 0, result, -1, v->pszRequestHeaders, len + 1, NULL, NULL);
+		free(result);
+	}
 
 	v->timeout = info->Timeout;
-	v->pszUrl = (LPSTR)CoTaskMemAlloc(info->Url->Length() * 2);
-	WideCharToMultiByte(CP_ACP, 0, info->Url->Data(), -1, v->pszUrl, info->Url->Length() + 1, NULL, NULL);
-	int len = WideCharToMultiByte(CP_ACP, 0, result, -1, NULL, 0, NULL, NULL);
-	v->pszRequestHeaders = (LPSTR)CoTaskMemAlloc(len * 2);
-	WideCharToMultiByte(CP_ACP, 0, result, -1, v->pszRequestHeaders, len + 1, NULL, NULL);
-
-	free(result);
+	int len = WideCharToMultiByte(CP_ACP, 0, info->Url->Data(), -1, NULL, NULL, NULL, NULL);
+	v->pszUrl = (LPSTR)CoTaskMemAlloc(len * 2);
+	WideCharToMultiByte(CP_ACP, 0, info->Url->Data(), -1, v->pszUrl, len + 1, NULL, NULL);
 	return TRUE;
 }
