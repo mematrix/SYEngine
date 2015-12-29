@@ -85,5 +85,7 @@ HRESULT HDMediaSource::SendNetworkStopBuffering()
 	CritSec::AutoLock lock(_cs);
 	_network_buffering = false;
 	_network_buffer_progress = 0;
+	for (unsigned i = 0;i < _streamList.Count();i++)
+		_streamList[i]->ClearDynamicPrerollTime();
 	return _pEventQueue->QueueEventParamVar(MEBufferingStopped,GUID_NULL,S_OK,nullptr);
 }

@@ -563,12 +563,17 @@ bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parse
 	{
 		VideoBasicDescription desc = {};
 		_video_desc->GetVideoDescription(&desc);
-		_frame_duration = 1.0 / ((double)desc.frame_rate.num / (double)desc.frame_rate.den);
+		if (desc.frame_rate.num / desc.frame_rate.den < 256)
+			_frame_duration = 1.0 / ((double)desc.frame_rate.num / (double)desc.frame_rate.den);
+
 		if (_info.Codec.CodecType == MKV_Video_H264)
 		{
 			H264_PROFILE_SPEC profile = {};
 			_video_desc->GetProfile(&profile);
-			_frame_duration = 1.0 / profile.framerate;
+			if (!profile.variable_framerate)
+				_frame_duration = 1.0 / profile.framerate;
+			else
+				_frame_duration = 0;
 		}
 	}
 

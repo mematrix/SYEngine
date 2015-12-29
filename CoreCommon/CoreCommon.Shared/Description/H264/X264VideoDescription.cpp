@@ -161,8 +161,10 @@ void X264VideoDescription::InitFromSPS(H264_SPS* sps)
 	{
 		_basic_desc.frame_rate.num = sps->vui.time_scale;
 		_basic_desc.frame_rate.den = sps->vui.num_units_in_tick * 2;
-		if (sps->vui.fixed_frame_rate_flag)
-			_profile.framerate = (double)_basic_desc.frame_rate.num / (double)_basic_desc.frame_rate.den;
+		if (sps->vui.fixed_frame_rate_flag) {
+			if (_basic_desc.frame_rate.num > 0 && _basic_desc.frame_rate.den > 0)
+				_profile.framerate = (double)_basic_desc.frame_rate.num / (double)_basic_desc.frame_rate.den;
+		}
 
 		_basic_desc.aspect_ratio.num = _basic_desc.aspect_ratio.den = 1;
 		if (sps->vui.aspect_ratio_info_present_flag)
