@@ -48,9 +48,20 @@ AV_MEDIA_ERR FLVMediaFormat::ReadPacket(AVMediaPacket* packet)
 		return AV_COMMON_ERR_INVALIDARG;
 
 	FLVParser::FLV_STREAM_PACKET flv_pkt = {};
-	auto ret = _parser->ReadNextPacket(&flv_pkt);
-	if (ret != PARSER_FLV_OK)
-		return AV_READ_PACKET_ERR_NON_MORE;
+	while (1) {
+		auto ret = _parser->ReadNextPacket(&flv_pkt);
+		if (ret != PARSER_FLV_OK) {
+			if (_skip_unknown_stream) {
+				if (ret == PARSER_FLV_ERR_AUDIO_STREAM_UNSUPPORTED ||
+					ret == PARSER_FLV_ERR_VIDEO_STREAM_UNSUPPORTED ||
+					ret == PARSER_FLV_ERR_VIDEO_VP6_STREAM_UNSUPPORTED ||
+					ret == PARSER_FLV_ERR_VIDEO_H263_STREAM_UNSUPPORTED)
+					continue;
+			}
+			return AV_READ_PACKET_ERR_NON_MORE;
+		}
+		break;
+	}
 
 	if (flv_pkt.skip_this == 1 || flv_pkt.data_size == 0)
 	{

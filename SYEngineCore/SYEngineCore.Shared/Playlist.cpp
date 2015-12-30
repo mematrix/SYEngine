@@ -116,23 +116,20 @@ char* Playlist::SerializeForLocalFile()
 
 char* Playlist::SerializeForNetworkHttp()
 {
-	auto p = (char*)calloc(2, 2048 + _list.size() * 2048);
+	int len = 0;
+	for (auto i = _list.begin(); i != _list.end(); ++i)
+		len += strlen(i->Url) + 1;
+
+	auto p = (char*)calloc(2, len + 4096);
 	if (p == NULL)
 		return NULL;
 
-	auto cookie = (char*)calloc(2, 1024);
-	auto referer = (char*)calloc(2, 1024);
-	auto user_agent = (char*)calloc(2, 512);
-	if (_cfgs.HttpCookie)
-		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpCookie->Data(), -1, cookie, 2048, NULL, NULL);
-	if (_cfgs.HttpReferer)
-		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpReferer->Data(), -1, referer, 2048, NULL, NULL);
-	if (_cfgs.HttpUserAgent)
-		WideCharToMultiByte(CP_ACP, 0, _cfgs.HttpUserAgent->Data(), -1, user_agent, 1024, NULL, NULL);
+	auto cookie = UnicodeToAnsi(_cfgs.HttpCookie ? _cfgs.HttpCookie->Data() : NULL);
+	auto referer = UnicodeToAnsi(_cfgs.HttpReferer ? _cfgs.HttpReferer->Data() : NULL);
+	auto userAgent = UnicodeToAnsi(_cfgs.HttpUserAgent ? _cfgs.HttpUserAgent->Data() : NULL);
 
-	auto uniqueId = (char*)calloc(2, _cfgs.UniqueId->Length());
-	if (_cfgs.UniqueId)
-		WideCharToMultiByte(CP_ACP, 0, _cfgs.UniqueId->Data(), -1, uniqueId, _cfgs.UniqueId->Length() * 2, NULL, NULL);
+	auto uniqueId = UnicodeToAnsi(_cfgs.UniqueId ? _cfgs.UniqueId->Data() : NULL);
+	auto debugFile = UnicodeToAnsi(_debugFile);
 
 	double duration = _cfgs.ExplicitTotalDurationSeconds;
 	if (duration < 0.1) {
@@ -148,11 +145,11 @@ char* Playlist::SerializeForNetworkHttp()
 		(_cfgs.BufferBlockSizeKB > 8 ? _cfgs.BufferBlockSizeKB : 64),
 		(_cfgs.BufferBlockCount > 2 ? _cfgs.BufferBlockCount : 80),
 		"NULL",
-		cookie,
-		referer,
-		user_agent,
-		uniqueId,
-		"NULL");
+		cookie ? cookie:"",
+		referer ? referer:"",
+		userAgent ? userAgent:"",
+		uniqueId ? uniqueId:"",
+		debugFile ? debugFile:"");
 
 	for (auto i = _list.begin(); i != _list.end(); ++i) {
 		if (i->SizeInBytes > 0 || i->DurationInSeconds > 0.1f) {
@@ -166,9 +163,15 @@ char* Playlist::SerializeForNetworkHttp()
 		strcat(p, "\r\n");
 	}
 
-	free(cookie);
-	free(referer);
-	free(user_agent);
-	free(uniqueId);
+	if (cookie)
+		free(cookie);
+	if (referer)
+		free(referer);
+	if (userAgent)
+		free(userAgent);
+	if (uniqueId)
+		free(uniqueId);
+	if (debugFile)
+		free(debugFile);
 	return p;
 }
