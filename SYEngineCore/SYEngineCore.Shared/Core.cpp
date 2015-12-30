@@ -60,6 +60,8 @@ void Core::Uninitialize()
 
 wchar_t* AnsiToUnicode(const char* str)
 {
+	if (str == NULL)
+		return NULL;
 	int len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
 	if (len == 0)
 		return NULL;
@@ -71,6 +73,8 @@ wchar_t* AnsiToUnicode(const char* str)
 
 char* UnicodeToAnsi(const wchar_t* str)
 {
+	if (str == NULL)
+		return NULL;
 	int len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
 	if (len == 0)
 		return NULL;

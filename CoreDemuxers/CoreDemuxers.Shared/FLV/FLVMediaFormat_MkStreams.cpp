@@ -3,16 +3,37 @@
 unsigned FLVMediaFormat::InternalInitStreams(std::shared_ptr<FLVParser::FLVStreamParser>& parser)
 {
 	unsigned result = PARSER_FLV_OK;
+	int fail_count = 0;
+	int max_count = 1;
 
+	FLVParser::FLV_STREAM_GLOBAL_INFO info = {};
+	parser->GetStreamInfo(&info);
+	if (info.video_info.fps < 120.0)
+		max_count = (int)info.video_info.fps;
+
+	_skip_unknown_stream = false;
 	while (1)
 	{
 		FLVParser::FLV_STREAM_PACKET packet = {};
 		auto ret = parser->ReadNextPacket(&packet);
+		if (ret == PARSER_FLV_ERR_VIDEO_STREAM_UNSUPPORTED ||
+			ret == PARSER_FLV_ERR_AUDIO_STREAM_UNSUPPORTED ||
+			ret == PARSER_FLV_ERR_VIDEO_VP6_STREAM_UNSUPPORTED ||
+			ret == PARSER_FLV_ERR_VIDEO_H263_STREAM_UNSUPPORTED) {
+			if (fail_count > max_count) {
+				result = ret;
+				break;
+			}
+			fail_count++;
+			continue;
+		}
 		if (ret != PARSER_FLV_OK)
 		{
 			result = ret;
 			break;
 		}
+		if (fail_count > 0)
+			_skip_unknown_stream = true;
 
 		parser->GetStreamInfo(&_stream_info);
 		if (_stream_count == 1)

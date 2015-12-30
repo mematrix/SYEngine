@@ -106,6 +106,7 @@ private:
 	FLVParser::FLV_INTERNAL_KEY_FRAME_INDEX* _keyframe_index;
 	unsigned _keyframe_count;
 
+	bool _skip_unknown_stream;
 	bool _force_avc1;
 	double _frame_duration,_sound_duration;
 };
