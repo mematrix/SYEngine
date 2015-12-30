@@ -266,6 +266,13 @@ HRESULT MultipartStream::Seek(MFBYTESTREAM_SEEK_ORIGIN SeekOrigin, LONGLONG llSe
 	if (llSeekOffset > INT32_MAX)
 		return E_FAIL;
 
+	if (_hDebugFile != INVALID_HANDLE_VALUE &&
+		llSeekOffset == 0 && SeekOrigin == msoBegin) {
+		LARGE_INTEGER pos;
+		pos.QuadPart = 0;
+		SetFilePointerEx(_hDebugFile, pos, &pos, FILE_BEGIN);
+	}
+
 	unsigned offset = (unsigned)llSeekOffset;
 	if (enter_matroska_read_file) {
 		Reset(false); //重设
@@ -308,6 +315,11 @@ HRESULT MultipartStream::Close()
 	_header.SetLength(0);
 	_header.Buffer()->Free();
 	_closed = true; //关闭标记
+
+	if (_hDebugFile) {
+		FlushFileBuffers(_hDebugFile);
+		CloseHandle(_hDebugFile);
+	}
 	return S_OK;
 }
 
@@ -402,6 +414,17 @@ bool MultipartStream::Open(IMFAttributes* config)
 	_prev_readfile_tick = 0;
 	_closed = false;
 	_state = AfterOpen; //状态是Open后
+
+	if (GetConfigs()->DebugInfo != NULL &&
+		strlen(GetConfigs()->DebugInfo) < MAX_PATH) {
+		WCHAR debugFile[MAX_PATH] = {};
+		MultiByteToWideChar(CP_ACP, 0, GetConfigs()->DebugInfo, -1, debugFile, _countof(debugFile));
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+		_hDebugFile = CreateFileW(debugFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+#else
+		_hDebugFile = CreateFile2(debugFile, GENERIC_WRITE, 0, CREATE_ALWAYS, NULL);
+#endif
+	}
 	return true;
 }
 
@@ -518,6 +541,9 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 		_flag_eof = true;
 		_prev_readfile_tick = 0;
 	}
+
+	if (_hDebugFile != INVALID_HANDLE_VALUE && allow_size > 0)
+		WriteFile(_hDebugFile, pb, size, NULL, NULL);
 	return allow_size;
 }
 

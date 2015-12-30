@@ -42,6 +42,7 @@ public:
 		_event_exit_thr = CreateEventExW(NULL, NULL, CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
 		_async_time_seek.eventStarted = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
 		_async_time_seek.seekThread = NULL;
+		_hDebugFile = INVALID_HANDLE_VALUE;
 		wcscpy_s(_list_file, list);
 		MFCreateAttributes(&_attrs, 0);
 		memset(&_async_read_ps, 0, sizeof(_async_read_ps));
@@ -253,4 +254,6 @@ private:
 
 	int _download_progress;
 	bool _closed;
+
+	HANDLE _hDebugFile;
 };

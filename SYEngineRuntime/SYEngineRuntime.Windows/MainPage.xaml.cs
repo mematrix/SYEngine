@@ -27,6 +27,7 @@ namespace SYEngineRuntime
         private async void btnPlayFile_Click(object sender, RoutedEventArgs e)
         {
             tbPlayStatus.Text = string.Empty;
+            player.IsLooping = (bool)cboxLoop.IsChecked;
 
             var op = new FileOpenPicker();
             op.ViewMode = PickerViewMode.List;
@@ -41,6 +42,7 @@ namespace SYEngineRuntime
         private void btnPlayNetwork_Click(object sender, RoutedEventArgs e)
         {
             tbPlayStatus.Text = string.Empty;
+            player.IsLooping = (bool)cboxLoop.IsChecked;
             player.Source = new Uri(tboxNetworkUri.Text);
         }
 
@@ -52,6 +54,7 @@ namespace SYEngineRuntime
             var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
 
             tbPlayStatus.Text = string.Empty;
+            player.IsLooping = (bool)cboxLoop.IsChecked;
             player.Source = new Uri(s);
         }
 
@@ -71,14 +74,14 @@ namespace SYEngineRuntime
             cfgs.BufferBlockCount = 160; //160 * 64K = 10M network io buf.
             plist.NetworkConfigs = cfgs;
             plist.Append(tboxNetworkUri.Text, 0, 0);
-            var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
-
 #if DEBUG
             var debugFile = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.TemporaryFolder.Path, "DebugFile.mkv");
             plist.SetDebugFile(debugFile);
 #endif
+            var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
             
             tbPlayStatus.Text = string.Empty;
+            player.IsLooping = (bool)cboxLoop.IsChecked;
             player.Source = new Uri(s);
         }
 
