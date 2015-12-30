@@ -133,6 +133,9 @@ bool MatroskaJoinStream::MatroskaTimeSeek(double seconds)
 	double prev_part_total_time = TimeCalcTotalItems(new_index);
 	//计算真正要对这个分段seek的时间
 	double seek_time = seconds - prev_part_total_time;
+	if (_merger->GetDuration() - seconds < 1.0)
+		seek_time -= 0.5;
+
 	bool result = false;
 	if (new_index == _index) {
 		//如果要seek的分段就是当前正在播放的分段，直接seek即可

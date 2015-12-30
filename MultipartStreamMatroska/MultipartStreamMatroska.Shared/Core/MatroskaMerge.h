@@ -8,13 +8,16 @@ class MatroskaMerge : public MergeManager, public AkaMatroska::Core::IOCallback
 {
 	AkaMatroska::Matroska* _muxer;
 	bool _no_key_index;
+	bool _now_process_complete;
+	
+	double _duration;
 
 	MemoryStream* _head_stream;
 	MemoryBuffer _audio_extradata, _video_extradata;
 
 public:
-	MatroskaMerge(bool no_key_index = false) throw() : 
-		_muxer(NULL), _no_key_index(no_key_index), _head_stream(NULL) {}
+	MatroskaMerge(bool no_key_index = false) throw() : _duration(0.0),
+		_muxer(NULL), _no_key_index(no_key_index), _head_stream(NULL), _now_process_complete(false) {}
 	virtual ~MatroskaMerge() throw() { if (_muxer) delete _muxer; }
 
 private:
@@ -41,6 +44,7 @@ public:
 	{ if (!OnSeek(offset)) return -1; return OnTell(); }
 
 	virtual void* GetWorker() { return _muxer; }
+	inline double GetDuration() const throw() { return _duration; }
 };
 
 #endif //__MATROSKA_MERGE_H
