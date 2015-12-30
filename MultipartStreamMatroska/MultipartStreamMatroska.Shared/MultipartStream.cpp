@@ -543,7 +543,7 @@ unsigned MultipartStream::ReadFile(PBYTE pb, unsigned size)
 	}
 
 	if (_hDebugFile != INVALID_HANDLE_VALUE && allow_size > 0)
-		WriteFile(_hDebugFile, pb, size, NULL, NULL);
+		WriteFile(_hDebugFile, pb, allow_size, NULL, NULL);
 	return allow_size;
 }
 
