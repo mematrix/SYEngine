@@ -1,11 +1,13 @@
 *.suo
 *.sdf
 *.opensdf
+*.opendb
 *.user
 *.ipch
 *.obj
 *.pdb
 *.log
+*.config
 
 [Dd]ebug/
 [Rr]elease/
@@ -19,6 +21,8 @@ build/
 
 Generated Files/
 AppPackages/
+
+.vs/
 
 /!Packages/
 !/ffcodecs/ffmpeg/lib/arm/
