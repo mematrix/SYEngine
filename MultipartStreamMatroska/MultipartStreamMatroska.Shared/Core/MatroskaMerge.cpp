@@ -139,6 +139,7 @@ bool MatroskaMerge::DoProcessHeader(double total_duration)
 	//生成所有的轨道信息
 	if (!CreateTracks())
 		return false;
+	_duration = total_duration;
 
 	AkaMatroska::Objects::Header head = {};
 	head.Duration = total_duration;
@@ -159,10 +160,18 @@ bool MatroskaMerge::DoProcessComplete(double total_duration)
 {
 	if (_muxer == NULL)
 		return false;
-	bool ret = _muxer->Ended(total_duration);
+	_duration = total_duration;
+
+	if (_no_key_index)
+		_muxer->ForceCloseCurrentCluster();
+
+	_now_process_complete = true;
+	if (!_no_key_index)
+		_muxer->Ended(total_duration);
 	delete _muxer;
 	_muxer = NULL;
-	return ret;
+	_now_process_complete = false;
+	return true;
 }
 
 bool MatroskaMerge::DoProcessPacketOnce(Packet* pkt)
@@ -191,6 +200,9 @@ unsigned MatroskaMerge::OnWrite(const void* buf, unsigned size)
 
 bool MatroskaMerge::OnSeek(int64_t offset)
 {
+	if (_now_process_complete && _no_key_index)
+		return false;
+
 	if (_head_stream)
 		return _head_stream->SetOffset((unsigned)offset);
 	return GetOutputStream()->Seek(offset);
