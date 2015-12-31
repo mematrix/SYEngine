@@ -200,6 +200,13 @@ HDMediaSource::QueuePacketResult HDMediaSource::QueueStreamPacket()
 			eos = true;
 			break;
 		}
+#ifdef _DEBUG
+		if (packet.pts != PACKET_NO_PTS)
+			DbgLogPrintf(L"PARSER->ReadPacket %.2f (KF:%s, Index:%d, Size:%d)",
+			float(packet.pts),
+			(packet.flag & MEDIA_PACKET_KEY_FRAME_FLAG) ? L"True":L"False",
+			packet.stream_index, packet.data.size);
+#endif
 
 		if ((packet.flag & MEDIA_PACKET_BUFFER_NONE_FLAG) == 0)
 		{
@@ -444,11 +451,13 @@ bool HDMediaSource::UpdateNetworkDynamicPrerollTime(double now_pkt_time)
 
 	if (prev.vt != next.vt)
 		return false;
-	if (prev.hVal.QuadPart == next.hVal.QuadPart)
+	if (prev.hVal.QuadPart == next.hVal.QuadPart && now_pkt_time > 15.0)
 		return false;
 
-	double prev_keyframe_time = (double)prev.hVal.QuadPart / 10000000.0;
-	double dyn_offset = (_seekToTime + _network_preroll_time) - (prev_keyframe_time + _network_preroll_time);
+	double prev_keyframe_time = 
+		(prev.hVal.QuadPart == next.hVal.QuadPart ? now_pkt_time : (double)prev.hVal.QuadPart / 10000000.0);
+	double dyn_offset = 
+		(_seekToTime + _network_preroll_time) - (prev_keyframe_time + _network_preroll_time);
 	if (dyn_offset > _network_preroll_time) {
 		unsigned count = _streamList.Count();
 		for (unsigned i = 0;i < count;i++)
