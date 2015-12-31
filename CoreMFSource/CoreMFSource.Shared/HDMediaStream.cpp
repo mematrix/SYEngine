@@ -351,12 +351,6 @@ HRESULT HDMediaStream::SubmitSample(IMFSample* pSample)
 
 	if (!_pMediaSource->IsBuffering())
 		DispatchSamples();
-#ifdef _DEBUG
-	if (_pMediaSource->IsBuffering())
-		if (!_requests.IsEmpty())
-			DbgLogPrintf(L"Buffering... Requests %d",_requests.GetCount());
-#endif
-
 	return S_OK;
 }
 

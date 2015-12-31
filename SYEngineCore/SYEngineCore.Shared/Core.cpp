@@ -209,6 +209,8 @@ LPSTR CALLBACK Core::DefaultPlaylistSegmentUrlUpdateCallback(LPCSTR uniqueId, LP
 		return NULL;
 	if (result->Length() == 0)
 		return NULL;
+	if (wcscmp(result->Data(), url->Data()) == 0)
+		return NULL;
 
 	int len = WideCharToMultiByte(CP_ACP, 0, result->Data(), -1, NULL, 0, NULL, NULL);
 	auto str = (char*)CoTaskMemAlloc(len * 2);
