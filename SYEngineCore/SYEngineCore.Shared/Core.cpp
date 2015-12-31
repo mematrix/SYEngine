@@ -12,6 +12,8 @@
 #define _URL_HANDLER_FILE L"MultipartStreamMatroska.dll"
 
 using namespace SYEngineCore;
+using namespace Windows::Foundation;
+using namespace Windows::Foundation::Collections;
 
 bool Core::Initialize()
 {
@@ -46,6 +48,22 @@ bool Core::Initialize()
 		h.FileExtension,
 		h.MimeType);
 
+	return true;
+}
+
+bool Core::Initialize(IMapView<Platform::String^,Platform::String^>^ custom)
+{
+	if (!Initialize())
+		return false;
+	if (custom->Size == 0)
+		return true;
+	
+	for (auto i = custom->First(); i->HasCurrent; i->MoveNext()) {
+		Installer->InstallByteStreamHandler(_STM_HANDLER_CLSID,
+			_STM_HANDLER_NAME, _STM_HANDLER_FILE,
+			i->Current->Key->Length() > 0 ? i->Current->Key->Data() : NULL,
+			i->Current->Value->Length() > 0 ? i->Current->Value->Data() : NULL);
+	}
 	return true;
 }
 

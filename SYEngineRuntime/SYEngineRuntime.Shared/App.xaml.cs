@@ -54,7 +54,13 @@ namespace SYEngineRuntime
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+#if DEBUG
+            var custom = new Dictionary<string,string>();
+            custom.Add(".mp4", "video/mp4");
+            SYEngineCore.Core.Initialize(custom);
+#else
             SYEngineCore.Core.Initialize();
+#endif
             SYEngineCore.Core.ChangeNetworkPreloadTime(2.0);
             //SYEngineCore.Core.ChangeNetworkIOBuffer(32 * 1024);
             SYEngineCore.Core.PlaylistSegmentUrlUpdateEvent += OnPlaylistSegmentUrlUpdateEvent;
