@@ -438,24 +438,24 @@ bool HDMediaSource::UpdateNetworkDynamicPrerollTime(double now_pkt_time)
 	if (_seekToTime + _network_preroll_time >= _pMediaParser->GetDuration())
 		return false;
 
-	if (FAILED(MakeKeyFramesIndex()))
-		return false;
-
+	double prev_keyframe_time = now_pkt_time;
 	PROPVARIANT var = {};
 	var.vt = VT_I8;
 	var.hVal.QuadPart = WMF::Misc::SecondsToMFTime(_seekToTime);
 	GUID timeFormat = GUID_NULL;
 	PROPVARIANT prev = {}, next = {};
-	if (FAILED(GetNearestKeyFrames(&timeFormat,&var,&prev,&next)))
-		return false;
+	if (FAILED(MakeKeyFramesIndex()) ||
+		FAILED(GetNearestKeyFrames(&timeFormat,&var,&prev,&next)))
+		goto UpdatePrerollTime;
 
 	if (prev.vt != next.vt)
 		return false;
 	if (prev.hVal.QuadPart == next.hVal.QuadPart && now_pkt_time > 15.0)
 		return false;
 
-	double prev_keyframe_time = 
+	prev_keyframe_time = 
 		(prev.hVal.QuadPart == next.hVal.QuadPart ? now_pkt_time : (double)prev.hVal.QuadPart / 10000000.0);
+UpdatePrerollTime:
 	double dyn_offset = 
 		(_seekToTime + _network_preroll_time) - (prev_keyframe_time + _network_preroll_time);
 	if (dyn_offset > _network_preroll_time) {

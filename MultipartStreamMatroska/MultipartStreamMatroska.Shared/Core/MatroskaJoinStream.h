@@ -165,6 +165,9 @@ protected:
 		int timeout = 0,
 		unsigned size = 0, double duration = 0.0);
 
+	DemuxProxy* GetCurrentDemuxObject() throw()
+	{ if (_merger == NULL) return NULL; return _merger->GetDemuxObject(); }
+
 	virtual bool OnPartInit() { return true; }
 	virtual void OnPartStart()
 	{
