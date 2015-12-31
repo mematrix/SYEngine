@@ -62,6 +62,10 @@ bool MergeManager::ProcessComplete(double total_duration)
 
 	delete _demux;
 	_demux = NULL;
+
+	_prev_audio_time = _prev_video_time = 0;
+	_prev_audio_duration = _prev_video_duration = 0;
+	_audio_time_offset = _video_time_offset = 0.0;
 	return true;
 }
 

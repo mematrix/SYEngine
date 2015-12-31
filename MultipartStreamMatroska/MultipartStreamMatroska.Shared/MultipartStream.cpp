@@ -561,7 +561,17 @@ bool MultipartStream::SeekTo(double time)
 	}
 
 	if (!MatroskaTimeSeek(time)) //做TimeSeek
-		return false;
+	{
+		//这里有个bug，播放到快结束的时候做TimeSeek会错误
+		if (index == -1)
+			return false;
+
+		TryUpdateItemUrl(0, "SEEK");
+		if (!ReInit())
+			return false;
+		if (!MatroskaTimeSeek(time))
+			return false;
+	}
 	_flag_eof = false;
 	_state = AfterSeek; //状态从AfterOpen变成AfterSeek，即TimeSeek后
 	return true;
@@ -578,7 +588,7 @@ bool MultipartStream::Reset(bool timeseek)
 	}else{
 		//AfterOpen
 		//需要跳过第一个packet
-		if (!ReInit(false))
+		if (!ReInit())
 			return false;
 		MatroskaReadFile(NULL, 0, 1); //skip first pkt.
 		return true;
