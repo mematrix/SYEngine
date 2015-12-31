@@ -21,6 +21,7 @@ namespace SYEngineCore
 	{
 	public:
 		static bool Initialize();
+		static bool Initialize(Windows::Foundation::Collections::IMapView<Platform::String^,Platform::String^>^ custom);
 		static void Uninitialize();
 		
 		static void ChangeNetworkPreloadTime(double bufTime)
