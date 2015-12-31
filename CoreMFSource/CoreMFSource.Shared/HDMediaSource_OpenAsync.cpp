@@ -453,8 +453,10 @@ HRESULT HDMediaSource::DoOpen()
 			}
 		}
 
-		if (pMediaIO->GetSize() == -1)
+		if (pMediaIO->GetSize() == -1) {
 			_network_live_stream = true;
+			_pPresentationDescriptor->DeleteItem(MF_PD_DURATION);
+		}
 	}
 
 	CompleteOpen(S_OK);
@@ -606,8 +608,8 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 	if (_pMediaIO)
 		hr = _pPresentationDescriptor->SetUINT64(MF_PD_TOTAL_FILE_SIZE,_pMediaIO->GetSize());
 
-	hr = _pPresentationDescriptor->SetUINT64(MF_PD_DURATION,
-		(UINT64)(_pMediaParser->GetDuration() * 10000000));
+	if (_pMediaParser->GetDuration() > 0.0)
+		hr = _pPresentationDescriptor->SetUINT64(MF_PD_DURATION,(UINT64)(_pMediaParser->GetDuration() * 10000000));
 
 	if (_pMediaParser->GetDuration() == 0.0)
 	{

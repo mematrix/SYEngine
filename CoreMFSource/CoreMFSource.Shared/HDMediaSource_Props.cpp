@@ -61,6 +61,8 @@ unsigned HDMediaSource::QueryNetworkBufferProgressValue()
 		result += pStream->QueryNetworkBufferProgressValue();
 	}
 	result /= _nPendingEOS;
+	if (result > INT32_MAX)
+		result = 0;
 	if (result >= 100)
 		result = 99;
 

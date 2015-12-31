@@ -157,7 +157,7 @@ HRESULT MultipartStream::GetLength(QWORD *pqwLength)
 		return E_POINTER;
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	*pqwLength = _stm_length;
-	return S_OK;
+	return _stm_length == UINT64_MAX ? E_FAIL : S_OK;
 }
 
 HRESULT MultipartStream::GetCurrentPosition(QWORD *pqwPosition)
@@ -319,6 +319,7 @@ HRESULT MultipartStream::Close()
 	if (_hDebugFile) {
 		FlushFileBuffers(_hDebugFile);
 		CloseHandle(_hDebugFile);
+		_hDebugFile = INVALID_HANDLE_VALUE;
 	}
 	return S_OK;
 }
@@ -397,11 +398,19 @@ bool MultipartStream::Open(IMFAttributes* config)
 	_header.Write(buf.Get<void*>(), first_size);
 	_header.SetOffset(0);
 
+	const char* formatName = NULL;
+	if (GetCurrentDemuxObject())
+		formatName = GetCurrentDemuxObject()->GetFormatName();
+
 	_stm_length = InternalGetStreamSize(); //所有切片的大小（可能是预估的）
-	if (_stm_length == 0)
-		return false;
-	if (_stm_length == GetItems()->Size)
-		_stm_length *= GetItemCount();
+	if (_stm_length != 0) {
+		if (_stm_length == GetItems()->Size)
+			_stm_length *= GetItemCount();
+	}else{
+		if (strcmp(formatName, "flv") != 0)
+			return false;
+		_stm_length = UINT64_MAX;
+	}
 
 	_attrs->SetUINT64(MF_BYTESTREAM_DURATION, GetConfigs()->DurationMs * 10000);
 	_attrs->SetString(MF_BYTESTREAM_ORIGIN_NAME, _list_file);

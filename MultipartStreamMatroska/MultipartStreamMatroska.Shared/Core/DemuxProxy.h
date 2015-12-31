@@ -15,6 +15,7 @@ public:
 	bool OpenByteStream(int io_buf_size = 0, bool non_find_stream_info = true);
 	void CloseByteStream();
 
+	const char* GetFormatName() throw() { return _format_name; }
 	double GetStartTime();
 	double GetDuration() const throw()
 	{ return _core.TotalDuration; }
@@ -79,6 +80,7 @@ private:
 		double TotalDuration;
 	};
 	ProxyCore _core;
+	const char* _format_name;
 };
 
 #endif //__DEMUX_PROXY_H

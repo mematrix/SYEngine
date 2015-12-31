@@ -43,6 +43,7 @@ bool DemuxProxy::OpenByteStream(int io_buf_size, bool non_find_stream_info)
 	if (result < 0)
 		return false;
 
+	_format_name = format->iformat->name;
 	if (format->nb_streams == 0)
 		return false;
 	_core.TotalTracks = format->nb_streams;
