@@ -372,7 +372,7 @@ HRESULT MultipartStream::StopBackgroundTransfer()
 	return S_OK;
 }
 
-bool MultipartStream::Open(IMFAttributes* config)
+bool MultipartStream::Open(IMFAttributes* config, bool delete_list_file)
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 
@@ -423,6 +423,9 @@ bool MultipartStream::Open(IMFAttributes* config)
 	_prev_readfile_tick = 0;
 	_closed = false;
 	_state = AfterOpen; //×´Ì¬ÊÇOpenºó
+
+	if (delete_list_file)
+		DeleteFileW(_list_file);
 
 	if (GetConfigs()->DebugInfo != NULL &&
 		strlen(GetConfigs()->DebugInfo) < MAX_PATH) {
