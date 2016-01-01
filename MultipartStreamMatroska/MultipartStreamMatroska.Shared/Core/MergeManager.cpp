@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <new.h>
 
-bool MergeManager::PutNewInput(IOCallback* cb)
+bool MergeManager::PutNewInput(IOCallback* cb, bool no_check_demux_null)
 {
 	if (cb == NULL)
 		return false;
 	IOCallback* old = _input;
 	_input = cb;
-	if (_demux == NULL)
+	if (_demux == NULL && !no_check_demux_null)
 		return true;
 	if (!InternalNewDemux())
 		return false;

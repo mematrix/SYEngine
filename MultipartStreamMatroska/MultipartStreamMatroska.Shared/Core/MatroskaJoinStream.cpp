@@ -188,7 +188,14 @@ bool MatroskaJoinStream::ProcessReadToSize(unsigned req_size)
 			break;
 		int bytes = _merger->ProcessPacketOnce(&_cur_timestamp); //处理一个frame
 		if (bytes == 0) { //上一个切片处理玩了
-			if (!OpenNextItem()) { //尝试打开下一个
+			bool result = OpenNextItem(); //尝试打开下一个
+			if (!result && _index < _item_count) {
+				if (OnPartError(_index)) {
+					_index--;
+					result = OpenNextItem(true);
+				}
+			}
+			if (!result) {
 				//如果打开下一个失败（没有下一个了），写文件尾巴
 				close_cluster = false; //在ProcessComplete已经close了
 				if (_merger->ProcessComplete()) //完成流性合并
@@ -213,7 +220,7 @@ bool MatroskaJoinStream::ProcessReadToSize(unsigned req_size)
 	return _buffer.GetLength() > 0;
 }
 
-bool MatroskaJoinStream::OpenNextItem()
+bool MatroskaJoinStream::OpenNextItem(bool try_again)
 {
 	_cur_part_read_size = 0;
 	++_index;
@@ -221,6 +228,8 @@ bool MatroskaJoinStream::OpenNextItem()
 		return false;
 
 	Item* next = GetItem(_index); //取得下一个item
+	if (try_again)
+		DownloadItemStop(_index);
 	if (!RunDownload(_index)) //开始下载
 		return false;
 
@@ -231,7 +240,7 @@ bool MatroskaJoinStream::OpenNextItem()
 	_io_stream.SwapDs(_tasks->GetDataSource(_index));
 
 	next->Size = (unsigned)_io_stream.Size(); //更新分段大小信息
-	return _merger->PutNewInput(&_io_stream); //初始化这个分段
+	return _merger->PutNewInput(&_io_stream, try_again); //初始化这个分段
 }
 
 int MatroskaJoinStream::FindItemIndexByTime(double seconds)

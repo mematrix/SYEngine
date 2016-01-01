@@ -42,7 +42,7 @@ private:
 	//ReadFile
 	unsigned ReadInBuffered(void* buf, unsigned size);
 	bool ProcessReadToSize(unsigned req_size);
-	bool OpenNextItem();
+	bool OpenNextItem(bool try_again = false);
 
 	//SeekTime
 	int FindItemIndexByTime(double seconds); //·µ»Ø-1Ã»ÕÒµ½
@@ -169,6 +169,7 @@ protected:
 	{ if (_merger == NULL) return NULL; return _merger->GetDemuxObject(); }
 
 	virtual bool OnPartInit() { return true; }
+	virtual bool OnPartError(unsigned index) { return false; }
 	virtual void OnPartStart()
 	{
 #if defined(_WIN32) && defined(_DEBUG)

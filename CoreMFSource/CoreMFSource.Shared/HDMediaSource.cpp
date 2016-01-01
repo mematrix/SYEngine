@@ -606,16 +606,25 @@ HRESULT HDMediaSource::OnRequestSample(SourceOperation* op)
 		_notifyParserSeekAfterFlag = false;
 	}
 
+	bool seek_error = false;
 	if (notifySeek)
 	{
 		DbgLogPrintf(L"OnNotifySeek...");
-		_pMediaParser->OnNotifySeek();
+		if (_pMediaParser->OnNotifySeek() != AV_ERR_OK) {
+			seek_error = true;
+			if (_network_buffering)
+				SendNetworkStopBuffering();
+			NotifyParseEnded();
+		}
 		DbgLogPrintf(L"OnNotifySeek OK.");
 	}
 
-	DbgLogPrintf(L"OnRequestSample...");
-	PreloadStreamPacket();
-	DbgLogPrintf(L"OnRequestSample OK.");
+	if (!seek_error)
+	{
+		DbgLogPrintf(L"OnRequestSample...");
+		PreloadStreamPacket();
+		DbgLogPrintf(L"OnRequestSample OK.");
+	}
 
 	{
 		CritSec::AutoLock lock(_cs);
