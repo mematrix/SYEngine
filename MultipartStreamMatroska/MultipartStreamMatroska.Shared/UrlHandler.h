@@ -115,7 +115,7 @@ public: //IMFAttributes
 	{ return _attrs->CopyAllItems(pDest); }
 
 protected:
-	virtual void ThreadInvoke(void*);
+	virtual void ThreadInvoke(void* delete_list_file);
 	virtual void ThreadEnded() { Release(); }
 
 private:

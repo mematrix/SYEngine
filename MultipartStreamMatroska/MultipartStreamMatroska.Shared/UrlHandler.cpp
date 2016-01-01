@@ -53,6 +53,7 @@ HRESULT UrlHandler::BeginCreateObject(
 				_list_file[i] = L'\\';
 	}
 
+	BOOL delete_list_file = FALSE;
 #if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	if (wcsnicmp(_list_file, L"WinRT-", 6) == 0) {
 		WCHAR strRuntimePath[MAX_PATH] = {};
@@ -90,6 +91,7 @@ HRESULT UrlHandler::BeginCreateObject(
 		{
 			wcscat_s(strRuntimePath, wcsstr(_list_file, L"_") + 1);
 			wcscpy(_list_file, strRuntimePath);
+			delete_list_file = TRUE;
 		}
 	}
 #endif
@@ -105,7 +107,7 @@ HRESULT UrlHandler::BeginCreateObject(
 	if (FAILED(hr))
 		return hr;
 
-	return ThreadStart() ? S_OK : E_UNEXPECTED;
+	return ThreadStart((void*)delete_list_file) ? S_OK : E_UNEXPECTED;
 }
 
 HRESULT UrlHandler::EndCreateObject(
@@ -132,7 +134,7 @@ HRESULT UrlHandler::EndCreateObject(
 	return S_OK;
 }
 
-void UrlHandler::ThreadInvoke(void*)
+void UrlHandler::ThreadInvoke(void* delete_list_file)
 {
 	AddRef();
 	_result->SetStatus(S_OK);
@@ -142,7 +144,7 @@ void UrlHandler::ThreadInvoke(void*)
 		if (s == NULL) {
 			_result->SetStatus(E_OUTOFMEMORY);
 		}else{
-			if (s->Open(this)) {
+			if (s->Open(this, delete_list_file != NULL ? true:false)) {
 				_stream.Attach(static_cast<IMFByteStream*>(s));
 			}else{
 				_result->SetStatus(E_FAIL);

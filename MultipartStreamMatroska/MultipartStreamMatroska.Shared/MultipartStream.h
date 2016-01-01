@@ -57,7 +57,7 @@ public:
 		Module<InProc>::GetModule().DecrementObjectCount();
 	}
 
-	bool Open(IMFAttributes* config = NULL);
+	bool Open(IMFAttributes* config = NULL, bool delete_list_file = false);
 
 public: //IUnknown
 	STDMETHODIMP_(ULONG) AddRef()

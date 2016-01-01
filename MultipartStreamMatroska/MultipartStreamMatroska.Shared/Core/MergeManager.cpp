@@ -98,6 +98,9 @@ loop:
 			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts)) - _start_time_offset;
 		_video_time_offset = _video_time_offset + 
 			(double(_prev_video_time + _prev_video_duration) / double(_video_ts)) - _start_time_offset;
+
+		_prev_video_time = _prev_video_time = 0;
+		_prev_audio_duration = _prev_video_duration = 0;
 		return 0;
 	}
 	pkt.ScalePTS = pkt.ScaleDTS = pkt.ScaleDuration = 0.0;

@@ -249,6 +249,7 @@ void WindowsHttpDataSource::DiscardDownloadTask()
 #ifdef _DEBUG
 	printf("DiscardDownloadTask -> %s\n", _cfgs.Url);
 #endif
+	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	if (_downloader == NULL)
 		return;
 
