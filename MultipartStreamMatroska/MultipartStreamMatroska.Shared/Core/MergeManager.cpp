@@ -108,24 +108,40 @@ loop:
 		goto loop;
 
 	int timescale = (pkt.Id == 0 ? _video_ts : _audio_ts);
+	int64_t start_offset_no_scale = (pkt.Id == 0 ? _start_time_offset_video_no_scale : _start_time_offset_audio_no_scale);
 	if (pkt.PTS != InvalidTimestamp())
-		pkt.ScalePTS = double(pkt.PTS) / double(timescale) - _start_time_offset;
+		pkt.ScalePTS = double(pkt.PTS) / double(timescale) -
+		(pkt.PTS >= start_offset_no_scale ? _start_time_offset : 0.0);
 	if (pkt.DTS != InvalidTimestamp())
-		pkt.ScaleDTS = double(pkt.DTS) / double(timescale) - _start_time_offset;
+		pkt.ScaleDTS = double(pkt.DTS) / double(timescale) -
+		(pkt.DTS >= start_offset_no_scale ? _start_time_offset : 0.0);
 	if (pkt.Duration > 0 && pkt.Duration != InvalidTimestamp())
 		pkt.ScaleDuration = double(pkt.Duration) / double(timescale);
 
 	double time_off = (pkt.Id == 0 ? _video_time_offset : _audio_time_offset);
 	pkt.ScalePTS += time_off; //加上上N个分段的时间偏移
 	pkt.ScaleDTS += time_off;
+	int64_t timestamp;
 	if (pkt.Id == 0) {
-		_prev_video_time = (pkt.DTS == InvalidTimestamp() ? pkt.PTS : pkt.DTS); //DTS优先
-		if (pkt.Duration != InvalidTimestamp())
+		timestamp = (pkt.DTS == InvalidTimestamp() ? pkt.PTS : pkt.DTS); //DTS优先
+		if (pkt.Duration != InvalidTimestamp() && pkt.Duration > 0) {
 			_prev_video_duration = (int)pkt.Duration;
+		}else{
+			auto temp = timestamp - _prev_video_time;
+			if (temp > 1)
+				_prev_video_duration = (int)temp;
+		}
+		_prev_video_time = timestamp;
 	}else{
-		_prev_audio_time = pkt.DTS;
-		if (pkt.Duration != InvalidTimestamp())
+		timestamp = pkt.DTS;
+		if (pkt.Duration != InvalidTimestamp() && pkt.Duration > 0) {
 			_prev_audio_duration = (int)pkt.Duration;
+		}else{
+			auto temp = timestamp - _prev_audio_time;
+			if (temp > 1)
+				_prev_audio_duration = (int)temp;
+		}
+		_prev_audio_time = timestamp;;
 	}
 
 	if (pkt.Id == 1)
@@ -178,5 +194,7 @@ bool MergeManager::InternalInitDemux(void* demux)
 	_video_ts = t1.Timescale;
 
 	_start_time_offset = core->GetStartTime();
+	_start_time_offset_audio_no_scale = (int64_t)(_start_time_offset * _audio_ts);
+	_start_time_offset_video_no_scale = (int64_t)(_start_time_offset * _video_ts);
 	return true;
 }
