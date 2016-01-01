@@ -43,7 +43,7 @@ public:
 	{ if (_demux) delete _demux; }
 
 public:
-	bool PutNewInput(IOCallback* cb);
+	bool PutNewInput(IOCallback* cb, bool no_check_demux_null = false);
 	bool PutNewOutput(IOCallback* cb);
 
 	void SetTimeOffset(double audio_offset, double video_offset)

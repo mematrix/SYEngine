@@ -134,6 +134,9 @@ bool DemuxProxy::TimeSeek(double seconds) throw()
 	if (format->start_time != AV_NOPTS_VALUE)
 		time += format->start_time;
 
+	if (time > format->duration)
+		return false;
+
 	//ÏÈ³¢ÊÔ¹Ø¼üÖ¡seek
 	int flags = AVSEEK_FLAG_BACKWARD;
 	if (av_seek_frame(format, -1, time, flags) >= 0)
