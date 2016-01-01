@@ -94,6 +94,7 @@ private:
 	int64_t _prev_audio_time, _prev_video_time; //上一个帧的时间，dts优先pts
 	double _audio_time_offset, _video_time_offset; //时间偏移
 	double _start_time_offset; //such as IQIYI
+	int64_t _start_time_offset_audio_no_scale, _start_time_offset_video_no_scale;
 };
 
 #endif //__MERGE_MANAGER_H
