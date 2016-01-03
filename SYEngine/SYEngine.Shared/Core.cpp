@@ -11,7 +11,7 @@
 #define _STM_HANDLER_FILE L"CoreMFSource.dll"
 #define _URL_HANDLER_FILE L"MultipartStreamMatroska.dll"
 
-using namespace SYEngineCore;
+using namespace SYEngine;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 

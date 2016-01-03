@@ -42,7 +42,7 @@ namespace SYEngineRuntime
             //result = "http://example.com/xxx/xxx.flv";
             return result;
         }
-        private bool OnPlaylistSegmentDetailUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, SYEngineCore.IPlaylistNetworkUpdateInfo info)
+        private bool OnPlaylistSegmentDetailUpdateEvent(string uniqueId, string opType, int curIndex, int totalCount, SYEngine.IPlaylistNetworkUpdateInfo info)
         {
             System.Diagnostics.Debug.WriteLine(info.Url);
             info.SetRequestHeader("User-Agent", "SYEngine Demo Application");
@@ -57,14 +57,13 @@ namespace SYEngineRuntime
 #if DEBUG
             var custom = new Dictionary<string,string>();
             custom.Add(".mp4", "video/mp4");
-            SYEngineCore.Core.Initialize(custom);
+            SYEngine.Core.Initialize(custom);
 #else
-            SYEngineCore.Core.Initialize();
+            SYEngine.Core.Initialize();
 #endif
-            SYEngineCore.Core.ChangeNetworkPreloadTime(2.0);
-            //SYEngineCore.Core.ChangeNetworkIOBuffer(32 * 1024);
-            SYEngineCore.Core.PlaylistSegmentUrlUpdateEvent += OnPlaylistSegmentUrlUpdateEvent;
-            SYEngineCore.Core.PlaylistSegmentDetailUpdateEvent += OnPlaylistSegmentDetailUpdateEvent;
+            SYEngine.Core.ChangeNetworkPreloadTime(2.0);
+            SYEngine.Core.PlaylistSegmentUrlUpdateEvent += OnPlaylistSegmentUrlUpdateEvent;
+            SYEngine.Core.PlaylistSegmentDetailUpdateEvent += OnPlaylistSegmentDetailUpdateEvent;
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

@@ -8,7 +8,7 @@
 extern double MediaSourceNetworkIOBufTime;
 extern unsigned MediaSourceNetworkIOBufSize;
 
-namespace SYEngineCore
+namespace SYEngine
 {
 	static MediaExtensionInstaller* Installer;
 

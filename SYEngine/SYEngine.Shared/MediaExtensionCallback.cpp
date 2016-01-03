@@ -48,9 +48,9 @@ void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWS
 			ComPtr<IMFAttributes> attrs;
 			punk->QueryInterface(IID_PPV_ARGS(&attrs));
 			if (attrs) {
-				UINT64 ptr = (UINT64)(&SYEngineCore::Core::DefaultPlaylistSegmentUrlUpdateCallback);
+				UINT64 ptr = (UINT64)(&SYEngine::Core::DefaultPlaylistSegmentUrlUpdateCallback);
 				attrs->SetUINT64(GetGuidFromString(L"{402A3476-507D-42A7-AC34-E69E199C1A9D}"), ptr);
-				ptr = (UINT64)(&SYEngineCore::Core::DefaultPlaylistSegmentDetailUpdateCallback);
+				ptr = (UINT64)(&SYEngine::Core::DefaultPlaylistSegmentDetailUpdateCallback);
 				attrs->SetUINT64(GetGuidFromString(L"{502A3476-507D-42A7-AC34-E69E199C1A9D}"), ptr);
 			}
 		}

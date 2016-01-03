@@ -1,6 +1,6 @@
 #include "Playlist.h"
 
-using namespace SYEngineCore;
+using namespace SYEngine;
 using namespace Windows::Foundation;
 
 wchar_t* AnsiToUnicode(const char* str);
