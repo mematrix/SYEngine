@@ -43,13 +43,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Win
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.WindowsPhone", "MultipartStreamMatroska\MultipartStreamMatroska.WindowsPhone\MultipartStreamMatroska.WindowsPhone.vcxproj", "{1A1821C0-5072-48D7-93AD-2ECDCD267F4D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngineCore", "SYEngineCore", "{033D937C-4A8C-4EB9-8E7F-70F33E1D7A73}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngine", "SYEngine", "{033D937C-4A8C-4EB9-8E7F-70F33E1D7A73}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngineCore.Shared", "SYEngineCore\SYEngineCore.Shared\SYEngineCore.Shared.vcxitems", "{54F23214-4129-4EB9-9EC7-66DC7221CA6C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Shared", "SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems", "{54F23214-4129-4EB9-9EC7-66DC7221CA6C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngineCore.Windows", "SYEngineCore\SYEngineCore.Windows\SYEngineCore.Windows.vcxproj", "{371B4E0D-44EC-4781-8350-55471E26C599}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Windows", "SYEngine\SYEngine.Windows\SYEngine.Windows.vcxproj", "{371B4E0D-44EC-4781-8350-55471E26C599}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngineCore.WindowsPhone", "SYEngineCore\SYEngineCore.WindowsPhone\SYEngineCore.WindowsPhone.vcxproj", "{6C77118B-C47C-461B-8D53-AB673C312DAC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.WindowsPhone", "SYEngine\SYEngine.WindowsPhone\SYEngine.WindowsPhone.vcxproj", "{6C77118B-C47C-461B-8D53-AB673C312DAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinhttpWrapper", "WinhttpWrapper", "{6AFF07B3-47F4-4202-95CE-EDC981DB3DA9}"
 EndProject
@@ -80,10 +80,10 @@ Global
 		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{13d48622-327d-455f-ab40-ccd9b85d50e5}*SharedItemsImports = 4
 		SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{a9b9dd1d-5628-4c46-996c-0e3fde97a3a4}*SharedItemsImports = 4
 		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{5b969656-ea9b-4479-9dcc-4b47bab474a1}*SharedItemsImports = 9
-		SYEngineCore\SYEngineCore.Shared\SYEngineCore.Shared.vcxitems*{6c77118b-c47c-461b-8d53-ab673c312dac}*SharedItemsImports = 4
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{6c77118b-c47c-461b-8d53-ab673c312dac}*SharedItemsImports = 4
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{8be11e1a-2bcc-4764-9a72-bd80012974c3}*SharedItemsImports = 4
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{8d81cb54-ab9e-4675-9321-06de84bb47f7}*SharedItemsImports = 4
-		SYEngineCore\SYEngineCore.Shared\SYEngineCore.Shared.vcxitems*{371b4e0d-44ec-4781-8350-55471e26c599}*SharedItemsImports = 4
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{371b4e0d-44ec-4781-8350-55471e26c599}*SharedItemsImports = 4
 		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{5589aedb-6143-4b48-a7a3-1dd0c73e5723}*SharedItemsImports = 9
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{fb33c1e7-872f-46bc-a7b5-3317d9b93e74}*SharedItemsImports = 4
 		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{32326bd5-23d8-4993-a79f-46a819bcc794}*SharedItemsImports = 4
@@ -92,7 +92,7 @@ Global
 		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{1a1821c0-5072-48d7-93ad-2ecdcd267f4d}*SharedItemsImports = 4
 		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{12c720a6-7590-4da1-9666-0adf59555e03}*SharedItemsImports = 4
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}*SharedItemsImports = 4
-		SYEngineCore\SYEngineCore.Shared\SYEngineCore.Shared.vcxitems*{54f23214-4129-4eb9-9ec7-66dc7221ca6c}*SharedItemsImports = 9
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{54f23214-4129-4eb9-9ec7-66dc7221ca6c}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM

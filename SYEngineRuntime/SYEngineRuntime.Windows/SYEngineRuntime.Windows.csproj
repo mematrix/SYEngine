@@ -103,13 +103,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\SYEngineCore\SYEngineCore.Windows\SYEngineCore.Windows.vcxproj">
-      <Project>{371b4e0d-44ec-4781-8350-55471e26c599}</Project>
-      <Name>SYEngineCore.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -132,6 +125,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SYEngine\SYEngine.Windows\SYEngine.Windows.vcxproj">
+      <Project>{371b4e0d-44ec-4781-8350-55471e26c599}</Project>
+      <Name>SYEngine.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

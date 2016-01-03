@@ -3,7 +3,7 @@
 #include "pch.h"
 #include <vector>
 
-namespace SYEngineCore
+namespace SYEngine
 {
 	public enum class PlaylistTypes
 	{

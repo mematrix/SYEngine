@@ -32,6 +32,7 @@ namespace SYEngineRuntime
             var op = new FileOpenPicker();
             op.ViewMode = PickerViewMode.List;
             op.FileTypeFilter.Add(".flv");
+            op.FileTypeFilter.Add(".f4v");
             op.FileTypeFilter.Add(".mkv");
             op.FileTypeFilter.Add(".mp4");
             var file = await op.PickSingleFileAsync();
@@ -48,7 +49,7 @@ namespace SYEngineRuntime
 
         private async void btnMultiFiles_Click(object sender, RoutedEventArgs e)
         {
-            SYEngineCore.Playlist plist = new SYEngineCore.Playlist(SYEngineCore.PlaylistTypes.LocalFile);
+            var plist = new SYEngine.Playlist(SYEngine.PlaylistTypes.LocalFile);
             plist.Append(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\MultipartStreamMatroska\\0.mp4", 0, 0);
             plist.Append(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\MultipartStreamMatroska\\1.mp4", 0, 0);
             var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
@@ -62,8 +63,8 @@ namespace SYEngineRuntime
         {
             var test = new Uri(tboxNetworkUri.Text);
 
-            SYEngineCore.Playlist plist = new SYEngineCore.Playlist(SYEngineCore.PlaylistTypes.NetworkHttp);
-            SYEngineCore.PlaylistNetworkConfigs cfgs = default(SYEngineCore.PlaylistNetworkConfigs);
+            var plist = new SYEngine.Playlist(SYEngine.PlaylistTypes.NetworkHttp);
+            var cfgs = default(SYEngine.PlaylistNetworkConfigs);
             cfgs.DownloadRetryOnFail = true;
             cfgs.DetectDurationForParts = true;
             cfgs.HttpUserAgent = string.Empty;

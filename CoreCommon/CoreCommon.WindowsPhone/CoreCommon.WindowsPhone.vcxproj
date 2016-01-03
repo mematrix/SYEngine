@@ -97,6 +97,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,6 +134,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

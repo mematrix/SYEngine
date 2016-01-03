@@ -30,7 +30,7 @@
 
 ```
 In App::OnLaunched:
-  SYEngineCore.Core.Initialize();
+  SYEngine.Core.Initialize();
 ```
 
 ### 4. Build and Run
