@@ -3,9 +3,12 @@
 #include "HDCoreByteStreamHandler.h"
 #include <wrl\module.h>
 
+HMODULE khInstance;
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+		khInstance = hModule;
 		DisableThreadLibraryCalls(hModule);
 		GlobalOptionStartup();
 		Module<InProc>::GetModule().Create();
@@ -18,7 +21,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 STDAPI DllGetActivationFactory(HSTRING activatibleClassId, IActivationFactory** factory)
 {
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	return E_NOTIMPL;
+#else
 	return Module<InProc>::GetModule().GetActivationFactory(activatibleClassId, factory);
+#endif
 }
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, void** ppv)
