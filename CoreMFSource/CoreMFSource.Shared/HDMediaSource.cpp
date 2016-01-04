@@ -16,7 +16,7 @@ ComPtr<HDMediaSource> HDMediaSource::CreateMediaSource(int QueueSize)
 }
 
 HDMediaSource::HDMediaSource(int QueueSize) : 
-_state(STATE_INVALID), _taskMagicNumber(0), _nPendingEOS(0), 
+_state(STATE_INVALID), _taskMagicNumber(0), _nPendingEOS(0), _bReadPacketFlag(false),
 _start_op_seek_time(PACKET_NO_PTS), _sampleStartTime(0.0), _currentRate(1.0f),
 _network_mode(false), _network_delay(0), _network_buffering(false),
 _network_preroll_time(0.0), _network_buffer_progress(0), _network_live_stream(false),

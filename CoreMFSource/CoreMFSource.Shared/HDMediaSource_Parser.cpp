@@ -128,7 +128,7 @@ HRESULT HDMediaSource::CreateMFSampleFromAVMediaBuffer(AVMediaBuffer* avBuffer,I
 
 HRESULT HDMediaSource::PreloadStreamPacket()
 {
-	if (QueueStreamPacket() == QueuePacketNotifyNetwork) {
+	if (QueueStreamPacket() == QueuePacketNotifyNetwork || _network_buffering) {
 		CritSec::AutoLock lock(_cs);
 		SendNetworkStopBuffering();
 
@@ -191,8 +191,10 @@ HDMediaSource::QueuePacketResult HDMediaSource::QueueStreamPacket()
 			}
 		}
 
+		_bReadPacketFlag = true;
 		AVMediaPacket packet = {};
 		auto ave = _pMediaParser->ReadPacket(&packet);
+		_bReadPacketFlag = false;
 		if (AVE_FAILED(ave))
 		{
 			eos = true;

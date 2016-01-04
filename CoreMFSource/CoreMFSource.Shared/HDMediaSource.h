@@ -250,6 +250,7 @@ public:
 	void Unlock() throw() { _cs.Unlock(); }
 
 	inline MediaSourceState GetCurrentState() const throw() { return _state; }
+	inline bool IsReadPacketProcessing() const throw() { return _bReadPacketFlag; }
 
 	inline bool IsNetworkMode() const throw() { return _network_mode; }
 	inline unsigned GetNetworkDelay() const throw() { return _network_delay; }
@@ -405,6 +406,8 @@ private:
 	unsigned _network_buffer_progress;
 	bool _network_buffering;
 	bool _network_live_stream;
+
+	bool _bReadPacketFlag; //no lock.
 
 	int _nPendingEOS;
 	ComPtr<SourceOperation> _pSampleRequest;
