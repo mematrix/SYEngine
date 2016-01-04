@@ -129,11 +129,9 @@ HRESULT HDMediaSource::CreateMFSampleFromAVMediaBuffer(AVMediaBuffer* avBuffer,I
 HRESULT HDMediaSource::PreloadStreamPacket()
 {
 	if (QueueStreamPacket() == QueuePacketNotifyNetwork) {
-		_network_buffer_progress = 100;
+		CritSec::AutoLock lock(_cs);
 		SendNetworkStopBuffering();
 
-		//把所有可激活的流缓存了的样本全部分发出去。。。
-		CritSec::AutoLock lock(_cs);
 		unsigned count = _streamList.Count();
 		for (unsigned i = 0;i < count;i++)
 		{
