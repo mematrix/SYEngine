@@ -88,10 +88,8 @@ unsigned APETAGEX::GetString(const char* name,char* copyTo)
 	if (size == 0 && flag != 0)
 		return 0;
 	
-	try{
-		if (copyTo != nullptr)
-			memcpy(copyTo,data + offset,size);
-	}catch(...) { return 0; }
+	if (copyTo != nullptr)
+		memcpy(copyTo,data + offset,size);
 	return size;
 }
 
@@ -116,10 +114,8 @@ unsigned APETAGEX::GetCoverImage(void* copyTo)
 		}
 	}
 
-	try{
-		if (result != 0 && copyTo)
-			memcpy(copyTo,data + offset,result);
-	}catch(...) { return 0; }
+	if (result != 0 && copyTo)
+		memcpy(copyTo,data + offset,result);
 	return result;
 }
 
@@ -127,32 +123,30 @@ unsigned APETAGEX::SearchKeyOffset(const char* key,unsigned* size,unsigned* flag
 {
 	auto p = data;
 	unsigned offset = 0;
-	try{
-		for (unsigned i = 0;i < header.tag_count;i++)
+	for (unsigned i = 0;i < header.tag_count;i++)
+	{
+		*size = *(unsigned*)p;
+		*flag = *(unsigned*)(p + 4);
+
+		auto name = (char*)(p + 8);
+		unsigned name_size = strlen(name);
+		if (name_size == 0)
+			continue;
+
+		unsigned total_size = 8 + name_size + 1 + *size;
+		bool ok = false;
+		if (!strstr_mode)
+			ok = stricmp(key,name) == 0;
+		else
+			ok = strstr(strlwr(name),key) != nullptr;
+		if (ok)
 		{
-			*size = *(unsigned*)p;
-			*flag = *(unsigned*)(p + 4);
-
-			auto name = (char*)(p + 8);
-			unsigned name_size = strlen(name);
-			if (name_size == 0)
-				continue;
-
-			unsigned total_size = 8 + name_size + 1 + *size;
-			bool ok = false;
-			if (!strstr_mode)
-				ok = stricmp(key,name) == 0;
-			else
-				ok = strstr(strlwr(name),key) != nullptr;
-			if (ok)
-			{
-				total_size -= *size;
-				offset = (p + total_size) - data;
-				break;
-			}
-
-			p += total_size;
+			total_size -= *size;
+			offset = (p + total_size) - data;
+			break;
 		}
-	}catch(...) { return 0; }
+
+		p += total_size;
+	}
 	return offset;
 }

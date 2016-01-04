@@ -26,7 +26,7 @@
 #include <AutoMediaBuffer.h>
 #include <AutoMediaPacket.h>
 
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) && !defined(_SYENGINE_DEMUX)
 #include <CritSec.h>
 #include <Win32MacroTools.h>
 

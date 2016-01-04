@@ -97,7 +97,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\x86\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,7 +106,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\x86\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -115,7 +115,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\arm\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -124,7 +124,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\arm\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +133,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\x64\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,7 +142,7 @@
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
     <LibraryPath>..\ffmpeg\lib\x64\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ItemsRootNamespace)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
