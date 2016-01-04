@@ -2,5 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MediaExtensionActivate.cpp" />
+    <ClCompile Include="MediaExtensionInstaller.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MediaExtensionActivate.h" />
+    <ClInclude Include="MediaExtensionInstaller.h" />
   </ItemGroup>
 </Project>

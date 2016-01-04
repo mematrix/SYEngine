@@ -17,7 +17,7 @@ HRESULT HDMediaSource::GetService(REFGUID guidService,REFIID riid,LPVOID *ppvObj
 		CHAR szBuffer[MAX_PATH] = {};
 		GetModuleFileNameA(nullptr,szBuffer,ARRAYSIZE(szBuffer));
 		PathStripPathA(szBuffer);
-		if (lstrcmpiA(szBuffer,"wmplayer.exe") == 0)
+		if (GetModuleHandleA("wmp.dll"))
 		{
 			if (_pMetadata)
 			{

@@ -428,6 +428,7 @@ bool MultipartStream::Open(IMFAttributes* config, bool delete_list_file)
 		DeleteFileW(_list_file);
 
 	if (GetConfigs()->DebugInfo != NULL &&
+		strstr(GetConfigs()->DebugInfo, "\\") != NULL &&
 		strlen(GetConfigs()->DebugInfo) < MAX_PATH) {
 		WCHAR debugFile[MAX_PATH] = {};
 		MultiByteToWideChar(CP_ACP, 0, GetConfigs()->DebugInfo, -1, debugFile, _countof(debugFile));
