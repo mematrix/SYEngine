@@ -611,6 +611,7 @@ HRESULT HDMediaSource::OnRequestSample(SourceOperation* op)
 	{
 		DbgLogPrintf(L"OnNotifySeek...");
 		if (_pMediaParser->OnNotifySeek() != AV_ERR_OK) {
+			CritSec::AutoLock lock(_cs);
 			seek_error = true;
 			if (_network_buffering)
 				SendNetworkStopBuffering();

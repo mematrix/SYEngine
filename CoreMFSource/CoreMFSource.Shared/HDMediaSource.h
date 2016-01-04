@@ -256,6 +256,8 @@ public:
 	inline void SetNetworkPrerollTime(double seconds = 5.0) throw() { _network_preroll_time = seconds; }
 
 	inline bool IsBuffering() const throw() { return _network_buffering; }
+	void StartBuffering() { SendNetworkStartBuffering(); }
+	void StopBuffering() { SendNetworkStopBuffering(); }
 
 	HRESULT QueueAsyncOperation(SourceOperation::Operation opType) throw();
 	HRESULT ProcessOperationError(HRESULT hrStatus) throw();
