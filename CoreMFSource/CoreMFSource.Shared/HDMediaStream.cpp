@@ -535,6 +535,11 @@ HRESULT HDMediaStream::ProcessDispatchSamplesAsync()
 	SourceAutoLock lock(_pMediaSource.Get());
 	DbgLogPrintf(L"Enter DispatchSamplesAsync...");
 	DispatchSamples();
+	if (_samples.IsEmpty() && !_requests.IsEmpty() &&
+		_pMediaSource->IsNetworkMode() &&
+		_pMediaSource->IsReadPacketProcessing() &&
+		!_pMediaSource->IsBuffering())
+		_pMediaSource->StartBuffering();
 	DbgLogPrintf(L"Leave DispatchSamplesAsync.");
 
 	return S_OK;
