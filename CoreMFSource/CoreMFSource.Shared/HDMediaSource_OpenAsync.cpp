@@ -196,6 +196,8 @@ HRESULT HDMediaSource::OpenAsync(IMFByteStream* pByteStream,IMFAsyncCallback* pC
 		_network_mode = true;
 		_network_delay = 1;
 	}
+	if (GlobalOptionGetBOOL(kCoreForceUseNetowrkMode))
+		_network_mode = true;
 
 	CritSec::AutoLock lock(_cs);
 
@@ -428,6 +430,12 @@ HRESULT HDMediaSource::DoOpen()
 	hr = CreateStreams();
 	if (FAILED(hr))
 		return hr;
+
+#ifdef _SYENGINE_DEMUX
+	hr = CheckDemuxAllow();
+	if (FAILED(hr))
+		return hr;
+#endif
 
 	if (_network_mode)
 	{
@@ -679,4 +687,19 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 #endif
 
 	return hr;
+}
+
+HRESULT HDMediaSource::CheckDemuxAllow()
+{
+	//Load CoreDemuxers only.
+	auto type = _pMediaParser->GetMimeType();
+	if (type) {
+		if (strstr(type, "mp4") == NULL &&
+			strstr(type, "flv") == NULL &&
+			strstr(type, "matroska") == NULL)
+			return E_ABORT;
+		if (_pMediaParser->StaticCastToInterface(AV_MEDIA_INTERFACE_ID_CASE_EX) == NULL)
+			return E_ABORT;
+	}
+	return S_OK;
 }
