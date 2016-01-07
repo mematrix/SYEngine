@@ -20,6 +20,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Core.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaExtensionActivate.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaExtensionInstaller.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaInfo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaInfoWrapper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Playlist.h" />
   </ItemGroup>
@@ -28,6 +30,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionActivate.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionCallback.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaExtensionInstaller.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaInfoWrapper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Playlist.cpp" />
   </ItemGroup>

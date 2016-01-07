@@ -12,5 +12,10 @@
 #include <wrl.h>
 #include <wrl\wrappers\corewrappers.h>
 
+#include <memory>
+#include <vector>
+#include <future>
+#include <thread>
+
 using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Wrappers;

@@ -23,7 +23,7 @@
 #include "MKVMediaStream.h"
 
 #define MEDIA_FORMAT_MKV_NAME "Matroska AV Container"
-#define MEDIA_FORMAT_MKV_MIME "video/matroska"
+#define MEDIA_FORMAT_MKV_MIME "video/x-matroska"
 
 #define MAX_MATROSKA_STREAM_COUNT 128
 

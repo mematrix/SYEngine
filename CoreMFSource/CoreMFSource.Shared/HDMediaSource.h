@@ -269,6 +269,7 @@ private:
 	HRESULT InitMediaType(IAVMediaStream* pAVStream,IMFMediaType** ppMediaType);
 	HRESULT InitPresentationDescriptor();
 	HRESULT CreateStreams();
+	HRESULT CheckDemuxAllow();
 
 	HRESULT CreateAudioMediaType(IAVMediaStream* pAVStream,IMFMediaType** ppMediaType);
 	HRESULT CreateVideoMediaType(IAVMediaStream* pAVStream,IMFMediaType** ppMediaType);
