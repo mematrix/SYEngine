@@ -7,6 +7,7 @@
 //MediaExtensionCallback.cpp
 extern double MediaSourceNetworkIOBufTime;
 extern unsigned MediaSourceNetworkIOBufSize;
+extern bool MediaSourceForceNetworkMode;
 
 namespace SYEngine
 {
@@ -23,11 +24,23 @@ namespace SYEngine
 		static bool Initialize();
 		static bool Initialize(Windows::Foundation::Collections::IMapView<Platform::String^,Platform::String^>^ custom);
 		static void Uninitialize();
-		
-		static void ChangeNetworkPreloadTime(double bufTime)
-		{ MediaSourceNetworkIOBufTime = bufTime; }
-		static void ChangeNetworkIOBuffer(int sizeInBytes)
-		{ MediaSourceNetworkIOBufSize = (unsigned)sizeInBytes; }
+
+		static property double NetworkBufferTimeInSeconds
+		{
+			double get() { return MediaSourceNetworkIOBufTime; }
+			void set(double value) { MediaSourceNetworkIOBufTime = value; }
+		}
+		static property int NetworkBufferSizeInBytes
+		{
+			int get() { return MediaSourceNetworkIOBufSize; }
+			void set(int value) { MediaSourceNetworkIOBufSize = value; }
+		}
+
+		static property bool ForceNetworkMode
+		{
+			bool get() { return MediaSourceForceNetworkMode; }
+			void set(bool value) { MediaSourceForceNetworkMode = value; }
+		}
 
 		static event PlaylistSegmentUrlUpdateEventHandler^ PlaylistSegmentUrlUpdateEvent;
 		static event PlaylistSegmentDetailUpdateEventHandler^ PlaylistSegmentDetailUpdateEvent;
