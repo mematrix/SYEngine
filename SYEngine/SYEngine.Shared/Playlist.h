@@ -15,6 +15,7 @@ namespace SYEngine
 	{
 		double ExplicitTotalDurationSeconds;
 		bool DetectDurationForParts;
+		bool NotUseCorrectTimestamp;
 		bool DownloadRetryOnFail;
 		int FetchNextPartThresholdSeconds;
 		int BufferBlockSizeKB;
