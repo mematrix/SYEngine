@@ -61,7 +61,7 @@ namespace SYEngineRuntime
 #else
             SYEngine.Core.Initialize();
 #endif
-            SYEngine.Core.ChangeNetworkPreloadTime(2.0);
+            SYEngine.Core.NetworkBufferTimeInSeconds = 2.0;
             SYEngine.Core.PlaylistSegmentUrlUpdateEvent += OnPlaylistSegmentUrlUpdateEvent;
             SYEngine.Core.PlaylistSegmentDetailUpdateEvent += OnPlaylistSegmentDetailUpdateEvent;
 

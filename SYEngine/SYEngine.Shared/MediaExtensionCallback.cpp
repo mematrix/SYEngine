@@ -3,6 +3,7 @@
 
 double MediaSourceNetworkIOBufTime;
 unsigned MediaSourceNetworkIOBufSize;
+bool MediaSourceForceNetworkMode;
 
 static GUID GetGuidFromString(LPCWSTR str)
 {
@@ -39,6 +40,8 @@ void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWS
 			if (MediaSourceNetworkIOBufTime > 1.0)
 				attrs->SetDouble(GetGuidFromString(L"{BF18CECE-34A6-4601-BA51-EC485D137A05}"),
 				MediaSourceNetworkIOBufTime);
+			if (MediaSourceForceNetworkMode)
+				attrs->SetUINT32(GetGuidFromString(L"{6C423A5B-1717-42F0-BEF3-374D5CD8973E}"), TRUE);
 
 			attrs->Release();
 			LeaveCriticalSection((LPCRITICAL_SECTION)GetCoreMFsGlobalCS());
