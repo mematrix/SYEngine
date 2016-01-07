@@ -37,7 +37,7 @@ public:
 	};
 
 public:
-	MergeManager() throw() : _demux(NULL)
+	MergeManager() throw() : _demux(NULL), _non_adjust_timestamp_offset(false)
 	{ _input = _output = NULL; }
 	virtual ~MergeManager() throw()
 	{ if (_demux) delete _demux; }
@@ -48,6 +48,8 @@ public:
 
 	void SetTimeOffset(double audio_offset, double video_offset)
 	{ _audio_time_offset = audio_offset; _video_time_offset = video_offset; }
+	void SetForceUseDuration()
+	{ _non_adjust_timestamp_offset = true; }
 
 	bool ProcessHeader(double total_duration = 0.0, bool auto_duration = false);
 	bool ProcessComplete(double total_duration = 0.0);
@@ -95,6 +97,8 @@ private:
 	double _audio_time_offset, _video_time_offset; //Ê±¼äÆ«ÒÆ
 	double _start_time_offset; //such as IQIYI
 	int64_t _start_time_offset_audio_no_scale, _start_time_offset_video_no_scale;
+
+	bool _non_adjust_timestamp_offset;
 };
 
 #endif //__MERGE_MANAGER_H

@@ -137,9 +137,10 @@ char* Playlist::SerializeForNetworkHttp()
 			duration += (double)i->DurationInSeconds;
 	}
 
-	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
+	sprintf(p, "%d\r\n%s\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
 		(int)(duration * 1000.0),
 		(_cfgs.DetectDurationForParts ? "FULL" : "NO"),
+		(_cfgs.NotUseCorrectTimestamp ? "NextUseDuration" : ""),
 		(_cfgs.FetchNextPartThresholdSeconds > 1 ? _cfgs.FetchNextPartThresholdSeconds : 30),
 		(_cfgs.DownloadRetryOnFail ? "Reconnect" : "NO"),
 		(_cfgs.BufferBlockSizeKB > 8 ? _cfgs.BufferBlockSizeKB : 64),

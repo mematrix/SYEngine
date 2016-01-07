@@ -92,12 +92,19 @@ loop:
 	int64_t offset = _output->Tell();
 	Packet pkt;
 	if (!_demux->ReadPacket(&pkt)) {
-		//如果一个分段已经结束，记录这个分段最后的时间戳和帧时长
-		//生成下一个分段的时间偏移
-		_audio_time_offset = _audio_time_offset + 
-			(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts)) - _start_time_offset;
-		_video_time_offset = _video_time_offset + 
-			(double(_prev_video_time + _prev_video_duration) / double(_video_ts)) - _start_time_offset;
+		double duration = _demux->GetDuration();
+		if (!_non_adjust_timestamp_offset) {
+			//如果一个分段已经结束，记录这个分段最后的时间戳和帧时长
+			//生成下一个分段的时间偏移
+			_audio_time_offset = _audio_time_offset + 
+				(double(_prev_audio_time + _prev_audio_duration) / double(_audio_ts)) - _start_time_offset;
+			_video_time_offset = _video_time_offset + 
+				(double(_prev_video_time + _prev_video_duration) / double(_video_ts)) - _start_time_offset;
+		}else{
+			//如果设置不无缝过度时间戳，就使用时长
+			_audio_time_offset += duration;
+			_video_time_offset += duration;
+		}
 
 		_prev_video_time = _prev_video_time = 0;
 		_prev_audio_duration = _prev_video_duration = 0;

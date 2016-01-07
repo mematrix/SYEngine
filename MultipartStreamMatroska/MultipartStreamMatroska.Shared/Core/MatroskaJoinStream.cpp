@@ -298,28 +298,29 @@ void MatroskaJoinStream::PrepareConfigs(TextReader& tr)
 	_cfgs.LoadFullItems = (stricmp(tr.GetTextLine()->Line[1], "FULL") == 0);
 	_cfgs.LocalFileTestMode = (stricmp(tr.GetTextLine()->Line[0], "LOCAL") == 0);
 	if (!_cfgs.LocalFileTestMode) {
-		_cfgs.PreloadNextPartRemainSeconds = atoi(tr.GetTextLine()->Line[2]);
-		_cfgs.NetworkReconnect = (stricmp(tr.GetTextLine()->Line[3], "Reconnect") == 0);
-		if (strstr(tr.GetTextLine()->Line[4], "|") != NULL) {
-			_cfgs.NetworkBufBlockSizeKB = atoi(tr.GetTextLine()->Line[4]);
-			_cfgs.NetworkBufBlockCount = atoi(strstr(tr.GetTextLine()->Line[4], "|") + 1);
+		_cfgs.DefaultUsePartDuration = (stricmp(tr.GetTextLine()->Line[2], "NextUseDuration") == 0);
+		_cfgs.PreloadNextPartRemainSeconds = atoi(tr.GetTextLine()->Line[3]);
+		_cfgs.NetworkReconnect = (stricmp(tr.GetTextLine()->Line[4], "Reconnect") == 0);
+		if (strstr(tr.GetTextLine()->Line[5], "|") != NULL) {
+			_cfgs.NetworkBufBlockSizeKB = atoi(tr.GetTextLine()->Line[5]);
+			_cfgs.NetworkBufBlockCount = atoi(strstr(tr.GetTextLine()->Line[5], "|") + 1);
 		}
 		if (!_cfgs.LocalFileTestMode) {
-			strcpy(_cfgs.NetworkTempPath, tr.GetTextLine()->Line[5]);
-			strcpy(_cfgs.Http.Cookie, tr.GetTextLine()->Line[6]);
-			strcpy(_cfgs.Http.RefUrl, tr.GetTextLine()->Line[7]);
-			strcpy(_cfgs.Http.UserAgent, tr.GetTextLine()->Line[8]);
-			if (strlen(tr.GetTextLine()->Line[9]) > 0)
-				_cfgs.UniqueId = strdup(tr.GetTextLine()->Line[9]);
+			strcpy(_cfgs.NetworkTempPath, tr.GetTextLine()->Line[6]);
+			strcpy(_cfgs.Http.Cookie, tr.GetTextLine()->Line[7]);
+			strcpy(_cfgs.Http.RefUrl, tr.GetTextLine()->Line[8]);
+			strcpy(_cfgs.Http.UserAgent, tr.GetTextLine()->Line[9]);
 			if (strlen(tr.GetTextLine()->Line[10]) > 0)
-				_cfgs.DebugInfo = strdup(tr.GetTextLine()->Line[10]);
+				_cfgs.UniqueId = strdup(tr.GetTextLine()->Line[10]);
+			if (strlen(tr.GetTextLine()->Line[11]) > 0)
+				_cfgs.DebugInfo = strdup(tr.GetTextLine()->Line[11]);
 		}
 	}
 }
 
 bool MatroskaJoinStream::PrepareItems(TextReader& tr)
 {
-	static unsigned start_index = 11;
+	static unsigned start_index = 12;
 	unsigned count = (tr.GetTextLine()->Count - start_index) / 2;
 	if (count == 0)
 		return false;
@@ -435,6 +436,8 @@ bool MatroskaJoinStream::ProcessFirstItem()
 		delete merger;
 		return false;
 	}
+	if (_cfgs.LocalFileTestMode || _cfgs.DefaultUsePartDuration)
+		merger->SetForceUseDuration();
 
 	_index = 0; //设置为第一个分段索引
 	while (1)
