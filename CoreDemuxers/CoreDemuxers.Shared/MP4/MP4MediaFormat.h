@@ -14,7 +14,7 @@
 #include "MP4MediaStream.h"
 
 #define MEDIA_FORMAT_MP4_NAME "MPEG4 ISO Base Media"
-#define MEDIA_FORMAT_MP4_MIME "video/mpeg4"
+#define MEDIA_FORMAT_MP4_MIME "video/mp4"
 
 #define MAX_MP4_STREAM_COUNT 64
 

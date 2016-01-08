@@ -68,6 +68,7 @@ protected:
 		unsigned DurationMs; //总时间
 		bool LoadFullItems; //是否在Init时候就载入所有分段的信息
 		bool LocalFileTestMode; //本地文件测试模式
+		bool DefaultUsePartDuration; //使用每个part的duration作为时间戳offset
 		int PreloadNextPartRemainSeconds; //在上一个part播放到剩下多少秒的时候，载入下一个part
 		bool NetworkReconnect; //是否在下载中断的时候重新连接
 		int NetworkBufBlockSizeKB, NetworkBufBlockCount;
