@@ -1,5 +1,7 @@
 # ShanYe MediaFoundation Engine (Windows) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ghxr8hmfra2oukc2?svg=true)](https://ci.appveyor.com/project/saki-saki/syengine)
+
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
 ### 开发信息
