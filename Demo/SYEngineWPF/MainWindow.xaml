@@ -1,0 +1,46 @@
+﻿<Window x:Class="SYEngineWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SYEngineWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="400" MinWidth="500">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="100"></Setter>
+            <Setter Property="MinHeight" Value="40"></Setter>
+            <Setter Property="Margin" Value="1,2"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <MediaElement x:Name="player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <StackPanel Grid.Row="1" Margin="4">
+            <TextBlock x:Name="tbPlayStatus" Margin="20,0,0,0" FontSize="21" />
+            <TextBlock x:Name="tbDownloadProgress" Margin="20,5,0,0" FontSize="21" />
+        </StackPanel>
+
+        <CheckBox Grid.Row="2" Margin="4" x:Name="cboxLoop" Content="Loop" IsChecked="True" />
+        <Button Grid.Row="3" Margin="4"  x:Name="btnPlayFile" Content="Play File..." Click="BtnPlayFile_OnClick" />
+
+        <TextBox Grid.Row="4" Margin="4" MinHeight="35" ToolTip="url" x:Name="tboxNetworkUri" HorizontalAlignment="Stretch" TextWrapping="NoWrap" InputScope="Url" />
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="4">
+            <Button  x:Name="btnPlayNetwork"  Content="Play Network..." Click="btnPlayNetwork_Click" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Margin="4">
+            <Button x:Name="btnMultiFiles" Content="Test for MultipartStreamMatroska" Click="btnMultiFiles_Click" />
+            <Button x:Name="btnMultiUrl" Content="Test for MultipartStreamMatroska (Network)" Click="btnMultiUrl_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
