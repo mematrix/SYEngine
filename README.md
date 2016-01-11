@@ -1,6 +1,10 @@
-# ShanYe MediaFoundation Engine (Windows) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine)
+# ShanYe MediaFoundation Engine (Windows) 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ghxr8hmfra2oukc2?svg=true)](https://ci.appveyor.com/project/saki-saki/syengine)
+
+
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) vs2013 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/nmlsillgawr0n0tc?svg=true)](https://ci.appveyor.com/project/saki-saki/syengine) vs2015 
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
