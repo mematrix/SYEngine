@@ -48,7 +48,8 @@ CommonResult WindowsHttpDataSource::InitCheck()
 		return CommonResult::kNonInit;
 
 	_init_with_wait_headers = true;
-	if (!WaitForResponseHeaders()) {
+	if (!WaitForResponseHeaders() || 
+		_downloader->GetStatusCode() >= 400) {
 		NotifyCompleteDownloadAbort();
 		return CommonResult::kError;
 	}
@@ -312,7 +313,8 @@ WindowsHttpDataSource::NetworkDownloadStatus WindowsHttpDataSource::WaitNetworkD
 		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kError),
 		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kEof),
 		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kBuffered),
-		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kDataAvailable)};
+		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kDataAvailable),
+		_downloader->GetAsyncEventHandle(WindowsHttpDownloader::AsyncEvents::kStatusCode400)};
 
 	DWORD index = WaitForMultipleObjectsEx(_countof(events), events,
 		FALSE, _cfgs.Timeout * 2 * 1000, FALSE);
@@ -331,6 +333,8 @@ WindowsHttpDataSource::NetworkDownloadStatus WindowsHttpDataSource::WaitNetworkD
 		return NetworkDownloadStatus::EventBuffered;
 	else if (index == 4)
 		return NetworkDownloadStatus::EventDataAvailable;
+	else if (index == 5)
+		return NetworkDownloadStatus::EventError;
 
 	return NetworkDownloadStatus::EventTimeout;
 }
