@@ -5,6 +5,12 @@ class AutoLibrary
 	HMODULE _mod;
 
 public:
+	AutoLibrary() throw() // -> KernelBase.dll
+	{
+		MEMORY_BASIC_INFORMATION mbi = {};
+		VirtualQuery(&VirtualQuery, &mbi, sizeof(mbi));
+		_mod = (HMODULE)mbi.AllocationBase;
+	}
 	explicit AutoLibrary(HMODULE hMod) throw() { _mod = hMod; }
 	explicit AutoLibrary(const char* file_name) throw()
 	{

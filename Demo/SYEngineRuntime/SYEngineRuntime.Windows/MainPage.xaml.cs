@@ -52,11 +52,10 @@ namespace SYEngineRuntime
             var plist = new SYEngine.Playlist(SYEngine.PlaylistTypes.LocalFile);
             plist.Append(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\MultipartStreamMatroska\\0.mp4", 0, 0);
             plist.Append(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\MultipartStreamMatroska\\1.mp4", 0, 0);
-            var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
 
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
-            player.Source = new Uri(s);
+            player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
         private async void btnMultiUrl_Click(object sender, RoutedEventArgs e)
@@ -79,11 +78,10 @@ namespace SYEngineRuntime
             var debugFile = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.TemporaryFolder.Path, "DebugFile.mkv");
             plist.SetDebugFile(debugFile);
 #endif
-            var s = "plist://WinRT-TemporaryFolder_" + System.IO.Path.GetFileName(await plist.SaveAndGetFileUriAsync());
-            
+
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
-            player.Source = new Uri(s);
+            player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
         private void player_CurrentStateChanged(object sender, RoutedEventArgs e)

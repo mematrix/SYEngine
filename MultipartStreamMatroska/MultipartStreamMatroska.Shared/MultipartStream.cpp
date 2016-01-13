@@ -424,8 +424,10 @@ bool MultipartStream::Open(IMFAttributes* config, bool delete_list_file)
 	_closed = false;
 	_state = AfterOpen; //×´Ì¬ÊÇOpenºó
 
+#ifndef _DEBUG
 	if (delete_list_file)
 		DeleteFileW(_list_file);
+#endif
 
 	if (GetConfigs()->DebugInfo != NULL &&
 		strstr(GetConfigs()->DebugInfo, "\\") != NULL &&
