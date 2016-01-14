@@ -321,18 +321,16 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 			return PARSER_FLV_ERR_AUDIO_STREAM_UNSUPPORTED;
 	}else if (tag_type == FLV_TAG_TYPE_VIDEO)
 	{
-		if (codec_id != FLV_VIDEO_CODEC_H264 && 
+		if (codec_id != FLV_VIDEO_CODEC_H264 && codec_id != FLV_VIDEO_CODEC_VP6 &&
 			_global_info.video_info.raw_codec_id != FLV_VIDEO_CODEC_H264 &&
+			_global_info.video_info.raw_codec_id != FLV_VIDEO_CODEC_VP6 &&
 			_global_info.video_info.raw_codec_id != -1) {
-			if (_global_info.video_info.raw_codec_id == FLV_VIDEO_CODEC_VP6 ||
-				_global_info.video_info.raw_codec_id == FLV_VIDEO_CODEC_VP6A)
-				return PARSER_FLV_ERR_VIDEO_VP6_STREAM_UNSUPPORTED;
-			else if (_global_info.video_info.raw_codec_id == FLV_VIDEO_CODEC_H263)
+			if (_global_info.video_info.raw_codec_id == FLV_VIDEO_CODEC_H263)
 				return PARSER_FLV_ERR_VIDEO_H263_STREAM_UNSUPPORTED;
 			else
 				return PARSER_FLV_ERR_VIDEO_STREAM_UNSUPPORTED;
 		}
-		if (codec_id != FLV_VIDEO_CODEC_H264)
+		if (codec_id != FLV_VIDEO_CODEC_H264 && codec_id != FLV_VIDEO_CODEC_VP6)
 		{
 			memset(packet,0,sizeof(FLV_STREAM_PACKET));
 			packet->type = SupportPacketType::PacketTypeVideo;
@@ -351,7 +349,10 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 			_global_info.audio_type = AudioStreamType_PCM;
 	}else if (tag_type == FLV_TAG_TYPE_VIDEO && _global_info.video_type == VideoStreamType_None)
 	{
-		_global_info.video_type = VideoStreamType_AVC;
+		if (codec_id == FLV_VIDEO_CODEC_H264)
+			_global_info.video_type = VideoStreamType_AVC;
+		else if (codec_id == FLV_VIDEO_CODEC_VP6)
+			_global_info.video_type = VideoStreamType_VP6;
 	}
 
 	if (tag_type == FLV_TAG_TYPE_VIDEO &&
@@ -407,7 +408,10 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 		int len = 0;
 		if (tag_type == FLV_TAG_TYPE_VIDEO)
 		{
-			len = tag_size - FLV_H264_VIDEO_TAG_HEAD_LEN;
+			if (codec_id == FLV_VIDEO_CODEC_H264)
+				len = tag_size - FLV_H264_VIDEO_TAG_HEAD_LEN;
+			else
+				len = tag_size - 1;
 		}else if (tag_type == FLV_TAG_TYPE_AUDIO)
 		{
 			if (codec_id == FLV_AUDIO_CODEC_AAC)
@@ -442,27 +446,30 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 				_pkt_buf_video.type = SupportPacketType::PacketTypeVideo;
 				_pkt_buf_video.key_frame = (v_frame_type == FLV_FRAME_TYPE_KEY ? 1:0);
 
-				unsigned cts = 0;
-				unsigned char* p = (unsigned char*)&cts;
-				p[0] = pdata[4];
-				p[1] = pdata[3];
-				p[2] = pdata[2];
+				if (codec_id == FLV_VIDEO_CODEC_H264)
+				{
+					unsigned cts = 0;
+					unsigned char* p = (unsigned char*)&cts;
+					p[0] = pdata[4];
+					p[1] = pdata[3];
+					p[2] = pdata[2];
 
-				_pkt_buf_video.timestamp += cts;
+					_pkt_buf_video.timestamp += cts;
+				}
 
 				_pktVideoBuffer.Alloc(len);
 				_pkt_buf_video.data_buf = _pktVideoBuffer.Get<unsigned char>();
 				if (_pkt_buf_video.data_buf == nullptr)
 					return PARSER_FLV_ERR_BAD_ALLOC;
 
-				if (!_output_avc1)
+				if (!_output_avc1 && codec_id == FLV_VIDEO_CODEC_H264)
 				{
 					_pkt_buf_video.data_size = ScanAllFrameNALU(pdata + FLV_H264_VIDEO_TAG_HEAD_LEN,_pkt_buf_video.data_buf,len);
 					if (_pkt_buf_video.data_size == 0)
 						_pkt_buf_video.skip_this = 1;
 				}else{
 					_pkt_buf_video.data_size = len;
-					memcpy(_pkt_buf_video.data_buf,pdata + FLV_H264_VIDEO_TAG_HEAD_LEN,len);
+					memcpy(_pkt_buf_video.data_buf,pdata + (tag_size - len),len);
 				}
 
 				*packet = _pkt_buf_video;
