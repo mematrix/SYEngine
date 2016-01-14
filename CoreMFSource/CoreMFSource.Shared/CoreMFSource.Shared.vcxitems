@@ -28,7 +28,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HDCoreByteStreamHandler.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_AudioMediaType.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Base.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_Desktop.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_EventGenerator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_GetService.cpp" />
@@ -43,9 +42,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_TaskQueue.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaSource_VideoMediaType.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_Base.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_EventGenerator.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HDMediaStream_PrivateData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MFMediaIOEx.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
