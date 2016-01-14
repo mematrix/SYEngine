@@ -40,6 +40,25 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 	_taskInvokeCallback.SetCallback(this,&HDMediaStream::OnInvoke);
 }
 
+HRESULT HDMediaStream::QueryInterface(REFIID iid,void** ppv)
+{
+	if (ppv == nullptr)
+		return E_POINTER;
+
+	*ppv = nullptr;
+	if (iid == IID_IUnknown)
+		*ppv = static_cast<IUnknown*>(this);
+	else if (iid == IID_IMFMediaEventGenerator)
+		*ppv = static_cast<IMFMediaEventGenerator*>(this);
+	else if (iid == IID_IMFMediaStream)
+		*ppv = static_cast<IMFMediaStream*>(this);
+	else
+		return E_NOINTERFACE;
+
+	AddRef();
+	return S_OK;
+}
+
 HRESULT HDMediaStream::GetMediaSource(IMFMediaSource **ppMediaSource)
 {
 	if (ppMediaSource == nullptr)
@@ -568,6 +587,17 @@ double HDMediaStream::GetSampleQueueLastTime()
 	ComPtr<IMFSample> pSample;
 	_samples.GetBack(&pSample);
 	return WMF::Misc::GetSecondsFromMFSample(pSample.Get());
+}
+
+void HDMediaStream::SetPrivateData(unsigned char* pb,unsigned len)
+{
+	_private_state = true;
+	_private_data.Free();
+
+	_private_data(len);
+	memcpy(_private_data.Get(),pb,len);
+
+	_private_size = len;
 }
 
 void HDMediaStream::QueueTickEvent(LONG64 time)
