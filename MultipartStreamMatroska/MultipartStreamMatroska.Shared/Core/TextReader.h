@@ -1,6 +1,7 @@
 #ifndef __TEXT_READER_H
 #define __TEXT_READER_H
 
+class StringArray;
 class TextReader
 {
 public:
@@ -10,7 +11,8 @@ public:
 		int Count;
 	};
 
-	explicit TextReader(int max_count = 128) throw();
+	TextReader() throw();
+	explicit TextReader(int max_count) throw();
 	~TextReader() throw();
 
 	bool ParseFile(const char* file_path) throw();
@@ -23,6 +25,8 @@ private:
 
 	TextLine _lines;
 	int _max_count;
+
+	StringArray* _dyn_lines;
 };
 
 #endif //__TEXT_READER_H
