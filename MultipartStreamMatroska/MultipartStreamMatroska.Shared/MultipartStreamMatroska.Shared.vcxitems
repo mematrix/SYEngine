@@ -31,6 +31,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\BitReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\parser\FLACParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\RingBlockBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\StringArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\TextReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDataSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDownloader.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\BitReader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\FLACParser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\RingBlockBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\StringArray.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\TextReader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDataSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\WindowsHttpDownloader.h" />

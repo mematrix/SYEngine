@@ -80,6 +80,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadImpl.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UrlHandler.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Core\StringArray.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Core\parser\AACParser.h">
@@ -173,5 +176,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadImpl.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UrlHandler.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Core\StringArray.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
