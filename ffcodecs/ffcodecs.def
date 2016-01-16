@@ -100,6 +100,17 @@ EXPORTS
 	av_stream_get_parser
 	av_stream_get_r_frame_rate
 	av_stream_set_r_frame_rate
+	sws_scale
+	sws_getContext
+	sws_getCachedContext
+	sws_alloc_context
+	sws_init_context
+	sws_freeContext
+	swr_alloc
+	swr_alloc_set_opts
+	swr_init
+	swr_free
+	swr_convert
 	avio_open
 	avio_open2
 	avio_close
