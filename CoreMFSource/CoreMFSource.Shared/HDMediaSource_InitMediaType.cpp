@@ -293,6 +293,11 @@ HRESULT HDMediaSource::CreateVideoMediaType(IAVMediaStream* pAVStream,IMFMediaTy
 	case MEDIA_CODEC_VIDEO_VP10:
 		hr = InitVideoVPXMediaType(videoDesc,pMediaType.Get(),pAVStream->GetCodecType());
 		break;
+	case MEDIA_CODEC_VIDEO_VP6:
+	case MEDIA_CODEC_VIDEO_VP6F:
+	case MEDIA_CODEC_VIDEO_VP6A:
+		hr = InitVideoVP6MediaType(videoDesc,pMediaType.Get(),pAVStream->GetCodecType());
+		break;
 	default:
 		hr = MF_E_INVALID_CODEC_MERIT;
 	}

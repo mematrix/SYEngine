@@ -309,6 +309,7 @@ private:
 	HRESULT InitVideoVC1MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);
 	HRESULT InitVideoWMVMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
 	HRESULT InitVideoVPXMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
+	HRESULT InitVideoVP6MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
 	HRESULT InitVideoMPEG2MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType); //mpeg1 and 2
 	HRESULT InitVideoMPEG4MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);
 	HRESULT InitVideoMJPEGMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);

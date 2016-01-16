@@ -70,7 +70,8 @@ unsigned FLVMediaFormat::InternalInitStreams(std::shared_ptr<FLVParser::FLVStrea
 
 bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>& parser)
 {
-	if (_stream_info.video_type != FLVParser::VideoStreamType_AVC)
+	if (_stream_info.video_type != FLVParser::VideoStreamType_AVC &&
+		_stream_info.video_type != FLVParser::VideoStreamType_VP6)
 		return false;
 	if (_stream_info.audio_type != FLVParser::AudioStreamType_AAC &&
 		_stream_info.audio_type != FLVParser::AudioStreamType_MP3 &&
@@ -78,35 +79,56 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 		_stream_info.no_audio_stream == 0)
 		return false;
 
-	std::shared_ptr<IVideoDescription> h264;
-	if (!_force_avc1)
-		h264 = std::make_shared<X264VideoDescription>
-			(_stream_info.delay_flush_spec_info.avc_spec_info,_stream_info.delay_flush_spec_info.avc_info_size);
-	else
-		h264 = std::make_shared<AVC1VideoDescription>
-			(_stream_info.delay_flush_spec_info.avcc,_stream_info.delay_flush_spec_info.avcc_size,
-			_stream_info.video_info.width,_stream_info.video_info.height);
+	if (_stream_info.video_type == FLVParser::VideoStreamType_AVC) {
+		std::shared_ptr<IVideoDescription> h264;
+		if (!_force_avc1)
+			h264 = std::make_shared<X264VideoDescription>
+				(_stream_info.delay_flush_spec_info.avc_spec_info,_stream_info.delay_flush_spec_info.avc_info_size);
+		else
+			h264 = std::make_shared<AVC1VideoDescription>
+				(_stream_info.delay_flush_spec_info.avcc,_stream_info.delay_flush_spec_info.avcc_size,
+				_stream_info.video_info.width,_stream_info.video_info.height);
 
-	H264_PROFILE_SPEC profile = {};
-	h264->GetProfile(&profile);
-	if (profile.profile == 0 && !_force_avc1)
-		return false;
+		H264_PROFILE_SPEC profile = {};
+		h264->GetProfile(&profile);
+		if (profile.profile == 0 && !_force_avc1)
+			return false;
 
-	VideoBasicDescription vdesc = {};
-	h264->GetVideoDescription(&vdesc);
-	vdesc.bitrate = _stream_info.video_info.bitrate * 1000;
+		VideoBasicDescription vdesc = {};
+		h264->GetVideoDescription(&vdesc);
+		vdesc.bitrate = _stream_info.video_info.bitrate * 1000;
 
-	if ((profile.variable_framerate || _force_avc1) && _stream_info.video_info.fps != 0.0)
-	{
-		//process variable_framerate.
-		vdesc.frame_rate.den = 10000000;
-		vdesc.frame_rate.num = (int)(_stream_info.video_info.fps * 10000000.0);
+		if ((profile.variable_framerate || _force_avc1) && _stream_info.video_info.fps != 0.0)
+		{
+			//process variable_framerate.
+			vdesc.frame_rate.den = 10000000;
+			vdesc.frame_rate.num = (int)(_stream_info.video_info.fps * 10000000.0);
+		}
+		h264->ExternalUpdateVideoDescription(&vdesc);
+
+		_video_stream = std::make_shared<FLVMediaStream>(h264,
+			MEDIA_CODEC_VIDEO_H264,
+			float(_stream_info.video_info.fps));
+	}else{
+		if (_stream_info.video_info.width == 0 ||
+			_stream_info.video_info.height == 0)
+			return false;
+
+		CommonVideoCore comm = {};
+		comm.type = -1;
+		comm.desc.aspect_ratio.num = comm.desc.aspect_ratio.den = 1;
+		comm.desc.scan_mode = VideoScanModeMixedInterlaceOrProgressive;
+		comm.desc.width = _stream_info.video_info.width;
+		comm.desc.height = _stream_info.video_info.height;
+		comm.desc.frame_rate.num = (int)(_stream_info.video_info.fps * 10000000.0);
+		comm.desc.frame_rate.den = 10000000;
+		comm.desc.compressed = true;
+
+		std::shared_ptr<IVideoDescription> vp6 = std::make_shared<CommonVideoDescription>(comm);
+		_video_stream = std::make_shared<FLVMediaStream>(vp6,
+			MEDIA_CODEC_VIDEO_VP6F,
+			float(_stream_info.video_info.fps));
 	}
-	h264->ExternalUpdateVideoDescription(&vdesc);
-
-	_video_stream = std::make_shared<FLVMediaStream>(h264,
-		MEDIA_CODEC_VIDEO_H264,
-		float(_stream_info.video_info.fps));
 
 	if (_stream_info.audio_type == FLVParser::AudioStreamType_AAC)
 	{

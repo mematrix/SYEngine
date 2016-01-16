@@ -371,6 +371,17 @@ HRESULT HDMediaSource::InitVideoVPXMediaType(IVideoDescription* pDesc,IMFMediaTy
 	return S_OK;
 }
 
+HRESULT HDMediaSource::InitVideoVP6MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type)
+{
+	InitVideoVPXMediaType(pDesc,pMediaType,codec_type);
+	pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6);
+	if (codec_type == MediaCodecType::MEDIA_CODEC_VIDEO_VP6F)
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6F);
+	else if (codec_type == MediaCodecType::MEDIA_CODEC_VIDEO_VP6A)
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6A);
+	return S_OK;
+}
+
 HRESULT HDMediaSource::InitVideoQuickSyncMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType ct)
 {
 	if (ct != MEDIA_CODEC_VIDEO_MPEG2 &&
