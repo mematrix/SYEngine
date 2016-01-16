@@ -60,6 +60,10 @@
 
 #include "MFSeekInfo.hxx"
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#pragma comment(lib, "evr.lib")
+#endif
+
 ////////////// Sample Queue Size //////////////
 #define STREAM_QUEUE_SIZE_DEFAULT 7
 
@@ -171,7 +175,7 @@ enum MediaSourceState
 };
 
 class HDMediaSource WrlSealed : 
-	public IMFMediaSource,
+	public IMFMediaSourceEx,
 	public IMFGetService,
 	public IMFRateControl,
 	public IMFRateSupport,
@@ -210,6 +214,11 @@ public: //IMFMediaEventGenerator & IMFMediaSource
 	STDMETHODIMP Shutdown();
 	STDMETHODIMP Start(IMFPresentationDescriptor *pPresentationDescriptor,const GUID *pguidTimeFormat,const PROPVARIANT *pvarStartPosition);
 	STDMETHODIMP Stop();
+
+public: //IMFMediaSourceEx
+	STDMETHODIMP GetSourceAttributes(IMFAttributes **ppAttributes) { return E_NOTIMPL; }
+	STDMETHODIMP GetStreamAttributes(DWORD dwStreamIdentifier, IMFAttributes **ppAttributes) { return E_NOTIMPL; }
+	STDMETHODIMP SetD3DManager(IUnknown *pManager);
 
 public: //IMFGetService
 	STDMETHODIMP GetService(REFGUID guidService,REFIID riid,LPVOID *ppvObject);
@@ -259,6 +268,8 @@ public:
 	inline bool IsBuffering() const throw() { return _network_buffering; }
 	void StartBuffering() { SendNetworkStartBuffering(); }
 	void StopBuffering() { SendNetworkStopBuffering(); }
+
+	IMFDXGIDeviceManager* GetDXGIDeviceManager() throw() { return _dxgiDeviceManager.Get(); } //non AddRef.
 
 	HRESULT QueueAsyncOperation(SourceOperation::Operation opType) throw();
 	HRESULT ProcessOperationError(HRESULT hrStatus) throw();
@@ -449,4 +460,6 @@ private:
 		DASH
 	};
 	HandlerTypes _url_type;
+
+	ComPtr<IMFDXGIDeviceManager> _dxgiDeviceManager;
 };

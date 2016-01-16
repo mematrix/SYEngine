@@ -61,8 +61,9 @@ HRESULT HDMediaSource::QueryInterface(REFIID iid,void** ppv)
 	*ppv = nullptr;
 	if (iid == IID_IUnknown ||
 		iid == IID_IMFMediaEventGenerator ||
-		iid == IID_IMFMediaSource)
-		*ppv = static_cast<IMFMediaSource*>(this);
+		iid == IID_IMFMediaSource ||
+		iid == IID_IMFMediaSourceEx)
+		*ppv = static_cast<IMFMediaSourceEx*>(this);
 	else if (iid == IID_IMFGetService)
 		*ppv = static_cast<IMFGetService*>(this);
 	else if (iid == IID_IMFRateControl)
@@ -680,4 +681,24 @@ HRESULT HDMediaSource::OnEndOfStream(SourceOperation* op)
 		return _pEventQueue->QueueEventParamVar(MEEndOfPresentation,GUID_NULL,S_OK,nullptr);
 
 	return S_OK;
+}
+
+HRESULT HDMediaSource::SetD3DManager(IUnknown *pManager)
+{
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	return E_NOTIMPL;
+#else
+	CritSec::AutoLock lock(_cs);
+	HRESULT hr = CheckShutdown();
+	if (FAILED(hr))
+		return hr;
+
+	_dxgiDeviceManager.Reset();
+	if (pManager != NULL)
+		hr = pManager->QueryInterface(IID_PPV_ARGS(&_dxgiDeviceManager));
+	if (FAILED(hr))
+		return hr;
+
+	return S_OK;
+#endif
 }
