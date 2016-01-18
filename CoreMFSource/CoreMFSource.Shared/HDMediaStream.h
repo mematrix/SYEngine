@@ -125,6 +125,8 @@ public:
 		return _CopyMediaType.Get();
 	}
 
+	void OnProcessDirectXManager();
+
 public:
 	void SetPrivateData(unsigned char* pb,unsigned len);
 	inline unsigned char* GetPrivateData() { return _private_data.Get(); }

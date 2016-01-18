@@ -699,6 +699,17 @@ HRESULT HDMediaSource::SetD3DManager(IUnknown *pManager)
 	if (FAILED(hr))
 		return hr;
 
+	unsigned count = _streamList.Count();
+	for (unsigned i = 0;i < count;i++)
+	{
+		ComPtr<HDMediaStream> pStream;
+		_streamList.GetAt(i,pStream.GetAddressOf());
+		GUID mediaType = GUID_NULL;
+		pStream->GetMediaType()->GetGUID(MF_MT_MAJOR_TYPE,&mediaType);
+		if (mediaType == MFMediaType_Video)
+			pStream->OnProcessDirectXManager();
+	}
+
 	return S_OK;
 #endif
 }

@@ -589,6 +589,45 @@ double HDMediaStream::GetSampleQueueLastTime()
 	return WMF::Misc::GetSecondsFromMFSample(pSample.Get());
 }
 
+void HDMediaStream::OnProcessDirectXManager()
+{
+	DbgLogPrintf(L"%s %d::OnProcessDirectXManager...",L"HDMediaStream",_index);
+
+	auto dx = _pMediaSource->GetDXGIDeviceManager();
+	if (dx == NULL)
+		return;
+
+	ComPtr<IMFAttributes> attrs;
+	if (FAILED(MFCreateAttributes(&attrs,1)))
+		return;
+
+	ComPtr<IMFVideoSampleAllocatorEx> alloctor;
+	if (FAILED(MFCreateVideoSampleAllocatorEx(IID_IMFVideoSampleAllocatorEx,(void**)&alloctor)))
+		return;
+
+	attrs->SetUINT32(MF_SA_D3D11_BINDFLAGS,8); //D3D11_BIND_SHADER_RESOURCE
+	if (SUCCEEDED(alloctor->SetDirectXManager(dx))) {
+		GUID type = GUID_NULL;
+		GetMediaType()->GetGUID(MF_MT_SUBTYPE,&type);
+		if (type == MFVideoFormat_NV12 ||
+			type == MFVideoFormat_YV12 ||
+			type == MFVideoFormat_I420 ||
+			type == MFVideoFormat_IYUV ||
+			type == MFVideoFormat_UYVY ||
+			type == MFVideoFormat_YUY2 ||
+			type == MFVideoFormat_P010 ||
+			type == MFVideoFormat_P016 ||
+			type == MFVideoFormat_RGB24 ||
+			type == MFVideoFormat_RGB32 ||
+			type == MFVideoFormat_ARGB32) {
+			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,16,attrs.Get(),GetMediaType()))) {
+				//TODO...
+				DbgLogPrintf(L"Stream %d to use DXVA Allocator.",_index);
+			}
+		}
+	}
+}
+
 void HDMediaStream::SetPrivateData(unsigned char* pb,unsigned len)
 {
 	_private_state = true;
