@@ -54,7 +54,6 @@ AV_MEDIA_ERR FLVMediaFormat::ReadPacket(AVMediaPacket* packet)
 			if (_skip_unknown_stream) {
 				if (ret == PARSER_FLV_ERR_AUDIO_STREAM_UNSUPPORTED ||
 					ret == PARSER_FLV_ERR_VIDEO_STREAM_UNSUPPORTED ||
-					ret == PARSER_FLV_ERR_VIDEO_VP6_STREAM_UNSUPPORTED ||
 					ret == PARSER_FLV_ERR_VIDEO_H263_STREAM_UNSUPPORTED)
 					continue;
 			}

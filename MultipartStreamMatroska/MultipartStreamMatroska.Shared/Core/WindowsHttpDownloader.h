@@ -59,7 +59,8 @@ public:
 		kConnected = 3,
 		kSendComplete = 4,
 		kRecvComplete = 5,
-		kDataAvailable = 6
+		kDataAvailable = 6,
+		kStatusCode400 = 7,
 	};
 	HANDLE GetAsyncEventHandle(AsyncEvents types) const throw()
 	{ return _events[types]; }
@@ -123,6 +124,7 @@ private:
 		EventSendRequest = 4, //手动重置
 		EventReceiveResponse = 5, //手动重置
 		EventDataAvailable = 6, //自动重置
+		EventStatusCode400 = 7, //手动重置
 		EventMaxCount
 	};
 	HANDLE _events[EventTypes::EventMaxCount];

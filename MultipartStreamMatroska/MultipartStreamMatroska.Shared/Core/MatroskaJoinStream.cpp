@@ -26,8 +26,10 @@ bool MatroskaJoinStream::Init(const wchar_t* list_file)
 		return false;
 
 	PrepareConfigs(tr); //载入设置
-	if (_cfgs.NetworkReconnect)
+	if (_cfgs.NetworkReconnect) {
 		_io_stream.SetAutoReconnect();
+		_io_stream.SetReconnectNotify(&_dsio_reconn_callback);
+	}
 	if (!_cfgs.LocalFileTestMode) {
 		if (!PrepareItems(tr)) //载入所有list
 			return false;
