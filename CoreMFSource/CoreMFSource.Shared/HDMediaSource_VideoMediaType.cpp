@@ -52,6 +52,9 @@ HRESULT HDMediaSource::InitVideoHEVCMediaType(IVideoDescription* pDesc,IMFMediaT
 	pMediaType->SetGUID(MF_MT_SUBTYPE,
 		es ? MFVideoFormat_HEVC_ES:MFVideoFormat_HEVC);
 
+	if (!es && GlobalOptionGetBOOL(kCoreForceSoftwareDecode))
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_HVC1);
+
 	pMediaType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT,FALSE);
 	pMediaType->SetUINT32(MF_MT_SAMPLE_SIZE,1);
 	pMediaType->SetUINT32(MF_MT_FIXED_SIZE_SAMPLES,FALSE);
@@ -91,6 +94,9 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 {
 	pMediaType->SetGUID(MF_MT_SUBTYPE,
 		es ? MFVideoFormat_H264_ES:MFVideoFormat_H264);
+
+	if (!es && GlobalOptionGetBOOL(kCoreForceSoftwareDecode))
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_AVC1);
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (!IsWindows8())

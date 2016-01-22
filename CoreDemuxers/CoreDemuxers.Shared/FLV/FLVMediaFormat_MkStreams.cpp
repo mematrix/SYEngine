@@ -98,7 +98,7 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 		h264->GetVideoDescription(&vdesc);
 		vdesc.bitrate = _stream_info.video_info.bitrate * 1000;
 
-		if ((profile.variable_framerate || _force_avc1) && _stream_info.video_info.fps != 0.0)
+		if (profile.variable_framerate && _stream_info.video_info.fps != 0.0)
 		{
 			//process variable_framerate.
 			vdesc.frame_rate.den = 10000000;

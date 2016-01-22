@@ -104,13 +104,15 @@ static bool InitAVC1Track(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDe
 	if (profile.profile == 0)
 		return false;
 
-	VideoBasicDescription temp = {};
-	avc1->GetVideoDescription(&temp);
-	temp.width = info.Video.Width;
-	temp.height = info.Video.Height;
-	temp.frame_rate.den = 10000000;
-	temp.frame_rate.num = (int)(info.Video.FrameRate * 10000000.0);
-	avc1->ExternalUpdateVideoDescription(&temp);
+	//处理可变帧率的H264-ES。
+	if (profile.variable_framerate && info.Video.FrameRate != 0.0)
+	{
+		VideoBasicDescription temp = {};
+		avc1->GetVideoDescription(&temp);
+		temp.frame_rate.den = 10000000;
+		temp.frame_rate.num = (int)(info.Video.FrameRate * 10000000.0);
+		avc1->ExternalUpdateVideoDescription(&temp);
+	}
 
 	desc = avc1;
 	return true;
@@ -137,7 +139,7 @@ static bool InitH264Track(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDe
 	if (profile.profile == 0)
 		return false;
 
-	//处理可变帧率的H264 ES。
+	//处理可变帧率的H264-ES。
 	if (profile.variable_framerate && info.Video.FrameRate != 0.0)
 	{
 		VideoBasicDescription temp = {};

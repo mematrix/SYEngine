@@ -117,6 +117,10 @@ public:
 	inline void SetDiscontinuity() throw()
 	{
 		_discontinuity = TRUE;
+#ifdef _USE_DECODE_FILTER
+		if (_decoder)
+			_decoder->ProcessFlush();
+#endif
 	}
 
 	inline IMFMediaType* GetMediaType()
@@ -125,7 +129,14 @@ public:
 		return _CopyMediaType.Get();
 	}
 
+#ifdef _USE_DECODE_FILTER
+	bool GetTransformFilter(ITransformFilter** ppFilter);
+#endif
 	void OnProcessDirectXManager();
+
+#ifdef _DEBUG
+	void DbgUseRequestSampleTickLog() throw() { _dbgRecordSampleTick = true; }
+#endif
 
 public:
 	void SetPrivateData(unsigned char* pb,unsigned len);
@@ -140,7 +151,8 @@ private:
 	bool NeedsDataUseNetworkTime() throw();
 
 	void DispatchSamples() throw();
-	HRESULT DispatchSamplesAsync() throw();
+	HRESULT RequestSampleAsync() throw()
+	{ return _taskWorkQueue.PutWorkItem(&_taskInvokeCallback,nullptr); }
 	HRESULT SendSampleDirect(IUnknown* pToken) throw();
 
 	HRESULT CheckShutdown() const throw()
@@ -150,7 +162,8 @@ private:
 
 private:
 	HRESULT ProcessDispatchSamplesAsync();
-	HRESULT OnInvoke(IMFAsyncResult* pAsyncResult);
+	HRESULT OnInvoke(IMFAsyncResult* pAsyncResult)
+	{ return ProcessDispatchSamplesAsync(); }
 
 private:
 	class SourceAutoLock
@@ -190,8 +203,9 @@ private:
 	unsigned _pcm_size, _pcm_presec_bytes;
 
 	bool _active;
-	bool _eos;
+	bool _eos, _dec_eos;
 
+	bool _transform_filter;
 	int _index;
 	
 	LONG64 _preroll_time; //ÍøÂç»º´æµÄÊ±¼ä
@@ -216,5 +230,31 @@ private:
 	WMF::AutoWorkQueue _taskWorkQueue;
 #else
 	WMF::AutoWorkQueueOld<HDMediaStream> _taskWorkQueue;
+#endif
+
+#ifdef _DEBUG
+	DWORD64 _reqSampleTick;
+	int _reqSampleTickTotal;
+	int _reqSampleTickAvg;
+	int _reqSampleCount;
+	bool _dbgRecordSampleTick;
+#endif
+
+#ifdef _USE_DECODE_FILTER
+	class DXVATransformSampleAllocator :
+		public RuntimeClass<RuntimeClassFlags<RuntimeClassType::ClassicCom>,ITransformAllocator> {
+		ComPtr<IMFVideoSampleAllocator> _allocator;
+	public:
+		DXVATransformSampleAllocator(IMFVideoSampleAllocator* allocator)
+		{ _allocator = allocator; }
+		virtual ~DXVATransformSampleAllocator() {}
+
+		STDMETHODIMP CreateSample(IMFSample** ppSample)
+		{ return _allocator->AllocateSample(ppSample); }
+		STDMETHODIMP IsUseDXVA(BOOL* bUseDXVA)
+		{ if (bUseDXVA) *bUseDXVA = TRUE; return S_OK; }
+	};
+
+	ComPtr<ITransformWorker> _decoder;
 #endif
 };

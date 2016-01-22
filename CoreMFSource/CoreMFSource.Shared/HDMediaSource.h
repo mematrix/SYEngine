@@ -64,6 +64,12 @@
 #pragma comment(lib, "evr.lib")
 #endif
 
+#ifdef _USE_DECODE_FILTER
+#include <TransformFilter.h>
+#include <TransformServices.h>
+HRESULT WINAPI CreateAVCodecTransformFilter(IUnknown** ppunk);
+#endif
+
 ////////////// Sample Queue Size //////////////
 #define STREAM_QUEUE_SIZE_DEFAULT 7
 

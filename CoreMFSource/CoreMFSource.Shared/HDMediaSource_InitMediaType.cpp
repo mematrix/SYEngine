@@ -6,8 +6,9 @@ static bool FpsFloatToRatio(float fps,unsigned* num,unsigned* den)
 	if (fps > 120.0f && fps != 240.0f)
 		return false;
 
-	static const unsigned rates[] = {14,15,20,23,24,25,29,30,47,48,50,59,60,90,95,96,100,119,120,240};
+	static const unsigned rates[] = {10,14,15,20,23,24,25,29,30,47,48,50,59,60,90,95,96,100,119,120,240};
 	static const Ratio rationals[] = {
+			{10,1}, //10.00
 			{15000,1001}, //14.98
 			{15,1}, //15.00
 			{20,1}, //20.00
@@ -244,6 +245,9 @@ HRESULT HDMediaSource::CreateVideoMediaType(IAVMediaStream* pAVStream,IMFMediaTy
 	if (pAVStream->GetRotation() > 0 &&
 		pAVStream->GetRotation() < 360)
 		pMediaType->SetUINT32(MF_MT_VIDEO_ROTATION,pAVStream->GetRotation());
+
+	if (pAVStream->GetContainerFps() > 0.1f)
+		pMediaType->SetDouble(MF_MT_CORE_DEMUX_FRAMERATE,pAVStream->GetContainerFps());
 
 	switch (pAVStream->GetCodecType())
 	{
