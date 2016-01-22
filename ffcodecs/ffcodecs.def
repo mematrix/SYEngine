@@ -12,6 +12,7 @@ EXPORTS
 	avcodec_get_name
 	avcodec_get_frame_defaults
 	avcodec_default_get_buffer2
+	avcodec_is_open
 	av_parser_init
 	av_parser_parse2
 	av_parser_close
@@ -64,6 +65,8 @@ EXPORTS
 	av_frame_get_colorspace
 	av_frame_get_sample_rate
 	av_frame_get_side_data
+	av_image_alloc
+	av_samples_alloc
 	av_samples_get_buffer_size
 	av_sample_fmt_is_planar
 	av_pix_fmt_desc_get
@@ -81,6 +84,8 @@ EXPORTS
 	av_add_index_entry
 	av_index_search_timestamp
 	av_find_default_stream_index
+	av_find_best_stream
+	av_frame_get_best_effort_timestamp
 	av_get_output_timestamp
 	avformat_get_riff_audio_tags
 	avformat_get_riff_video_tags

@@ -29,15 +29,24 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 	_preroll_time = _preroll_dynamic_time = 0;
 
 	_index = index;
+	_transform_filter = MFGetAttributeUINT32(pStreamDesc,MF_MT_MY_TRANSFORM_FILTER_ALLOW,0) ? true:false;
 
 	_state = STATE_STOPPED;
 
 	_active = _eos = false;
 	_discontinuity = FALSE;
+	if (_transform_filter)
+		_dec_eos = false;
+	else
+		_dec_eos = true;
 
 	_private_size = 0;
 
 	_taskInvokeCallback.SetCallback(this,&HDMediaStream::OnInvoke);
+
+#ifdef _DEBUG
+	_dbgRecordSampleTick = false;
+#endif
 }
 
 HRESULT HDMediaStream::QueryInterface(REFIID iid,void** ppv)
@@ -103,6 +112,20 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 {
 	SourceAutoLock lock(_pMediaSource.Get());
 
+#ifdef _DEBUG
+	if (_dbgRecordSampleTick)
+	{
+		auto prev_tick = _reqSampleTick;
+		_reqSampleTick = GetTickCount64();
+		int offset = (int)(_reqSampleTick - prev_tick);
+		if (_reqSampleCount > 0)
+			_reqSampleTickTotal += offset;
+		_reqSampleCount++;
+		DbgLogPrintf(L"Stream %d RequestSample Time GAP: %d ms, avg %d ms",
+			_index,offset,_reqSampleTickTotal / _reqSampleCount);
+	}
+#endif
+
 	HRESULT hr = CheckShutdown();
 	if (FAILED(hr))
 		goto done;
@@ -121,7 +144,7 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 		goto done;
 	}
 
-	if (_eos && _samples.IsEmpty())
+	if (_eos && _samples.IsEmpty() && _dec_eos)
 	{
 		hr = MF_E_END_OF_STREAM;
 		goto done;
@@ -146,7 +169,7 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 		if (!_pMediaSource->IsNetworkMode())
 			DispatchSamples(); //如果是本地文件，同步分发
 		else
-			hr = DispatchSamplesAsync(); //如果是网络流，异步处理
+			hr = RequestSampleAsync(); //如果是网络流，异步处理
 	}else{
 		//如果在buffering，请求只会被插入到请求队列，不提交给pipeline
 		hr = _requests.InsertBack(pToken);
@@ -198,12 +221,13 @@ HRESULT HDMediaStream::Initialize()
 	hr = pMediaType->GetGUID(MF_MT_SUBTYPE,&type);
 	if (FAILED(hr))
 		return hr;
+	hr = pMediaType->GetGUID(MF_MT_MY_TRANSFORM_FILTER_RAWTYPE,&type); //fake subtype for decode
 
-	if (type == MFVideoFormat_H264 || type == MFVideoFormat_Intel_QS_H264)
+	if (type == MFVideoFormat_H264 || type == MFVideoFormat_AVC1 || type == MFVideoFormat_Intel_QS_H264)
 		_h264 = true;
 	else
 		_h264 = false;
-	if (type == MFVideoFormat_HEVC || type == MFVideoFormat_Intel_QS_HEVC)
+	if (type == MFVideoFormat_HEVC || type == MFVideoFormat_HVC1 ||type == MFVideoFormat_Intel_QS_HEVC)
 		_hevc = true;
 	else
 		_hevc = false;
@@ -276,10 +300,18 @@ HRESULT HDMediaStream::Start(const PROPVARIANT& var,bool seek)
 
 	_state = STATE_STARTED;
 	_eos = false;
+	if (_transform_filter)
+		_dec_eos = false;
 
 	if (!_pMediaSource->IsNetworkMode())
 		DispatchSamples();
 
+#ifdef _DEBUG
+	_reqSampleTick = GetTickCount64();
+	_reqSampleTickTotal = 0;
+	_reqSampleTickAvg = 0;
+	_reqSampleCount = 0;
+#endif
 	return S_OK;
 }
 
@@ -544,11 +576,6 @@ void HDMediaStream::DispatchSamples()
 	}
 }
 
-HRESULT HDMediaStream::DispatchSamplesAsync()
-{
-	return _taskWorkQueue.PutWorkItem(&_taskInvokeCallback,nullptr);
-}
-
 HRESULT HDMediaStream::ProcessDispatchSamplesAsync()
 {
 	SourceAutoLock lock(_pMediaSource.Get());
@@ -562,11 +589,6 @@ HRESULT HDMediaStream::ProcessDispatchSamplesAsync()
 	DbgLogPrintf(L"Leave DispatchSamplesAsync.");
 
 	return S_OK;
-}
-
-HRESULT HDMediaStream::OnInvoke(IMFAsyncResult* pAsyncResult)
-{
-	return ProcessDispatchSamplesAsync();
 }
 
 double HDMediaStream::GetSampleQueueFirstTime()
@@ -589,9 +611,21 @@ double HDMediaStream::GetSampleQueueLastTime()
 	return WMF::Misc::GetSecondsFromMFSample(pSample.Get());
 }
 
+#ifdef _USE_DECODE_FILTER
+bool HDMediaStream::GetTransformFilter(ITransformFilter** ppFilter)
+{
+	if (!_transform_filter)
+		return false;
+	return SUCCEEDED(_pStreamDesc->GetUnknown(MF_MT_MY_TRANSFORM_FILTER_INTERFACE,IID_PPV_ARGS(ppFilter)));
+}
+#endif
+
 void HDMediaStream::OnProcessDirectXManager()
 {
+#ifdef _USE_DECODE_FILTER
 	DbgLogPrintf(L"%s %d::OnProcessDirectXManager...",L"HDMediaStream",_index);
+	if (!_transform_filter)
+		return;
 
 	auto dx = _pMediaSource->GetDXGIDeviceManager();
 	if (dx == NULL)
@@ -621,11 +655,20 @@ void HDMediaStream::OnProcessDirectXManager()
 			type == MFVideoFormat_RGB32 ||
 			type == MFVideoFormat_ARGB32) {
 			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,16,attrs.Get(),GetMediaType()))) {
-				//TODO...
-				DbgLogPrintf(L"Stream %d to use DXVA Allocator.",_index);
+				ComPtr<ITransformFilter> pFilter;
+				if (GetTransformFilter(&pFilter)) {
+					ComPtr<ITransformWorker> pWorker;
+					if (SUCCEEDED(pFilter->GetService(IID_PPV_ARGS(&pWorker)))) {
+						auto transform_allocator = Make<DXVATransformSampleAllocator>(alloctor.Get());
+						pWorker->SetAllocator(transform_allocator.Get());
+						_decoder = pWorker;
+						DbgLogPrintf(L"Stream %d to use DXVA Allocator.",_index);
+					}
+				}
 			}
 		}
 	}
+#endif
 }
 
 void HDMediaStream::SetPrivateData(unsigned char* pb,unsigned len)

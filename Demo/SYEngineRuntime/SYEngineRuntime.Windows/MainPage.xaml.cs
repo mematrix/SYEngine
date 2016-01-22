@@ -28,6 +28,7 @@ namespace SYEngineRuntime
         {
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
 
             var op = new FileOpenPicker();
             op.ViewMode = PickerViewMode.List;
@@ -44,6 +45,8 @@ namespace SYEngineRuntime
         {
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = new Uri(tboxNetworkUri.Text);
         }
 
@@ -55,6 +58,8 @@ namespace SYEngineRuntime
 
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
@@ -81,6 +86,8 @@ namespace SYEngineRuntime
 
             tbPlayStatus.Text = string.Empty;
             player.IsLooping = (bool)cboxLoop.IsChecked;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
