@@ -604,6 +604,20 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 							GUID subType = GUID_NULL;
 							pMediaType->GetGUID(MF_MT_SUBTYPE,&subType);
 							pNewMediaType->SetGUID(MF_MT_MY_TRANSFORM_FILTER_RAWTYPE,subType);
+							pNewMediaType->SetUINT32(MF_MY_STREAM_ID,pStream->GetStreamIndex());
+							if (pStream->GetStreamName()) {
+								AutoStrConv strConvert;
+								pNewMediaType->SetString(MF_MY_STREAM_NAME,
+									strConvert(pStream->GetStreamName()));
+							}
+							UINT32 temp = 0;
+							temp = MFGetAttributeUINT32(pMediaType.Get(),MF_MT_AVG_BITRATE,0);
+							if (temp > 0)
+								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
+							temp = MFGetAttributeUINT32(pMediaType.Get(),MF_MT_VIDEO_ROTATION,0);
+							if (temp > 0 && temp < 360)
+								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
+
 							pMediaType = pNewMediaType;
 							pFilter.As(&pDecodeFilter);
 							bUseDecodeFilter = true;

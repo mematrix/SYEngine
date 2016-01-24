@@ -46,7 +46,10 @@ namespace SYEngineRuntime
             {
                 var file = arg.Files[0];
                 if (file != null)
+                {
+                    SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
                     player.SetSource(await file.OpenReadAsync(), file.ContentType);
+                }
             }
         }
 
@@ -65,6 +68,8 @@ namespace SYEngineRuntime
         private void btnPlayNetwork_Click(object sender, RoutedEventArgs e)
         {
             tbPlayStatus.Text = string.Empty;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = new Uri(tboxNetworkUri.Text);
         }
 
@@ -75,6 +80,8 @@ namespace SYEngineRuntime
             plist.Append(Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\MultipartStreamMatroska\\1.mp4", 0, 0);
 
             tbPlayStatus.Text = string.Empty;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
@@ -94,6 +101,8 @@ namespace SYEngineRuntime
             plist.Append(tboxNetworkUri.Text, 0, 0);
 
             tbPlayStatus.Text = string.Empty;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
             player.Source = await plist.SaveAndGetFileUriAsync();
         }
 

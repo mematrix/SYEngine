@@ -366,7 +366,7 @@ HRESULT HDMediaSource::SelectStreams(IMFPresentationDescriptor* ppd,const PROPVA
 
 HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 {
-	DbgLogPrintf(L"%s::DoStart->SeekOpen %lld",L"HDMediaSource",seekTo);
+	DbgLogPrintf(L"%s::DoStart->SeekOpen %.2f (%lld)",L"HDMediaSource",WMF::Misc::SecondsFromMFTime(seekTo),seekTo);
 
 	unsigned count = _streamList.Count();
 	if (count == 0)
@@ -397,7 +397,7 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 
 	if (!seek_byte_stm)
 	{
-		double seconds = (double)seekTo / 10000000.0;
+		double seconds = WMF::Misc::SecondsFromMFTime(seekTo);
 		auto ave = _pMediaParser->Seek(seconds,true,AVSeekDirection::SeekDirection_Back);
 		//使用SeekDirection_Back，保证Parser的Seek一直是前于关键帧的。
 		//MF的Render会负责丢弃额外的帧。
@@ -415,7 +415,7 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 			_notifyParserSeekAfterFlag = true;
 	}
 
-	_seekToTime = (double)seekTo / 10000000.0;
+	_seekToTime = WMF::Misc::SecondsFromMFTime(seekTo);
 	_seekAfterFlag = true; //Seek成功后，标识下一次ReadPacket是Seek后的
 	DbgLogPrintf(L"%s::DoStart->SeekOpen OK.",L"HDMediaSource");
 

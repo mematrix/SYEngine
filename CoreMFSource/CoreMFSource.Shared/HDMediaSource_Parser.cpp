@@ -102,7 +102,7 @@ HRESULT HDMediaSource::CreateMFSampleFromAVMediaBuffer(AVMediaBuffer* avBuffer,I
 	ComPtr<IMFMediaBuffer> pMediaBuffer;
 
 	HRESULT hr = WMF::Misc::CreateSampleWithBuffer(pSample.GetAddressOf(),
-		pMediaBuffer.GetAddressOf(),avBuffer->size,4); //4 bytes aligned.
+		pMediaBuffer.GetAddressOf(),avBuffer->size + 32,4); //4 bytes aligned, 32 = FF_INPUT_BUFFER_PADDING_SIZE.
 
 	if (FAILED(hr))
 		return hr;

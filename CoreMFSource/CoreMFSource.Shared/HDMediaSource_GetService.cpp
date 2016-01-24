@@ -142,7 +142,7 @@ HRESULT HDMediaSource::GetNearestKeyFrames(const GUID *pguidTimeFormat,const PRO
 	if (_key_frames_count == 0)
 		return E_ABORT;
 
-	double start_time = double(pvarStartPosition->hVal.QuadPart) / 10000000.0;
+	double start_time = WMF::Misc::SecondsFromMFTime(pvarStartPosition->hVal.QuadPart);
 	double last_kf_time = *(_key_frames + (_key_frames_count - 1));
 	if (start_time > last_kf_time)
 		return E_FAIL;

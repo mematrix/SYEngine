@@ -1,4 +1,7 @@
 #include "HDMediaStream.h"
+#ifdef _USE_DECODE_FILTER
+#include <d3d11.h>
+#endif
 
 ComPtr<HDMediaStream> HDMediaStream::CreateMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDescriptor* pStreamDesc)
 {
@@ -29,7 +32,9 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 	_preroll_time = _preroll_dynamic_time = 0;
 
 	_index = index;
+
 	_transform_filter = MFGetAttributeUINT32(pStreamDesc,MF_MT_MY_TRANSFORM_FILTER_ALLOW,0) ? true:false;
+	_decode_processing = false;
 
 	_state = STATE_STOPPED;
 
@@ -149,6 +154,17 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 		hr = MF_E_END_OF_STREAM;
 		goto done;
 	}
+
+#ifdef _USE_DECODE_FILTER
+	//如果是要解码的情况下，直接转发调用
+	if (_decoder) {
+		hr = RequestSampleWithDecode(pToken);
+		if (FAILED(hr))
+			goto done;
+		else
+			return S_OK;
+	}
+#endif
 
 	//如果MediaSource没有进入buffering模式。。。
 	//只要有sample被缓存，有请求就提交
@@ -304,7 +320,11 @@ HRESULT HDMediaStream::Start(const PROPVARIANT& var,bool seek)
 		_dec_eos = false;
 
 	if (!_pMediaSource->IsNetworkMode())
+#ifndef _USE_DECODE_FILTER
 		DispatchSamples();
+#else
+		ProcessSampleRequest();
+#endif
 
 #ifdef _DEBUG
 	_reqSampleTick = GetTickCount64();
@@ -359,7 +379,11 @@ HRESULT HDMediaStream::EndOfStream()
 	DbgLogPrintf(L"%s %d::EndOfStream.",L"HDMediaStream",_index);
 
 	_eos = true;
+#ifndef _USE_DECODE_FILTER
 	DispatchSamples();
+#else
+	ProcessSampleRequest();
+#endif
 
 	return S_OK;
 }
@@ -392,7 +416,11 @@ HRESULT HDMediaStream::Shutdown()
 HRESULT HDMediaStream::SubmitSample(IMFSample* pSample)
 {
 	if (pSample == nullptr) {
+#ifndef _USE_DECODE_FILTER
 		DispatchSamples();
+#else
+		ProcessSampleRequest();
+#endif
 		return S_OK;
 	}
 
@@ -401,7 +429,11 @@ HRESULT HDMediaStream::SubmitSample(IMFSample* pSample)
 		return hr;
 
 	if (!_pMediaSource->IsBuffering())
+#ifndef _USE_DECODE_FILTER
 		DispatchSamples();
+#else
+		ProcessSampleRequest();
+#endif
 	return S_OK;
 }
 
@@ -576,16 +608,12 @@ void HDMediaStream::DispatchSamples()
 	}
 }
 
-HRESULT HDMediaStream::ProcessDispatchSamplesAsync()
+HRESULT HDMediaStream::DispatchSamplesAsync()
 {
 	SourceAutoLock lock(_pMediaSource.Get());
 	DbgLogPrintf(L"Enter DispatchSamplesAsync...");
 	DispatchSamples();
-	if (_samples.IsEmpty() && !_requests.IsEmpty() &&
-		_pMediaSource->IsNetworkMode() &&
-		_pMediaSource->IsReadPacketProcessing() &&
-		!_pMediaSource->IsBuffering())
-		_pMediaSource->StartBuffering();
+	MaybeSendNetworkBuffering();
 	DbgLogPrintf(L"Leave DispatchSamplesAsync.");
 
 	return S_OK;
@@ -632,14 +660,16 @@ void HDMediaStream::OnProcessDirectXManager()
 		return;
 
 	ComPtr<IMFAttributes> attrs;
-	if (FAILED(MFCreateAttributes(&attrs,1)))
+	if (FAILED(MFCreateAttributes(&attrs,3)))
 		return;
 
 	ComPtr<IMFVideoSampleAllocatorEx> alloctor;
-	if (FAILED(MFCreateVideoSampleAllocatorEx(IID_IMFVideoSampleAllocatorEx,(void**)&alloctor)))
+	if (FAILED(MFCreateVideoSampleAllocatorEx(IID_PPV_ARGS(&alloctor))))
 		return;
 
-	attrs->SetUINT32(MF_SA_D3D11_BINDFLAGS,8); //D3D11_BIND_SHADER_RESOURCE
+	attrs->SetUINT32(MF_SA_D3D11_USAGE,D3D11_USAGE_DEFAULT);
+	attrs->SetUINT32(MF_SA_D3D11_BINDFLAGS,D3D11_BIND_RENDER_TARGET|D3D11_BIND_SHADER_RESOURCE);
+	attrs->SetUINT32(MF_SA_BUFFERS_PER_SAMPLE,1);
 	if (SUCCEEDED(alloctor->SetDirectXManager(dx))) {
 		GUID type = GUID_NULL;
 		GetMediaType()->GetGUID(MF_MT_SUBTYPE,&type);
@@ -654,7 +684,7 @@ void HDMediaStream::OnProcessDirectXManager()
 			type == MFVideoFormat_RGB24 ||
 			type == MFVideoFormat_RGB32 ||
 			type == MFVideoFormat_ARGB32) {
-			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,16,attrs.Get(),GetMediaType()))) {
+			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,32,attrs.Get(),GetMediaType()))) {
 				ComPtr<ITransformFilter> pFilter;
 				if (GetTransformFilter(&pFilter)) {
 					ComPtr<ITransformWorker> pWorker;
@@ -688,4 +718,103 @@ void HDMediaStream::QueueTickEvent(LONG64 time)
 	AutoPropVar var(prop);
 	var.SetInt64(time);
 	_pEventQueue->QueueEventParamVar(MEStreamTick,GUID_NULL,S_OK,&prop);
+}
+
+/////////////////// Decode Processing ///////////////////
+
+HRESULT HDMediaStream::RequestSampleWithDecode(IUnknown* pToken)
+{
+	HRESULT hr = _requests.InsertBack(pToken);
+	HR_FAILED_RET(hr);
+
+	if (_samples.IsEmpty() || _pMediaSource->IsBuffering())
+		hr = _pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
+	else
+		hr = RequestSampleAsync();
+	return hr;
+}
+
+HRESULT HDMediaStream::DoSampleDecodeRequests()
+{
+	HRESULT hr = S_OK;
+#ifdef _USE_DECODE_FILTER
+	while (1)
+	{
+		ComPtr<IMFSample> pSample;
+		{
+			SourceAutoLock lock(_pMediaSource.Get());
+			if (FAILED(CheckShutdown()))
+				break;
+
+			_decode_processing = true;
+			if (_requests.IsEmpty())
+				break;
+			if (_samples.IsEmpty() && !_eos)
+				break;
+
+			if (!_samples.IsEmpty()) {
+				hr = _samples.RemoveFront(&pSample);
+				HR_FAILED_BREAK(hr);
+			}
+		}
+
+		ComPtr<IMFSample> pDecodedSample;
+		hr = _decoder->ProcessSample(pSample.Get(),&pDecodedSample);
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT)
+			continue;
+
+		if (FAILED(hr) || pDecodedSample == nullptr) {
+			SourceAutoLock lock(_pMediaSource.Get());
+			if (_samples.IsEmpty() && _eos) {
+				_dec_eos = true;
+				_requests.Clear();
+				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+			}
+			break;
+		}
+
+		ComPtr<IUnknown> pRequest;
+		{
+			SourceAutoLock lock(_pMediaSource.Get());
+			_requests.RemoveFront(&pRequest);
+
+			if (pDecodedSample && SUCCEEDED(CheckShutdown())) {
+				if (pRequest)
+					pDecodedSample->SetUnknown(MFSampleExtension_Token,pRequest.Get());
+				hr = _pEventQueue->QueueEventParamUnk(MEMediaSample,GUID_NULL,S_OK,pDecodedSample.Get());
+			}
+		}
+	}
+
+	{
+		SourceAutoLock lock(_pMediaSource.Get());
+		_decode_processing = false;
+		if (FAILED(CheckShutdown()))
+			return hr;
+
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT && _samples.IsEmpty() && !_eos)
+			_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
+
+		if (_eos) {
+			DbgLogPrintf(L"!");
+		}
+
+		if (SUCCEEDED(hr)) {
+			if (NeedsData()) {
+				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
+			}else if (_eos && _samples.IsEmpty() && _requests.IsEmpty()) {
+				_dec_eos = true;
+				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+			}
+		}else{
+			if (hr != MF_E_TRANSFORM_NEED_MORE_INPUT)
+				_pMediaSource->ProcessOperationError(hr);
+			else
+				hr = S_OK;
+		}
+	}
+#endif
+	return hr;
 }

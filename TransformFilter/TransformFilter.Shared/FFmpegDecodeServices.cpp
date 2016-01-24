@@ -108,6 +108,8 @@ HRESULT FFmpegDecodeServices::SetAllocator(ITransformAllocator* pAllocator)
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	_sampleAllocator.Reset();
 	_sampleAllocator = pAllocator;
+	if (_video_decoder)
+		_video_decoder->SetAllocator(pAllocator);
 	return S_OK;
 }
 

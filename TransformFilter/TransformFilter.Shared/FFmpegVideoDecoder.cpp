@@ -1,6 +1,98 @@
 #include "FFmpegVideoDecoder.h"
 #include "more_codec_uuid.h"
 
+static void UVCopyInterlace(unsigned char* data, const unsigned char* u, const unsigned char* v, unsigned count)
+{
+	unsigned n = (count + 7) >> 3;
+	switch (count % 8)
+	{
+	case 0:
+		do {
+					*data++ = *u++;
+			case 7: *data++ = *v++;
+			case 6: *data++ = *u++;
+			case 5: *data++ = *v++;
+			case 4: *data++ = *u++;
+			case 3: *data++ = *v++;
+			case 2: *data++ = *u++;
+			case 1: *data++ = *v++;
+		} while (--n > 0);
+	}
+}
+
+static void ConvertYUV420PToNV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height)
+{
+	unsigned ysize = width * height;
+	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysize);
+	UVCopyInterlace(copyTo + ysize, u, v, ysize >> 1);
+}
+
+static void ConvertYUV420PToNV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv)
+{
+	unsigned ysize = width * height;
+	unsigned char* copyToOffset = copyTo;
+	//copy Y
+	if (width == linesize_y) {
+		MFCopyImage(copyTo, width, y, width, width, height);
+		copyToOffset += ysize;
+	}else{
+		unsigned char* lumaYoffset = y;
+		for (unsigned i = 0; i < height; i++, copyToOffset += width, lumaYoffset += linesize_y)
+			memcpy(copyToOffset, lumaYoffset, width);
+	}
+	//copy UV
+	unsigned uv_interlace_linesize = ysize / height;
+	if ((uv_interlace_linesize >> 1) == linesize_uv) {
+		UVCopyInterlace(copyToOffset, u, v, ysize >> 1);
+	}else{
+		unsigned char* lumaUoffset = u;
+		unsigned char* lumaVoffset = v;
+		unsigned count = height >> 1;
+		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize, lumaUoffset += linesize_uv, lumaVoffset += linesize_uv)
+			UVCopyInterlace(copyToOffset, lumaUoffset, lumaVoffset, uv_interlace_linesize);
+	}
+}
+
+static void ConvertYUV420PToYV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height)
+{
+	unsigned ysize = width * height;
+	unsigned uvsize = ysize >> 2;
+	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysize);
+	memcpy(copyTo + ysize, v, uvsize);
+	memcpy(copyTo + ysize + uvsize, u, uvsize);
+}
+
+static void ConvertYUV420PToYV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv)
+{
+	unsigned ysize = width * height;
+	unsigned uvsize = ysize >> 2;
+	unsigned char* copyToOffset = copyTo;
+	//copy Y
+	if (width == linesize_y) {
+		MFCopyImage(copyTo, width, y, width, width, height);
+		copyToOffset += ysize;
+	}else{
+		unsigned char* lumaYoffset = y;
+		for (unsigned i = 0; i < height; i++, copyToOffset += width, lumaYoffset += linesize_y)
+			memcpy(copyToOffset, lumaYoffset, width);
+	}
+	//copy UV
+	unsigned uv_interlace_linesize = ysize / height;
+	unsigned uv_linesize = uv_interlace_linesize >> 1;
+	if (uv_linesize == linesize_uv) {
+		memcpy(copyToOffset, v, uvsize);
+		memcpy(copyToOffset + uvsize, u, uvsize);
+	}else{
+		unsigned char* lumaUoffset = u;
+		unsigned char* lumaVoffset = v;
+		unsigned count = height >> 1;
+		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize, lumaUoffset += linesize_uv, lumaVoffset += linesize_uv) {
+			memcpy(copyToOffset, v, uv_linesize);
+			memcpy(copyToOffset + uv_linesize, u, uv_linesize);
+		}
+	}
+}
+
 static int QuerySystemCpuThreads()
 {
 	SYSTEM_INFO si = {};
@@ -23,6 +115,13 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	//Get info from MediaFoundation type.
 	UINT32 width = 0, height = 0;
 	MFGetAttributeSize(pMediaType, MF_MT_FRAME_SIZE, &width, &height);
+	UINT32 num = 0, den = 0;
+	MFGetAttributeRatio(pMediaType, MF_MT_FRAME_RATE, &num, &den);
+	_fps_duration = 0;
+	if (num > 0 && den > 0) {
+		double fps = (double)num / (double)den;
+		_fps_duration = (LONG64)(1.0 / fps * 10000000.0);
+	}
 	GUID subType = GUID_NULL;
 	pMediaType->GetGUID(MF_MT_SUBTYPE, &subType);
 
@@ -36,10 +135,13 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	_decoder.context->err_recognition = 0;
 	_decoder.context->workaround_bugs = FF_BUG_AUTODETECT;
 	_decoder.context->refcounted_frames = 1;
+	_decoder.context->pkt_timebase.num = 1;
+	_decoder.context->pkt_timebase.den = 10000000;
 	_decoder.context->thread_count = QuerySystemCpuThreads() * 3 / 2;
 	if (_decoder.context->thread_count > 16)
 		_decoder.context->thread_count = 16;
 
+	_decoder.context->bit_rate = (int)MFGetAttributeUINT32(pMediaType, MF_MT_AVG_BITRATE, 0);
 	if (MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_PROFILE, 0) > 0)
 		_decoder.context->profile = (int)MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_PROFILE, 0);
 	if (MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_LEVEL, 0) > 0)
@@ -78,6 +180,10 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 		return NULL;
 	}
 	pMediaType->CopyAllItems(_rawMediaType.Get());
+
+	_timestamp = 0;
+	_image_size = _decoder.context->width * _decoder.context->height * 3 / 2;
+	_flush_after = false;
 	return CreateResultMediaType(MFVideoFormat_NV12);
 }
 
@@ -95,6 +201,54 @@ void FFmpegVideoDecoder::Close()
 
 HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSample)
 {
+	HRESULT hr;
+	LONG64 duration = 0;
+	if (pSample == NULL) {
+		hr = Process(NULL, 0, AV_NOPTS_VALUE, 0, false, false);
+	}else{
+		ComPtr<IMFMediaBuffer> pBuffer;
+		hr = pSample->ConvertToContiguousBuffer(&pBuffer);
+		if (SUCCEEDED(hr)) {
+			PBYTE buf = NULL;
+			DWORD size = 0;
+			hr = pBuffer->Lock(&buf, NULL, &size);
+			if (size == 0) {
+				if (SUCCEEDED(hr))
+					pBuffer->Unlock();
+				hr = MF_E_TRANSFORM_NEED_MORE_INPUT;
+			}
+			if (SUCCEEDED(hr)) {
+				LONG64 pts = 0;
+				hr = pSample->GetSampleTime(&pts);
+				if (FAILED(hr))
+					hr = pSample->GetUINT64(MFSampleExtension_DecodeTimestamp, (PUINT64)&pts);
+				pSample->GetSampleDuration(&duration);
+				bool keyframe = MFGetAttributeUINT32(pSample, MFSampleExtension_CleanPoint, 0) ? true:false;
+				bool discontinuity = MFGetAttributeUINT32(pSample, MFSampleExtension_Discontinuity, 0) ? true:false;
+
+				hr = Process(buf, size,
+					SUCCEEDED(hr) ? pts : AV_NOPTS_VALUE, duration > 0 ? duration : 0,
+					keyframe, discontinuity);
+
+				pBuffer->Unlock();
+			}
+		}
+	}
+	if (FAILED(hr))
+		return hr;
+
+	int64_t time = av_frame_get_best_effort_timestamp(_decoder.frame);
+
+	ComPtr<IMFSample> pDecodedSample;
+	hr = CreateDecodedSample(_decoder.frame, &pDecodedSample);
+	av_frame_unref(_decoder.frame);
+	if (FAILED(hr))
+		return hr;
+
+	pDecodedSample->SetSampleTime(time);
+	pDecodedSample->SetSampleDuration(0);
+
+	*ppDecodedSample = pDecodedSample.Detach();
 	return S_OK;
 }
 
@@ -110,15 +264,89 @@ void FFmpegVideoDecoder::Flush()
 			subType == MFVideoFormat_HEVC ||
 			subType == MFVideoFormat_HVC1 ||
 			subType == MFVideoFormat_MPEG2) {
-			auto codecid = _decoder.context->codec_id;
-			Close();
 			ComPtr<IMFMediaType> pMediaType;
 			MFCreateMediaType(&pMediaType);
 			_rawMediaType->CopyAllItems(pMediaType.Get());
+
+			auto codecid = _decoder.context->codec_id;
+			Close();
 			ComPtr<IMFMediaType> result;
 			result.Attach(Open(codecid, pMediaType.Get()));
+			_flush_after = true;
 		}
 	}
+}
+
+HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, LONG64 duration, bool keyframe, bool discontinuity)
+{
+	AVPacket pkt;
+	av_init_packet(&pkt);
+	pkt.data = (uint8_t*)buf;
+	pkt.size = size;
+	pkt.pts = pts;
+	pkt.duration = (int)duration;
+	if (keyframe)
+		pkt.flags = AV_PKT_FLAG_KEY;
+
+	int got_picture = 0;
+	int bytes = avcodec_decode_video2(_decoder.context, _decoder.frame, &got_picture, &pkt);
+	if (bytes < 0) {
+		av_frame_unref(_decoder.frame);
+		return E_FAIL;
+	}
+	if (got_picture == 0) {
+		av_frame_unref(_decoder.frame);
+		return MF_E_TRANSFORM_NEED_MORE_INPUT;
+	}
+	return S_OK;
+}
+
+HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSample)
+{
+	if (frame->width != _decoder.context->width ||
+		frame->height != _decoder.context->height)
+		return MF_E_TRANSFORM_STREAM_CHANGE;
+	if (_decoder.context->pix_fmt != AV_PIX_FMT_YUV420P)
+		return MF_E_INVALID_STREAM_DATA;
+
+	HRESULT hr = S_OK;
+	ComPtr<IMFSample> pSample;
+	ComPtr<IMFMediaBuffer> pBuffer;
+	if (_allocator) {
+		hr = _allocator->CreateSample(&pSample);
+		if (SUCCEEDED(hr))
+			hr = pSample->GetBufferByIndex(0, &pBuffer);
+	}else{
+		hr = MFCreateSample(&pSample);
+		if (SUCCEEDED(hr)) {
+			hr = MFCreate2DMediaBuffer(frame->width, frame->height, FCC('NV12'), FALSE, &pBuffer);
+			if (SUCCEEDED(hr))
+				pSample->AddBuffer(pBuffer.Get());
+		}
+	}
+	if (FAILED(hr))
+		return hr;
+
+	PBYTE buf = NULL;
+	hr = pBuffer->Lock(&buf, NULL, NULL);
+	if (FAILED(hr))
+		return hr;
+
+	if (frame->linesize[0] == frame->width)
+		ConvertYUV420PToNV12Packed_NonLineSize(buf,
+		frame->data[0], frame->data[1], frame->data[2],
+		frame->width, frame->height);
+	else
+		ConvertYUV420PToNV12Packed_UseLineSize(buf,
+		frame->data[0], frame->data[1], frame->data[2],
+		frame->width, frame->height,
+		frame->linesize[0], frame->linesize[1]);
+
+	pBuffer->Unlock();
+	pBuffer->SetCurrentLength(_image_size);
+
+	*ppSample = pSample.Detach();
+	return hr;
 }
 
 IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
