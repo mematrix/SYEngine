@@ -18,7 +18,6 @@ unsigned FLVMediaFormat::InternalInitStreams(std::shared_ptr<FLVParser::FLVStrea
 		auto ret = parser->ReadNextPacket(&packet);
 		if (ret == PARSER_FLV_ERR_VIDEO_STREAM_UNSUPPORTED ||
 			ret == PARSER_FLV_ERR_AUDIO_STREAM_UNSUPPORTED ||
-			ret == PARSER_FLV_ERR_VIDEO_VP6_STREAM_UNSUPPORTED ||
 			ret == PARSER_FLV_ERR_VIDEO_H263_STREAM_UNSUPPORTED) {
 			if (fail_count > max_count) {
 				result = ret;
@@ -41,6 +40,8 @@ unsigned FLVMediaFormat::InternalInitStreams(std::shared_ptr<FLVParser::FLVStrea
 			if (_stream_info.video_type == FLVParser::VideoStreamType_AVC)
 				if (_stream_info.delay_flush_spec_info.avc_spec_info != nullptr)
 					break;
+			if (_stream_info.video_type == FLVParser::VideoStreamType_VP6)
+				break;
 
 			continue;
 		}

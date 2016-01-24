@@ -190,7 +190,8 @@ protected:
 	CurrentState _state;
 
 	virtual bool OnPartInit() { TryUpdateItemUrl(0, "OPEN"); return true; }
-	virtual bool OnPartError(unsigned index) { return TryUpdateItemUrl(index, "ERROR"); }
+	virtual bool OnPartError(unsigned index, bool reconnect)
+	{ return TryUpdateItemUrl(index, reconnect ? "RECONNECT" : "ERROR"); }
 
 private:
 	unsigned InternalGetStreamSize();

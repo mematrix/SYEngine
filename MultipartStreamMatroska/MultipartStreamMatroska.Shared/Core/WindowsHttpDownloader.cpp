@@ -278,7 +278,10 @@ void WindowsHttpDownloader::InternalConnect(char* append_headers)
 	if (_abort_download)
 		return;
 
-	InternalDownload();
+	if (_http.status_code >= 400)
+		SetEvent(_events[EventStatusCode400]);
+	else
+		InternalDownload();
 }
 
 void WindowsHttpDownloader::InternalDownload()

@@ -15,6 +15,7 @@ namespace SYEngine
 	{
 		double ExplicitTotalDurationSeconds;
 		bool DetectDurationForParts;
+		bool NotUseCorrectTimestamp;
 		bool DownloadRetryOnFail;
 		int FetchNextPartThresholdSeconds;
 		int BufferBlockSizeKB;
@@ -43,7 +44,7 @@ namespace SYEngine
 			void set(PlaylistNetworkConfigs value) { _cfgs = value; }
 		}
 
-		Windows::Foundation::IAsyncOperation<Platform::String^>^ SaveAndGetFileUriAsync();
+		Windows::Foundation::IAsyncOperation<Windows::Foundation::Uri^>^ SaveAndGetFileUriAsync();
 
 	private:
 		bool SaveFile(LPWSTR uri);

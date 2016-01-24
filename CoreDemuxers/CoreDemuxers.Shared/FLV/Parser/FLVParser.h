@@ -41,7 +41,8 @@ enum SupportAudioStreamType
 enum SupportVideoStreamType
 {
 	VideoStreamType_None = 0,
-	VideoStreamType_AVC //H264
+	VideoStreamType_AVC, //H264
+	VideoStreamType_VP6
 };
 
 enum SupportPacketType

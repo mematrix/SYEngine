@@ -26,7 +26,7 @@
 #include "FLVMediaStream.h"
 
 #define MEDIA_FORMAT_FLV_NAME "Adobe Flash Video"
-#define MEDIA_FORMAT_FLV_MIME "video/flv"
+#define MEDIA_FORMAT_FLV_MIME "video/x-flv"
 
 class FLVMediaFormat : public IAVMediaFormatEx, public FLVParser::IFLVParserIO
 {

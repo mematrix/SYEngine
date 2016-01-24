@@ -1,4 +1,10 @@
-# ShanYe MediaFoundation Engine (Windows)
+# ShanYe MediaFoundation Engine (Windows) 
+
+
+
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) vs2013 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/nmlsillgawr0n0tc?svg=true)](https://ci.appveyor.com/project/saki-saki/syengine) vs2015 
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
@@ -17,6 +23,7 @@
  - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
+ - 2016-01-07：添加 `SYEngine.MediaInformation` 运行时类，可以通过这个类在不播放的情况下获取到媒体容器的详细信息。
  - 2015-12-31：修复MultipartStreamMatroska的Seek相关bug，修复播放快结束时的MKV容器bug，优化网络Seek后的缓冲逻辑。
  - 2015-12-26：在MultipartStreamMatroska中添加事件触发器，C#的APP可以动态监听事件，并且在切换下一分段视频或者用户跳播的时候，动态更新切片的地址。
  - 2015-12-22：修复使用MultipartStreamMatroska播放切片的网络视频源的时候，Seek的时候卡住UI响应的问题。

@@ -2,6 +2,7 @@
 
 using namespace SYEngine;
 using namespace Windows::Foundation;
+using namespace Windows::Storage;
 
 wchar_t* AnsiToUnicode(const char* str);
 char* UnicodeToAnsi(const wchar_t* str);
@@ -55,12 +56,17 @@ void Playlist::SetDebugFile(Platform::String^ fileName)
 	}
 }
 
-IAsyncOperation<Platform::String^>^ Playlist::SaveAndGetFileUriAsync()
+IAsyncOperation<Uri^>^ Playlist::SaveAndGetFileUriAsync()
 {
 	return concurrency::create_async([&]{
-		WCHAR uri[MAX_PATH * 2] = {};
-		SaveFile(uri);
-		return ref new Platform::String(uri);
+		WCHAR file[MAX_PATH] = {};
+		if (!SaveFile(file))
+			throw ref new Platform::COMException(E_FAIL, "SaveAndGetFileUriAsync FAILED!");
+
+		WCHAR uri[MAX_PATH] = {};
+		wcscpy_s(uri, L"plist://WinRT-TemporaryFolder_");
+		wcscat_s(uri, &file[ApplicationData::Current->TemporaryFolder->Path->Length() + 1]);
+		return ref new Uri(ref new Platform::String(uri));
 	});
 }
 
@@ -79,7 +85,7 @@ bool Playlist::SaveFile(LPWSTR uri)
 	str[strlen(str) - 1] = 0; //skip \r\n
 	str[strlen(str) - 1] = 0;
 
-	auto temp_folder = Windows::Storage::ApplicationData::Current->TemporaryFolder->Path->Data();
+	auto temp_folder = ApplicationData::Current->TemporaryFolder->Path->Data();
 	WCHAR temp_file[MAX_PATH] = {};
 	StringCchPrintfW(temp_file, _countof(temp_file),
 		L"%s\\MultipartStreamMatroska_%d.txt",
@@ -137,9 +143,10 @@ char* Playlist::SerializeForNetworkHttp()
 			duration += (double)i->DurationInSeconds;
 	}
 
-	sprintf(p, "%d\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
+	sprintf(p, "%d\r\n%s\r\n%s\r\n%d\r\n%s\r\n%d|%d\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n",
 		(int)(duration * 1000.0),
 		(_cfgs.DetectDurationForParts ? "FULL" : "NO"),
+		(_cfgs.NotUseCorrectTimestamp ? "NextUseDuration" : ""),
 		(_cfgs.FetchNextPartThresholdSeconds > 1 ? _cfgs.FetchNextPartThresholdSeconds : 30),
 		(_cfgs.DownloadRetryOnFail ? "Reconnect" : "NO"),
 		(_cfgs.BufferBlockSizeKB > 8 ? _cfgs.BufferBlockSizeKB : 64),

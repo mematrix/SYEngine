@@ -11,7 +11,10 @@ class MatroskaJoinStream : private MergeManager::IOCallback
 {
 public:
 	MatroskaJoinStream() throw() : _index(0), _merger(NULL), _tasks(NULL), _item_count(0)
-	{ memset(&_cfgs, 0, sizeof(_cfgs)); }
+	{ memset(&_cfgs, 0, sizeof(_cfgs)); 
+	  _dsio_reconn_callback = 
+		  std::bind(&MatroskaJoinStream::OnNetworkReconnect, this,
+		  std::placeholders::_1, std::placeholders::_2); }
 	virtual ~MatroskaJoinStream() throw() { DeInit(); }
 
 	bool Init(const wchar_t* list_file);
@@ -68,6 +71,7 @@ protected:
 		unsigned DurationMs; //总时间
 		bool LoadFullItems; //是否在Init时候就载入所有分段的信息
 		bool LocalFileTestMode; //本地文件测试模式
+		bool DefaultUsePartDuration; //使用每个part的duration作为时间戳offset
 		int PreloadNextPartRemainSeconds; //在上一个part播放到剩下多少秒的时候，载入下一个part
 		bool NetworkReconnect; //是否在下载中断的时候重新连接
 		int NetworkBufBlockSizeKB, NetworkBufBlockCount;
@@ -106,6 +110,8 @@ private:
 
 	double _cur_timestamp;
 	double _duration_temp;
+
+	std::function<void (int64_t,int64_t)> _dsio_reconn_callback;
 
 protected:
 	inline unsigned GetIndex() const throw()
@@ -168,8 +174,10 @@ protected:
 	DemuxProxy* GetCurrentDemuxObject() throw()
 	{ if (_merger == NULL) return NULL; return _merger->GetDemuxObject(); }
 
+	void OnNetworkReconnect(int64_t,int64_t) { OnPartError(_index, true); }
+
 	virtual bool OnPartInit() { return true; }
-	virtual bool OnPartError(unsigned index) { return false; }
+	virtual bool OnPartError(unsigned index, bool reconnect = false) { return false; }
 	virtual void OnPartStart()
 	{
 #if defined(_WIN32) && defined(_DEBUG)
