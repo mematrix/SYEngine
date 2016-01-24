@@ -32,7 +32,7 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5f555a02-e82f-415e-8043-d7209194be92}</ProjectGuid>
+    <ProjectGuid>{5F555A02-E82F-415E-8043-D7209194BE92}</ProjectGuid>
     <RootNamespace>CoreMFSource</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
