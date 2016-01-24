@@ -224,6 +224,11 @@ LONG64 WMF::Misc::SecondsToMFTime(double seconds)
 	return (LONG64)(seconds * 10000000.0);
 }
 
+double WMF::Misc::SecondsFromMFTime(LONG64 time)
+{
+	return (double)time / 10000000.0;
+}
+
 double WMF::Misc::GetSecondsFromMFSample(IMFSample* pSample)
 {
 	if (pSample == nullptr)

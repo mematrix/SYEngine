@@ -148,22 +148,35 @@ public:
 	inline void DisablePrivateData() { _private_state = false; }
 
 private:
+	inline HRESULT CheckShutdown() const throw()
+	{ return _state == STATE_SHUTDOWN ? MF_E_SHUTDOWN:S_OK; }
+
+	inline void MaybeSendNetworkBuffering() throw()
+	{ if (_samples.IsEmpty() && !_requests.IsEmpty() &&
+		_pMediaSource->IsNetworkMode() &&
+		_pMediaSource->IsReadPacketProcessing() &&
+		!_pMediaSource->IsBuffering())
+		_pMediaSource->StartBuffering(); }
+
 	bool NeedsDataUseNetworkTime() throw();
 
 	void DispatchSamples() throw();
 	HRESULT RequestSampleAsync() throw()
 	{ return _taskWorkQueue.PutWorkItem(&_taskInvokeCallback,nullptr); }
 	HRESULT SendSampleDirect(IUnknown* pToken) throw();
+	HRESULT DispatchSamplesAsync();
 
-	HRESULT CheckShutdown() const throw()
-	{
-		return _state == STATE_SHUTDOWN ? MF_E_SHUTDOWN:S_OK;
-	}
+#ifdef _USE_DECODE_FILTER
+	inline void ProcessSampleRequest()
+	{ if (_decoder == nullptr) DispatchSamples();
+		else if (!_decode_processing && !_requests.IsEmpty()) RequestSampleAsync(); }
+#endif
 
-private:
-	HRESULT ProcessDispatchSamplesAsync();
+	HRESULT RequestSampleWithDecode(IUnknown* pToken);
+	HRESULT DoSampleDecodeRequests();
+
 	HRESULT OnInvoke(IMFAsyncResult* pAsyncResult)
-	{ return ProcessDispatchSamplesAsync(); }
+	{ return _transform_filter ? DoSampleDecodeRequests():DispatchSamplesAsync(); }
 
 private:
 	class SourceAutoLock
@@ -206,6 +219,8 @@ private:
 	bool _eos, _dec_eos;
 
 	bool _transform_filter;
+	bool _decode_processing;
+
 	int _index;
 	
 	LONG64 _preroll_time; //ÍøÂç»º´æµÄÊ±¼ä
