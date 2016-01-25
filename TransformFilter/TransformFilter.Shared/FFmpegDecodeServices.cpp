@@ -16,6 +16,8 @@ static struct FFCodecPair {
 	{MFVideoFormat_VP9,  AV_CODEC_ID_VP9},
 	{MFVideoFormat_RV30, AV_CODEC_ID_RV30},
 	{MFVideoFormat_RV40, AV_CODEC_ID_RV40},
+	{MFVideoFormat_MPG1, AV_CODEC_ID_MPEG1VIDEO},
+	{MFVideoFormat_MPG2, AV_CODEC_ID_MPEG2VIDEO}
 };
 
 HRESULT FFmpegDecodeServices::QueryInterface(REFIID iid,void** ppv)

@@ -138,7 +138,7 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	_decoder.context->pkt_timebase.num = 10000000;
 	_decoder.context->pkt_timebase.den = 1;
 	
-	_decoder.context->thread_count = QuerySystemCpuThreads() * 3 / 2;
+	_decoder.context->thread_count = QuerySystemCpuThreads() + 1;
 	if (_decoder.context->thread_count > 16)
 		_decoder.context->thread_count = 16;
 
@@ -154,7 +154,11 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	UINT32 extraLen = 0, userdataLen = 0;
 	pMediaType->GetBlobSize(MF_MT_MPEG_SEQUENCE_HEADER, &extraLen);
 	pMediaType->GetBlobSize(MF_MT_USER_DATA, &userdataLen);
-	if (extraLen > 0 || userdataLen > 0) {
+	if ((extraLen > 0 || userdataLen > 0) &&
+		(subType != MFVideoFormat_H264 &&
+		subType != MFVideoFormat_H264_ES &&
+		subType != MFVideoFormat_HEVC &&
+		subType != MFVideoFormat_HEVC_ES)) {
 		codecprivate_len = extraLen > 0 ? extraLen : userdataLen;
 		codecprivate = (unsigned char*)av_mallocz(codecprivate_len + FF_INPUT_BUFFER_PADDING_SIZE);
 		if (codecprivate) {
@@ -192,6 +196,7 @@ void FFmpegVideoDecoder::Close()
 		avcodec_close(_decoder.context);
 		av_freep(&_decoder.context->extradata);
 		av_freep(&_decoder.context);
+		sws_freeContext(_decoder.scaler);
 	}
 	av_frame_free(&_decoder.frame);
 	memset(&_decoder, 0, sizeof(_decoder));
@@ -309,14 +314,9 @@ HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, 
 
 HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSample)
 {
-	if (frame->interlaced_frame)
-		return MF_E_INVALID_STREAM_STATE;
-
 	if (frame->width != _decoder.context->width ||
 		frame->height != _decoder.context->height)
 		return MF_E_TRANSFORM_STREAM_CHANGE;
-	if (_decoder.context->pix_fmt != AV_PIX_FMT_YUV420P)
-		return MF_E_INVALID_STREAM_DATA;
 
 	HRESULT hr = S_OK;
 	ComPtr<IMFSample> pSample;
@@ -341,15 +341,23 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 	if (FAILED(hr))
 		return hr;
 
-	if (frame->linesize[0] == frame->width)
-		ConvertYUV420PToNV12Packed_NonLineSize(buf,
-		frame->data[0], frame->data[1], frame->data[2],
-		frame->width, frame->height);
-	else
-		ConvertYUV420PToNV12Packed_UseLineSize(buf,
-		frame->data[0], frame->data[1], frame->data[2],
-		frame->width, frame->height,
-		frame->linesize[0], frame->linesize[1]);
+	if (_decoder.scaler == NULL) {
+		if (frame->linesize[0] == frame->width)
+			ConvertYUV420PToNV12Packed_NonLineSize(buf,
+			frame->data[0], frame->data[1], frame->data[2],
+			frame->width, frame->height);
+		else
+			ConvertYUV420PToNV12Packed_UseLineSize(buf,
+			frame->data[0], frame->data[1], frame->data[2],
+			frame->width, frame->height,
+			frame->linesize[0], frame->linesize[1]);
+	}else{
+		int yoffset = frame->width * frame->height;
+		unsigned char* image_buf[4] = {buf, buf + yoffset, NULL, NULL};
+		int image_linesize[4] = {frame->width, frame->width, 0, 0};
+		if (sws_scale(_decoder.scaler, frame->data, frame->linesize, 0, frame->height, image_buf, image_linesize) < 0)
+			hr = MF_E_UNEXPECTED;
+	}
 
 	pBuffer->Unlock();
 	pBuffer->SetCurrentLength(_image_size);
@@ -404,10 +412,13 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
 		}
 	}
-
-	if (ctx->codec_id == AV_CODEC_ID_H264 || ctx->codec_id == AV_CODEC_ID_MPEG2VIDEO)
-		if (ctx->field_order != AVFieldOrder::AV_FIELD_PROGRESSIVE &&
-			ctx->field_order != AVFieldOrder::AV_FIELD_UNKNOWN)
+	
+	//10bit,422 or 444.
+	if (ctx->pix_fmt != AV_PIX_FMT_YUV420P) {
+		_decoder.scaler = sws_getContext(ctx->width, ctx->height, ctx->pix_fmt,
+			ctx->width, ctx->height, AV_PIX_FMT_NV12, SWS_BICUBIC, NULL, NULL, NULL);
+		if (_decoder.scaler == NULL)
 			return false;
+	}
 	return true;
 }

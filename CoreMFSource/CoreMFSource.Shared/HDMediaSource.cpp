@@ -39,6 +39,7 @@ _enableH264ES2H264(false), _intelQSDecoder_found(false)
 	_hCurrentDemuxMod = nullptr;
 
 	_seekAfterFlag = _notifyParserSeekAfterFlag = false;
+	_full_sw_decode = false;
 }
 
 HDMediaSource::~HDMediaSource()

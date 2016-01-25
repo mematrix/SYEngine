@@ -30,6 +30,7 @@ private:
 		AVCodec* codec;
 		AVCodecContext* context;
 		AVFrame* frame;
+		SwsContext* scaler;
 		bool once_state;
 	};
 	Decoder _decoder;

@@ -591,7 +591,7 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 		bool bUseDecodeFilter = false;
 		{
 			ComPtr<IUnknown> pFilter;
-			if (GlobalOptionGetBOOL(kCoreForceSoftwareDecode) &&
+			if ((GlobalOptionGetBOOL(kCoreForceSoftwareDecode) || _full_sw_decode) &&
 				SUCCEEDED(CreateAVCodecTransformFilter(&pFilter))) {
 				ComPtr<ITransformLoader> pLoader;
 				((ITransformFilter*)pFilter.Get())->GetService(IID_PPV_ARGS(&pLoader));

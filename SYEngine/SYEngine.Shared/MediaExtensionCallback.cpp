@@ -45,7 +45,8 @@ void CALLBACK DefaultMediaExtensionActivatedEventCallback(LPCWSTR dllfile, LPCWS
 			if (MediaSourceForceNetworkMode)
 				attrs->SetUINT32(GetGuidFromString(L"{6C423A5B-1717-42F0-BEF3-374D5CD8973E}"), TRUE);
 			if (MediaSourceForceSoftwareDecode)
-				attrs->SetUINT32(GetGuidFromString(L"{DF1B7EBC-42F2-4913-B1C1-B5FB9A498F1F}"), TRUE);
+				attrs->SetUINT32(GetGuidFromString(L"{DF1B7EBC-42F2-4913-B1C1-B5FB9A498F1F}"), TRUE),
+				attrs->DeleteItem(GetGuidFromString(L"{9165F81A-C1F8-4818-980E-E7C0A6565553}"));
 
 			attrs->Release();
 			LeaveCriticalSection((LPCRITICAL_SECTION)GetCoreMFsGlobalCS());

@@ -469,4 +469,5 @@ private:
 	HandlerTypes _url_type;
 
 	ComPtr<IMFDXGIDeviceManager> _dxgiDeviceManager;
+	bool _full_sw_decode;
 };

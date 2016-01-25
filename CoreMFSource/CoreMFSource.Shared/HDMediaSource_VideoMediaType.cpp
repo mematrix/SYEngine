@@ -21,6 +21,16 @@ static inline bool IsWindows7()
 	return false;
 }
 
+static inline bool IsHEVCDecoderExists()
+{
+	auto mod = LoadLibraryA("hevcdecoder.dll");
+	if (mod != NULL) {
+		FreeLibrary(mod);
+		return true;
+	}
+	return false;
+}
+
 static inline bool IsUseDShowFilter()
 {
 	if (!IsWindows7())
@@ -87,6 +97,10 @@ HRESULT HDMediaSource::InitVideoHEVCMediaType(IVideoDescription* pDesc,IMFMediaT
 		pUserData.Get(),pDesc->GetExtradataSize());
 	}
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	if (!IsHEVCDecoderExists())
+		_full_sw_decode = true;
+#endif
 	return S_OK;
 }
 
@@ -148,12 +162,16 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 	if (profile.profile >= H264_PROFILE_HIGH_10 && !es) {
 		if (GlobalOptionGetBOOL(kCoreDisable10bitH264Video))
 			return MF_E_INVALID_CODEC_MERIT; //Hi10P, Hi422P, Hi444P, Hi444PP is not support.
+		else
+			_full_sw_decode = true;
 	}
 
 	if (profile.chroma_bitdepth > 10 ||
 		profile.luma_bitdepth > 10) {
 		if (GlobalOptionGetBOOL(kCoreDisable10bitH264Video))
 			return MF_E_INVALID_CODEC_MERIT; //10bit is not support.
+		else
+			_full_sw_decode = true;
 	}
 
 	if (profile.variable_framerate)
