@@ -20,6 +20,17 @@ struct ACM_BITMAPINFOHEADER
 	unsigned biClrUsed;
 	unsigned biClrImportant;
 };
+
+struct REAL_VIDEO_PROPS
+{
+	unsigned size;
+	unsigned fcc1, fcc2;
+	unsigned short width, height;
+	unsigned short bpp;
+	unsigned unknown;
+	unsigned fps;
+	unsigned type1, type2;
+};
 #pragma pack()
 
 static bool InitHEVCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDescription>& desc,unsigned* nal_size)
@@ -270,11 +281,34 @@ static bool InitMPEG4NoCPTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVi
 	return true;
 }
 
+static bool InitRealTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDescription>& desc)
+{
+	if (info.Codec.CodecPrivateSize != sizeof(REAL_VIDEO_PROPS))
+		return false;
+
+	auto props = (REAL_VIDEO_PROPS*)info.Codec.CodecPrivate;
+	CommonVideoCore common = {};
+	common.type = MKV_SWAP32(props->fcc2);
+	common.desc.aspect_ratio.num = common.desc.aspect_ratio.den = 1;
+	common.desc.scan_mode = VideoScanModeProgressive;
+	common.desc.width = MKV_SWAP16(props->width);
+	common.desc.height = MKV_SWAP16(props->height);
+	common.desc.compressed = true;
+
+	common.extradata = info.Codec.CodecPrivate + 26;
+	common.extradata_size = 8;
+
+	std::shared_ptr<IVideoDescription> v = std::make_shared<CommonVideoDescription>(common);
+	desc = v;
+	return true;
+}
+
 static bool InitCommonTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDescription>& desc)
 {
 	if (info.Video.Width == 0 ||
-		info.Video.Height == 0 ||
-		info.Video.FrameRate < 1.0)
+		info.Video.Height == 0)
+		return false;
+	if (info.Video.FrameRate < 1.0)
 		return false;
 
 	CommonVideoCore common = {};
@@ -284,7 +318,7 @@ static bool InitCommonTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideo
 	common.desc.width = info.Video.Width;
 	common.desc.height = info.Video.Height;
 	common.desc.frame_rate.num = (int)(info.Video.FrameRate * 10000000.0);
-	common.desc.frame_rate.den = 10000000;
+	common.desc.frame_rate.den = common.desc.frame_rate.num > 0 ? 10000000:0;
 	common.desc.compressed = true;
 
 	if (common.desc.frame_rate.num < 0 && info.Codec.CodecType == MKV_Video_MJPEG)
@@ -292,6 +326,11 @@ static bool InitCommonTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideo
 		common.desc.frame_rate.num = 10;
 		common.desc.frame_rate.den = 1;
 		common.desc.scan_mode = VideoScanModeProgressive;
+	}
+	if (info.Codec.CodecPrivateSize > 0)
+	{
+		common.extradata = info.Codec.CodecPrivate;
+		common.extradata_size = info.Codec.CodecPrivateSize;
 	}
 
 	std::shared_ptr<IVideoDescription> v =
@@ -549,6 +588,14 @@ bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parse
 		if (!InitCommonTrack(_info,_video_desc))
 			return false;
 		break;
+	case MKV_Video_Real_RV30:
+	case MKV_Video_Real_RV40:
+		_codec_type = MediaCodecType::MEDIA_CODEC_VIDEO_RV30;
+		if (_info.Codec.CodecType == MKV_Video_Real_RV40)
+			_codec_type = MediaCodecType::MEDIA_CODEC_VIDEO_RV40;
+		if (!InitRealTrack(_info,_video_desc))
+			return false;
+		break;
 	case MKV_Video_MS_VFW:
 		//http://ffmpeg.org/doxygen/trunk/riff_8c_source.html (ff_codec_bmp_tags)
 		//http://ffmpeg.org/doxygen/trunk/isom_8c_source.html (ff_codec_movvideo_tags)
@@ -565,8 +612,9 @@ bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parse
 	{
 		VideoBasicDescription desc = {};
 		_video_desc->GetVideoDescription(&desc);
-		if (desc.frame_rate.num / desc.frame_rate.den < 256)
-			_frame_duration = 1.0 / ((double)desc.frame_rate.num / (double)desc.frame_rate.den);
+		if (desc.frame_rate.num > 0 && desc.frame_rate.den > 0)
+			if (desc.frame_rate.num / desc.frame_rate.den < 256)
+				_frame_duration = 1.0 / ((double)desc.frame_rate.num / (double)desc.frame_rate.den);
 
 		if (_info.Codec.CodecType == MKV_Video_H264)
 		{

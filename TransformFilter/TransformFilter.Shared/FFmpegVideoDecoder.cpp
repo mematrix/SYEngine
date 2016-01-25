@@ -117,10 +117,10 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	MFGetAttributeSize(pMediaType, MF_MT_FRAME_SIZE, &width, &height);
 	UINT32 num = 0, den = 0;
 	MFGetAttributeRatio(pMediaType, MF_MT_FRAME_RATE, &num, &den);
-	_fps_duration = 0;
+	_default_duration = 0;
 	if (num > 0 && den > 0) {
 		double fps = (double)num / (double)den;
-		_fps_duration = (LONG64)(1.0 / fps * 10000000.0);
+		_default_duration = (LONG64)(1.0 / fps * 10000000.0);
 	}
 	GUID subType = GUID_NULL;
 	pMediaType->GetGUID(MF_MT_SUBTYPE, &subType);
@@ -135,8 +135,9 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	_decoder.context->err_recognition = 0;
 	_decoder.context->workaround_bugs = FF_BUG_AUTODETECT;
 	_decoder.context->refcounted_frames = 1;
-	_decoder.context->pkt_timebase.num = 1;
-	_decoder.context->pkt_timebase.den = 10000000;
+	_decoder.context->pkt_timebase.num = 10000000;
+	_decoder.context->pkt_timebase.den = 1;
+	
 	_decoder.context->thread_count = QuerySystemCpuThreads() * 3 / 2;
 	if (_decoder.context->thread_count > 16)
 		_decoder.context->thread_count = 16;
@@ -181,9 +182,7 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	}
 	pMediaType->CopyAllItems(_rawMediaType.Get());
 
-	_timestamp = 0;
 	_image_size = _decoder.context->width * _decoder.context->height * 3 / 2;
-	_flush_after = false;
 	return CreateResultMediaType(MFVideoFormat_NV12);
 }
 
@@ -237,16 +236,18 @@ HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSamp
 	if (FAILED(hr))
 		return hr;
 
-	int64_t time = av_frame_get_best_effort_timestamp(_decoder.frame);
+	LONG64 pts;
 
 	ComPtr<IMFSample> pDecodedSample;
 	hr = CreateDecodedSample(_decoder.frame, &pDecodedSample);
+	if (SUCCEEDED(hr))
+		pts = av_frame_get_best_effort_timestamp(_decoder.frame);
 	av_frame_unref(_decoder.frame);
 	if (FAILED(hr))
 		return hr;
 
-	pDecodedSample->SetSampleTime(time);
-	pDecodedSample->SetSampleDuration(0);
+	pDecodedSample->SetSampleTime(pts);
+	pDecodedSample->SetSampleDuration(duration > 0 ? duration : _default_duration);
 
 	*ppDecodedSample = pDecodedSample.Detach();
 	return S_OK;
@@ -272,7 +273,6 @@ void FFmpegVideoDecoder::Flush()
 			Close();
 			ComPtr<IMFMediaType> result;
 			result.Attach(Open(codecid, pMediaType.Get()));
-			_flush_after = true;
 		}
 	}
 }
@@ -298,11 +298,20 @@ HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, 
 		av_frame_unref(_decoder.frame);
 		return MF_E_TRANSFORM_NEED_MORE_INPUT;
 	}
+
+	if (!_decoder.once_state) {
+		_decoder.once_state = true;
+		if (!OnceDecodeCallback()) //update codec info
+			return E_ABORT;
+	}
 	return S_OK;
 }
 
 HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSample)
 {
+	if (frame->interlaced_frame)
+		return MF_E_INVALID_STREAM_STATE;
+
 	if (frame->width != _decoder.context->width ||
 		frame->height != _decoder.context->height)
 		return MF_E_TRANSFORM_STREAM_CHANGE;
@@ -365,7 +374,7 @@ IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
 
 	pMediaType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
 	pMediaType->SetUINT32(MF_MT_FIXED_SIZE_SAMPLES, TRUE);
-	pMediaType->SetUINT32(MF_MT_SAMPLE_SIZE, _decoder.context->width * _decoder.context->height * 3 / 2);
+	pMediaType->SetUINT32(MF_MT_SAMPLE_SIZE, _image_size);
 
 	MFSetAttributeSize(pMediaType.Get(), MF_MT_FRAME_SIZE, _decoder.context->width, _decoder.context->height);
 	UINT32 num = 0, den = 0;
@@ -377,4 +386,28 @@ IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
 		MFSetAttributeRatio(pMediaType.Get(), MF_MT_PIXEL_ASPECT_RATIO, 1, 1);
 
 	return pMediaType.Detach();
+}
+
+bool FFmpegVideoDecoder::OnceDecodeCallback()
+{
+	auto ctx = _decoder.context;
+	if (ctx->framerate.num > 0 && ctx->framerate.den > 0) {
+		double fps = (double)ctx->framerate.num / (double)ctx->framerate.den;
+		if (fps > 0 && fps < 240)
+			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
+	}
+	if (_default_duration == 0) {
+		UINT32 num = 0, den = 0;
+		MFGetAttributeRatio(_rawMediaType.Get(), MF_MT_CORE_DEMUX_FRAMERATE, &num, &den);
+		if (num > 0 && den > 0) {
+			double fps = (double)num / (double)den;
+			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
+		}
+	}
+
+	if (ctx->codec_id == AV_CODEC_ID_H264 || ctx->codec_id == AV_CODEC_ID_MPEG2VIDEO)
+		if (ctx->field_order != AVFieldOrder::AV_FIELD_PROGRESSIVE &&
+			ctx->field_order != AVFieldOrder::AV_FIELD_UNKNOWN)
+			return false;
+	return true;
 }

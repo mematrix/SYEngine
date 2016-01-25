@@ -14,8 +14,8 @@ static struct FFCodecPair {
 	{MFVideoFormat_VP6F, AV_CODEC_ID_VP6F},
 	{MFVideoFormat_VP8,  AV_CODEC_ID_VP8},
 	{MFVideoFormat_VP9,  AV_CODEC_ID_VP9},
-	{MFVideoFormat_MPG1, AV_CODEC_ID_MPEG1VIDEO},
-	{MFVideoFormat_MPEG2, AV_CODEC_ID_MPEG2VIDEO}
+	{MFVideoFormat_RV30, AV_CODEC_ID_RV30},
+	{MFVideoFormat_RV40, AV_CODEC_ID_RV40},
 };
 
 HRESULT FFmpegDecodeServices::QueryInterface(REFIID iid,void** ppv)
@@ -179,12 +179,6 @@ bool FFmpegDecodeServices::VerifyVideoMediaType(IMFMediaType* pMediaType)
 	MFGetAttributeSize(pMediaType, MF_MT_FRAME_SIZE, &width, &height);
 	if (width == 0 ||
 		height == 0)
-		return false;
-
-	UINT32 fnum = 0, fden = 0;
-	MFGetAttributeRatio(pMediaType, MF_MT_FRAME_RATE, &fnum, &fden);
-	if (fnum == 0 ||
-		fden == 0)
 		return false;
 
 	if (subType == MFVideoFormat_H264 || subType == MFVideoFormat_HEVC ||

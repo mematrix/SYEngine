@@ -77,7 +77,7 @@ AV_MEDIA_ERR FLVMediaFormat::ReadPacket(AVMediaPacket* packet)
 	packet->data.size = flv_pkt.data_size;
 	packet->data.buf = flv_pkt.data_buf;
 	if (_stream_info.video_type == FLVParser::SupportVideoStreamType::VideoStreamType_VP6 &&
-		flv_pkt.data_size > 2) {
+		flv_pkt.type == FLVParser::PacketTypeVideo && flv_pkt.data_size > 2) {
 		packet->data.size -= 1;
 		packet->data.buf += 1;
 	}

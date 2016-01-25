@@ -796,10 +796,6 @@ HRESULT HDMediaStream::DoSampleDecodeRequests()
 		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT && _samples.IsEmpty() && !_eos)
 			_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
 
-		if (_eos) {
-			DbgLogPrintf(L"!");
-		}
-
 		if (SUCCEEDED(hr)) {
 			if (NeedsData()) {
 				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
