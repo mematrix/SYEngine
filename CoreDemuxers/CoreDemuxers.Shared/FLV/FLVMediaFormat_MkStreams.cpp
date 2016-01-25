@@ -114,6 +114,19 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 			_stream_info.video_info.height == 0)
 			return false;
 
+		unsigned char mask = 0;
+		while (1)
+		{
+			FLVParser::FLV_STREAM_PACKET packet = {};
+			if (parser->ReadNextPacket(&packet) != PARSER_FLV_OK)
+				return false;
+			if (packet.type != FLVParser::PacketTypeVideo || packet.skip_this == 1)
+				continue;
+
+			mask = packet.data_buf[0];
+			break;
+		}
+
 		CommonVideoCore comm = {};
 		comm.type = -1;
 		comm.desc.aspect_ratio.num = comm.desc.aspect_ratio.den = 1;
@@ -123,6 +136,8 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 		comm.desc.frame_rate.num = (int)(_stream_info.video_info.fps * 10000000.0);
 		comm.desc.frame_rate.den = 10000000;
 		comm.desc.compressed = true;
+		comm.extradata = &mask;
+		comm.extradata_size = 1;
 
 		std::shared_ptr<IVideoDescription> vp6 = std::make_shared<CommonVideoDescription>(comm);
 		_video_stream = std::make_shared<FLVMediaStream>(vp6,

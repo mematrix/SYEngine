@@ -27,9 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreCommon\CoreCommon.Windows\CoreCommon.Windows.vcxproj">
-      <Project>{13d48622-327d-455f-ab40-ccd9b85d50e5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\ffcodecs\ffcodecs.Windows\ffcodecs.Windows.vcxproj">
       <Project>{8be11e1a-2bcc-4764-9a72-bd80012974c3}</Project>
     </ProjectReference>
