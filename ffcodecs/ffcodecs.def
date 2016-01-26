@@ -76,6 +76,7 @@ EXPORTS
 	av_get_default_channel_layout
 	av_cpu_count
 	av_get_cpu_flags
+	av_lockmgr_register
 	av_log_get_level
 	av_log_set_callback
 	av_log_set_level

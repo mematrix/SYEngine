@@ -148,6 +148,10 @@ HRESULT HDMediaSource::CreateStreams()
 		if (FAILED(hr))
 			return hr;
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) && defined(_DEBUG)
+		stream->DbgUseRequestSampleTickLog();
+#endif
+
 		if (stream->IsH264Stream() || stream->IsHEVCStream())
 			SetMediaStreamPrivateDataFromBlob(stream.Get());
 		if (stream->IsFLACStream())

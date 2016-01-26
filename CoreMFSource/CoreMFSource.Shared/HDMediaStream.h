@@ -169,7 +169,7 @@ private:
 
 #ifdef _USE_DECODE_FILTER
 	inline void ProcessSampleRequest()
-	{ if (_decoder == nullptr) DispatchSamples();
+	{ if (!_transform_filter) DispatchSamples();
 		else if (!_decode_processing && !_requests.IsEmpty()) RequestSampleAsync(); }
 #endif
 

@@ -2,6 +2,28 @@
 #include "FFmpegDecodeServices.h"
 #include <new>
 
+static std::recursive_mutex kAVCodecMTLock;
+
+static int AVCodecMTLockCallback(void** mutex, AVLockOp op)
+{
+	switch (op)
+	{
+	case AV_LOCK_CREATE:
+		*mutex = &kAVCodecMTLock;
+		break;
+	case AV_LOCK_OBTAIN:
+		kAVCodecMTLock.lock();
+		break;
+	case AV_LOCK_RELEASE:
+		kAVCodecMTLock.unlock();
+		break;
+	case AV_LOCK_DESTROY:
+		*mutex = NULL;
+		break;
+	}
+	return 0;
+}
+
 HRESULT FFmpegDecodeFilter::QueryInterface(REFIID iid,void** ppv)
 {
 	if (ppv == NULL)
@@ -20,6 +42,8 @@ HRESULT FFmpegDecodeFilter::GetService(REFIID riid, void** ppv)
 
 	if (_services == NULL) {
 		avcodec_register_all();
+		av_lockmgr_register(&AVCodecMTLockCallback); //or to use InitOnceExecuteOnce.
+
 		auto p = new(std::nothrow) FFmpegDecodeServices();
 		if (p == NULL)
 			return E_OUTOFMEMORY;
