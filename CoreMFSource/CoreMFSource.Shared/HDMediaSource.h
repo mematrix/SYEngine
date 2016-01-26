@@ -61,6 +61,8 @@
 #include "MFSeekInfo.hxx"
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#include <d3d9.h>
+#include <dxva2api.h>
 #pragma comment(lib, "evr.lib")
 #endif
 
@@ -276,6 +278,9 @@ public:
 	void StopBuffering() { SendNetworkStopBuffering(); }
 
 	IMFDXGIDeviceManager* GetDXGIDeviceManager() throw() { return _dxgiDeviceManager.Get(); } //non AddRef.
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	IDirect3DDeviceManager9* GetD3D9DeviceManager() throw() { return _d3d9DeviceManager.Get(); } //non AddRef.
+#endif
 
 	HRESULT QueueAsyncOperation(SourceOperation::Operation opType) throw();
 	HRESULT ProcessOperationError(HRESULT hrStatus) throw();
@@ -468,6 +473,9 @@ private:
 	};
 	HandlerTypes _url_type;
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	ComPtr<IDirect3DDeviceManager9> _d3d9DeviceManager;
+#endif
 	ComPtr<IMFDXGIDeviceManager> _dxgiDeviceManager;
 	bool _full_sw_decode;
 };

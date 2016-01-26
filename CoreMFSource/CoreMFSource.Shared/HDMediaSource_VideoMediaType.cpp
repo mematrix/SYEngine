@@ -410,6 +410,8 @@ HRESULT HDMediaSource::InitVideoVP6MediaType(IVideoDescription* pDesc,IMFMediaTy
 		if (mask > 0)
 			pMediaType->SetBlob(MF_MT_USER_DATA,&mask,1);
 	}
+	
+	_full_sw_decode = true;
 	return S_OK;
 }
 

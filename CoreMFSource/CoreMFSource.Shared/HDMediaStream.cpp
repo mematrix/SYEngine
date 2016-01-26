@@ -646,30 +646,34 @@ bool HDMediaStream::GetTransformFilter(ITransformFilter** ppFilter)
 		return false;
 	return SUCCEEDED(_pStreamDesc->GetUnknown(MF_MT_MY_TRANSFORM_FILTER_INTERFACE,IID_PPV_ARGS(ppFilter)));
 }
-#endif
 
-void HDMediaStream::OnProcessDirectXManager()
+bool HDMediaStream::ProcessDirectXManager()
 {
-#ifdef _USE_DECODE_FILTER
 	DbgLogPrintf(L"%s %d::OnProcessDirectXManager...",L"HDMediaStream",_index);
 	if (!_transform_filter)
-		return;
+		return false;
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	auto dx = _pMediaSource->GetD3D9DeviceManager();
+#else
 	auto dx = _pMediaSource->GetDXGIDeviceManager();
+#endif
 	if (dx == NULL)
-		return;
+		return false;
 
 	ComPtr<IMFAttributes> attrs;
 	if (FAILED(MFCreateAttributes(&attrs,3)))
-		return;
+		return false;
 
 	ComPtr<IMFVideoSampleAllocatorEx> alloctor;
 	if (FAILED(MFCreateVideoSampleAllocatorEx(IID_PPV_ARGS(&alloctor))))
-		return;
+		return false;
 
 	attrs->SetUINT32(MF_SA_D3D11_USAGE,D3D11_USAGE_DEFAULT);
 	attrs->SetUINT32(MF_SA_D3D11_BINDFLAGS,D3D11_BIND_RENDER_TARGET|D3D11_BIND_SHADER_RESOURCE);
 	attrs->SetUINT32(MF_SA_BUFFERS_PER_SAMPLE,1);
+	
+	bool result = false;
 	if (SUCCEEDED(alloctor->SetDirectXManager(dx))) {
 		GUID type = GUID_NULL;
 		GetMediaType()->GetGUID(MF_MT_SUBTYPE,&type);
@@ -692,14 +696,25 @@ void HDMediaStream::OnProcessDirectXManager()
 						auto transform_allocator = Make<DXVATransformSampleAllocator>(alloctor.Get());
 						pWorker->SetAllocator(transform_allocator.Get());
 						_decoder = pWorker;
+						result = true;
 						DbgLogPrintf(L"Stream %d to use DXVA Allocator.",_index);
 					}
 				}
 			}
 		}
 	}
-#endif
+	return result;
 }
+
+void HDMediaStream::OnProcessDirectXManager()
+{
+	if (!ProcessDirectXManager()) {
+		ComPtr<ITransformFilter> pFilter;
+		if (GetTransformFilter(&pFilter))
+			pFilter->GetService(IID_PPV_ARGS(&_decoder));
+	}
+}
+#endif
 
 void HDMediaStream::SetPrivateData(unsigned char* pb,unsigned len)
 {

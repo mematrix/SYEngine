@@ -328,7 +328,11 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 	}else{
 		hr = MFCreateSample(&pSample);
 		if (SUCCEEDED(hr)) {
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+			hr = MFCreateMemoryBuffer(_image_size, &pBuffer);
+#else
 			hr = MFCreate2DMediaBuffer(frame->width, frame->height, FCC('NV12'), FALSE, &pBuffer);
+#endif
 			if (SUCCEEDED(hr))
 				pSample->AddBuffer(pBuffer.Get());
 		}

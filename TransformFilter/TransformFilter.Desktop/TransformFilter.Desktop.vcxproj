@@ -11,16 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreCommon\CoreCommon.Desktop\CoreCommon.Desktop.vcxproj">
-      <Project>{2d83279c-3bb2-43ec-8503-8e62fb1f3a99}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj">
-      <Project>{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}</Project>
+    <ProjectReference Include="..\..\ffcodecs\ffcodecs.Desktop\ffcodecs.Desktop.vcxproj">
+      <Project>{67810348-f9af-45f1-892a-945299564494}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{891804B9-2F50-4A9A-B8B0-F2AF397D4AE8}</ProjectGuid>
-    <RootNamespace>CoreMFSource</RootNamespace>
+    <ProjectGuid>{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}</ProjectGuid>
+    <RootNamespace>TransformFilter</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -37,7 +34,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="..\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems" Label="Shared" />
+  <Import Project="..\TransformFilter.Shared\TransformFilter.Shared.vcxitems" Label="Shared" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -67,26 +64,23 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SYENGINE_DEMUX;_USE_DECODE_FILTER;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>
-      </StringPooling>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <CallingConvention>Cdecl</CallingConvention>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;shlwapi.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <ImageHasSafeExceptionHandlers>
       </ImageHasSafeExceptionHandlers>
-      <ModuleDefinitionFile>..\CoreMFSource.def</ModuleDefinitionFile>
-      <NoEntryPoint />
+      <ModuleDefinitionFile>..\TransformFilter.def</ModuleDefinitionFile>
     </Link>
     <BuildLog>
       <Path />
@@ -100,31 +94,28 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_SYENGINE_DEMUX;_USE_DECODE_FILTER;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <StringPooling>
-      </StringPooling>
-      <ExceptionHandling>
-      </ExceptionHandling>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <CallingConvention>Cdecl</CallingConvention>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;shlwapi.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <ModuleDefinitionFile>..\CoreMFSource.def</ModuleDefinitionFile>
-      <NoEntryPoint />
+      <ModuleDefinitionFile>..\TransformFilter.def</ModuleDefinitionFile>
     </Link>
     <BuildLog>
       <Path />
