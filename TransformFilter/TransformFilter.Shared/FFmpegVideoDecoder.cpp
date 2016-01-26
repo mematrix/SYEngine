@@ -287,6 +287,8 @@ void FFmpegVideoDecoder::Flush()
 			subType == MFVideoFormat_AVC1 ||
 			subType == MFVideoFormat_HEVC ||
 			subType == MFVideoFormat_HVC1 ||
+			subType == MFVideoFormat_H264_ES ||
+			subType == MFVideoFormat_HEVC_ES ||
 			subType == MFVideoFormat_MPEG2) {
 			ComPtr<IMFMediaType> pMediaType;
 			MFCreateMediaType(&pMediaType);

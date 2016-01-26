@@ -162,7 +162,7 @@ HRESULT HDMediaSource::OpenAsync(IMFByteStream* pByteStream,IMFAsyncCallback* pC
 	{
 		pAttrs->GetString(MF_BYTESTREAM_ORIGIN_NAME,szFile,ARRAYSIZE(szFile),nullptr);
 		if (szFile[0] != 0)
-			OutputDebugStringW(szFile);
+			DbgLogPrintf(szFile);
 	}
 
 	_url_type = HandlerTypes::Default;
