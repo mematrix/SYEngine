@@ -167,6 +167,22 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 			else if (userdataLen > 0)
 				pMediaType->GetBlob(MF_MT_USER_DATA, codecprivate, codecprivate_len, &userdataLen);
 		}
+	}else if (extraLen > 0 && codecprivate == NULL) {
+		PBYTE buf = NULL;
+		unsigned size = 0;
+		pMediaType->GetAllocatedBlob(MF_MT_MPEG_SEQUENCE_HEADER, &buf, &size);
+		if (buf && size > 4) {
+			if (buf[0] + buf[1] == 0) {
+				AVPacket pkt;
+				av_init_packet(&pkt);
+				pkt.data = buf;
+				pkt.size = size;
+				if (avcodec_open2(_decoder.context, _decoder.codec, NULL) >= 0)
+					avcodec_decode_video2(_decoder.context, _decoder.frame, (int*)&size, &pkt);
+			}
+		}
+		if (buf)
+			CoTaskMemFree(buf);
 	}
 
 	if (codecprivate) {
@@ -174,10 +190,12 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 		_decoder.context->extradata_size = codecprivate_len;
 	}
 
-	int result = avcodec_open2(_decoder.context, _decoder.codec, NULL);
-	if (result < 0) {
-		Close();
-		return NULL;
+	if (avcodec_is_open(_decoder.context) == 0) {
+		int result = avcodec_open2(_decoder.context, _decoder.codec, NULL);
+		if (result < 0) {
+			Close();
+			return NULL;
+		}
 	}
 
 	if (FAILED(MFCreateMediaType(_rawMediaType.ReleaseAndGetAddressOf()))) {
