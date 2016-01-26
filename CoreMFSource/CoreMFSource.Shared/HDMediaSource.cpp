@@ -684,19 +684,25 @@ HRESULT HDMediaSource::OnEndOfStream(SourceOperation* op)
 
 HRESULT HDMediaSource::SetD3DManager(IUnknown *pManager)
 {
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-	return E_NOTIMPL;
-#else
+#ifdef _USE_DECODE_FILTER
 	CritSec::AutoLock lock(_cs);
 	HRESULT hr = CheckShutdown();
 	if (FAILED(hr))
 		return hr;
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	_d3d9DeviceManager.Reset();
+	if (pManager != NULL)
+		hr = pManager->QueryInterface(IID_PPV_ARGS(&_d3d9DeviceManager));
+	if (FAILED(hr))
+		return hr;
+#else
 	_dxgiDeviceManager.Reset();
 	if (pManager != NULL)
 		hr = pManager->QueryInterface(IID_PPV_ARGS(&_dxgiDeviceManager));
 	if (FAILED(hr))
 		return hr;
+#endif
 
 	unsigned count = _streamList.Count();
 	for (unsigned i = 0;i < count;i++)
@@ -710,5 +716,7 @@ HRESULT HDMediaSource::SetD3DManager(IUnknown *pManager)
 	}
 
 	return S_OK;
+#else
+	return E_NOTIMPL;
 #endif
 }

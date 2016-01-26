@@ -89,6 +89,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffcodecs.Desktop", "ffcodec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Desktop", "MultipartStreamMatroska\MultipartStreamMatroska.Desktop\MultipartStreamMatroska.Desktop.vcxproj", "{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Desktop", "TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj", "{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{404150b6-9a3a-449e-a410-5d64ff3b85d3}*SharedItemsImports = 4
@@ -97,6 +99,7 @@ Global
 		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{f1079a95-c042-429f-ad7b-97a91ec8be65}*SharedItemsImports = 9
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{7e0215a1-1e2d-414f-a8e9-ca3c7118a192}*SharedItemsImports = 9
 		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{927c14c4-15ff-4939-b03c-3176a684ee09}*SharedItemsImports = 4
+		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}*SharedItemsImports = 4
 		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{abb4bcb5-19ff-4d89-ae67-0c4eb952ef22}*SharedItemsImports = 4
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{17fa6670-7feb-4abf-a408-aba3c7bd604d}*SharedItemsImports = 9
 		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{093733b8-464d-407e-a941-af33ac8406be}*SharedItemsImports = 13
@@ -389,6 +392,14 @@ Global
 		{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7}.Release|x64.ActiveCfg = Release|Win32
 		{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7}.Release|x86.ActiveCfg = Release|Win32
 		{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7}.Release|x86.Build.0 = Release|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Debug|ARM.ActiveCfg = Debug|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Debug|x64.ActiveCfg = Debug|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Debug|x86.ActiveCfg = Debug|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Debug|x86.Build.0 = Debug|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|ARM.ActiveCfg = Release|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x64.ActiveCfg = Release|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x86.ActiveCfg = Release|Win32
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -428,5 +439,6 @@ Global
 		{891804B9-2F50-4A9A-B8B0-F2AF397D4AE8} = {E06CE943-2079-42A6-ACB0-6DA84138033D}
 		{67810348-F9AF-45F1-892A-945299564494} = {E0205808-386B-4E6E-9929-60183ACFAE87}
 		{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7} = {DC0F91E4-90EA-45E3-8EEC-08D37215941C}
+		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638} = {F9A7B95E-545D-4BE2-8605-7A7D254EFA16}
 	EndGlobalSection
 EndGlobal

@@ -131,8 +131,9 @@ public:
 
 #ifdef _USE_DECODE_FILTER
 	bool GetTransformFilter(ITransformFilter** ppFilter);
-#endif
+	bool ProcessDirectXManager();
 	void OnProcessDirectXManager();
+#endif
 
 #ifdef _DEBUG
 	void DbgUseRequestSampleTickLog() throw() { _dbgRecordSampleTick = true; }
