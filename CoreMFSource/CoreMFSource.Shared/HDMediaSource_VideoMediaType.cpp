@@ -252,6 +252,7 @@ HRESULT HDMediaSource::InitVideoMPEG2MediaType(IVideoDescription* pDesc,IMFMedia
 	}
 #endif
 
+	_full_sw_decode = true;
 	return S_OK;
 }
 

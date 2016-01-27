@@ -1,5 +1,8 @@
 #include "FFmpegVideoDecoder.h"
 #include "more_codec_uuid.h"
+#ifndef _ARM_
+#include "memcpy_sse.h"
+#endif
 
 static void UVCopyInterlace(unsigned char* data, const unsigned char* u, const unsigned char* v, unsigned count)
 {
@@ -20,73 +23,79 @@ static void UVCopyInterlace(unsigned char* data, const unsigned char* u, const u
 	}
 }
 
-static void ConvertYUV420PToNV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height)
+static void ConvertYUV420PToNV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned ysize = 0)
 {
-	unsigned ysize = width * height;
-	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysize);
-	UVCopyInterlace(copyTo + ysize, u, v, ysize >> 1);
+	unsigned ysz = ysize > 0 ? ysize : width * height;
+#ifndef _ARM_
+	memcpy_sse(copyTo, y, ysz);
+#else
+	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysz);
+#endif
+	UVCopyInterlace(copyTo + ysz, u, v, ysz >> 1);
 }
 
-static void ConvertYUV420PToNV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv)
+static void ConvertYUV420PToNV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv, unsigned ysize = 0)
 {
-	unsigned ysize = width * height;
+	unsigned ysz = ysize > 0 ? ysize : width * height;
 	unsigned char* copyToOffset = copyTo;
 	//copy Y
 	if (width == linesize_y) {
 		MFCopyImage(copyTo, width, y, width, width, height);
-		copyToOffset += ysize;
+		copyToOffset += ysz;
 	}else{
 		unsigned char* lumaYoffset = y;
 		for (unsigned i = 0; i < height; i++, copyToOffset += width, lumaYoffset += linesize_y)
 			memcpy(copyToOffset, lumaYoffset, width);
 	}
 	//copy UV
-	unsigned uv_interlace_linesize = ysize / height;
+	unsigned uv_interlace_linesize = ysz / height;
 	if ((uv_interlace_linesize >> 1) == linesize_uv) {
-		UVCopyInterlace(copyToOffset, u, v, ysize >> 1);
+		UVCopyInterlace(copyToOffset, u, v, ysz >> 1);
 	}else{
-		unsigned char* lumaUoffset = u;
-		unsigned char* lumaVoffset = v;
+		unsigned char* chromaUoffset = u;
+		unsigned char* chromaVoffset = v;
 		unsigned count = height >> 1;
-		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize, lumaUoffset += linesize_uv, lumaVoffset += linesize_uv)
-			UVCopyInterlace(copyToOffset, lumaUoffset, lumaVoffset, uv_interlace_linesize);
+		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize, chromaUoffset += linesize_uv, chromaVoffset += linesize_uv)
+			UVCopyInterlace(copyToOffset, chromaUoffset, chromaVoffset, uv_interlace_linesize);
 	}
 }
 
-static void ConvertYUV420PToYV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height)
+static void ConvertYUV420PToYV12Packed_NonLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned ysize = 0)
 {
-	unsigned ysize = width * height;
-	unsigned uvsize = ysize >> 2;
-	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysize);
-	memcpy(copyTo + ysize, v, uvsize);
-	memcpy(copyTo + ysize + uvsize, u, uvsize);
+	unsigned ysz = ysize > 0 ? ysize : width * height;
+	unsigned uvsize = ysz >> 2;
+#ifndef _ARM_
+	memcpy_sse(copyTo, y, ysz);
+#else
+	MFCopyImage(copyTo, width, y, width, width, height); //memcpy(copyTo, y, ysz);
+#endif
+	memcpy(copyTo + ysz, v, uvsize);
+	memcpy(copyTo + ysz + uvsize, u, uvsize);
 }
 
-static void ConvertYUV420PToYV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv)
+static void ConvertYUV420PToYV12Packed_UseLineSize(unsigned char* copyTo, unsigned char* y , unsigned char* u, unsigned char* v, unsigned width, unsigned height, unsigned linesize_y, unsigned linesize_uv, unsigned ysize = 0)
 {
-	unsigned ysize = width * height;
-	unsigned uvsize = ysize >> 2;
+	unsigned ysz = ysize > 0 ? ysize : width * height;
+	unsigned uvsize = ysz >> 2;
 	unsigned char* copyToOffset = copyTo;
 	//copy Y
 	if (width == linesize_y) {
 		MFCopyImage(copyTo, width, y, width, width, height);
-		copyToOffset += ysize;
+		copyToOffset += ysz;
 	}else{
 		unsigned char* lumaYoffset = y;
 		for (unsigned i = 0; i < height; i++, copyToOffset += width, lumaYoffset += linesize_y)
 			memcpy(copyToOffset, lumaYoffset, width);
 	}
 	//copy UV
-	unsigned uv_interlace_linesize = ysize / height;
+	unsigned uv_interlace_linesize = ysz / height;
 	unsigned uv_linesize = uv_interlace_linesize >> 1;
 	if (uv_linesize == linesize_uv) {
 		memcpy(copyToOffset, v, uvsize);
 		memcpy(copyToOffset + uvsize, u, uvsize);
 	}else{
-		unsigned char* lumaUoffset = u;
-		unsigned char* lumaVoffset = v;
 		unsigned count = height >> 1;
-		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize, lumaUoffset += linesize_uv, lumaVoffset += linesize_uv) {
+		for (unsigned i = 0; i < count; i++, copyToOffset += uv_interlace_linesize) {
 			memcpy(copyToOffset, v, uv_linesize);
 			memcpy(copyToOffset + uv_linesize, u, uv_linesize);
 		}
@@ -353,12 +362,12 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 		if (frame->linesize[0] == frame->width)
 			ConvertYUV420PToNV12Packed_NonLineSize(buf,
 			frame->data[0], frame->data[1], frame->data[2],
-			frame->width, frame->height);
+			frame->width, frame->height, _image_luma_size);
 		else
 			ConvertYUV420PToNV12Packed_UseLineSize(buf,
 			frame->data[0], frame->data[1], frame->data[2],
 			frame->width, frame->height,
-			frame->linesize[0], frame->linesize[1]);
+			frame->linesize[0], frame->linesize[1], _image_luma_size);
 	}else{
 		int yoffset = frame->width * frame->height;
 		unsigned char* image_buf[4] = {buf, buf + yoffset, NULL, NULL};
@@ -427,6 +436,8 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 			ctx->width, ctx->height, AV_PIX_FMT_NV12, SWS_BILINEAR, NULL, NULL, NULL);
 		if (_decoder.scaler == NULL)
 			return false;
+	}else{
+		_image_luma_size = ctx->width * ctx->height; //ysize
 	}
 	return true;
 }
