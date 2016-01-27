@@ -10,7 +10,6 @@ EXPORTS
 	avcodec_find_decoder_by_name
 	avcodec_flush_buffers
 	avcodec_get_name
-	avcodec_get_frame_defaults
 	avcodec_default_get_buffer2
 	avcodec_is_open
 	av_parser_init
@@ -111,7 +110,6 @@ EXPORTS
 	avpicture_fill
 	avpicture_free
 	avpicture_get_size
-	avpicture_deinterlace
 	sws_scale
 	sws_getContext
 	sws_getCachedContext
@@ -149,24 +147,17 @@ EXPORTS
 	ff_add_index_entry
 	ff_alloc_extradata
 	ff_get_extradata
-	ff_stream_new_side_data
 	ff_add_param_change
 	ff_flac_is_extradata_valid
 	ff_flac_parse_streaminfo
 	ff_flac_get_max_frame_size
 	ff_opus_parse_extradata
 	ff_aac_ac3_parse
-	avpriv_flac_is_extradata_valid
 	avpriv_split_xiph_headers
-	avpriv_vorbis_parse_extradata
-	avpriv_vorbis_parse_frame_flags
-	avpriv_vorbis_parse_frame
-	avpriv_vorbis_parse_reset
 	avpriv_dca_convert_bitstream
 	avpriv_dca_sample_rates
 	avpriv_aac_parse_header
 	avpriv_ac3_parse_header
-	avpriv_ac3_parse_header2
 	avpriv_ac3_channel_layout_tab
 	avpriv_copy_bits
 	avpriv_get_raw_pix_fmt_tags
@@ -177,8 +168,8 @@ EXPORTS
 	ff_vorbis_stream_comment
 	ff_vorbiscomment_length
 	ff_vorbiscomment_write
-	ff_vc1_pixel_aspect
 
+	;ff_vc1_pixel_aspect
 	;ff_wv_parse_header
 	;ff_hevc_annexb2mp4
 	;ff_avc_parse_nal_units
@@ -186,6 +177,10 @@ EXPORTS
 	;ff_avc_mp4_find_startcode
 	;avpriv_flac_parse_stream_info
 	;avpriv_tak_parse_streaminfo
+	;avpriv_vorbis_parse_extradata
+	;avpriv_vorbis_parse_frame_flags
+	;avpriv_vorbis_parse_frame
+	;avpriv_vorbis_parse_reset
 	;avpriv_dirac_parse_sequence_header
 	;avpriv_dnxhd_get_frame_size
 	;avpriv_dnxhd_get_interlaced

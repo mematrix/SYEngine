@@ -97,12 +97,6 @@ typedef struct FLACFrameInfo {
 void ff_flac_parse_streaminfo(AVCodecContext *avctx, struct FLACStreaminfo *s,
                               const uint8_t *buffer);
 
-void avpriv_flac_parse_streaminfo(AVCodecContext *avctx, struct FLACStreaminfo *s,
-                                  const uint8_t *buffer);
-int avpriv_flac_is_extradata_valid(AVCodecContext *avctx,
-                                   enum FLACExtradataFormat *format,
-                                   uint8_t **streaminfo_start);
-
 /**
  * Validate the FLAC extradata.
  * @param[in]  avctx codec context containing the extradata.

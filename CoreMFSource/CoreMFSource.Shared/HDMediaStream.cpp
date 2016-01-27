@@ -43,6 +43,8 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 
 	_active = _eos = false;
 	_discontinuity = FALSE;
+	_once_flag = FALSE;
+
 	if (_transform_filter)
 		_dec_eos = false;
 	else
@@ -300,6 +302,8 @@ void HDMediaStream::Activate(bool fActive)
 	{
 		_samples.Clear();
 		_requests.Clear();
+
+		_decoded_pending.Clear();
 	}
 
 	_discontinuity = FALSE;
@@ -367,6 +371,8 @@ HRESULT HDMediaStream::Stop()
 	_samples.Clear();
 	_requests.Clear();
 
+	_decoded_pending.Clear();
+
 	hr = QueueEvent(MEStreamStopped,GUID_NULL,S_OK,nullptr);
 	if (FAILED(hr))
 		return hr;
@@ -409,6 +415,8 @@ HRESULT HDMediaStream::Shutdown()
 
 	_samples.Clear();
 	_requests.Clear();
+
+	_decoded_pending.Clear();
 
 	_pStreamDesc.Reset();
 	_pEventQueue.Reset();
@@ -763,6 +771,25 @@ HRESULT HDMediaStream::RequestSampleWithDecode(IUnknown* pToken)
 	}
 #endif
 
+	if (!_decoded_pending.IsEmpty()) {
+		ComPtr<IMFSample> pSample;
+		HRESULT hr = _decoded_pending.RemoveFront(&pSample);
+		HR_FAILED_RET(hr);
+		if (pToken)
+			pSample->SetUnknown(MFSampleExtension_Token,pToken);
+
+		hr = _pEventQueue->QueueEventParamUnk(MEMediaSample,GUID_NULL,S_OK,pSample.Get());
+		HR_FAILED_RET(hr);
+
+		if (_decoded_pending.IsEmpty()) {
+			_dec_eos = true;
+			hr = _pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+			if (SUCCEEDED(hr))
+				hr = _pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+		}
+		return hr;
+	}
+
 	HRESULT hr = _requests.InsertBack(pToken);
 	HR_FAILED_RET(hr);
 
@@ -799,8 +826,16 @@ HRESULT HDMediaStream::DoSampleDecodeRequests()
 
 		ComPtr<IMFSample> pDecodedSample;
 		hr = _decoder->ProcessSample(pSample.Get(),&pDecodedSample);
-		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT)
-			continue;
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) {
+			if (_eos && pSample == nullptr) {
+				_dec_eos = true;
+				_requests.Clear();
+				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+			}else{
+				continue;
+			}
+		}
 
 		{
 			SourceAutoLock lock(_pMediaSource.Get());
@@ -838,9 +873,19 @@ HRESULT HDMediaStream::DoSampleDecodeRequests()
 			if (NeedsData()) {
 				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
 			}else if (_eos && _samples.IsEmpty() && _requests.IsEmpty()) {
-				_dec_eos = true;
-				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
-				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+				_decoded_pending.Clear();
+				for (int i = 0;i < 32;i++) {
+					ComPtr<IMFSample> pDecodedSample;
+					if (FAILED(_decoder->ProcessSample(NULL,&pDecodedSample)) ||
+						pDecodedSample == nullptr)
+						break;
+					_decoded_pending.InsertBack(pDecodedSample.Get());
+				}
+				if (_decoded_pending.IsEmpty()) {
+					_dec_eos = true;
+					_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+					_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+				}
 			}
 		}else{
 			if (hr != MF_E_TRANSFORM_NEED_MORE_INPUT)

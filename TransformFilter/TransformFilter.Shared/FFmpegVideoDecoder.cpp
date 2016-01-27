@@ -167,22 +167,6 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 			else if (userdataLen > 0)
 				pMediaType->GetBlob(MF_MT_USER_DATA, codecprivate, codecprivate_len, &userdataLen);
 		}
-	}else if (extraLen > 0 && codecprivate == NULL) {
-		PBYTE buf = NULL;
-		unsigned size = 0;
-		pMediaType->GetAllocatedBlob(MF_MT_MPEG_SEQUENCE_HEADER, &buf, &size);
-		if (buf && size > 4) {
-			if (buf[0] + buf[1] == 0) {
-				AVPacket pkt;
-				av_init_packet(&pkt);
-				pkt.data = buf;
-				pkt.size = size;
-				if (avcodec_open2(_decoder.context, _decoder.codec, NULL) >= 0)
-					avcodec_decode_video2(_decoder.context, _decoder.frame, (int*)&size, &pkt);
-			}
-		}
-		if (buf)
-			CoTaskMemFree(buf);
 	}
 
 	if (codecprivate) {
@@ -440,7 +424,7 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 	//10bit,422 or 444.
 	if (ctx->pix_fmt != AV_PIX_FMT_YUV420P) {
 		_decoder.scaler = sws_getContext(ctx->width, ctx->height, ctx->pix_fmt,
-			ctx->width, ctx->height, AV_PIX_FMT_NV12, SWS_BICUBIC, NULL, NULL, NULL);
+			ctx->width, ctx->height, AV_PIX_FMT_NV12, SWS_BILINEAR, NULL, NULL, NULL);
 		if (_decoder.scaler == NULL)
 			return false;
 	}

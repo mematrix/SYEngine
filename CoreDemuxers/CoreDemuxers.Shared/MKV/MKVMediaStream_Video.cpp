@@ -33,7 +33,7 @@ struct REAL_VIDEO_PROPS
 };
 #pragma pack()
 
-static bool InitHEVCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDescription>& desc,unsigned* nal_size)
+static bool InitHEVCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDescription>& desc,unsigned* nal_size,bool raw_cp = false)
 {
 	if (info.Codec.CodecPrivateSize == 0 ||
 		info.Codec.CodecPrivate == nullptr)
@@ -80,11 +80,13 @@ static bool InitHEVCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDe
 	profile.luma_bitdepth = head.bit_depth_luma_minus8 + 8;
 	profile.chroma_bitdepth = head.bit_depth_chroma_minus8 + 8;
 
-	auto p = (unsigned char*)malloc(2048);
+	auto p = raw_cp ? info.Codec.CodecPrivate:(unsigned char*)malloc(2048);
 	if (!p)
 		return false;
 
-	unsigned size = StripHEVCNaluArrays(info.Codec.CodecPrivate + HVC1_DCR_HEAD_LENGTH_BYTES,p);
+	unsigned size = raw_cp ? info.Codec.CodecPrivateSize:
+		StripHEVCNaluArrays(info.Codec.CodecPrivate + HVC1_DCR_HEAD_LENGTH_BYTES,p);
+
 	if (size == 0)
 	{
 		free(p);
@@ -94,7 +96,8 @@ static bool InitHEVCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideoDe
 	core.extradata = p;
 	core.extradata_size = size;
 	std::shared_ptr<IVideoDescription> hevc = std::make_shared<CommonVideoDescription>(core);
-	free(p);
+	if (!raw_cp)
+		free(p);
 
 	*nal_size = profile.nalu_size;
 	desc = hevc;
@@ -507,7 +510,7 @@ bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parse
 	{
 	case MKV_Video_HEVC:
 		_codec_type = MediaCodecType::MEDIA_CODEC_VIDEO_HEVC;
-		if (!InitHEVCTrack(_info,_video_desc,&_264lengthSizeMinusOne))
+		if (!InitHEVCTrack(_info,_video_desc,&_264lengthSizeMinusOne,force_avc1))
 			return false;
 		break;
 	case MKV_Video_H264:
