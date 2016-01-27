@@ -618,6 +618,17 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 							if (temp > 0 && temp < 360)
 								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
 
+							if (subType != MFVideoFormat_AVC1 && subType != MFVideoFormat_HVC1) {
+								PBYTE userdata = NULL;
+								UINT32 udSize = 0;
+								if (SUCCEEDED(pMediaType->GetAllocatedBlob(MF_MT_MPEG_SEQUENCE_HEADER,&userdata,&udSize)))
+									pNewMediaType->SetBlob(MF_MT_MPEG_SEQUENCE_HEADER,userdata,udSize);
+								else if (SUCCEEDED(pMediaType->GetAllocatedBlob(MF_MT_USER_DATA,&userdata,&udSize)))
+									pNewMediaType->SetBlob(MF_MT_USER_DATA,userdata,udSize);
+								if (userdata)
+									CoTaskMemFree(userdata);
+							}
+
 							pMediaType = pNewMediaType;
 							pFilter.As(&pDecodeFilter);
 							bUseDecodeFilter = true;
