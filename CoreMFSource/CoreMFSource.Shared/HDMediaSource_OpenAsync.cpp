@@ -402,6 +402,9 @@ HRESULT HDMediaSource::DoOpen()
 	if (GlobalOptionGetBOOL(kSubtitleMatroskaASS2SRT))
 		readFlags |= MEDIA_FORMAT_READER_MATROSKA_ASS2SRT;
 
+	if (GlobalOptionGetBOOL(kCoreForceSoftwareDecode)) //software decode submit raw sample data.
+		readFlags |= MEDIA_FORMAT_READER_H264_FORCE_AVC1;
+
 	if (readFlags != 0)
 		parser->SetReadFlags(readFlags);
 	if (_network_mode) {
@@ -511,6 +514,22 @@ HRESULT HDMediaSource::InitMediaType(IAVMediaStream* pAVStream,IMFMediaType** pp
 
 	if (SUCCEEDED(hr))
 	{
+		auto str = _pMediaParser->GetMimeType();
+		if (strnicmp(str,"audio",5) == 0 ||
+			strnicmp(str,"video",5) == 0) {
+			str += 6;
+			if (*str == 'x')
+				str++;
+			if (*str == '-')
+				str++;
+
+			AutoStrConv strConvert;
+			(*ppMediaType)->SetString(MF_MT_CORE_DEMUX_MIMETYPE,strConvert(str));
+		}
+	}
+
+	if (SUCCEEDED(hr))
+	{
 		if (pAVStream->GetStreamName())
 		{
 			AutoStrConv strConvert;
@@ -567,6 +586,48 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 		if (FAILED(hr))
 			continue;
 
+#ifdef _USE_DECODE_FILTER
+		ComPtr<ITransformFilter> pDecodeFilter;
+		bool bUseDecodeFilter = false;
+		{
+			ComPtr<IUnknown> pFilter;
+			if ((GlobalOptionGetBOOL(kCoreForceSoftwareDecode) || _full_sw_decode) &&
+				SUCCEEDED(CreateAVCodecTransformFilter(&pFilter))) {
+				ComPtr<ITransformLoader> pLoader;
+				((ITransformFilter*)pFilter.Get())->GetService(IID_PPV_ARGS(&pLoader));
+				if (pLoader)
+				{
+					if (SUCCEEDED(pLoader->CheckMediaType(pMediaType.Get())) &&
+						SUCCEEDED(pLoader->SetInputMediaType(pMediaType.Get()))) {
+						ComPtr<IMFMediaType> pNewMediaType;
+						if (SUCCEEDED(pLoader->GetOutputMediaType(&pNewMediaType)) && pNewMediaType) {
+							GUID subType = GUID_NULL;
+							pMediaType->GetGUID(MF_MT_SUBTYPE,&subType);
+							pNewMediaType->SetGUID(MF_MT_MY_TRANSFORM_FILTER_RAWTYPE,subType);
+							pNewMediaType->SetUINT32(MF_MY_STREAM_ID,pStream->GetStreamIndex());
+							if (pStream->GetStreamName()) {
+								AutoStrConv strConvert;
+								pNewMediaType->SetString(MF_MY_STREAM_NAME,
+									strConvert(pStream->GetStreamName()));
+							}
+							UINT32 temp = 0;
+							temp = MFGetAttributeUINT32(pMediaType.Get(),MF_MT_AVG_BITRATE,0);
+							if (temp > 0)
+								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
+							temp = MFGetAttributeUINT32(pMediaType.Get(),MF_MT_VIDEO_ROTATION,0);
+							if (temp > 0 && temp < 360)
+								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
+
+							pMediaType = pNewMediaType;
+							pFilter.As(&pDecodeFilter);
+							bUseDecodeFilter = true;
+						}
+					}
+				}
+			}
+		}
+#endif
+
 		ComPtr<IMFStreamDescriptor> psd;
 		hr = MFCreateStreamDescriptor(pStream->GetStreamIndex(),
 			1,pMediaType.GetAddressOf(),psd.GetAddressOf());
@@ -581,6 +642,13 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 		hr = pHandler->SetCurrentMediaType(pMediaType.Get());
 		if (FAILED(hr))
 			break;
+
+#ifdef _USE_DECODE_FILTER
+		if (bUseDecodeFilter) {
+			psd->SetUINT32(MF_MT_MY_TRANSFORM_FILTER_ALLOW,TRUE);
+			psd->SetUnknown(MF_MT_MY_TRANSFORM_FILTER_INTERFACE,pDecodeFilter.Get());
+		}
+#endif
 
 		psd->SetString(MF_SD_LANGUAGE,L"und");
 

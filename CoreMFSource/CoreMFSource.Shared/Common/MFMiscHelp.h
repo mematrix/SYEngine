@@ -26,6 +26,7 @@ HRESULT IsVideoYUVSubType(IMFMediaType* pMediaType);
 HRESULT GetMediaTypeFromPD(IMFPresentationDescriptor* ppd,DWORD dwStreamIndex,IMFMediaType** ppMediaType);
 
 LONG64 SecondsToMFTime(double seconds);
+double SecondsFromMFTime(LONG64 time);
 double GetSecondsFromMFSample(IMFSample* pSample);
 
 bool IsMFTExists(LPCWSTR clsid);

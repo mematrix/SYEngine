@@ -1,10 +1,5 @@
-# ShanYe MediaFoundation Engine (Windows) 
-
-
-
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) vs2013 
-
-[![Build status](https://ci.appveyor.com/api/projects/status/nmlsillgawr0n0tc?svg=true)](https://ci.appveyor.com/project/saki-saki/syengine) vs2015 
+# ShanYe MediaFoundation Engine (Windows)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) [![License](https://img.shields.io/badge/License-LGPLv3-blue.svg?style=flat)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
@@ -14,7 +9,7 @@
  
 ### 许可协议
  - Licensed under ***LGPLv3*** or later.
- - 在**LGPLv3**许可请求外的情况，请联系`rukino.saki@outlook.com`，并说明目的。
+ - 在**LGPLv3**许可请求外的情况，请联系`shan-ye@outlook.com`，并说明目的。
  - 下面的库依据原本的协议：`ffcodecs` (ffmpeg)、`stagefright` (AOSP)
 
 ### 使用方式

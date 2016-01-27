@@ -60,6 +60,18 @@
 
 #include "MFSeekInfo.hxx"
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#include <d3d9.h>
+#include <dxva2api.h>
+#pragma comment(lib, "evr.lib")
+#endif
+
+#ifdef _USE_DECODE_FILTER
+#include <TransformFilter.h>
+#include <TransformServices.h>
+HRESULT WINAPI CreateAVCodecTransformFilter(IUnknown** ppunk);
+#endif
+
 ////////////// Sample Queue Size //////////////
 #define STREAM_QUEUE_SIZE_DEFAULT 7
 
@@ -171,7 +183,7 @@ enum MediaSourceState
 };
 
 class HDMediaSource WrlSealed : 
-	public IMFMediaSource,
+	public IMFMediaSourceEx,
 	public IMFGetService,
 	public IMFRateControl,
 	public IMFRateSupport,
@@ -210,6 +222,11 @@ public: //IMFMediaEventGenerator & IMFMediaSource
 	STDMETHODIMP Shutdown();
 	STDMETHODIMP Start(IMFPresentationDescriptor *pPresentationDescriptor,const GUID *pguidTimeFormat,const PROPVARIANT *pvarStartPosition);
 	STDMETHODIMP Stop();
+
+public: //IMFMediaSourceEx
+	STDMETHODIMP GetSourceAttributes(IMFAttributes **ppAttributes) { return E_NOTIMPL; }
+	STDMETHODIMP GetStreamAttributes(DWORD dwStreamIdentifier, IMFAttributes **ppAttributes) { return E_NOTIMPL; }
+	STDMETHODIMP SetD3DManager(IUnknown *pManager);
 
 public: //IMFGetService
 	STDMETHODIMP GetService(REFGUID guidService,REFIID riid,LPVOID *ppvObject);
@@ -260,6 +277,11 @@ public:
 	void StartBuffering() { SendNetworkStartBuffering(); }
 	void StopBuffering() { SendNetworkStopBuffering(); }
 
+	IMFDXGIDeviceManager* GetDXGIDeviceManager() throw() { return _dxgiDeviceManager.Get(); } //non AddRef.
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	IDirect3DDeviceManager9* GetD3D9DeviceManager() throw() { return _d3d9DeviceManager.Get(); } //non AddRef.
+#endif
+
 	HRESULT QueueAsyncOperation(SourceOperation::Operation opType) throw();
 	HRESULT ProcessOperationError(HRESULT hrStatus) throw();
 
@@ -298,6 +320,7 @@ private:
 	HRESULT InitVideoVC1MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);
 	HRESULT InitVideoWMVMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
 	HRESULT InitVideoVPXMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
+	HRESULT InitVideoVP6MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type);
 	HRESULT InitVideoMPEG2MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType); //mpeg1 and 2
 	HRESULT InitVideoMPEG4MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);
 	HRESULT InitVideoMJPEGMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType);
@@ -449,4 +472,10 @@ private:
 		DASH
 	};
 	HandlerTypes _url_type;
+
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	ComPtr<IDirect3DDeviceManager9> _d3d9DeviceManager;
+#endif
+	ComPtr<IMFDXGIDeviceManager> _dxgiDeviceManager;
+	bool _full_sw_decode;
 };

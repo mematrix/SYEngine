@@ -263,8 +263,24 @@ bool MP4MediaStream::InitVideoAVC1()
 {
 	if (_info->Codec.UserdataSize < 8)
 		return false;
-	_video_desc = std::make_shared<AVC1VideoDescription>
+	std::shared_ptr<IVideoDescription> h264 = std::make_shared<AVC1VideoDescription>
 		(_info->Codec.Userdata,_info->Codec.UserdataSize,_info->Video.Width,_info->Video.Height);
+
+	H264_PROFILE_SPEC profile = {};
+	h264->GetProfile(&profile);
+	if (profile.profile == 0)
+		return false;
+
+	if (profile.variable_framerate && _info->Video.FrameRate > 0.1f)
+	{
+		VideoBasicDescription temp = {};
+		h264->GetVideoDescription(&temp);
+		temp.frame_rate.den = 10000000;
+		temp.frame_rate.num = (int)(double(_info->Video.FrameRate) * 10000000.0);
+		h264->ExternalUpdateVideoDescription(&temp);
+	}
+
+	_video_desc = h264;
 	_codec_type = MEDIA_CODEC_VIDEO_H264;
 	return true;
 }
@@ -286,6 +302,15 @@ bool MP4MediaStream::InitVideoH264(unsigned char* avcc,unsigned size)
 	h264->GetProfile(&profile);
 	if (profile.profile == 0)
 		return false;
+
+	if (profile.variable_framerate && _info->Video.FrameRate > 0.1f)
+	{
+		VideoBasicDescription temp = {};
+		h264->GetVideoDescription(&temp);
+		temp.frame_rate.den = 10000000;
+		temp.frame_rate.num = (int)(double(_info->Video.FrameRate) * 10000000.0);
+		h264->ExternalUpdateVideoDescription(&temp);
+	}
 
 	_video_desc = h264;
 	_codec_type = MEDIA_CODEC_VIDEO_H264;

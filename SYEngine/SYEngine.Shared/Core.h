@@ -8,6 +8,7 @@
 extern double MediaSourceNetworkIOBufTime;
 extern unsigned MediaSourceNetworkIOBufSize;
 extern bool MediaSourceForceNetworkMode;
+extern bool MediaSourceForceSoftwareDecode;
 
 namespace SYEngine
 {
@@ -40,6 +41,12 @@ namespace SYEngine
 		{
 			bool get() { return MediaSourceForceNetworkMode; }
 			void set(bool value) { MediaSourceForceNetworkMode = value; }
+		}
+
+		static property bool ForceSoftwareDecode
+		{
+			bool get() { return MediaSourceForceSoftwareDecode; }
+			void set(bool value) { MediaSourceForceSoftwareDecode = value; }
 		}
 
 		static event PlaylistSegmentUrlUpdateEventHandler^ PlaylistSegmentUrlUpdateEvent;

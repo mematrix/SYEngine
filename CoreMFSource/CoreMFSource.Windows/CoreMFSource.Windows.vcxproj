@@ -30,6 +30,9 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.Windows\CoreCommon.Windows.vcxproj">
       <Project>{13d48622-327d-455f-ab40-ccd9b85d50e5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\TransformFilter\TransformFilter.Windows\TransformFilter.Windows.vcxproj">
+      <Project>{26e240b7-dc62-4b94-b4ea-a7ac1c8a1e23}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F555A02-E82F-415E-8043-D7209194BE92}</ProjectGuid>
@@ -143,10 +146,10 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -166,10 +169,10 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -188,10 +191,10 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -211,10 +214,10 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -233,10 +236,10 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -256,10 +259,10 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>

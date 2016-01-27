@@ -14,6 +14,9 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.Desktop\CoreCommon.Desktop.vcxproj">
       <Project>{2d83279c-3bb2-43ec-8503-8e62fb1f3a99}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj">
+      <Project>{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{891804B9-2F50-4A9A-B8B0-F2AF397D4AE8}</ProjectGuid>
@@ -64,13 +67,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SYENGINE_DEMUX;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SYENGINE_DEMUX;_USE_DECODE_FILTER;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>
       </StringPooling>
       <ExceptionHandling>
       </ExceptionHandling>
       <CallingConvention>Cdecl</CallingConvention>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
@@ -97,7 +100,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_SYENGINE_DEMUX;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_SYENGINE_DEMUX;_USE_DECODE_FILTER;NTDDI_VERSION=NTDDI_WIN7;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <StringPooling>
@@ -107,7 +110,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <CallingConvention>Cdecl</CallingConvention>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>

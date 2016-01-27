@@ -39,6 +39,7 @@ _enableH264ES2H264(false), _intelQSDecoder_found(false)
 	_hCurrentDemuxMod = nullptr;
 
 	_seekAfterFlag = _notifyParserSeekAfterFlag = false;
+	_full_sw_decode = false;
 }
 
 HDMediaSource::~HDMediaSource()
@@ -61,8 +62,9 @@ HRESULT HDMediaSource::QueryInterface(REFIID iid,void** ppv)
 	*ppv = nullptr;
 	if (iid == IID_IUnknown ||
 		iid == IID_IMFMediaEventGenerator ||
-		iid == IID_IMFMediaSource)
-		*ppv = static_cast<IMFMediaSource*>(this);
+		iid == IID_IMFMediaSource ||
+		iid == IID_IMFMediaSourceEx)
+		*ppv = static_cast<IMFMediaSourceEx*>(this);
 	else if (iid == IID_IMFGetService)
 		*ppv = static_cast<IMFGetService*>(this);
 	else if (iid == IID_IMFRateControl)
@@ -365,7 +367,7 @@ HRESULT HDMediaSource::SelectStreams(IMFPresentationDescriptor* ppd,const PROPVA
 
 HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 {
-	DbgLogPrintf(L"%s::DoStart->SeekOpen %lld",L"HDMediaSource",seekTo);
+	DbgLogPrintf(L"%s::DoStart->SeekOpen %.2f (%lld)",L"HDMediaSource",WMF::Misc::SecondsFromMFTime(seekTo),seekTo);
 
 	unsigned count = _streamList.Count();
 	if (count == 0)
@@ -396,7 +398,7 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 
 	if (!seek_byte_stm)
 	{
-		double seconds = (double)seekTo / 10000000.0;
+		double seconds = WMF::Misc::SecondsFromMFTime(seekTo);
 		auto ave = _pMediaParser->Seek(seconds,true,AVSeekDirection::SeekDirection_Back);
 		//使用SeekDirection_Back，保证Parser的Seek一直是前于关键帧的。
 		//MF的Render会负责丢弃额外的帧。
@@ -414,7 +416,7 @@ HRESULT HDMediaSource::SeekOpen(LONG64 seekTo)
 			_notifyParserSeekAfterFlag = true;
 	}
 
-	_seekToTime = (double)seekTo / 10000000.0;
+	_seekToTime = WMF::Misc::SecondsFromMFTime(seekTo);
 	_seekAfterFlag = true; //Seek成功后，标识下一次ReadPacket是Seek后的
 	DbgLogPrintf(L"%s::DoStart->SeekOpen OK.",L"HDMediaSource");
 
@@ -499,10 +501,8 @@ HRESULT HDMediaSource::DoStart(SourceOperation* op)
 				ComPtr<HDMediaStream> pStream;
 				_streamList.GetAt(i,pStream.GetAddressOf());
 
-				if (pStream->IsActive()) {
-					pStream->SetDiscontinuity();
+				if (pStream->IsActive())
 					pStream->Start(op->GetData(),bSeek);
-				}
 			}
 		}
 	}
@@ -680,4 +680,43 @@ HRESULT HDMediaSource::OnEndOfStream(SourceOperation* op)
 		return _pEventQueue->QueueEventParamVar(MEEndOfPresentation,GUID_NULL,S_OK,nullptr);
 
 	return S_OK;
+}
+
+HRESULT HDMediaSource::SetD3DManager(IUnknown *pManager)
+{
+#ifdef _USE_DECODE_FILTER
+	CritSec::AutoLock lock(_cs);
+	HRESULT hr = CheckShutdown();
+	if (FAILED(hr))
+		return hr;
+
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	_d3d9DeviceManager.Reset();
+	if (pManager != NULL)
+		hr = pManager->QueryInterface(IID_PPV_ARGS(&_d3d9DeviceManager));
+	if (FAILED(hr))
+		return hr;
+#else
+	_dxgiDeviceManager.Reset();
+	if (pManager != NULL)
+		hr = pManager->QueryInterface(IID_PPV_ARGS(&_dxgiDeviceManager));
+	if (FAILED(hr))
+		return hr;
+#endif
+
+	unsigned count = _streamList.Count();
+	for (unsigned i = 0;i < count;i++)
+	{
+		ComPtr<HDMediaStream> pStream;
+		_streamList.GetAt(i,pStream.GetAddressOf());
+		GUID mediaType = GUID_NULL;
+		pStream->GetMediaType()->GetGUID(MF_MT_MAJOR_TYPE,&mediaType);
+		if (mediaType == MFMediaType_Video)
+			pStream->OnProcessDirectXManager();
+	}
+
+	return S_OK;
+#else
+	return E_NOTIMPL;
+#endif
 }

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MediaExtensionInstaller.h"
+#include <locale.h>
 
 #define _STM_HANDLER_CLSID L"{1A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
 #define _URL_HANDLER_CLSID L"{2A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
@@ -66,6 +67,10 @@ void InstallMediaExtensions(MediaExtensionInstaller* Installer)
 
 int main()
 {
+	CHAR localId[64] = {0};
+	sprintf_s(localId, ".%d", GetACP());
+	setlocale(LC_ALL, localId);
+
 	InitSystemUIStyle();
 	InitProcessProfile();
 

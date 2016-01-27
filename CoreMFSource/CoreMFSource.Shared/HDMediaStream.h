@@ -117,6 +117,10 @@ public:
 	inline void SetDiscontinuity() throw()
 	{
 		_discontinuity = TRUE;
+#ifdef _USE_DECODE_FILTER
+		if (_decoder)
+			_decoder->ProcessFlush();
+#endif
 	}
 
 	inline IMFMediaType* GetMediaType()
@@ -124,6 +128,16 @@ public:
 		//non-AddRef.
 		return _CopyMediaType.Get();
 	}
+
+#ifdef _USE_DECODE_FILTER
+	bool GetTransformFilter(ITransformFilter** ppFilter);
+	bool ProcessDirectXManager();
+	void OnProcessDirectXManager();
+#endif
+
+#ifdef _DEBUG
+	void DbgUseRequestSampleTickLog() throw() { _dbgRecordSampleTick = true; }
+#endif
 
 public:
 	void SetPrivateData(unsigned char* pb,unsigned len);
@@ -135,20 +149,35 @@ public:
 	inline void DisablePrivateData() { _private_state = false; }
 
 private:
+	inline HRESULT CheckShutdown() const throw()
+	{ return _state == STATE_SHUTDOWN ? MF_E_SHUTDOWN:S_OK; }
+
+	inline void MaybeSendNetworkBuffering() throw()
+	{ if (_samples.IsEmpty() && !_requests.IsEmpty() &&
+		_pMediaSource->IsNetworkMode() &&
+		_pMediaSource->IsReadPacketProcessing() &&
+		!_pMediaSource->IsBuffering())
+		_pMediaSource->StartBuffering(); }
+
 	bool NeedsDataUseNetworkTime() throw();
 
 	void DispatchSamples() throw();
-	HRESULT DispatchSamplesAsync() throw();
+	HRESULT RequestSampleAsync() throw()
+	{ return _taskWorkQueue.PutWorkItem(&_taskInvokeCallback,nullptr); }
 	HRESULT SendSampleDirect(IUnknown* pToken) throw();
+	HRESULT DispatchSamplesAsync();
 
-	HRESULT CheckShutdown() const throw()
-	{
-		return _state == STATE_SHUTDOWN ? MF_E_SHUTDOWN:S_OK;
-	}
+#ifdef _USE_DECODE_FILTER
+	inline void ProcessSampleRequest()
+	{ if (_decoder == nullptr) DispatchSamples();
+		else if (!_decode_processing && !_requests.IsEmpty()) RequestSampleAsync(); }
+#endif
 
-private:
-	HRESULT ProcessDispatchSamplesAsync();
-	HRESULT OnInvoke(IMFAsyncResult* pAsyncResult);
+	HRESULT RequestSampleWithDecode(IUnknown* pToken);
+	HRESULT DoSampleDecodeRequests();
+
+	HRESULT OnInvoke(IMFAsyncResult* pAsyncResult)
+	{ return _transform_filter ? DoSampleDecodeRequests():DispatchSamplesAsync(); }
 
 private:
 	class SourceAutoLock
@@ -188,7 +217,10 @@ private:
 	unsigned _pcm_size, _pcm_presec_bytes;
 
 	bool _active;
-	bool _eos;
+	bool _eos, _dec_eos;
+
+	bool _transform_filter;
+	bool _decode_processing;
 
 	int _index;
 	
@@ -214,5 +246,31 @@ private:
 	WMF::AutoWorkQueue _taskWorkQueue;
 #else
 	WMF::AutoWorkQueueOld<HDMediaStream> _taskWorkQueue;
+#endif
+
+#ifdef _DEBUG
+	DWORD64 _reqSampleTick;
+	int _reqSampleTickTotal;
+	int _reqSampleTickAvg;
+	int _reqSampleCount;
+	bool _dbgRecordSampleTick;
+#endif
+
+#ifdef _USE_DECODE_FILTER
+	class DXVATransformSampleAllocator :
+		public RuntimeClass<RuntimeClassFlags<RuntimeClassType::ClassicCom>,ITransformAllocator> {
+		ComPtr<IMFVideoSampleAllocator> _allocator;
+	public:
+		DXVATransformSampleAllocator(IMFVideoSampleAllocator* allocator)
+		{ _allocator = allocator; }
+		virtual ~DXVATransformSampleAllocator() {}
+
+		STDMETHODIMP CreateSample(IMFSample** ppSample)
+		{ return _allocator->AllocateSample(ppSample); }
+		STDMETHODIMP IsUseDXVA(BOOL* bUseDXVA)
+		{ if (bUseDXVA) *bUseDXVA = TRUE; return S_OK; }
+	};
+
+	ComPtr<ITransformWorker> _decoder;
 #endif
 };

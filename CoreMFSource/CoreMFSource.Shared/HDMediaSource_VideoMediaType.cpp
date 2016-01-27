@@ -21,6 +21,16 @@ static inline bool IsWindows7()
 	return false;
 }
 
+static inline bool IsHEVCDecoderExists()
+{
+	auto mod = LoadLibraryA("hevcdecoder.dll");
+	if (mod != NULL) {
+		FreeLibrary(mod);
+		return true;
+	}
+	return false;
+}
+
 static inline bool IsUseDShowFilter()
 {
 	if (!IsWindows7())
@@ -51,6 +61,9 @@ HRESULT HDMediaSource::InitVideoHEVCMediaType(IVideoDescription* pDesc,IMFMediaT
 {
 	pMediaType->SetGUID(MF_MT_SUBTYPE,
 		es ? MFVideoFormat_HEVC_ES:MFVideoFormat_HEVC);
+
+	if (!es && GlobalOptionGetBOOL(kCoreForceSoftwareDecode))
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_HVC1);
 
 	pMediaType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT,FALSE);
 	pMediaType->SetUINT32(MF_MT_SAMPLE_SIZE,1);
@@ -84,6 +97,10 @@ HRESULT HDMediaSource::InitVideoHEVCMediaType(IVideoDescription* pDesc,IMFMediaT
 		pUserData.Get(),pDesc->GetExtradataSize());
 	}
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	if (!IsHEVCDecoderExists())
+		_full_sw_decode = true;
+#endif
 	return S_OK;
 }
 
@@ -91,6 +108,9 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 {
 	pMediaType->SetGUID(MF_MT_SUBTYPE,
 		es ? MFVideoFormat_H264_ES:MFVideoFormat_H264);
+
+	if (!es && GlobalOptionGetBOOL(kCoreForceSoftwareDecode))
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_AVC1);
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	if (!IsWindows8())
@@ -142,12 +162,16 @@ HRESULT HDMediaSource::InitVideoH264MediaType(IVideoDescription* pDesc,IMFMediaT
 	if (profile.profile >= H264_PROFILE_HIGH_10 && !es) {
 		if (GlobalOptionGetBOOL(kCoreDisable10bitH264Video))
 			return MF_E_INVALID_CODEC_MERIT; //Hi10P, Hi422P, Hi444P, Hi444PP is not support.
+		else
+			_full_sw_decode = true;
 	}
 
 	if (profile.chroma_bitdepth > 10 ||
 		profile.luma_bitdepth > 10) {
 		if (GlobalOptionGetBOOL(kCoreDisable10bitH264Video))
 			return MF_E_INVALID_CODEC_MERIT; //10bit is not support.
+		else
+			_full_sw_decode = true;
 	}
 
 	if (profile.variable_framerate)
@@ -368,6 +392,47 @@ HRESULT HDMediaSource::InitVideoVPXMediaType(IVideoDescription* pDesc,IMFMediaTy
 		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP9);
 	else if (codec_type == MediaCodecType::MEDIA_CODEC_VIDEO_VP10)
 		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP10);
+	return S_OK;
+}
+
+HRESULT HDMediaSource::InitVideoVP6MediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType codec_type)
+{
+	InitVideoVPXMediaType(pDesc,pMediaType,codec_type);
+	pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6);
+	if (codec_type == MediaCodecType::MEDIA_CODEC_VIDEO_VP6F)
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6F);
+	else if (codec_type == MediaCodecType::MEDIA_CODEC_VIDEO_VP6A)
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFVideoFormat_VP6A);
+
+	if (pDesc->GetExtradataSize() == 1) {
+		unsigned char mask = 0;
+		pDesc->GetExtradata(&mask);
+		if (mask > 0)
+			pMediaType->SetBlob(MF_MT_USER_DATA,&mask,1);
+	}
+	
+	_full_sw_decode = true;
+	return S_OK;
+}
+
+HRESULT HDMediaSource::InitVideoRealMediaType(IVideoDescription* pDesc,IMFMediaType* pMediaType,MediaCodecType ct)
+{
+	pMediaType->SetGUID(MF_MT_SUBTYPE,ct == MEDIA_CODEC_VIDEO_RV30 ? MFVideoFormat_RV30:MFVideoFormat_RV40);
+	pMediaType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT,FALSE);
+	pMediaType->SetUINT32(MF_MT_INTERLACE_MODE,MFVideoInterlace_Progressive);
+	
+	UINT num = 0,den = 0;
+	MFGetAttributeRatio(pMediaType,MF_MT_FRAME_RATE,&num,&den);
+	if (num == 0 || den == 0)
+		pMediaType->DeleteItem(MF_MT_FRAME_RATE);
+
+	if (pDesc->GetExtradataSize() == 0)
+		return MF_E_INVALID_PROFILE;
+
+	AutoComMem<unsigned char> pUserData(pDesc->GetExtradataSize() + 1);
+	pDesc->GetExtradata(pUserData.Get());
+	pMediaType->SetBlob(MF_MT_USER_DATA,pUserData.Get(),pDesc->GetExtradataSize());
+
 	return S_OK;
 }
 

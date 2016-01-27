@@ -89,6 +89,8 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 		_video_stream->GetVideoInfo()->GetProfile(&profile);
 		if (profile.variable_framerate)
 			_frame_duration = PACKET_NO_PTS;
+	}else{
+		_frame_duration = PACKET_NO_PTS;
 	}
 
 	_parser = parser;
