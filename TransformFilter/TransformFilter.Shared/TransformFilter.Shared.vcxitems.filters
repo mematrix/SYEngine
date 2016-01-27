@@ -7,40 +7,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)more_codec_uuid.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\ByteParser.h">
-      <Filter>lav</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\H264Nalu.h">
-      <Filter>lav</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\H264SequenceParser.h">
-      <Filter>lav</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\HEVCSequenceParser.h">
-      <Filter>lav</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\ByteParser.cpp">
-      <Filter>lav</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\H264Nalu.cpp">
-      <Filter>lav</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\H264SequenceParser.cpp">
-      <Filter>lav</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\HEVCSequenceParser.cpp">
-      <Filter>lav</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="lav">
-      <UniqueIdentifier>{397f0005-5822-4b3a-b23b-0ef4ce81122e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

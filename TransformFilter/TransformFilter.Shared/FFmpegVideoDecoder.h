@@ -36,7 +36,7 @@ private:
 	Decoder _decoder;
 	ComPtr<IMFMediaType> _rawMediaType;
 
-	DWORD _image_size;
+	DWORD _image_size, _image_luma_size;
 	LONG64 _default_duration;
 
 	ComPtr<ITransformAllocator> _allocator;
