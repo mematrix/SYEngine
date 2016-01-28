@@ -216,8 +216,14 @@ HRESULT FFmpegDecodeServices::InitVideoDecoder(IMFMediaType* pMediaType)
 
 void FFmpegDecodeServices::DestroyDecoders()
 {
-	//if (_audio_decoder)
-		//delete _audio_decoder;
-	if (_video_decoder)
-		delete _video_decoder;
+	/*
+	if (_audio_decoder) {
+		delete _audio_decoder;
+		_audio_decoder = NULL;
+	}
+	*/
+	if (_video_decoder) {
+		_video_decoder->Release();
+		_video_decoder = NULL;
+	}
 }

@@ -2,11 +2,24 @@
 
 #include "FFmpegDecodeServices.h"
 
-class FFmpegVideoDecoder
+class FFmpegVideoDecoder : public IMFAsyncCallback
 {
+	ULONG _ref_count;
 public:
-	FFmpegVideoDecoder() { memset(&_decoder, 0, sizeof(_decoder)); }
-	~FFmpegVideoDecoder() { Close(); }
+	FFmpegVideoDecoder() : _ref_count(1) { memset(&_decoder, 0, sizeof(_decoder)); }
+	virtual ~FFmpegVideoDecoder() { Close(); }
+
+public:
+	STDMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&_ref_count); }
+	STDMETHODIMP_(ULONG) Release()
+	{ ULONG rc = InterlockedDecrement(&_ref_count); if (rc == 0) delete this; return rc; }
+	STDMETHODIMP QueryInterface(REFIID iid,void** ppv)
+	{ if (ppv == NULL) return E_POINTER;
+	  if (iid != IID_IUnknown && iid != IID_IMFAsyncCallback) return E_NOINTERFACE;
+	  *ppv = this; AddRef(); return S_OK; }
+
+	STDMETHODIMP GetParameters(DWORD*, DWORD*) { return E_NOTIMPL; }
+	STDMETHODIMP Invoke(IMFAsyncResult *pAsyncResult);
 
 public:
 	IMFMediaType* Open(AVCodecID codecid, IMFMediaType* pMediaType);
@@ -25,6 +38,10 @@ private:
 	bool OnceDecodeCallback();
 	IMFMediaType* CreateResultMediaType(REFGUID outputFormat);
 
+	HRESULT InitNV12MTCopy();
+	void CloseNV12MTCopy();
+	void NV12MTCopy(AVFrame* frame, BYTE* copyTo);
+
 	struct Decoder
 	{
 		AVCodec* codec;
@@ -40,4 +57,12 @@ private:
 	LONG64 _default_duration;
 
 	ComPtr<ITransformAllocator> _allocator;
+
+	struct YUVCopyThreads
+	{
+		DWORD Worker[3];
+		HANDLE Events[3];
+		IUnknown* Tasks[3];
+	};
+	YUVCopyThreads _yuv420_mtcopy;
 };
