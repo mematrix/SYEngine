@@ -109,6 +109,46 @@ static int QuerySystemCpuThreads()
 	return (int)si.dwNumberOfProcessors;
 }
 
+class YUVCopyTask : public IUnknown
+{
+	ULONG _ref_count;
+public:
+	YUVCopyTask() : _ref_count(1) {}
+	virtual ~YUVCopyTask() {}
+
+	STDMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&_ref_count); }
+	STDMETHODIMP_(ULONG) Release()
+	{ ULONG rc = InterlockedDecrement(&_ref_count); if (rc == 0) delete this; return rc; }
+	STDMETHODIMP QueryInterface(REFIID iid,void** ppv)
+	{ if (iid != IID_IUnknown) return E_NOINTERFACE; *ppv = this; AddRef(); return S_OK; }
+
+public:
+	struct TaskContext
+	{
+		HANDLE hevent;
+		PBYTE copyTo;
+		unsigned char *y, *u, *v;
+		unsigned y_linesize, uv_linesize;
+		unsigned yoffset, width, height;
+	};
+	enum TaskType
+	{
+		CopyY,
+		CopyUV,
+		CopyU,
+		CopyV
+	};
+
+	inline void SetTaskContext(const TaskContext& ctx) { _ctx = ctx; }
+	inline void SetTaskType(TaskType type) { _type = type; } 
+	inline TaskContext* GetTaskContext() throw() { return &_ctx; }
+	inline TaskType GetTaskType() const throw() { return _type; }
+
+private:
+	TaskContext _ctx;
+	TaskType _type;
+};
+
 IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaType)
 {
 	_decoder.codec = avcodec_find_decoder(codecid);
@@ -197,12 +237,17 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	}
 	pMediaType->CopyAllItems(_rawMediaType.Get());
 
+	if (FAILED(InitNV12MTCopy()))
+		return NULL;
+
 	_image_size = _decoder.context->width * _decoder.context->height * 3 / 2;
 	return CreateResultMediaType(MFVideoFormat_NV12);
 }
 
 void FFmpegVideoDecoder::Close()
 {
+	CloseNV12MTCopy();
+
 	if (_decoder.context) {
 		avcodec_close(_decoder.context);
 		av_freep(&_decoder.context->extradata);
@@ -359,15 +404,20 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 		return hr;
 
 	if (_decoder.scaler == NULL) {
-		if (frame->linesize[0] == frame->width)
-			ConvertYUV420PToNV12Packed_NonLineSize(buf,
-			frame->data[0], frame->data[1], frame->data[2],
-			frame->width, frame->height, _image_luma_size);
-		else
+		if (frame->linesize[0] == frame->width) {
+			if (frame->width < 1280) {
+				ConvertYUV420PToNV12Packed_NonLineSize(buf,
+					frame->data[0], frame->data[1], frame->data[2],
+					frame->width, frame->height, _image_luma_size);
+			}else{
+				NV12MTCopy(frame, buf);
+			}
+		}else{
 			ConvertYUV420PToNV12Packed_UseLineSize(buf,
-			frame->data[0], frame->data[1], frame->data[2],
-			frame->width, frame->height,
-			frame->linesize[0], frame->linesize[1], _image_luma_size);
+				frame->data[0], frame->data[1], frame->data[2],
+				frame->width, frame->height,
+				frame->linesize[0], frame->linesize[1], _image_luma_size);
+		}
 	}else{
 		int yoffset = frame->width * frame->height;
 		unsigned char* image_buf[4] = {buf, buf + yoffset, NULL, NULL};
@@ -440,4 +490,95 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 		_image_luma_size = ctx->width * ctx->height; //ysize
 	}
 	return true;
+}
+
+HRESULT FFmpegVideoDecoder::InitNV12MTCopy()
+{
+	RtlZeroMemory(&_yuv420_mtcopy, sizeof(_yuv420_mtcopy));
+	HRESULT hr = MFLockPlatform();
+	if (FAILED(hr))
+		return hr;
+
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Worker); i++) {
+		hr = MFAllocateSerialWorkQueue(MFASYNC_CALLBACK_QUEUE_MULTITHREADED, &_yuv420_mtcopy.Worker[i]);
+		if (FAILED(hr))
+			return hr;
+	}
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Events); i++) {
+		_yuv420_mtcopy.Events[i] = CreateEventExW(NULL, NULL, 0, EVENT_ALL_ACCESS);
+		if (_yuv420_mtcopy.Events[i] == NULL)
+			return E_ABORT;
+	}
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Tasks); i++) {
+		_yuv420_mtcopy.Tasks[i] = new (std::nothrow) YUVCopyTask();
+		if (_yuv420_mtcopy.Tasks[i] == NULL)
+			return E_OUTOFMEMORY;
+	}
+
+	return S_OK;
+}
+
+void FFmpegVideoDecoder::CloseNV12MTCopy()
+{
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Events); i++)
+		if (_yuv420_mtcopy.Events[i])
+			CloseHandle(_yuv420_mtcopy.Events[i]);
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Worker); i++)
+		if (_yuv420_mtcopy.Worker[i] > 0)
+			MFUnlockWorkQueue(_yuv420_mtcopy.Worker[i]);
+	for (int i = 0; i < _countof(_yuv420_mtcopy.Tasks); i++)
+		if (_yuv420_mtcopy.Tasks[i])
+			_yuv420_mtcopy.Tasks[i]->Release();
+
+	MFUnlockPlatform();
+	RtlZeroMemory(&_yuv420_mtcopy, sizeof(_yuv420_mtcopy));
+}
+
+void FFmpegVideoDecoder::NV12MTCopy(AVFrame* frame, BYTE* copyTo)
+{
+	auto ytask = static_cast<YUVCopyTask*>(_yuv420_mtcopy.Tasks[0]);
+	auto uvtask = static_cast<YUVCopyTask*>(_yuv420_mtcopy.Tasks[1]);
+
+	YUVCopyTask::TaskContext ctx;
+	ctx.copyTo = copyTo;
+	ctx.width = frame->width;
+	ctx.height = frame->height;
+	ctx.y = frame->data[0];
+	ctx.u = frame->data[1];
+	ctx.v = frame->data[2];
+	ctx.y_linesize = frame->linesize[0];
+	ctx.uv_linesize = frame->linesize[1];
+	ctx.yoffset = _image_luma_size;
+
+	ctx.hevent = _yuv420_mtcopy.Events[0];
+	ytask->SetTaskContext(ctx);
+	ytask->SetTaskType(YUVCopyTask::TaskType::CopyY);
+	MFPutWorkItem2(_yuv420_mtcopy.Worker[0], 0, this, ytask);
+	ctx.hevent = _yuv420_mtcopy.Events[1];
+	uvtask->SetTaskContext(ctx);
+	uvtask->SetTaskType(YUVCopyTask::TaskType::CopyUV);
+	MFPutWorkItem2(_yuv420_mtcopy.Worker[1], 0, this, uvtask);
+
+	WaitForMultipleObjectsEx(2, _yuv420_mtcopy.Events, TRUE, INFINITE, FALSE);
+}
+
+HRESULT FFmpegVideoDecoder::Invoke(IMFAsyncResult *pAsyncResult)
+{
+	auto task = static_cast<YUVCopyTask*>(pAsyncResult->GetStateNoAddRef());
+	auto ctx = task->GetTaskContext();
+	switch (task->GetTaskType())
+	{
+	case YUVCopyTask::TaskType::CopyY:
+#ifndef _ARM_
+		memcpy_sse(ctx->copyTo, ctx->y, ctx->yoffset);
+#else
+		MFCopyImage(ctx->copyTo, ctx->width, ctx->y, ctx->width, ctx->width, ctx->height);
+#endif
+		break;
+	case YUVCopyTask::TaskType::CopyUV:
+		UVCopyInterlace(ctx->copyTo + ctx->yoffset, ctx->u, ctx->v, ctx->yoffset >> 1);
+		break;
+	}
+	SetEvent(ctx->hevent);
+	return S_OK;
 }
