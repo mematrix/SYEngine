@@ -1,5 +1,6 @@
 #include "FFmpegVideoDecoder.h"
 #include "more_codec_uuid.h"
+#include "AVCParser.h"
 #ifndef _ARM_
 #include "memcpy_sse.h"
 #endif
@@ -161,12 +162,14 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	if (_decoder.frame == NULL)
 		return NULL;
 
+	_timestamp = _default_duration = 0;
+	_fixed_framerate = false;
+
 	//Get info from MediaFoundation type.
 	UINT32 width = 0, height = 0;
 	MFGetAttributeSize(pMediaType, MF_MT_FRAME_SIZE, &width, &height);
 	UINT32 num = 0, den = 0;
 	MFGetAttributeRatio(pMediaType, MF_MT_FRAME_RATE, &num, &den);
-	_default_duration = 0;
 	if (num > 0 && den > 0) {
 		double fps = (double)num / (double)den;
 		_default_duration = (LONG64)(1.0 / fps * 10000000.0);
@@ -221,6 +224,8 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	if (codecprivate) {
 		_decoder.context->extradata = codecprivate;
 		_decoder.context->extradata_size = codecprivate_len;
+		if (codecid == AV_CODEC_ID_H264 && subType == MFVideoFormat_AVC1)
+			CheckOrUpdateFixedFrameRateAVC(codecprivate, codecprivate_len);
 	}
 
 	if (avcodec_is_open(_decoder.context) == 0) {
@@ -264,6 +269,8 @@ HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSamp
 	HRESULT hr;
 	LONG64 duration = 0;
 	if (pSample == NULL) {
+		if (_decoder.flush_after)
+			return MF_E_UNEXPECTED;
 		hr = Process(NULL, 0, AV_NOPTS_VALUE, 0, false, false);
 	}else{
 		ComPtr<IMFMediaBuffer> pBuffer;
@@ -282,9 +289,17 @@ HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSamp
 				hr = pSample->GetSampleTime(&pts);
 				if (FAILED(hr))
 					hr = pSample->GetUINT64(MFSampleExtension_DecodeTimestamp, (PUINT64)&pts);
+				if (FAILED(hr) && _decoder.flush_after)
+					return MF_E_INVALID_TIMESTAMP;
 				pSample->GetSampleDuration(&duration);
+
 				bool keyframe = MFGetAttributeUINT32(pSample, MFSampleExtension_CleanPoint, 0) ? true:false;
 				bool discontinuity = MFGetAttributeUINT32(pSample, MFSampleExtension_Discontinuity, 0) ? true:false;
+
+				if (_decoder.flush_after) {
+					_decoder.flush_after = false;
+					_timestamp = pts;
+				}
 
 				hr = Process(buf, size,
 					SUCCEEDED(hr) ? pts : AV_NOPTS_VALUE, duration > 0 ? duration : 0,
@@ -301,14 +316,23 @@ HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSamp
 
 	ComPtr<IMFSample> pDecodedSample;
 	hr = CreateDecodedSample(_decoder.frame, &pDecodedSample);
-	if (SUCCEEDED(hr))
-		pts = av_frame_get_best_effort_timestamp(_decoder.frame);
+	if (SUCCEEDED(hr)) {
+		if (_fixed_framerate) {
+			pts = _timestamp;
+			_timestamp += _default_duration;
+		}else{
+			pts = av_frame_get_best_effort_timestamp(_decoder.frame);
+		}
+	}
 	av_frame_unref(_decoder.frame);
 	if (FAILED(hr))
 		return hr;
 
 	pDecodedSample->SetSampleTime(pts);
-	pDecodedSample->SetSampleDuration(duration > 0 ? duration : _default_duration);
+	if (_fixed_framerate)
+		pDecodedSample->SetSampleDuration(_default_duration);
+	else
+		pDecodedSample->SetSampleDuration(duration > 0 ? duration : _default_duration);
 
 	*ppDecodedSample = pDecodedSample.Detach();
 	return S_OK;
@@ -336,6 +360,7 @@ void FFmpegVideoDecoder::Flush()
 			Close();
 			ComPtr<IMFMediaType> result;
 			result.Attach(Open(codecid, pMediaType.Get()));
+			_decoder.flush_after = true;
 		}
 	}
 }
@@ -461,6 +486,20 @@ IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
 		MFSetAttributeRatio(pMediaType.Get(), MF_MT_PIXEL_ASPECT_RATIO, 1, 1);
 
 	return pMediaType.Detach();
+}
+
+void FFmpegVideoDecoder::CheckOrUpdateFixedFrameRateAVC(const unsigned char* avcc, unsigned avcc_size)
+{
+	AVCParser parser = {};
+	parser.Parse(avcc, avcc_size);
+	if (parser.fixed_fps_flag && parser.progressive_flag &&
+		parser.fps_timescale > 0 && parser.fps_tick > 0) {
+		double fps = (double)parser.fps_timescale / (double)parser.fps_tick;
+		if (fps > 1.0 && fps < 240.0) {
+			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
+			_fixed_framerate = true;
+		}
+	}
 }
 
 bool FFmpegVideoDecoder::OnceDecodeCallback()
