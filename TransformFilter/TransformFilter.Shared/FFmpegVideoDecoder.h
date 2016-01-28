@@ -38,6 +38,8 @@ private:
 	bool OnceDecodeCallback();
 	IMFMediaType* CreateResultMediaType(REFGUID outputFormat);
 
+	void CheckOrUpdateFixedFrameRateAVC(const unsigned char* avcc, unsigned avcc_size);
+
 	HRESULT InitNV12MTCopy();
 	void CloseNV12MTCopy();
 	void NV12MTCopy(AVFrame* frame, BYTE* copyTo);
@@ -49,12 +51,15 @@ private:
 		AVFrame* frame;
 		SwsContext* scaler;
 		bool once_state;
+		bool flush_after;
 	};
 	Decoder _decoder;
 	ComPtr<IMFMediaType> _rawMediaType;
 
 	DWORD _image_size, _image_luma_size;
+	LONG64 _timestamp;
 	LONG64 _default_duration;
+	bool _fixed_framerate;
 
 	ComPtr<ITransformAllocator> _allocator;
 
