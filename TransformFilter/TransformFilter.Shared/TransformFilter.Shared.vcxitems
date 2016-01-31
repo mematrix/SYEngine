@@ -19,6 +19,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AVCParser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.h" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AVCParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.cpp" />

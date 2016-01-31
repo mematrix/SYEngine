@@ -9,6 +9,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)more_codec_uuid.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AVCParser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.cpp" />
@@ -17,5 +18,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AVCParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.cpp" />
   </ItemGroup>
 </Project>

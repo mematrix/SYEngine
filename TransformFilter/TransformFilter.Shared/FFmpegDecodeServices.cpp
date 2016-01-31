@@ -1,5 +1,6 @@
 #include "FFmpegDecodeServices.h"
 #include "FFmpegVideoDecoder.h"
+#include "FFmpegAudioDecoder.h"
 #include "more_codec_uuid.h"
 
 static struct FFCodecPair {
@@ -28,6 +29,10 @@ static struct FFCodecPair {
 	{MFVideoFormat_WMV2, AV_CODEC_ID_WMV2},
 	{MFVideoFormat_WMV3, AV_CODEC_ID_WMV3},
 	{MFVideoFormat_WVC1, AV_CODEC_ID_VC1},
+	{MFAudioFormat_AAC,  AV_CODEC_ID_AAC},
+	{MFAudioFormat_MP3,  AV_CODEC_ID_MP3},
+	{MFAudioFormat_FLAC,  AV_CODEC_ID_FLAC},
+	{MFAudioFormat_ALAC,  AV_CODEC_ID_ALAC}
 };
 
 HRESULT FFmpegDecodeServices::QueryInterface(REFIID iid,void** ppv)
@@ -75,10 +80,11 @@ HRESULT FFmpegDecodeServices::SetInputMediaType(IMFMediaType* pMediaType)
 
 	GUID majorType = GUID_NULL;
 	pMediaType->GetGUID(MF_MT_MAJOR_TYPE, &majorType);
-	if (majorType != MFMediaType_Video) //Now is video decode only.
+	if (majorType != MFMediaType_Video &&
+		majorType != MFMediaType_Audio)
 		return MF_E_INVALID_CODEC_MERIT;
 
-	hr = InitVideoDecoder(pMediaType);
+	hr = (majorType == MFMediaType_Video ? InitVideoDecoder(pMediaType) : InitAudioDecoder(pMediaType));
 	if (FAILED(hr))
 		return hr;
 
@@ -132,20 +138,20 @@ HRESULT FFmpegDecodeServices::ProcessSample(IMFSample* pSample, IMFSample** ppNe
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
 	HRESULT hr = S_OK;
-	//if (_audio_decoder)
-		//hr = _audio_decoder->Decode(pSample, ppNewSample);
 	if (_video_decoder)
 		hr = _video_decoder->Decode(pSample, ppNewSample);
+	else if (_audio_decoder)
+		hr = _audio_decoder->Decode(pSample, ppNewSample);
 	return hr;
 }
 
 HRESULT FFmpegDecodeServices::ProcessFlush()
 {
 	std::lock_guard<decltype(_mutex)> lock(_mutex);
-	//if (_audio_decoder)
-		//_audio_decoder->Flush();
 	if (_video_decoder)
 		_video_decoder->Flush();
+	else if (_audio_decoder)
+		_audio_decoder->Flush();
 	return S_OK;
 }
 
@@ -211,6 +217,23 @@ bool FFmpegDecodeServices::VerifyVideoMediaType(IMFMediaType* pMediaType)
 	return true;
 }
 
+HRESULT FFmpegDecodeServices::InitAudioDecoder(IMFMediaType* pMediaType)
+{
+	auto dec = new(std::nothrow) FFmpegAudioDecoder();
+	if (dec == NULL)
+		return E_OUTOFMEMORY;
+
+	auto mediaType = dec->Open(ConvertGuidToCodecId(pMediaType), pMediaType);
+	if (mediaType == NULL) {
+		delete dec;
+		return E_FAIL;
+	}
+
+	_audio_decoder = dec;
+	_outputMediaType.Attach(mediaType);
+	return S_OK;
+}
+
 HRESULT FFmpegDecodeServices::InitVideoDecoder(IMFMediaType* pMediaType)
 {
 	auto dec = new(std::nothrow) FFmpegVideoDecoder();
@@ -230,12 +253,10 @@ HRESULT FFmpegDecodeServices::InitVideoDecoder(IMFMediaType* pMediaType)
 
 void FFmpegDecodeServices::DestroyDecoders()
 {
-	/*
 	if (_audio_decoder) {
 		delete _audio_decoder;
 		_audio_decoder = NULL;
 	}
-	*/
 	if (_video_decoder) {
 		_video_decoder->Release();
 		_video_decoder = NULL;

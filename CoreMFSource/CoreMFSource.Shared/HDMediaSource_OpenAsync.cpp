@@ -602,7 +602,8 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 						SUCCEEDED(pLoader->SetInputMediaType(pMediaType.Get()))) {
 						ComPtr<IMFMediaType> pNewMediaType;
 						if (SUCCEEDED(pLoader->GetOutputMediaType(&pNewMediaType)) && pNewMediaType) {
-							GUID subType = GUID_NULL;
+							GUID majorType = GUID_NULL, subType = GUID_NULL;
+							pMediaType->GetGUID(MF_MT_MAJOR_TYPE, &majorType);
 							pMediaType->GetGUID(MF_MT_SUBTYPE,&subType);
 							pNewMediaType->SetGUID(MF_MT_MY_TRANSFORM_FILTER_RAWTYPE,subType);
 							pNewMediaType->SetUINT32(MF_MY_STREAM_ID,pStream->GetStreamIndex());
@@ -619,7 +620,8 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 							if (temp > 0 && temp < 360)
 								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
 
-							if (subType != MFVideoFormat_AVC1 && subType != MFVideoFormat_HVC1) {
+							if (majorType == MFMediaType_Video &&
+								subType != MFVideoFormat_AVC1 && subType != MFVideoFormat_HVC1) {
 								PBYTE userdata = NULL;
 								UINT32 udSize = 0;
 								if (SUCCEEDED(pMediaType->GetAllocatedBlob(MF_MT_MPEG_SEQUENCE_HEADER,&userdata,&udSize)))

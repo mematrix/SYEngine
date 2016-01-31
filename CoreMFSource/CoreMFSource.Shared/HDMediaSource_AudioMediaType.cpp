@@ -280,6 +280,9 @@ HRESULT HDMediaSource::InitAudioFLACMediaType(IAudioDescription* pDesc,IMFMediaT
 	if (GlobalOptionGetBOOL(kCoreUseDShowFLACDecoder))
 		pMediaType->SetGUID(MF_MT_SUBTYPE,MFAudioFormat_DS_FLAC_Framed);
 
+	if (GlobalOptionGetBOOL(kCoreForceSoftwareDecode))
+		pMediaType->SetGUID(MF_MT_SUBTYPE,MFAudioFormat_FLAC);
+
 	FLAC_PROFILE_SPEC profile = {};
 	pDesc->GetProfile(&profile);
 	if (profile.max_block_size > 0)

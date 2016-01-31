@@ -311,8 +311,6 @@ static bool InitCommonTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideo
 	if (info.Video.Width == 0 ||
 		info.Video.Height == 0)
 		return false;
-	if (info.Video.FrameRate < 1.0)
-		return false;
 
 	CommonVideoCore common = {};
 	common.type = -1;
@@ -320,9 +318,11 @@ static bool InitCommonTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IVideo
 	common.desc.scan_mode = VideoScanModeMixedInterlaceOrProgressive;
 	common.desc.width = info.Video.Width;
 	common.desc.height = info.Video.Height;
-	common.desc.frame_rate.num = (int)(info.Video.FrameRate * 10000000.0);
-	common.desc.frame_rate.den = common.desc.frame_rate.num > 0 ? 10000000:0;
 	common.desc.compressed = true;
+	if (info.Video.FrameRate > 1.0) {
+		common.desc.frame_rate.num = (int)(info.Video.FrameRate * 10000000.0);
+		common.desc.frame_rate.den = common.desc.frame_rate.num > 0 ? 10000000:0;
+	}
 
 	if (common.desc.frame_rate.num < 0 && info.Codec.CodecType == MKV_Video_MJPEG)
 	{
