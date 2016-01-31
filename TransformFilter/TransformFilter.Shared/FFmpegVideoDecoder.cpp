@@ -300,8 +300,10 @@ HRESULT FFmpegVideoDecoder::Decode(IMFSample* pSample, IMFSample** ppDecodedSamp
 				hr = pSample->GetSampleTime(&pts);
 				if (FAILED(hr))
 					hr = pSample->GetUINT64(MFSampleExtension_DecodeTimestamp, (PUINT64)&pts);
-				if (FAILED(hr) && _decoder.flush_after)
+				if (FAILED(hr) && _decoder.flush_after) {
+					pBuffer->Unlock();
 					return MF_E_INVALID_TIMESTAMP;
+				}
 				pSample->GetSampleDuration(&duration);
 
 				bool keyframe = MFGetAttributeUINT32(pSample, MFSampleExtension_CleanPoint, 0) ? true:false;
@@ -378,6 +380,9 @@ void FFmpegVideoDecoder::Flush()
 
 HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, LONG64 duration, bool keyframe, bool discontinuity)
 {
+	if (discontinuity)
+		avcodec_flush_buffers(_decoder.context);
+
 	AVPacket pkt;
 	av_init_packet(&pkt);
 	pkt.data = (uint8_t*)buf;
@@ -532,7 +537,7 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 	auto ctx = _decoder.context;
 	if (ctx->framerate.num > 0 && ctx->framerate.den > 0) {
 		double fps = (double)ctx->framerate.num / (double)ctx->framerate.den;
-		if (fps > 0 && fps < 240 && _default_duration == 0)
+		if ((fps > 0 && fps < 240) && (_fixed_framerate || _default_duration == 0))
 			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
 	}
 	if (_default_duration == 0) {
