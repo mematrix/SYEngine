@@ -587,6 +587,7 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 			continue;
 
 #ifdef _USE_DECODE_FILTER
+		//初始化软解。。简化的like MFT模型。
 		ComPtr<ITransformFilter> pDecodeFilter;
 		bool bUseDecodeFilter = false;
 		{
