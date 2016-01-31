@@ -81,6 +81,7 @@ EXPORTS
 	av_log_set_level
 	av_log
 	av_codec_get_tag
+	av_codec_set_pkt_timebase
 	av_add_index_entry
 	av_index_search_timestamp
 	av_find_default_stream_index

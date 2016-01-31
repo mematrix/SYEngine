@@ -59,7 +59,7 @@ private:
 	DWORD _image_size, _image_luma_size;
 	LONG64 _timestamp;
 	LONG64 _default_duration;
-	bool _fixed_framerate;
+	bool _fixed_framerate, _force_progressive;
 
 	ComPtr<ITransformAllocator> _allocator;
 

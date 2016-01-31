@@ -10,6 +10,7 @@ static struct FFCodecPair {
 	{MFVideoFormat_HVC1, AV_CODEC_ID_HEVC},
 	{MFVideoFormat_H264, AV_CODEC_ID_H264},
 	{MFVideoFormat_HEVC, AV_CODEC_ID_HEVC},
+	{MFVideoFormat_H263, AV_CODEC_ID_H263},
 	{MFVideoFormat_VP6,  AV_CODEC_ID_VP6},
 	{MFVideoFormat_VP6F, AV_CODEC_ID_VP6F},
 	{MFVideoFormat_VP8,  AV_CODEC_ID_VP8},
@@ -17,7 +18,16 @@ static struct FFCodecPair {
 	{MFVideoFormat_RV30, AV_CODEC_ID_RV30},
 	{MFVideoFormat_RV40, AV_CODEC_ID_RV40},
 	{MFVideoFormat_MPG1, AV_CODEC_ID_MPEG1VIDEO},
-	{MFVideoFormat_MPG2, AV_CODEC_ID_MPEG2VIDEO}
+	{MFVideoFormat_MPG2, AV_CODEC_ID_MPEG2VIDEO},
+	{MFVideoFormat_MP4V, AV_CODEC_ID_MPEG4},
+	{MFVideoFormat_MP4S, AV_CODEC_ID_MPEG4},
+	{MFVideoFormat_M4S2, AV_CODEC_ID_MPEG4},
+	{MFVideoFormat_MP43, AV_CODEC_ID_MSMPEG4V3},
+	{MFVideoFormat_MJPG, AV_CODEC_ID_MJPEG},
+	{MFVideoFormat_WMV1, AV_CODEC_ID_WMV1},
+	{MFVideoFormat_WMV2, AV_CODEC_ID_WMV2},
+	{MFVideoFormat_WMV3, AV_CODEC_ID_WMV3},
+	{MFVideoFormat_WVC1, AV_CODEC_ID_VC1},
 };
 
 HRESULT FFmpegDecodeServices::QueryInterface(REFIID iid,void** ppv)
@@ -59,6 +69,9 @@ HRESULT FFmpegDecodeServices::SetInputMediaType(IMFMediaType* pMediaType)
 	HRESULT hr = CheckMediaType(pMediaType);
 	if (FAILED(hr))
 		return hr;
+
+	if (avcodec_find_decoder(ConvertGuidToCodecId(pMediaType)) == NULL)
+		return E_ABORT;
 
 	GUID majorType = GUID_NULL;
 	pMediaType->GetGUID(MF_MT_MAJOR_TYPE, &majorType);
@@ -185,8 +198,9 @@ bool FFmpegDecodeServices::VerifyVideoMediaType(IMFMediaType* pMediaType)
 
 	if (subType == MFVideoFormat_H264 || subType == MFVideoFormat_HEVC ||
 		subType == MFVideoFormat_MPG1 || subType == MFVideoFormat_MPEG2) {
-		if (MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_PROFILE, 0) == 0 ||
-			MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_LEVEL, 0) == 0)
+		if ((MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_PROFILE, 0) == 0 ||
+			MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_LEVEL, 0) == 0) &&
+			subType != MFVideoFormat_MPG1)
 			return false;
 
 		UINT32 seqSize = 0;

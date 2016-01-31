@@ -164,6 +164,7 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 
 	_timestamp = _default_duration = 0;
 	_fixed_framerate = false;
+	_force_progressive = false;
 
 	//Get info from MediaFoundation type.
 	UINT32 width = 0, height = 0;
@@ -187,12 +188,15 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	_decoder.context->err_recognition = 0;
 	_decoder.context->workaround_bugs = FF_BUG_AUTODETECT;
 	_decoder.context->refcounted_frames = 1;
-	_decoder.context->pkt_timebase.num = 10000000;
-	_decoder.context->pkt_timebase.den = 1;
+
+	AVRational mftb = {10000000, 1};
+	av_codec_set_pkt_timebase(_decoder.context, mftb);
 	
 	_decoder.context->thread_count = QuerySystemCpuThreads() + 1;
 	if (_decoder.context->thread_count > 16)
 		_decoder.context->thread_count = 16;
+	if (subType == MFVideoFormat_MPG1)
+		_decoder.context->thread_count = 1;
 
 	_decoder.context->bit_rate = (int)MFGetAttributeUINT32(pMediaType, MF_MT_AVG_BITRATE, 0);
 	if (MFGetAttributeUINT32(pMediaType, MF_MT_MPEG2_PROFILE, 0) > 0)
@@ -244,6 +248,13 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 
 	if (FAILED(InitNV12MTCopy()))
 		return NULL;
+
+	if (subType == MFVideoFormat_MPG1 || subType == MFVideoFormat_H263 ||
+		subType == MFVideoFormat_VP6 || subType == MFVideoFormat_VP6F ||
+		subType == MFVideoFormat_VP8 || subType == MFVideoFormat_VP9)
+		_force_progressive = true;
+	if (subType == MFVideoFormat_MPG1 || subType == MFVideoFormat_MPG2)
+		_fixed_framerate = true;
 
 	_image_size = _decoder.context->width * _decoder.context->height * 3 / 2;
 	return CreateResultMediaType(MFVideoFormat_NV12);
@@ -360,8 +371,8 @@ void FFmpegVideoDecoder::Flush()
 			Close();
 			ComPtr<IMFMediaType> result;
 			result.Attach(Open(codecid, pMediaType.Get()));
-			_decoder.flush_after = true;
 		}
+		_decoder.flush_after = true;
 	}
 }
 
@@ -435,7 +446,7 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 					frame->data[0], frame->data[1], frame->data[2],
 					frame->width, frame->height, _image_luma_size);
 			}else{
-				NV12MTCopy(frame, buf);
+				NV12MTCopy(frame, buf); //multi-thread copy YUV.
 			}
 		}else{
 			ConvertYUV420PToNV12Packed_UseLineSize(buf,
@@ -454,6 +465,16 @@ HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSa
 	pBuffer->Unlock();
 	pBuffer->SetCurrentLength(_image_size);
 
+	if (!_force_progressive) {
+		if (frame->interlaced_frame) {
+			pSample->SetUINT32(MFSampleExtension_Interlaced, TRUE);
+			pSample->SetUINT32(MFSampleExtension_RepeatFirstField, frame->repeat_pict ? TRUE:FALSE);
+			pSample->SetUINT32(MFSampleExtension_BottomFieldFirst, frame->top_field_first ? FALSE:TRUE);
+		}else{
+			pSample->SetUINT32(MFSampleExtension_Interlaced, FALSE);
+		}
+	}
+
 	*ppSample = pSample.Detach();
 	return hr;
 }
@@ -471,6 +492,8 @@ IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
 	pMediaType->SetUINT32(MF_MT_AVG_BIT_ERROR_RATE, 0);
 	pMediaType->SetUINT32(MF_MT_DEFAULT_STRIDE, _decoder.context->width);
 	pMediaType->SetUINT32(MF_MT_INTERLACE_MODE, MFVideoInterlace_MixedInterlaceOrProgressive);
+	if (_force_progressive)
+		pMediaType->SetUINT32(MF_MT_INTERLACE_MODE, MFVideoInterlace_Progressive);
 
 	pMediaType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
 	pMediaType->SetUINT32(MF_MT_FIXED_SIZE_SAMPLES, TRUE);
@@ -500,6 +523,8 @@ void FFmpegVideoDecoder::CheckOrUpdateFixedFrameRateAVC(const unsigned char* avc
 			_fixed_framerate = true;
 		}
 	}
+	if (parser.progressive_flag)
+		_force_progressive = true;
 }
 
 bool FFmpegVideoDecoder::OnceDecodeCallback()
@@ -507,7 +532,7 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 	auto ctx = _decoder.context;
 	if (ctx->framerate.num > 0 && ctx->framerate.den > 0) {
 		double fps = (double)ctx->framerate.num / (double)ctx->framerate.den;
-		if (fps > 0 && fps < 240)
+		if (fps > 0 && fps < 240 && _default_duration == 0)
 			_default_duration = (LONG64)(1.0 / fps * 10000000.0);
 	}
 	if (_default_duration == 0) {
@@ -528,6 +553,9 @@ bool FFmpegVideoDecoder::OnceDecodeCallback()
 	}else{
 		_image_luma_size = ctx->width * ctx->height; //ysize
 	}
+
+	if (ctx->field_order == AVFieldOrder::AV_FIELD_PROGRESSIVE)
+		_force_progressive = true;
 	return true;
 }
 
