@@ -20,6 +20,7 @@
                     <TextBox x:Name="tboxNetworkUri" TextWrapping="NoWrap" Margin="10,0,20,0" Height="20" InputScope="Url"/>
                     <Button x:Name="btnMultiFiles" Content="Test for MultipartStreamMatroska" Width="330" Height="60" Margin="0,10,0,0" Click="btnMultiFiles_Click"/>
                     <Button x:Name="btnMultiUrl" Content="MultipartStreamMatroska (Network)" Width="330" Height="60" Margin="0,0,0,0" Click="btnMultiUrl_Click"/>
+                    <Button x:Name="btnRemuxPlay" Content="MultipartStreamMatroska (File)" Width="330" Height="60" Margin="0,0,0,0" Click="btnRemuxPlay_Click"/>
                     <CheckBox x:Name="cboxSoftDecode" Margin="0,0,0,0" Content="Force Software Decode"/>
                 </StackPanel>
             </StackPanel>
