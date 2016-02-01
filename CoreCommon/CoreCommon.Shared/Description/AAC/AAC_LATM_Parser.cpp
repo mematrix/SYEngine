@@ -1,4 +1,5 @@
 #include "AAC_LATM_Parser.h"
+#include <stagefright/ABitReader.h>
 
 struct AudioSpecificConfig
 {
@@ -24,7 +25,7 @@ void ParseAACAudioSpecificConfig(unsigned char* pb,AudioSpecificConfig& asc)
 	asc.GASpecificConfig.extensionFlag = pb[1] & 0x01;
 }
 
-bool LATMHeaderParse(unsigned char* ph,int* profile,int* nch,int* srate,int* he_lc_core)
+bool LATMHeaderParse(unsigned char* ph,unsigned size,int* profile,int* nch,int* srate,int* he_lc_core)
 {
 	AudioSpecificConfig asc = {};
 	ParseAACAudioSpecificConfig(ph,asc);
@@ -51,5 +52,22 @@ bool LATMHeaderParse(unsigned char* ph,int* profile,int* nch,int* srate,int* he_
 		*profile = 1;
 	}
 
+	/*
+	如果是HE-AAC，有两种explicit和implicit一共三种声明模式。（这里只支持两种explicit模式
+	在explicit模式一（hierarchical signaling），AOT是5，然后在channels之后会有扩展的采样率和AOT字段（这里的AOT用于表明基本层编码，一般是2 AAC-LC），fdk_aac采用的这种方式；
+	在explicit模式二（backward compatible signaling），AOT仍然是2（AAC-LC），但在GASpecificConfig后会有同步字0x2b7和sbrPresentFlag，libaacplus采用的是这种方式；
+	在implicit模式，AOT仍然是2（AAC-LC），AudioSpecificConfig没有任何扩展，仍只是2个字节，需要靠解码器在AAC码流中找到SBR的数据。
+	*/
+
+	if (asc.audioObjectType != 5 && size >= 5)
+	{
+		stagefright::ABitReader br(ph + 2,3);
+		if (br.getBits(11) == 0x2B7 && br.getBits(5) == 5 && br.getBits(1) == 1)
+		{
+			unsigned extensionSamplingFrequencyIndex = br.getBits(4);
+			if (extensionSamplingFrequencyIndex <= 16)
+				*srate = aac_sample_rate_table[extensionSamplingFrequencyIndex];
+		}
+	}
 	return true;
 }

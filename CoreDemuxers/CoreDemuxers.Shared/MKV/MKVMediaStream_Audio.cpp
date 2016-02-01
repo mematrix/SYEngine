@@ -91,7 +91,7 @@ static bool InitAACLCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IAudioD
 		return false;
 
 	std::shared_ptr<IAudioDescription> aac = 
-		std::make_shared<ADTSAudioDescription>((unsigned*)info.Codec.CodecPrivate,true);
+		std::make_shared<ADTSAudioDescription>((unsigned*)info.Codec.CodecPrivate,true,info.Codec.CodecPrivateSize);
 
 	AudioBasicDescription basic = {};
 	aac->GetAudioDescription(&basic);

@@ -69,7 +69,7 @@ HRESULT HDMediaSource::InitAudioAACMediaType(IAudioDescription* pDesc,IMFMediaTy
 				return MF_E_INVALID_PROFILE;
 
 		pMediaType->SetUINT32(MF_MT_AAC_PAYLOAD_TYPE,0);
-		if (pDesc->GetExtradataSize() > 100)
+		if (pDesc->GetExtradataSize() < 2 || pDesc->GetExtradataSize() > 100)
 			return MF_E_UNEXPECTED;
 
 		auto pAudioSpecificConfig = pUserData.Get();
@@ -89,7 +89,7 @@ HRESULT HDMediaSource::InitAudioAACMediaType(IAudioDescription* pDesc,IMFMediaTy
 		}
 		
 		pMediaType->SetBlob(MF_MT_USER_DATA,
-			pUserData.Get(),14);
+			pUserData.Get(),12 + pDesc->GetExtradataSize());
 	}else{
 		AudioBasicDescription basicDesc = {};
 		pDesc->GetAudioDescription(&basicDesc);

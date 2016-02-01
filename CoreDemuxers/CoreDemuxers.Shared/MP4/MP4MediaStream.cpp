@@ -167,7 +167,7 @@ bool MP4MediaStream::InitAudioAAC(unsigned char* data,unsigned size)
 		return false;
 
 	std::shared_ptr<IAudioDescription> aac = 
-		std::make_shared<ADTSAudioDescription>((unsigned*)data,true);
+		std::make_shared<ADTSAudioDescription>((unsigned*)data,true,size);
 
 	AudioBasicDescription basic = {};
 	aac->GetAudioDescription(&basic);
