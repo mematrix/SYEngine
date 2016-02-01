@@ -186,8 +186,8 @@ HRESULT FFmpegAudioDecoder::Process(const BYTE* buf, unsigned size, LONG64 dts, 
 
 HRESULT FFmpegAudioDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSample)
 {
-	if (frame->channels != _context->channels ||
-		frame->sample_rate != _context->sample_rate)
+	if (frame->channels != (int)_wfx.nChannels ||
+		frame->sample_rate != (int)_wfx.nSamplesPerSec)
 		return MF_E_TRANSFORM_STREAM_CHANGE;
 
 	unsigned len = frame->nb_samples * _wfx.nBlockAlign;

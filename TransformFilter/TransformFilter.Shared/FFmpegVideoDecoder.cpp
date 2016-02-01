@@ -413,8 +413,8 @@ HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, 
 
 HRESULT FFmpegVideoDecoder::CreateDecodedSample(AVFrame* frame, IMFSample** ppSample)
 {
-	if (frame->width != _decoder.context->width ||
-		frame->height != _decoder.context->height)
+	if (frame->width != (int)_width ||
+		frame->height != (int)_height)
 		return MF_E_TRANSFORM_STREAM_CHANGE;
 
 	HRESULT hr = S_OK;
@@ -504,6 +504,8 @@ IMFMediaType* FFmpegVideoDecoder::CreateResultMediaType(REFGUID outputFormat)
 	pMediaType->SetUINT32(MF_MT_FIXED_SIZE_SAMPLES, TRUE);
 	pMediaType->SetUINT32(MF_MT_SAMPLE_SIZE, _image_size);
 
+	_width = _decoder.context->width;
+	_height = _decoder.context->height;
 	MFSetAttributeSize(pMediaType.Get(), MF_MT_FRAME_SIZE, _decoder.context->width, _decoder.context->height);
 	UINT32 num = 0, den = 0;
 	if (SUCCEEDED(MFGetAttributeRatio(_rawMediaType.Get(), MF_MT_FRAME_RATE, &num, &den)))

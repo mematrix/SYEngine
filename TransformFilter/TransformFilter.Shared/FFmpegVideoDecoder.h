@@ -57,6 +57,7 @@ private:
 	ComPtr<IMFMediaType> _rawMediaType;
 
 	DWORD _image_size, _image_luma_size;
+	DWORD _width, _height;
 	LONG64 _timestamp;
 	LONG64 _default_duration;
 	bool _fixed_framerate, _force_progressive;

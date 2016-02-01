@@ -390,7 +390,7 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 		_global_info.delay_flush_spec_info.aac_spec_info == nullptr) {
 		if (codec_id == FLV_AUDIO_CODEC_AAC && pdata[1] == 0) //AudioSpecificConfig
 		{
-			if (!ProcessAACAudioSpecificConfig(&pdata[2])) // copy AudioSpecificConfig Header.
+			if (!ProcessAACAudioSpecificConfig(&pdata[2],tag_size - 2)) // copy AudioSpecificConfig Header.
 			{
 				return PARSER_FLV_ERR_PARSE_FAILED;
 			}else{
@@ -400,7 +400,8 @@ unsigned FLVStreamParser::ReadNextPacket(FLV_STREAM_PACKET* packet)
 			}
 		}
 	}
-	if (tag_size > 2 && pdata[1] == 0)
+	if ((tag_size > 2 && pdata[1] == 0) &&
+		(codec_id == FLV_AUDIO_CODEC_AAC || codec_id == FLV_VIDEO_CODEC_H264))
 		packet->skip_this = 1;
 
 	if (packet->skip_this != 1)

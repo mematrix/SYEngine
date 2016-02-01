@@ -248,12 +248,16 @@ bool FLVStreamParser::ProcessAVCDecoderConfigurationRecord(unsigned char* pb)
 	return (sps_size + pps_size) > 0;
 }
 
-bool FLVStreamParser::ProcessAACAudioSpecificConfig(unsigned char* pb)
+bool FLVStreamParser::ProcessAACAudioSpecificConfig(unsigned char* pb,unsigned size)
 {
+	if (size < 2 || size > 64)
+		return false;
+
 	if (_global_info.delay_flush_spec_info.aac_spec_info == nullptr)
 	{
-		_global_info.delay_flush_spec_info.aac_spec_info = (unsigned char*)malloc(4);
-		memcpy(_global_info.delay_flush_spec_info.aac_spec_info,pb,2);
+		_global_info.delay_flush_spec_info.aac_spec_info = (unsigned char*)malloc(64);
+		_global_info.delay_flush_spec_info.aac_info_size = size;
+		memcpy(_global_info.delay_flush_spec_info.aac_spec_info,pb,size);
 
 		_global_info.delay_flush_spec_info.aac_profile = (pb[0] & 0xF8) >> 3;
 		unsigned samplingFrequencyIndex = ((pb[0] & 0x07) << 1) | (pb[1] >> 7);
