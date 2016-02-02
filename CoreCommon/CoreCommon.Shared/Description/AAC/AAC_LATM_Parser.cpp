@@ -40,9 +40,31 @@ bool LATMHeaderParse(unsigned char* ph,unsigned size,int* profile,int* nch,int* 
 	if (asc.channelConfiguration == 0 || asc.channelConfiguration > 8)
 		return false;
 
-	*profile = asc.audioObjectType - 1;
+	unsigned aot = 0;
+	unsigned rate = 0;
+	if (asc.audioObjectType == 5 || asc.audioObjectType == 29)
+	{
+		stagefright::ABitReader br(ph,size);
+		br.skipBits(5 + 4 + 4);
+		unsigned extensionSamplingFrequencyIndex = br.getBits(4);
+		if (extensionSamplingFrequencyIndex == 14)
+			rate = br.getBits(24);
+		else
+			asc.samplingFrequencyIndex = extensionSamplingFrequencyIndex;
+
+		aot = br.getBits(5); //audioObjectType
+		if (aot == 22)
+			br.skipBits(4);
+		asc.GASpecificConfig.frameLengthFlag = br.getBits(1);
+		asc.GASpecificConfig.dependsOnCoreCoder = br.getBits(1);
+		asc.GASpecificConfig.extensionFlag = br.getBits(1);
+	}
+
+	*profile = aot > 1 ? aot - 1 : asc.audioObjectType - 1;
 	*nch = asc.channelConfiguration;
 	*srate = aac_sample_rate_table[asc.samplingFrequencyIndex];
+	if (rate > 8000 && rate < 96000)
+		*srate = rate;
 
 	//MPEG-4 HE-AAC v1 (multichannel) with AAC-LC core.
 	//MPEG-4 HE-AAC v2 (stereo) with AAC-LC core.
@@ -65,7 +87,7 @@ bool LATMHeaderParse(unsigned char* ph,unsigned size,int* profile,int* nch,int* 
 		if (br.getBits(11) == 0x2B7 && br.getBits(5) == 5 && br.getBits(1) == 1)
 		{
 			unsigned extensionSamplingFrequencyIndex = br.getBits(4);
-			if (extensionSamplingFrequencyIndex <= 16)
+			if (extensionSamplingFrequencyIndex <= 14)
 				*srate = aac_sample_rate_table[extensionSamplingFrequencyIndex];
 		}
 	}
