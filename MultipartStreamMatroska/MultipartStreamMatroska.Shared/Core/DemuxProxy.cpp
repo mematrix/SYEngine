@@ -101,6 +101,16 @@ bool DemuxProxy::GetTrack(int index, Track* track) throw()
 	return true;
 }
 
+int DemuxProxy::GetDefaultTrackIndex(Track::TrackType type) throw()
+{
+	if (type == Track::TrackType::Unknown)
+		return -1;
+	AVCodec* codec = NULL;
+	return av_find_best_stream((AVFormatContext*)_core.FormatContext,
+		type == Track::TrackType::Audio ? AVMEDIA_TYPE_AUDIO : AVMEDIA_TYPE_VIDEO,
+		-1, -1, &codec, 0);
+}
+
 bool DemuxProxy::ReadPacket(Packet* pkt) throw()
 {
 	if (pkt == NULL)

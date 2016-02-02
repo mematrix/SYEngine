@@ -74,6 +74,9 @@ protected:
 	IOCallback* GetInputStream() { return _input; }
 	IOCallback* GetOutputStream() { return _output; }
 
+	int GetAudioIndex() const throw() { return _audio_index; }
+	int GetVideoIndex() const throw() { return _video_index; }
+
 	virtual bool OnNewInput(IOCallback* old_io, IOCallback* new_io) { return true; }
 	virtual bool OnNewOutput(IOCallback* old_io, IOCallback* new_io) { return true; }
 
@@ -91,6 +94,7 @@ private:
 	IOCallback* _input;
 	IOCallback* _output;
 
+	int _audio_index, _video_index;
 	int _audio_ts, _video_ts; //视频和音频的timescale
 	int _prev_audio_duration, _prev_video_duration; //预保存的av上一个帧的时长
 	int64_t _prev_audio_time, _prev_video_time; //上一个帧的时间，dts优先pts

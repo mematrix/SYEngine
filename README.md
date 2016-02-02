@@ -10,6 +10,7 @@
 ### 许可协议
  - Licensed under ***LGPLv3*** or later.
  - 在**LGPLv3**许可请求外的情况，请联系`shan-ye@outlook.com`，并说明目的。
+ - 在您的应用中使用的时候，请务必带上LGPL许可文件及本开源库的信息和GitHub地址。
  - 下面的库依据原本的协议：`ffcodecs` (ffmpeg)、`stagefright` (AOSP)
 
 ### 使用方式
