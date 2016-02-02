@@ -13,7 +13,7 @@ bool WindowsTaskManager::OnStartTask(int index)
 		return true;
 	
 	WCHAR szFilePath[MAX_PATH];
-	MultiByteToWideChar(CP_UTF8, 0, file->Url, -1, szFilePath, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, file->Url, -1, szFilePath, MAX_PATH);
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	HANDLE hFile = CreateFileW(szFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 #else
