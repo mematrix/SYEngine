@@ -1,7 +1,7 @@
 #include "WindowsHttpDownloader.h"
 
-inline static bool Utf8ToUnicode(const char* ansi, LPWSTR uni, unsigned max_u_len = MAX_PATH)
-{ return MultiByteToWideChar(CP_UTF8, 0, ansi, -1, uni, max_u_len) > 0; }
+inline static bool AnsiToUnicode(const char* ansi, LPWSTR uni, unsigned max_u_len = MAX_PATH)
+{ return MultiByteToWideChar(CP_ACP, 0, ansi, -1, uni, max_u_len) > 0; }
 
 bool WindowsHttpDownloader::Initialize(const char* user_agent, int timeout_sec, unsigned buf_block_size_kb, unsigned buf_block_count)
 {
@@ -12,7 +12,7 @@ bool WindowsHttpDownloader::Initialize(const char* user_agent, int timeout_sec, 
 
 	WCHAR ua[MAX_PATH] = {};
 	if (user_agent)
-		Utf8ToUnicode(user_agent, ua);
+		AnsiToUnicode(user_agent, ua);
 
 	_http.session = WinHttpOpen(ua[0] != 0 ? ua : NULL,
 		WINHTTP_ACCESS_TYPE_NO_PROXY,
@@ -48,7 +48,7 @@ bool WindowsHttpDownloader::StartAsync(const char* url, const char* append_heade
 		return false;
 
 	_urls[0] = 0;
-	Utf8ToUnicode(url, _urls, _countof(_urls));
+	AnsiToUnicode(url, _urls, _countof(_urls));
 	RtlZeroMemory(&_url, sizeof(_url));
 	_url.dwStructSize = sizeof(_url);
 	_url.dwUrlPathLength =
@@ -70,7 +70,7 @@ const wchar_t* WindowsHttpDownloader::GetResponseHeader(const char* name, bool t
 		return NULL;
 
 	WCHAR n[MAX_PATH];
-	Utf8ToUnicode(name, n);
+	AnsiToUnicode(name, n);
 
 	wchar_t* result = NULL;
 	unsigned len = wcslen(n);
@@ -210,8 +210,8 @@ void WindowsHttpDownloader::InternalConnect(char* append_headers)
 		header[0] = hvalue[0] = 0;
 		auto h = _user_heads.front();
 		_user_heads.pop();
-		Utf8ToUnicode(h.name, header);
-		Utf8ToUnicode(h.value, hvalue, _countof(hvalue));
+		AnsiToUnicode(h.name, header);
+		AnsiToUnicode(h.value, hvalue, _countof(hvalue));
 		h.Free();
 		auto str = (LPWSTR)malloc(4096);
 		RtlZeroMemory(str, 4096);

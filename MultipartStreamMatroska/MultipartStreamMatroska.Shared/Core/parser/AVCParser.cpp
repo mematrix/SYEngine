@@ -66,14 +66,16 @@ void AVCParser::ParseSPS(const unsigned char* access_unit, unsigned size) throw(
 {
 	if (size < 4)
 		return;
-	if (*access_unit != 0x67)
-		return;
 
 	unsigned char* sps = (unsigned char*)malloc(size);
-	memcpy(sps, access_unit + 1, size - 1);
-	EBSP2RBSP(sps, size - 1);
+	memcpy(sps, access_unit, size);
+	EBSP2RBSP(sps, size);
 
-	android::ABitReader br(sps, size - 1);
+	android::ABitReader br(sps, size);
+	br.skipBits(3);
+	if (br.getBits(5) != 7)
+		return;
+
 	profile = br.getBits(8);
 	br.skipBits(8);
 	profile_level = br.getBits(8);
@@ -206,10 +208,12 @@ void AVCParser::ParsePPS(const unsigned char* access_unit, unsigned size) throw(
 {
 	if (size < 2)
 		return;
-	if (*access_unit != 0x68)
+
+	android::ABitReader br(access_unit, size);
+	br.skipBits(3);
+	if (br.getBits(5) != 8)
 		return;
 
-	android::ABitReader br(access_unit + 1, size - 1);
 	UE(&br); //pic_parameter_set_id
 	UE(&br); //seq_parameter_set_id
 
