@@ -257,6 +257,8 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 		_fixed_framerate = true;
 
 	_image_size = _decoder.context->width * _decoder.context->height * 3 / 2;
+	_first_enter = true;
+	_wait_for_keyframe = false;
 	return CreateResultMediaType(MFVideoFormat_NV12);
 }
 
@@ -375,11 +377,26 @@ void FFmpegVideoDecoder::Flush()
 			result.Attach(Open(codecid, pMediaType.Get()));
 		}
 		_decoder.flush_after = true;
+		_first_enter = true;
 	}
 }
 
 HRESULT FFmpegVideoDecoder::Process(const BYTE* buf, unsigned size, LONG64 pts, LONG64 duration, bool keyframe, bool discontinuity)
 {
+	if (_first_enter) {
+		_first_enter = false;
+		if (!keyframe)
+			_wait_for_keyframe = true;
+	}
+	if (_wait_for_keyframe) {
+		if (keyframe) {
+			_wait_for_keyframe = false;
+			avcodec_flush_buffers(_decoder.context);
+		}else{
+			return MF_E_TRANSFORM_NEED_MORE_INPUT;
+		}
+	}
+
 	if (discontinuity)
 		avcodec_flush_buffers(_decoder.context);
 

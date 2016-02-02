@@ -157,6 +157,12 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 		if (desc.nch == 0)
 			return false;
 
+		if (desc.srate == 0)
+		{
+			desc.srate = _stream_info.audio_info.srate;
+			aac->ExternalUpdateAudioDescription(&desc);
+		}
+
 		if (_stream_info.audio_info.bitrate > 0)
 			UpdateAudioDescriptionBitrate(aac.get(),_stream_info.audio_info.bitrate * 1000);
 		_audio_stream = std::make_shared<FLVMediaStream>(aac,MEDIA_CODEC_AUDIO_AAC);

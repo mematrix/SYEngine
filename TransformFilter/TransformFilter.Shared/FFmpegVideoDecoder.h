@@ -62,6 +62,9 @@ private:
 	LONG64 _default_duration;
 	bool _fixed_framerate, _force_progressive;
 
+	bool _first_enter;
+	bool _wait_for_keyframe;
+
 	ComPtr<ITransformAllocator> _allocator;
 
 	struct YUVCopyThreads
