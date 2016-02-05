@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngineRuntime", "SYEngine
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SYEngineRuntime.Shared", "Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.shproj", "{093733B8-464D-407E-A941-AF33AC8406BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.Universal", "Demo\SYEngineRuntime\SYEngineRuntime.Universal\SYEngineRuntime.Universal.csproj", "{B764C861-F87A-4084-A569-063986B05F0B}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.Windows", "Demo\SYEngineRuntime\SYEngineRuntime.Windows\SYEngineRuntime.Windows.csproj", "{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.WindowsPhone", "Demo\SYEngineRuntime\SYEngineRuntime.WindowsPhone\SYEngineRuntime.WindowsPhone.csproj", "{9130683D-7A7D-44B7-8A12-B446EA5F05AA}"
@@ -19,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreCommon", "CoreCommon", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreCommon.Shared", "CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems", "{F1079A95-C042-429F-AD7B-97A91EC8BE65}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreCommon.Universal", "CoreCommon\CoreCommon.Universal\CoreCommon.Universal.vcxproj", "{701D4F5F-A7DD-4D71-B43E-C3B448775EB1}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreCommon.Windows", "CoreCommon\CoreCommon.Windows\CoreCommon.Windows.vcxproj", "{13D48622-327D-455F-AB40-CCD9B85D50E5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreCommon.WindowsPhone", "CoreCommon\CoreCommon.WindowsPhone\CoreCommon.WindowsPhone.vcxproj", "{ABB4BCB5-19FF-4D89-AE67-0C4EB952EF22}"
@@ -26,6 +30,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreMFSource", "CoreMFSource", "{E06CE943-2079-42A6-ACB0-6DA84138033D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreMFSource.Shared", "CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems", "{5B969656-EA9B-4479-9DCC-4B47BAB474A1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreMFSource.Universal", "CoreMFSource\CoreMFSource.Universal\CoreMFSource.Universal.vcxproj", "{0B875BCD-00C6-46E7-B389-AAC04B7C7072}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreMFSource.Windows", "CoreMFSource\CoreMFSource.Windows\CoreMFSource.Windows.vcxproj", "{5F555A02-E82F-415E-8043-D7209194BE92}"
 EndProject
@@ -35,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TransformFilter", "Transfor
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Shared", "TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems", "{08D15C5A-38FE-42BC-BE6C-4AFEEB347B7E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Universal", "TransformFilter\TransformFilter.Universal\TransformFilter.Universal.vcxproj", "{5274CAE8-C1FC-458E-989D-5B4366E7E274}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Windows", "TransformFilter\TransformFilter.Windows\TransformFilter.Windows.vcxproj", "{26E240B7-DC62-4B94-B4EA-A7AC1C8A1E23}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.WindowsPhone", "TransformFilter\TransformFilter.WindowsPhone\TransformFilter.WindowsPhone.vcxproj", "{C27BA662-2926-49A2-92A1-0A71CEE1391C}"
@@ -42,6 +50,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ffcodecs", "ffcodecs", "{E0205808-386B-4E6E-9929-60183ACFAE87}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffcodecs.Shared", "ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems", "{7E0215A1-1E2D-414F-A8E9-CA3C7118A192}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffcodecs.Universal", "ffcodecs\ffcodecs.Universal\ffcodecs.Universal.vcxproj", "{EDE132D0-BCEE-496B-B5BA-A4E17B4741B4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffcodecs.Windows", "ffcodecs\ffcodecs.Windows\ffcodecs.Windows.vcxproj", "{8BE11E1A-2BCC-4764-9A72-BD80012974C3}"
 EndProject
@@ -51,6 +61,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MultipartStreamMatroska", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Shared", "MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems", "{5589AEDB-6143-4B48-A7A3-1DD0C73E5723}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Universal", "MultipartStreamMatroska\MultipartStreamMatroska.Universal\MultipartStreamMatroska.Universal.vcxproj", "{41C20A0F-50FC-4030-A647-2A5A13EBB562}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Windows", "MultipartStreamMatroska\MultipartStreamMatroska.Windows\MultipartStreamMatroska.Windows.vcxproj", "{404150B6-9A3A-449E-A410-5D64FF3B85D3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.WindowsPhone", "MultipartStreamMatroska\MultipartStreamMatroska.WindowsPhone\MultipartStreamMatroska.WindowsPhone.vcxproj", "{1A1821C0-5072-48D7-93AD-2ECDCD267F4D}"
@@ -58,6 +70,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngine", "SYEngine", "{033D937C-4A8C-4EB9-8E7F-70F33E1D7A73}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Shared", "SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems", "{54F23214-4129-4EB9-9EC7-66DC7221CA6C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Universal", "SYEngine\SYEngine.Universal\SYEngine.Universal.vcxproj", "{E5741A57-347A-40E3-8BE7-8ADD0D3440A5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Windows", "SYEngine\SYEngine.Windows\SYEngine.Windows.vcxproj", "{371B4E0D-44EC-4781-8350-55471E26C599}"
 EndProject
@@ -67,6 +81,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinhttpWrapper", "WinhttpWr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinhttpWrapper.Shared", "WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems", "{17FA6670-7FEB-4ABF-A408-ABA3C7BD604D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinhttpWrapper.Universal", "WinhttpWrapper\WinhttpWrapper.Universal\WinhttpWrapper.Universal.vcxproj", "{4953FCF5-DC46-4242-978E-5F62B1C4FC9C}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinhttpWrapper.Windows", "WinhttpWrapper\WinhttpWrapper.Windows\WinhttpWrapper.Windows.vcxproj", "{8D81CB54-AB9E-4675-9321-06DE84BB47F7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinhttpWrapper.WindowsPhone", "WinhttpWrapper\WinhttpWrapper.WindowsPhone\WinhttpWrapper.WindowsPhone.vcxproj", "{F0C38DC9-A02D-4CF1-9E0E-3E8AE64E589A}"
@@ -74,6 +90,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreDemuxers", "CoreDemuxers", "{CA6A1153-0F10-41D7-B18F-942A59E00505}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreDemuxers.Shared", "CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems", "{B23E3639-D675-49B2-85B1-FAE680012B71}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreDemuxers.Universal", "CoreDemuxers\CoreDemuxers.Universal\CoreDemuxers.Universal.vcxproj", "{93170C68-1CF1-4E09-A00C-0EB6A0C4C1B0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreDemuxers.Windows", "CoreDemuxers\CoreDemuxers.Windows\CoreDemuxers.Windows.vcxproj", "{927C14C4-15FF-4939-B03C-3176A684EE09}"
 EndProject
@@ -90,24 +108,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Desktop", "MultipartStreamMatroska\MultipartStreamMatroska.Desktop\MultipartStreamMatroska.Desktop.vcxproj", "{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Desktop", "TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj", "{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinhttpWrapper.Universal", "WinhttpWrapper\WinhttpWrapper.Universal\WinhttpWrapper.Universal.vcxproj", "{4953FCF5-DC46-4242-978E-5F62B1C4FC9C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreCommon.Universal", "CoreCommon\CoreCommon.Universal\CoreCommon.Universal.vcxproj", "{701D4F5F-A7DD-4D71-B43E-C3B448775EB1}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreDemuxers.Universal", "CoreDemuxers\CoreDemuxers.Universal\CoreDemuxers.Universal.vcxproj", "{93170C68-1CF1-4E09-A00C-0EB6A0C4C1B0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffcodecs.Universal", "ffcodecs\ffcodecs.Universal\ffcodecs.Universal.vcxproj", "{EDE132D0-BCEE-496B-B5BA-A4E17B4741B4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Universal", "TransformFilter\TransformFilter.Universal\TransformFilter.Universal.vcxproj", "{5274CAE8-C1FC-458E-989D-5B4366E7E274}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Universal", "MultipartStreamMatroska\MultipartStreamMatroska.Universal\MultipartStreamMatroska.Universal.vcxproj", "{41C20A0F-50FC-4030-A647-2A5A13EBB562}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreMFSource.Universal", "CoreMFSource\CoreMFSource.Universal\CoreMFSource.Universal.vcxproj", "{0B875BCD-00C6-46E7-B389-AAC04B7C7072}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngine.Universal", "SYEngine\SYEngine.Universal\SYEngine.Universal.vcxproj", "{E5741A57-347A-40E3-8BE7-8ADD0D3440A5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.Universal", "Demo\SYEngineRuntime\SYEngineRuntime.Universal\SYEngineRuntime.Universal.csproj", "{B764C861-F87A-4084-A569-063986B05F0B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -155,12 +155,12 @@ Global
 		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|ARM = Debug|ARM
-		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|ARM = Release|ARM
-		Release|x64 = Release|x64
+		Debug|x64 = Debug|x64
+		Debug|ARM = Debug|ARM
 		Release|x86 = Release|x86
+		Release|x64 = Release|x64
+		Release|ARM = Release|ARM
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.ActiveCfg = Debug|ARM

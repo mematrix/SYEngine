@@ -128,12 +128,12 @@ Global
 		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|ARM = Debug|ARM
-		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|ARM = Release|ARM
-		Release|x64 = Release|x64
+		Debug|x64 = Debug|x64
+		Debug|ARM = Debug|ARM
 		Release|x86 = Release|x86
+		Release|x64 = Release|x64
+		Release|ARM = Release|ARM
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.ActiveCfg = Debug|ARM
