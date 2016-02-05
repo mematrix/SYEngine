@@ -25,6 +25,9 @@ AppPackages/
 .vs/
 
 /!Packages/
-!/ffcodecs/ffmpeg/lib/arm/
-!/ffcodecs/ffmpeg/lib/x64/
-!/ffcodecs/ffmpeg/lib/x86/
+!/ffcodecs/ffmpeg/lib/runtime/arm/
+!/ffcodecs/ffmpeg/lib/runtime/x64/
+!/ffcodecs/ffmpeg/lib/runtime/x86/
+!/ffcodecs/ffmpeg/lib/uwp/arm/
+!/ffcodecs/ffmpeg/lib/uwp/x64/
+!/ffcodecs/ffmpeg/lib/uwp/x86/
