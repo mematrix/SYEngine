@@ -1,4 +1,4 @@
-# ShanYe MediaFoundation Engine (Windows)
+﻿# ShanYe MediaFoundation Engine (Windows)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) [![License](https://img.shields.io/badge/License-LGPLv3-blue.svg?style=flat)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
@@ -19,6 +19,7 @@
  - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
+ - 2016-02-05：添加UWP支持。
  - 2016-02-01：添加FFmpeg的视频、音频软件解码，仅支持部分codec。
  - 2016-01-07：添加 `SYEngine.MediaInformation` 运行时类，可以通过这个类在不播放的情况下获取到媒体容器的详细信息。
  - 2015-12-31：修复MultipartStreamMatroska的Seek相关bug，修复播放快结束时的MKV容器bug，优化网络Seek后的缓冲逻辑。
