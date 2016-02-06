@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="AV">
+      <UniqueIdentifier>{d23139fd-bc8d-4f43-a74f-fe4a4a98dc50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description">
+      <UniqueIdentifier>{e76e386f-68aa-4e1d-b358-3f4f46be09ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{d42134e4-5ee9-49ed-b0d6-0de454dd437a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5bbefd8c-ca13-47d4-9353-a813ae0c668c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\AAC">
+      <UniqueIdentifier>{40179a36-6e3f-4ce5-a714-06bae36c1159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\AC3">
+      <UniqueIdentifier>{eb310024-c4b3-4079-ad05-f5a88a4d7eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\ALAC">
+      <UniqueIdentifier>{dc360bf0-c211-412e-984c-da3ef87e6693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\FLAC">
+      <UniqueIdentifier>{b1aec1c9-23a0-487f-afb5-b8b83415b3b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\H264">
+      <UniqueIdentifier>{d8e952ff-a5c0-4165-98ea-a9594deeb835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\LPCM">
+      <UniqueIdentifier>{0d869074-5585-4d66-8890-d50c03ecf3e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\MP3">
+      <UniqueIdentifier>{3ef95ff5-aa2d-4ac4-8734-b0a4f8be59b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\MPEG2">
+      <UniqueIdentifier>{cd44dfef-eb3c-4cec-b558-ccf752d6d2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\MPEG4">
+      <UniqueIdentifier>{0ffabb77-94c8-4635-ac40-fc81ef2ab6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\OGG">
+      <UniqueIdentifier>{164f40ae-cef9-477b-be6e-cb5d5c7bae88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Description\VC1">
+      <UniqueIdentifier>{2a7306bb-8a0a-44c3-8082-a1a2ea0df487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\IOReader">
+      <UniqueIdentifier>{ff25481a-3b14-4992-93d1-c5178c313a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\IOWriter">
+      <UniqueIdentifier>{72865902-ef36-4fb0-ac02-e5f49584cdee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\MPC">
+      <UniqueIdentifier>{a6ac596a-485c-40c9-9268-47c84f1fd739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\SimpleContainers">
+      <UniqueIdentifier>{c1157f60-42bb-4fae-bd22-9483cf700caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\stagefright">
+      <UniqueIdentifier>{583d8610-838d-46a4-9791-17e0b387b781}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AutoMediaBuffer.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AutoMediaPacket.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AVDescription.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\AVDescription_CH_Layout.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVChapter.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVError.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVFormat.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVIO.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVMetadata.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVResource.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaAVStream.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaCodecType.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaMemory.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AV\MediaPacket.h">
+      <Filter>AV</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ComDynamicMemoryBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\CrtDynamicMemoryBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DynamicMemoryBuffer.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\shared_memory_ptr.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\CommonAudioDescription.h">
+      <Filter>Description</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\CommonVideoDescription.h">
+      <Filter>Description</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_ADTS_Parser.h">
+      <Filter>Description\AAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_LATM_Parser.h">
+      <Filter>Description\AAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AAC\AACAudioDescription.h">
+      <Filter>Description\AAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AC3\A52_Parser.h">
+      <Filter>Description\AC3</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\AC3\AC3AudioDescription.h">
+      <Filter>Description\AC3</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACAudioDescription.h">
+      <Filter>Description\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACMagicCodeParser.h">
+      <Filter>Description\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACAudioDescription.h">
+      <Filter>Description\FLAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACStreamInfoParser.h">
+      <Filter>Description\FLAC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\H264\AVC1VideoDescription.h">
+      <Filter>Description\H264</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\H264\X264VideoDescription.h">
+      <Filter>Description\H264</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\LPCM\BD_LPCM_Parser.h">
+      <Filter>Description\LPCM</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\LPCM\BDAudioDescription.h">
+      <Filter>Description\LPCM</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MP3\MPEG_Audio_Parser.h">
+      <Filter>Description\MP3</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MP3\MPEGAudioDescription.h">
+      <Filter>Description\MP3</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MPEG2\MPEG2VideoDescription.h">
+      <Filter>Description\MPEG2</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\MPEG4\MPEG4VideoDescription.h">
+      <Filter>Description\MPEG4</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\VC1\VC1VideoDescription.h">
+      <Filter>Description\VC1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Description\OGG\VorbisAudioDescription.h">
+      <Filter>Description\OGG</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\APEv2TagEx.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\AVIOWin32.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\ESPacketCutter.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264_SPS_Parser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264AnnexBParser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\H264Spec.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HEVCAnnexBParser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HEVCSpec.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\HVC1mkvToAnnexB.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MiscUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPEG2HeadParser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPEG4HeadParser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\VC1HeadParser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\IOReader\IOPoolReader.h">
+      <Filter>Utils\IOReader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\IOWriter\IOPoolWriter.h">
+      <Filter>Utils\IOWriter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\Bitstream.h">
+      <Filter>Utils\MPC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\GolombBuffer.h">
+      <Filter>Utils\MPC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\MPC\H264Nalu.h">
+      <Filter>Utils\MPC</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABase.h">
+      <Filter>Utils\stagefright</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABitReader.h">
+      <Filter>Utils\stagefright</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\AString.h">
+      <Filter>Utils\stagefright</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Golomb.h">
+      <Filter>Utils\stagefright</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Parser.h">
+      <Filter>Utils\stagefright</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Buffer.h">
+      <Filter>Utils\SimpleContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\List.h">
+      <Filter>Utils\SimpleContainers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Queue.h">
+      <Filter>Utils\SimpleContainers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AV\MediaMemory.cpp">
+      <Filter>AV</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AV\MediaPacket.cpp">
+      <Filter>AV</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Memory\ComDynamicMemoryBuffer.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Memory\CrtDynamicMemoryBuffer.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\CommonAudioDescription.cpp">
+      <Filter>Description</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\CommonVideoDescription.cpp">
+      <Filter>Description</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_ADTS_Parser.cpp">
+      <Filter>Description\AAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AAC_LATM_Parser.cpp">
+      <Filter>Description\AAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AAC\AACAudioDescription.cpp">
+      <Filter>Description\AAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AC3\A52_Parser.cpp">
+      <Filter>Description\AC3</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\AC3\AC3AudioDescription.cpp">
+      <Filter>Description\AC3</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACAudioDescription.cpp">
+      <Filter>Description\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\ALAC\ALACMagicCodeParser.cpp">
+      <Filter>Description\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACAudioDescription.cpp">
+      <Filter>Description\FLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\FLAC\FLACStreamInfoParser.cpp">
+      <Filter>Description\FLAC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\H264\AVC1VideoDescription.cpp">
+      <Filter>Description\H264</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\H264\X264VideoDescription.cpp">
+      <Filter>Description\H264</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\LPCM\BD_LPCM_Parser.cpp">
+      <Filter>Description\LPCM</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\LPCM\BDAudioDescription.cpp">
+      <Filter>Description\LPCM</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MP3\MPEG_Audio_Parser.cpp">
+      <Filter>Description\MP3</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MP3\MPEGAudioDescription.cpp">
+      <Filter>Description\MP3</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MPEG2\MPEG2VideoDescription.cpp">
+      <Filter>Description\MPEG2</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\MPEG4\MPEG4VideoDescription.cpp">
+      <Filter>Description\MPEG4</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\VC1\VC1VideoDescription.cpp">
+      <Filter>Description\VC1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Description\OGG\VorbisAudioDescription.cpp">
+      <Filter>Description\OGG</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\APEv2TagEx.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\AVC1mp4ToAnnexB.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\ESPacketCutter.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264_Misc.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264_SPS_Parser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\H264AnnexBParser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\HEVCAnnexBParser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\HVC1mkvToAnnexB.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MiscUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPEG2HeadParser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPEG4HeadParser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\VC1HeadParser.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\IOReader\IOPoolReader.cpp">
+      <Filter>Utils\IOReader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\IOWriter\IOPoolWriter.cpp">
+      <Filter>Utils\IOWriter</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\Bitstream.cpp">
+      <Filter>Utils\MPC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\GolombBuffer.cpp">
+      <Filter>Utils\MPC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\MPC\H264Nalu.cpp">
+      <Filter>Utils\MPC</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\ABitReader.cpp">
+      <Filter>Utils\stagefright</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\AString.cpp">
+      <Filter>Utils\stagefright</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\stagefright\H264Parser.cpp">
+      <Filter>Utils\stagefright</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utils\SimpleContainers\Buffer.cpp">
+      <Filter>Utils\SimpleContainers</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
