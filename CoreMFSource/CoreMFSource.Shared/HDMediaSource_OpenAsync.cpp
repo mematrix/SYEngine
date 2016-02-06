@@ -162,7 +162,7 @@ HRESULT HDMediaSource::OpenAsync(IMFByteStream* pByteStream,IMFAsyncCallback* pC
 	{
 		pAttrs->GetString(MF_BYTESTREAM_ORIGIN_NAME,szFile,ARRAYSIZE(szFile),nullptr);
 		if (szFile[0] != 0)
-			OutputDebugStringW(szFile);
+			DbgLogPrintf(szFile);
 	}
 
 	_url_type = HandlerTypes::Default;
@@ -587,6 +587,7 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 			continue;
 
 #ifdef _USE_DECODE_FILTER
+		//初始化软解。。简化的like MFT模型。
 		ComPtr<ITransformFilter> pDecodeFilter;
 		bool bUseDecodeFilter = false;
 		{
@@ -601,7 +602,8 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 						SUCCEEDED(pLoader->SetInputMediaType(pMediaType.Get()))) {
 						ComPtr<IMFMediaType> pNewMediaType;
 						if (SUCCEEDED(pLoader->GetOutputMediaType(&pNewMediaType)) && pNewMediaType) {
-							GUID subType = GUID_NULL;
+							GUID majorType = GUID_NULL, subType = GUID_NULL;
+							pMediaType->GetGUID(MF_MT_MAJOR_TYPE, &majorType);
 							pMediaType->GetGUID(MF_MT_SUBTYPE,&subType);
 							pNewMediaType->SetGUID(MF_MT_MY_TRANSFORM_FILTER_RAWTYPE,subType);
 							pNewMediaType->SetUINT32(MF_MY_STREAM_ID,pStream->GetStreamIndex());
@@ -617,6 +619,18 @@ HRESULT HDMediaSource::InitPresentationDescriptor()
 							temp = MFGetAttributeUINT32(pMediaType.Get(),MF_MT_VIDEO_ROTATION,0);
 							if (temp > 0 && temp < 360)
 								pNewMediaType->SetUINT32(MF_MT_AVG_BITRATE,temp);
+
+							if (majorType == MFMediaType_Video &&
+								subType != MFVideoFormat_AVC1 && subType != MFVideoFormat_HVC1) {
+								PBYTE userdata = NULL;
+								UINT32 udSize = 0;
+								if (SUCCEEDED(pMediaType->GetAllocatedBlob(MF_MT_MPEG_SEQUENCE_HEADER,&userdata,&udSize)))
+									pNewMediaType->SetBlob(MF_MT_MPEG_SEQUENCE_HEADER,userdata,udSize);
+								else if (SUCCEEDED(pMediaType->GetAllocatedBlob(MF_MT_USER_DATA,&userdata,&udSize)))
+									pNewMediaType->SetBlob(MF_MT_USER_DATA,userdata,udSize);
+								if (userdata)
+									CoTaskMemFree(userdata);
+							}
 
 							pMediaType = pNewMediaType;
 							pFilter.As(&pDecodeFilter);

@@ -114,8 +114,10 @@ loop:
 	if (pkt.Id > 1)
 		goto loop;
 
-	int timescale = (pkt.Id == 0 ? _video_ts : _audio_ts);
-	int64_t start_offset_no_scale = (pkt.Id == 0 ? _start_time_offset_video_no_scale : _start_time_offset_audio_no_scale);
+	int timescale = (pkt.Id == _video_index ? _video_ts : _audio_ts);
+	int64_t start_offset_no_scale = 
+		(pkt.Id == _video_index ? _start_time_offset_video_no_scale : _start_time_offset_audio_no_scale);
+
 	if (pkt.PTS != InvalidTimestamp())
 		pkt.ScalePTS = double(pkt.PTS) / double(timescale) -
 		(pkt.PTS >= start_offset_no_scale ? _start_time_offset : 0.0);
@@ -125,11 +127,11 @@ loop:
 	if (pkt.Duration > 0 && pkt.Duration != InvalidTimestamp())
 		pkt.ScaleDuration = double(pkt.Duration) / double(timescale);
 
-	double time_off = (pkt.Id == 0 ? _video_time_offset : _audio_time_offset);
+	double time_off = (pkt.Id == _video_index ? _video_time_offset : _audio_time_offset);
 	pkt.ScalePTS += time_off; //加上上N个分段的时间偏移
 	pkt.ScaleDTS += time_off;
 	int64_t timestamp;
-	if (pkt.Id == 0) {
+	if (pkt.Id == _video_index) {
 		timestamp = (pkt.DTS == InvalidTimestamp() ? pkt.PTS : pkt.DTS); //DTS优先
 		if (pkt.Duration != InvalidTimestamp() && pkt.Duration > 0) {
 			_prev_video_duration = (int)pkt.Duration;
@@ -151,7 +153,7 @@ loop:
 		_prev_audio_time = timestamp;;
 	}
 
-	if (pkt.Id == 1)
+	if (pkt.Id == _audio_index)
 		pkt.KeyFrame = false;
 	if (!DoProcessPacketOnce(&pkt)) //MKV复用器
 		return false;
@@ -190,9 +192,14 @@ bool MergeManager::InternalInitDemux(void* demux)
 	if (core->GetTrackCount() < 2)
 		return false;
 
+	_audio_index = core->GetDefaultTrackIndex(DemuxProxy::Track::TrackType::Audio);
+	_video_index = core->GetDefaultTrackIndex(DemuxProxy::Track::TrackType::Video);
+	if (_audio_index < 0 || _video_index < 0)
+		return false;
+
 	DemuxProxy::Track t1 = {}, t2 = {};
-	core->GetTrack(0, &t1);
-	core->GetTrack(1, &t2);
+	core->GetTrack(_video_index, &t1);
+	core->GetTrack(_audio_index, &t2);
 	if (t1.Type != DemuxProxy::Track::TrackType::Video ||
 		t2.Type != DemuxProxy::Track::TrackType::Audio)
 		return false;

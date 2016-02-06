@@ -38,6 +38,7 @@ public:
 	bool GetTrack(int index, Track* track) throw();
 	int GetTrackCount() const throw()
 	{ return _core.TotalTracks; }
+	int GetDefaultTrackIndex(Track::TrackType type) throw();
 
 	struct Packet
 	{

@@ -46,7 +46,7 @@
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ffmpeg\lib\x86\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\ffmpeg\lib\runtime\x86\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -55,7 +55,7 @@
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
     <IncludePath>..\ffmpeg\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ffmpeg\lib\x86\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\ffmpeg\lib\runtime\x86\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

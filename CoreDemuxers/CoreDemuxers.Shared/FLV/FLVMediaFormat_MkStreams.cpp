@@ -114,6 +114,7 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 			_stream_info.video_info.height == 0)
 			return false;
 
+		parser->Reset();
 		unsigned char mask = 0;
 		while (1)
 		{
@@ -126,6 +127,7 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 			mask = packet.data_buf[0];
 			break;
 		}
+		parser->Reset();
 
 		CommonVideoCore comm = {};
 		comm.type = -1;
@@ -148,18 +150,25 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 	if (_stream_info.audio_type == FLVParser::AudioStreamType_AAC)
 	{
 		std::shared_ptr<IAudioDescription> aac = std::make_shared<ADTSAudioDescription>(
-			(unsigned*)_stream_info.delay_flush_spec_info.aac_spec_info,true);
+			(unsigned*)_stream_info.delay_flush_spec_info.aac_spec_info,true,_stream_info.delay_flush_spec_info.aac_info_size);
 
 		AudioBasicDescription desc = {};
 		aac->GetAudioDescription(&desc);
 		if (desc.nch == 0)
 			return false;
 
+		if (desc.srate == 0)
+		{
+			desc.srate = _stream_info.audio_info.srate;
+			aac->ExternalUpdateAudioDescription(&desc);
+		}
+
 		if (_stream_info.audio_info.bitrate > 0)
 			UpdateAudioDescriptionBitrate(aac.get(),_stream_info.audio_info.bitrate * 1000);
 		_audio_stream = std::make_shared<FLVMediaStream>(aac,MEDIA_CODEC_AUDIO_AAC);
 	}else if (_stream_info.audio_type == FLVParser::AudioStreamType_MP3)
 	{
+		parser->Reset();
 		unsigned mp3_head = 0;
 		while (1)
 		{
@@ -175,6 +184,7 @@ bool FLVMediaFormat::MakeAllStreams(std::shared_ptr<FLVParser::FLVStreamParser>&
 			mp3_head = *(unsigned*)packet.data_buf;
 			break;
 		}
+		parser->Reset();
 
 		if (mp3_head == 0)
 			return false;

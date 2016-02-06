@@ -19,6 +19,8 @@ namespace SYEngineRuntime
 {
     public sealed partial class MainPage : Page
     {
+        private bool kIsPlayRemux = false;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -48,7 +50,16 @@ namespace SYEngineRuntime
                 if (file != null)
                 {
                     SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
-                    player.SetSource(await file.OpenReadAsync(), file.ContentType);
+                    if (!kIsPlayRemux)
+                    {
+                        player.SetSource(await file.OpenReadAsync(), file.ContentType);
+                    }
+                    else
+                    {
+                        var plist = new SYEngine.Playlist(SYEngine.PlaylistTypes.LocalFile);
+                        plist.Append(file.Path, 0, 0);
+                        player.Source = await plist.SaveAndGetFileUriAsync();
+                    }
                 }
             }
         }
@@ -56,6 +67,7 @@ namespace SYEngineRuntime
         private void btnPlayFile_Click(object sender, RoutedEventArgs e)
         {
             App.ContinuationEventArgsChanged += FileOpenPicker_ContinuationEvent;
+            kIsPlayRemux = false;
 
             var op = new FileOpenPicker();
             op.FileTypeFilter.Add(".flv");
@@ -104,6 +116,19 @@ namespace SYEngineRuntime
             SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
 
             player.Source = await plist.SaveAndGetFileUriAsync();
+        }
+
+        private void btnRemuxPlay_Click(object sender, RoutedEventArgs e)
+        {
+            App.ContinuationEventArgsChanged += FileOpenPicker_ContinuationEvent;
+            kIsPlayRemux = true;
+
+            var op = new FileOpenPicker();
+            op.FileTypeFilter.Add(".flv");
+            op.FileTypeFilter.Add(".f4v");
+            op.FileTypeFilter.Add(".mkv");
+            op.FileTypeFilter.Add(".mp4");
+            op.PickSingleFileAndContinue();
         }
 
         private void player_CurrentStateChanged(object sender, RoutedEventArgs e)

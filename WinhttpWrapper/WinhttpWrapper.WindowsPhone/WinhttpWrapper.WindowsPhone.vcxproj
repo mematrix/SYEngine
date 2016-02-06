@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F0C38DC9-A02D-4CF1-9E0E-3E8AE64E589A}</ProjectGuid>
+    <ProjectGuid>{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}</ProjectGuid>
     <RootNamespace>WinhttpWrapper</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>

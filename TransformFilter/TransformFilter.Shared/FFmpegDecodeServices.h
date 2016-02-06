@@ -49,7 +49,7 @@ private:
 	bool VerifyAudioMediaType(IMFMediaType* pMediaType);
 	bool VerifyVideoMediaType(IMFMediaType* pMediaType);
 
-	HRESULT InitAudioDecoder(IMFMediaType* pMediaType) { return E_NOTIMPL; }  //not impl.
+	HRESULT InitAudioDecoder(IMFMediaType* pMediaType);
 	HRESULT InitVideoDecoder(IMFMediaType* pMediaType);
 
 	void DestroyDecoders();

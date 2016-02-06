@@ -17,8 +17,8 @@ bool MatroskaMerge::CreateTracks()
 		return false;
 
 	DemuxProxy::Track audio = {}, video = {};
-	demux->GetTrack(0, &video);
-	demux->GetTrack(1, &audio);
+	demux->GetTrack(GetAudioIndex(), &audio);
+	demux->GetTrack(GetVideoIndex(), &video);
 	if (strcmp(video.CodecName, "h264") != 0)
 		return false;
 	if (strcmp(audio.CodecName, "aac") != 0 &&
@@ -112,8 +112,8 @@ bool MatroskaMerge::OnNewInput(MergeManager::IOCallback* old_io, MergeManager::I
 {
 	//验证新的分段跟上一分段的codec信息是否完全相同
 	DemuxProxy::Track audio = {}, video = {};
-	GetDemuxObject()->GetTrack(1, &audio);
-	GetDemuxObject()->GetTrack(0, &video);
+	GetDemuxObject()->GetTrack(GetAudioIndex(), &audio);
+	GetDemuxObject()->GetTrack(GetVideoIndex(), &video);
 	if (audio.CodecPrivateSize != _audio_extradata.Length())
 		return false;
 	if (video.CodecPrivateSize != _video_extradata.Length())

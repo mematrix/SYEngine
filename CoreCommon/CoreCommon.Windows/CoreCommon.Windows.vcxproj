@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{13D48622-327D-455F-AB40-CCD9B85D50E5}</ProjectGuid>
+    <ProjectGuid>{13d48622-327d-455f-ab40-ccd9b85d50e5}</ProjectGuid>
     <RootNamespace>CoreCommon</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>

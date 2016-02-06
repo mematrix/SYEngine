@@ -91,6 +91,27 @@ namespace SYEngineRuntime
             player.Source = await plist.SaveAndGetFileUriAsync();
         }
 
+        private async void btnRemuxPlay_Click(object sender, RoutedEventArgs e)
+        {
+            tbPlayStatus.Text = string.Empty;
+            player.IsLooping = (bool)cboxLoop.IsChecked;
+            SYEngine.Core.ForceSoftwareDecode = (bool)cboxSoftDecode.IsChecked;
+
+            var op = new FileOpenPicker();
+            op.ViewMode = PickerViewMode.List;
+            op.FileTypeFilter.Add(".flv");
+            op.FileTypeFilter.Add(".f4v");
+            op.FileTypeFilter.Add(".mkv");
+            op.FileTypeFilter.Add(".mp4");
+            var file = await op.PickSingleFileAsync();
+            if (file != null)
+            {
+                var plist = new SYEngine.Playlist(SYEngine.PlaylistTypes.LocalFile);
+                plist.Append(file.Path, 0, 0);
+                player.Source = await plist.SaveAndGetFileUriAsync();
+            }
+        }
+
         private void player_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
             tbPlayStatus.Text = player.CurrentState.ToString();

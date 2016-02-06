@@ -32,7 +32,7 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{927C14C4-15FF-4939-B03C-3176A684EE09}</ProjectGuid>
+    <ProjectGuid>{927c14c4-15ff-4939-b03c-3176a684ee09}</ProjectGuid>
     <RootNamespace>CoreDemuxers</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>

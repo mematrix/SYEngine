@@ -1,4 +1,4 @@
-# ShanYe MediaFoundation Engine (Windows)
+﻿# ShanYe MediaFoundation Engine (Windows)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) [![License](https://img.shields.io/badge/License-LGPLv3-blue.svg?style=flat)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
@@ -10,6 +10,7 @@
 ### 许可协议
  - Licensed under ***LGPLv3*** or later.
  - 在**LGPLv3**许可请求外的情况，请联系`shan-ye@outlook.com`，并说明目的。
+ - 在您的应用中使用的时候，请务必带上LGPL许可文件及本开源库的信息和GitHub地址。
  - 下面的库依据原本的协议：`ffcodecs` (ffmpeg)、`stagefright` (AOSP)
 
 ### 使用方式
@@ -18,6 +19,8 @@
  - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
+ - 2016-02-05：添加UWP支持。
+ - 2016-02-01：添加FFmpeg的视频、音频软件解码，仅支持部分codec。
  - 2016-01-07：添加 `SYEngine.MediaInformation` 运行时类，可以通过这个类在不播放的情况下获取到媒体容器的详细信息。
  - 2015-12-31：修复MultipartStreamMatroska的Seek相关bug，修复播放快结束时的MKV容器bug，优化网络Seek后的缓冲逻辑。
  - 2015-12-26：在MultipartStreamMatroska中添加事件触发器，C#的APP可以动态监听事件，并且在切换下一分段视频或者用户跳播的时候，动态更新切片的地址。

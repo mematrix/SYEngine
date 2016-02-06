@@ -22,7 +22,7 @@ class ADTSAudioDescription : public IAudioDescription
 {
 public:
 	ADTSAudioDescription(unsigned* ph) throw();
-	ADTSAudioDescription(unsigned* ph,bool asc) throw();
+	ADTSAudioDescription(unsigned* ph,bool asc,unsigned asc_size = 2) throw();
 
 public:
 	int GetType();
@@ -39,13 +39,14 @@ public:
 
 protected:
 	void FlushAudioDescription(unsigned char* ph);
-	void FlushAudioDescription2(unsigned char* ph);
+	void FlushAudioDescription2(unsigned char* ph,unsigned size);
 
 private:
 	AudioBasicDescription _basic_desc;
 	AAC_PROFILE_SPEC _profile;
 
-	unsigned char _asc[2];
+	unsigned char _asc[32];
+	unsigned _asc_size;
 };
 
 #endif //__AAC_AUDIO_DESCRIPTION_H

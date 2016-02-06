@@ -17,25 +17,23 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AVCParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\ByteParser.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\H264Nalu.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\H264SequenceParser.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)lav\HEVCSequenceParser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)more_codec_uuid.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TransformFilter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TransformServices.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AVCParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\ByteParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\H264Nalu.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\H264SequenceParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)lav\HEVCSequenceParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
   </ItemGroup>
 </Project>

@@ -33,9 +33,12 @@
     <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.Windows\CoreMFSource.Windows.vcxproj">
       <Project>{5f555a02-e82f-415e-8043-d7209194be92}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Windows\MultipartStreamMatroska.Windows.vcxproj">
+      <Project>{404150b6-9a3a-449e-a410-5d64ff3b85d3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{371B4E0D-44EC-4781-8350-55471E26C599}</ProjectGuid>
+    <ProjectGuid>{371b4e0d-44ec-4781-8350-55471e26c599}</ProjectGuid>
     <RootNamespace>SYEngine</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>

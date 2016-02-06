@@ -54,6 +54,7 @@ enum SupportPacketType
 struct AAC_AVC_SPEC_INFO
 {
 	unsigned char* aac_spec_info; //AudioSpecificConfig. (2bytes)
+	unsigned aac_info_size;
 	unsigned char* avc_spec_info; //SPS and PPS. (AnnexB)
 	unsigned avc_info_size;
 	unsigned avc_profile; //H264 Profile
@@ -156,7 +157,7 @@ private:
 	unsigned ScanAllFrameNALU(unsigned char* psrc,unsigned char* pdst,unsigned len);
 
 	bool ProcessAVCDecoderConfigurationRecord(unsigned char* pb);
-	bool ProcessAACAudioSpecificConfig(unsigned char* pb);
+	bool ProcessAACAudioSpecificConfig(unsigned char* pb,unsigned size);
 
 	double SearchDurationFromLastTimestamp();
 

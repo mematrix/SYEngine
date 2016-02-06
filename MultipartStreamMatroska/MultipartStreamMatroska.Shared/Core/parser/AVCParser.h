@@ -31,10 +31,10 @@ struct AVCParser
 	EntropyCodingTypes ec_type;
 	unsigned lengthSizeMinusOne;
 
-	void ParseSPS(unsigned char* access_unit, unsigned size) throw();
-	void ParsePPS(unsigned char* access_unit, unsigned size) throw();
+	void ParseSPS(const unsigned char* access_unit, unsigned size) throw();
+	void ParsePPS(const unsigned char* access_unit, unsigned size) throw();
 
-	void Parse(unsigned char* buf, unsigned size) throw();
+	void Parse(const unsigned char* buf, unsigned size) throw();
 };
 
 #endif //__AVC_PARSER_H

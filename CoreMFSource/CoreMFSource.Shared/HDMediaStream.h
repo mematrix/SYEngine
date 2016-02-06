@@ -123,6 +123,15 @@ public:
 #endif
 	}
 
+	inline BOOL SwitchOnceState() throw()
+	{
+		auto old = _once_flag;
+		_once_flag = FALSE;
+		return old;
+	}
+	inline void SetOnceState() throw()
+	{ _once_flag = TRUE; }
+
 	inline IMFMediaType* GetMediaType()
 	{
 		//non-AddRef.
@@ -169,7 +178,7 @@ private:
 
 #ifdef _USE_DECODE_FILTER
 	inline void ProcessSampleRequest()
-	{ if (_decoder == nullptr) DispatchSamples();
+	{ if (!_transform_filter) DispatchSamples();
 		else if (!_decode_processing && !_requests.IsEmpty()) RequestSampleAsync(); }
 #endif
 
@@ -208,6 +217,7 @@ private:
 	MediaSourceState _state;
 	MediaStreamType _type;
 	BOOL _discontinuity;
+	BOOL _once_flag;
 	
 	bool _h264;
 	bool _hevc;
@@ -234,7 +244,7 @@ private:
 
 	ComPtr<IMFMediaType> _CopyMediaType;
 
-	ComPtrList<IMFSample> _samples;
+	ComPtrList<IMFSample> _samples, _decoded_pending;
 	ComPtrList<IUnknown,true> _requests;
 
 	AutoComMem<unsigned char> _private_data;

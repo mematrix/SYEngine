@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{333789AB-5B93-41D2-9A7F-BDE689765377}</ProjectGuid>
+    <ProjectGuid>{B764C861-F87A-4084-A569-063986B05F0B}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SYEngineRuntime.Universal</RootNamespace>
@@ -114,16 +114,16 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SYEngine\SYEngine.Universal\SYEngine.Universal.vcxproj">
-      <Project>{5e3a7c18-4eaa-42e6-8575-dbb881b178c8}</Project>
-      <Name>SYEngine.Universal</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SYEngine\SYEngine.Universal\SYEngine.Universal.vcxproj">
+      <Project>{e5741a57-347a-40e3-8be7-8add0d3440a5}</Project>
+      <Name>SYEngine.Universal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

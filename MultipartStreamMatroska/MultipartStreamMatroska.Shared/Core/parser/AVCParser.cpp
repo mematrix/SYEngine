@@ -1,11 +1,38 @@
 #include "BitReader.h"
 #include "AVCParser.h"
+#include <malloc.h>
+#include <memory.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable:4146)
 #endif
 
 #define _SWAP16(x) ((((x) & 0xFF00U) >> 8) | (((x) & 0x00FFU) << 8))
+
+static int EBSP2RBSP(unsigned char* pb, unsigned len)
+{
+	unsigned aligned_size = len / 4 * 4 + 16;
+	auto p = (unsigned char*)malloc(aligned_size * 2);
+	auto buf = p + aligned_size;
+	memcpy(p + 2, pb, len);
+	*p = 0xFF;
+
+	unsigned char* src = p + 2;
+	unsigned char* dst = buf;
+	unsigned skip_count = 0;
+	for (unsigned i = 0; i < len; i++) {
+		if (src[i] == 0x03 && src[i - 1] == 0 && src[i - 2] == 0) {
+			skip_count++;
+			continue;
+		}
+		*dst = src[i];
+		dst++;
+	}
+	memcpy(pb, buf, len - skip_count);
+
+	free(p);
+	return (int)(len - skip_count);
+}
 
 static unsigned UE(android::ABitReader* br)
 {
@@ -35,14 +62,20 @@ static void skipScalingList(android::ABitReader* br, unsigned sizeOfScalingList)
 	}
 }
 
-void AVCParser::ParseSPS(unsigned char* access_unit, unsigned size) throw()
+void AVCParser::ParseSPS(const unsigned char* access_unit, unsigned size) throw()
 {
 	if (size < 4)
 		return;
-	if (*access_unit != 0x67)
+
+	unsigned char* sps = (unsigned char*)malloc(size);
+	memcpy(sps, access_unit, size);
+	EBSP2RBSP(sps, size);
+
+	android::ABitReader br(sps, size);
+	br.skipBits(3);
+	if (br.getBits(5) != 7)
 		return;
 
-	android::ABitReader br(access_unit + 1, size - 1);
 	profile = br.getBits(8);
 	br.skipBits(8);
 	profile_level = br.getBits(8);
@@ -168,16 +201,19 @@ void AVCParser::ParseSPS(unsigned char* access_unit, unsigned size) throw()
 			fps_timescale = time_scale;
 		}
 	}
+	free(sps);
 }
 
-void AVCParser::ParsePPS(unsigned char* access_unit, unsigned size) throw()
+void AVCParser::ParsePPS(const unsigned char* access_unit, unsigned size) throw()
 {
 	if (size < 2)
 		return;
-	if (*access_unit != 0x68)
+
+	android::ABitReader br(access_unit, size);
+	br.skipBits(3);
+	if (br.getBits(5) != 8)
 		return;
 
-	android::ABitReader br(access_unit + 1, size - 1);
 	UE(&br); //pic_parameter_set_id
 	UE(&br); //seq_parameter_set_id
 
@@ -190,7 +226,7 @@ void AVCParser::ParsePPS(unsigned char* access_unit, unsigned size) throw()
 		ec_type = EntropyCodingTypes::CodingModeCABAC;
 }
 
-void AVCParser::Parse(unsigned char* buf, unsigned size) throw()
+void AVCParser::Parse(const unsigned char* buf, unsigned size) throw()
 {
 	if (*buf != 1)
 		return;
@@ -200,7 +236,7 @@ void AVCParser::Parse(unsigned char* buf, unsigned size) throw()
 	sz = _SWAP16(sz);
 	ParseSPS(buf + 8, sz);
 
-	unsigned char* p = buf + 8 + sz;
+	const unsigned char* p = buf + 8 + sz;
 	if (*p == 1)
 	{
 		p++;

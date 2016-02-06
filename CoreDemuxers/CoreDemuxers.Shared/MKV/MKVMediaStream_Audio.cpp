@@ -91,12 +91,18 @@ static bool InitAACLCTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IAudioD
 		return false;
 
 	std::shared_ptr<IAudioDescription> aac = 
-		std::make_shared<ADTSAudioDescription>((unsigned*)info.Codec.CodecPrivate,true);
+		std::make_shared<ADTSAudioDescription>((unsigned*)info.Codec.CodecPrivate,true,info.Codec.CodecPrivateSize);
 
 	AudioBasicDescription basic = {};
 	aac->GetAudioDescription(&basic);
 	if (basic.nch == 0)
 		return false;
+
+	if (basic.srate == 0)
+	{
+		basic.srate = info.Audio.SampleRate;
+		aac->ExternalUpdateAudioDescription(&basic);
+	}
 
 	desc = aac;
 	return true;
@@ -111,6 +117,12 @@ static bool InitADTSTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IAudioDe
 	aac->GetAudioDescription(&basic);
 	if (basic.nch == 0)
 		return false;
+
+	if (basic.srate == 0)
+	{
+		basic.srate = info.Audio.SampleRate;
+		aac->ExternalUpdateAudioDescription(&basic);
+	}
 
 	desc = aac;
 	return true;

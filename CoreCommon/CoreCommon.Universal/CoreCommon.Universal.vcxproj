@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{98e42635-9d42-49d8-805d-ac1938891d7b}</ProjectGuid>
+    <ProjectGuid>{701d4f5f-a7dd-4d71-b43e-c3b448775eb1}</ProjectGuid>
     <Keyword>StaticLibrary</Keyword>
     <ProjectName>CoreCommon.Universal</ProjectName>
     <RootNamespace>CoreCommon</RootNamespace>
@@ -137,11 +137,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,11 +153,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,11 +170,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -179,11 +186,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -193,11 +203,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,11 +219,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

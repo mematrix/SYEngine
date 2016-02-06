@@ -2,6 +2,9 @@
 #ifdef _USE_DECODE_FILTER
 #include <d3d11.h>
 #endif
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+STDAPI MFCreateVideoSampleAllocator(REFIID,void**);
+#endif
 
 ComPtr<HDMediaStream> HDMediaStream::CreateMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDescriptor* pStreamDesc)
 {
@@ -40,6 +43,8 @@ HDMediaStream::HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDesc
 
 	_active = _eos = false;
 	_discontinuity = FALSE;
+	_once_flag = FALSE;
+
 	if (_transform_filter)
 		_dec_eos = false;
 	else
@@ -126,8 +131,8 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 		if (_reqSampleCount > 0)
 			_reqSampleTickTotal += offset;
 		_reqSampleCount++;
-		DbgLogPrintf(L"Stream %d RequestSample Time GAP: %d ms, avg %d ms",
-			_index,offset,_reqSampleTickTotal / _reqSampleCount);
+		DbgLogPrintf(L"Stream %d RequestSample Time GAP: %d ms, avg %d ms, reqCount %d",
+			_index,offset,_reqSampleTickTotal / _reqSampleCount,_reqSampleCount);
 	}
 #endif
 
@@ -157,7 +162,7 @@ HRESULT HDMediaStream::RequestSample(IUnknown *pToken)
 
 #ifdef _USE_DECODE_FILTER
 	//如果是要解码的情况下，直接转发调用
-	if (_decoder) {
+	if (_transform_filter) {
 		hr = RequestSampleWithDecode(pToken);
 		if (FAILED(hr))
 			goto done;
@@ -297,6 +302,8 @@ void HDMediaStream::Activate(bool fActive)
 	{
 		_samples.Clear();
 		_requests.Clear();
+
+		_decoded_pending.Clear();
 	}
 
 	_discontinuity = FALSE;
@@ -364,6 +371,8 @@ HRESULT HDMediaStream::Stop()
 	_samples.Clear();
 	_requests.Clear();
 
+	_decoded_pending.Clear();
+
 	hr = QueueEvent(MEStreamStopped,GUID_NULL,S_OK,nullptr);
 	if (FAILED(hr))
 		return hr;
@@ -406,6 +415,8 @@ HRESULT HDMediaStream::Shutdown()
 
 	_samples.Clear();
 	_requests.Clear();
+
+	_decoded_pending.Clear();
 
 	_pStreamDesc.Reset();
 	_pEventQueue.Reset();
@@ -665,9 +676,15 @@ bool HDMediaStream::ProcessDirectXManager()
 	if (FAILED(MFCreateAttributes(&attrs,3)))
 		return false;
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+	ComPtr<IMFVideoSampleAllocator> alloctor;
+	if (FAILED(MFCreateVideoSampleAllocator(IID_PPV_ARGS(&alloctor))))
+		return false;
+#else
 	ComPtr<IMFVideoSampleAllocatorEx> alloctor;
 	if (FAILED(MFCreateVideoSampleAllocatorEx(IID_PPV_ARGS(&alloctor))))
 		return false;
+#endif
 
 	attrs->SetUINT32(MF_SA_D3D11_USAGE,D3D11_USAGE_DEFAULT);
 	attrs->SetUINT32(MF_SA_D3D11_BINDFLAGS,D3D11_BIND_RENDER_TARGET|D3D11_BIND_SHADER_RESOURCE);
@@ -688,7 +705,11 @@ bool HDMediaStream::ProcessDirectXManager()
 			type == MFVideoFormat_RGB24 ||
 			type == MFVideoFormat_RGB32 ||
 			type == MFVideoFormat_ARGB32) {
-			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,32,attrs.Get(),GetMediaType()))) {
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+			if (SUCCEEDED(alloctor->InitializeSampleAllocator(16,GetMediaType()))) {
+#else
+			if (SUCCEEDED(alloctor->InitializeSampleAllocatorEx(1,16,attrs.Get(),GetMediaType()))) {
+#endif
 				ComPtr<ITransformFilter> pFilter;
 				if (GetTransformFilter(&pFilter)) {
 					ComPtr<ITransformWorker> pWorker;
@@ -739,6 +760,36 @@ void HDMediaStream::QueueTickEvent(LONG64 time)
 
 HRESULT HDMediaStream::RequestSampleWithDecode(IUnknown* pToken)
 {
+#ifdef _USE_DECODE_FILTER
+	if (_decoder == nullptr) {
+		//OnProcessDirectXManager not called.
+		ComPtr<ITransformFilter> pFilter;
+		if (GetTransformFilter(&pFilter))
+			pFilter->GetService(IID_PPV_ARGS(&_decoder));
+		if (_decoder == nullptr)
+			return E_ABORT;
+	}
+#endif
+
+	if (!_decoded_pending.IsEmpty()) {
+		ComPtr<IMFSample> pSample;
+		HRESULT hr = _decoded_pending.RemoveFront(&pSample);
+		HR_FAILED_RET(hr);
+		if (pToken)
+			pSample->SetUnknown(MFSampleExtension_Token,pToken);
+
+		hr = _pEventQueue->QueueEventParamUnk(MEMediaSample,GUID_NULL,S_OK,pSample.Get());
+		HR_FAILED_RET(hr);
+
+		if (_decoded_pending.IsEmpty()) {
+			_dec_eos = true;
+			hr = _pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+			if (SUCCEEDED(hr))
+				hr = _pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+		}
+		return hr;
+	}
+
 	HRESULT hr = _requests.InsertBack(pToken);
 	HR_FAILED_RET(hr);
 
@@ -775,23 +826,30 @@ HRESULT HDMediaStream::DoSampleDecodeRequests()
 
 		ComPtr<IMFSample> pDecodedSample;
 		hr = _decoder->ProcessSample(pSample.Get(),&pDecodedSample);
-		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT)
-			continue;
-
-		if (FAILED(hr) || pDecodedSample == nullptr) {
-			SourceAutoLock lock(_pMediaSource.Get());
-			if (_samples.IsEmpty() && _eos) {
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) {
+			if (_eos && pSample == nullptr) {
 				_dec_eos = true;
 				_requests.Clear();
 				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
 				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+			}else{
+				continue;
 			}
-			break;
 		}
 
-		ComPtr<IUnknown> pRequest;
 		{
 			SourceAutoLock lock(_pMediaSource.Get());
+			if (FAILED(hr) || pDecodedSample == nullptr) {
+				if (_samples.IsEmpty() && _eos) {
+					_dec_eos = true;
+					_requests.Clear();
+					_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+					_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+				}
+				break;
+			}
+
+			ComPtr<IUnknown> pRequest;
 			_requests.RemoveFront(&pRequest);
 
 			if (pDecodedSample && SUCCEEDED(CheckShutdown())) {
@@ -815,9 +873,19 @@ HRESULT HDMediaStream::DoSampleDecodeRequests()
 			if (NeedsData()) {
 				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_REQUEST_DATA);
 			}else if (_eos && _samples.IsEmpty() && _requests.IsEmpty()) {
-				_dec_eos = true;
-				_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
-				_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+				_decoded_pending.Clear();
+				for (int i = 0;i < 32;i++) {
+					ComPtr<IMFSample> pDecodedSample;
+					if (FAILED(_decoder->ProcessSample(NULL,&pDecodedSample)) ||
+						pDecodedSample == nullptr)
+						break;
+					_decoded_pending.InsertBack(pDecodedSample.Get());
+				}
+				if (_decoded_pending.IsEmpty()) {
+					_dec_eos = true;
+					_pEventQueue->QueueEventParamVar(MEEndOfStream,GUID_NULL,S_OK,nullptr);
+					_pMediaSource->QueueAsyncOperation(SourceOperation::OP_END_OF_STREAM);
+				}
 			}
 		}else{
 			if (hr != MF_E_TRANSFORM_NEED_MORE_INPUT)

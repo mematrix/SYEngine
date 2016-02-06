@@ -501,8 +501,10 @@ HRESULT HDMediaSource::DoStart(SourceOperation* op)
 				ComPtr<HDMediaStream> pStream;
 				_streamList.GetAt(i,pStream.GetAddressOf());
 
-				if (pStream->IsActive())
+				if (pStream->IsActive()) {
 					pStream->Start(op->GetData(),bSeek);
+					pStream->SetOnceState();
+				}
 			}
 		}
 	}

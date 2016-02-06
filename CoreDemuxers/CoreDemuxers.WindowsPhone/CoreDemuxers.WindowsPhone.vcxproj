@@ -24,7 +24,7 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{12C720A6-7590-4DA1-9666-0ADF59555E03}</ProjectGuid>
+    <ProjectGuid>{12c720a6-7590-4da1-9666-0adf59555e03}</ProjectGuid>
     <RootNamespace>CoreDemuxers</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
