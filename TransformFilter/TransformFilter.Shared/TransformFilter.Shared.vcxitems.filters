@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TransformFilter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TransformServices.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)more_codec_uuid.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AVCParser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeFilter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegDecodeServices.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegVideoDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AVCParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BitReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FFmpegAudioDecoder.cpp" />
+  </ItemGroup>
+</Project>
