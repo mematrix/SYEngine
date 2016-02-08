@@ -230,7 +230,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck />
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -251,7 +251,7 @@
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck />
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_MKV_PARSER_NOUSE_VORBIS;_MKV_PARSER_NOUSE_ZLIB;_DONT_USE_LIBDCA;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -217,7 +217,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -235,7 +235,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
       <RuntimeTypeInfo>false</RuntimeTypeInfo>

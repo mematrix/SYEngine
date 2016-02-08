@@ -213,8 +213,7 @@
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
+      <DisableSpecificWarnings>4267;4244;</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
