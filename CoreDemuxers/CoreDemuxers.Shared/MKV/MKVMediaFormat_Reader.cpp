@@ -126,7 +126,7 @@ unsigned ScanAllFrameNALU(unsigned char* psrc,unsigned char* pdst,unsigned len,u
         count++;
         if (count > 0)
             printf("AVC1 NALU:%d (%d Bytes), Total Size:%d, Offset:%d, Size:%d\n",
-				count,lengthSizeMinusOne,len,ps - psrc,len - size);
+				count,lengthSizeMinusOne,len,(int)(ps - psrc),len - size);
 #endif
 	}
 

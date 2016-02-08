@@ -157,8 +157,8 @@ internal:
 
 		int len = 0;
 		for (auto i = _headers.begin(); i != _headers.end(); ++i) {
-			len += i->first.length();
-			len += i->second.length();
+			len += (int)i->first.length();
+			len += (int)i->second.length();
 			len += 10;
 		}
 		auto result = (wchar_t*)calloc(2, len);
