@@ -3,6 +3,8 @@
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
 
+**[ > 下载 VSIX 包 | Download VSIX Package](https://coding.net/u/amamiya/p/SYEngine_VSIX/git)**
+
 ### 开发信息
  - 开发者：**ShanYe** [联合开发 @saki-saki、@3meng、@silverdragon727]
  - 完成度：100% [实现跟系统播放MP4(本地或网络)一样的性能、稳定性、效果、API兼容性。]
