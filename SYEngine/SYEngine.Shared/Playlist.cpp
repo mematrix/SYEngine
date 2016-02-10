@@ -124,7 +124,7 @@ char* Playlist::SerializeForNetworkHttp()
 {
 	int len = 0;
 	for (auto i = _list.begin(); i != _list.end(); ++i)
-		len += strlen(i->Url) + 1;
+		len += (int)strlen(i->Url) + 1;
 
 	auto p = (char*)calloc(2, len + 4096);
 	if (p == NULL)

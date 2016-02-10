@@ -234,7 +234,7 @@
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck />
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\AV\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Description\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Memory\;$(ProjectDir)\..\..\CoreCommon\CoreCommon.Shared\Utils\;$(ProjectDir)\..\..\TransformFilter\TransformFilter.Shared\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;_SYENGINE_DEMUX;_USE_DECODE_FILTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
