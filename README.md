@@ -1,7 +1,7 @@
 ﻿# ShanYe MediaFoundation Engine (Windows)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/re3tfbe4tfo70so9?svg=true)](https://ci.appveyor.com/project/amamiya/syengine) [![License](https://img.shields.io/badge/License-LGPLv3-blue.svg?style=flat)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 
-**[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**
+**[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**  **[(分段视频无缝播放指南)](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/Segment/Segment.md)**
 
 **[ > 下载 VSIX 包 | Download VSIX Package](https://coding.net/u/amamiya/p/SYEngine_VSIX/git)**
 
