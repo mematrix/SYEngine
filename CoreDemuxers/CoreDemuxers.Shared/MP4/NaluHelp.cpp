@@ -72,7 +72,7 @@ unsigned ScanAllFrameNALUToAnnexB(unsigned char* source,unsigned len)
 	{
 		unsigned nal_size = *(unsigned*)src;
 #ifndef _MSC_VER
-		nal_size = MKV_SWAP32(nal_size);
+		nal_size = ISOM_SWAP32(nal_size);
 #else
 		nal_size = _byteswap_ulong(nal_size);
 #endif

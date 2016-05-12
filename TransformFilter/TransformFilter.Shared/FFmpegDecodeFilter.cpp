@@ -24,7 +24,7 @@ static int AVCodecMTLockCallback(void** mutex, AVLockOp op)
 	return 0;
 }
 
-HRESULT FFmpegDecodeFilter::QueryInterface(REFIID iid,void** ppv)
+HRESULT FFmpegDecodeFilter::QueryInterface(REFIID iid, void** ppv)
 {
 	if (ppv == NULL)
 		return E_POINTER;

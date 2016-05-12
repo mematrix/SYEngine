@@ -33,6 +33,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusCalcEngine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusHelp.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\PcmCalcEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\VorbisCalcEngine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaCodecIds.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaDataSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbml.h" />
@@ -103,6 +104,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusCalcEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\OpusHelp.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\PcmCalcEngine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\VorbisCalcEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaCodecIds.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbml.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Internal\MatroskaEbmlCore.cpp" />

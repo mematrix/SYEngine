@@ -5,11 +5,12 @@
 #ifndef __SHARED_MEMORY_PTR_H
 #define __SHARED_MEMORY_PTR_H
 
+#include <cstdlib>
 #include <memory>
 
 #ifndef _MSC_VER
-#define _InterlockedIncrement(x) (x)
-#define _InterlockedDecrement(x) (x)
+#define _InterlockedIncrement(x) __sync_fetch_and_add(x,1)
+#define _InterlockedDecrement(x) __sync_sub_and_fetch(x,1)
 #endif
 
 template<class T>
@@ -58,7 +59,7 @@ public:
 		{
 			m_ptr = rhs.m_ptr;
 			m_size = rhs.m_size;
-			m_p_ref_count = src.m_p_ref_count;
+			m_p_ref_count = rhs.m_p_ref_count;
 
 			AddRefCount();
 		}
@@ -102,11 +103,11 @@ public:
 	}
 
 private: //Thread Safety.
-	int AddRefCount()
+	long AddRefCount()
 	{
 		return _InterlockedIncrement(m_p_ref_count);
 	}
-	int ReleaseRefCount()
+    long ReleaseRefCount()
 	{
 		return _InterlockedDecrement(m_p_ref_count);
 	}

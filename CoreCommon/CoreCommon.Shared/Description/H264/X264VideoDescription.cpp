@@ -11,7 +11,7 @@ X264VideoDescription::X264VideoDescription(unsigned char* pNaluArray,unsigned le
 
 	if (*(unsigned short*)pNaluArray == 0)
 	{
-		_parser = std::make_unique<H264AnnexBParser>();
+		_parser = std::make_shared<H264AnnexBParser>();
 		_init_ok = _parser->InitFromStartCode(pNaluArray,len);
 
 		if (_init_ok)
@@ -77,8 +77,8 @@ bool X264VideoDescription::GetVideoDescription(VideoBasicDescription* desc)
 
 bool X264VideoDescription::ParseSPS()
 {
-	auto sps = (H264_SPS*)malloc(sizeof H264_SPS);
-	memset(sps,0,sizeof H264_SPS);
+	auto sps = (H264_SPS*)malloc(sizeof(H264_SPS));
+	memset(sps,0,sizeof(H264_SPS));
 
 	if (_parser->GetCurrentNaluType() == H264_NALU_TYPE_SLICE_SPS)
 	{
@@ -96,7 +96,7 @@ bool X264VideoDescription::ParseSPS()
 
 		if (_parser->GetCurrentNaluType() == H264_NALU_TYPE_SLICE_SPS)
 		{
-			memset(sps,0,sizeof H264_SPS);
+			memset(sps,0,sizeof(H264_SPS));
 			H264ParseSPS(_parser->GetCurrentDataPointer(),_parser->GetCurrentDataSize(),sps);
 			InitFromSPS(sps);
 

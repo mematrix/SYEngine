@@ -21,7 +21,7 @@ static const EsdsIdPair kCodecMaps[] = {
 
 unsigned AVCDecoderConfigurationRecord2AnnexB(unsigned char* src,unsigned char** dst,unsigned* profile,unsigned* level,unsigned* nal_size,unsigned max_annexb_size);
 
-bool MP4MediaStream::ProbeAudio(std::shared_ptr<Aka4Splitter>& demux)
+bool MP4MediaStream::ProbeAudio(std::shared_ptr<Aka4Splitter>& demux) throw()
 {
 	_main_type = MEDIA_MAIN_TYPE_AUDIO;
 	if (_info->Codec.StoreType == Aka4Splitter::TrackInfo::CodecInfo::StoreType_SampleEntry)
@@ -96,7 +96,7 @@ bool MP4MediaStream::ProbeAudio(std::shared_ptr<Aka4Splitter>& demux)
 	return true;
 }
 
-bool MP4MediaStream::ProbeVideo(std::shared_ptr<Aka4Splitter>& demux,bool avc1)
+bool MP4MediaStream::ProbeVideo(std::shared_ptr<Aka4Splitter>& demux,bool avc1) throw()
 {
 	_main_type = MEDIA_MAIN_TYPE_VIDEO;
 	if (_info->Codec.StoreType == Aka4Splitter::TrackInfo::CodecInfo::StoreType_SampleEntry)
@@ -126,7 +126,7 @@ bool MP4MediaStream::ProbeVideo(std::shared_ptr<Aka4Splitter>& demux,bool avc1)
 	return true;
 }
 
-bool MP4MediaStream::ProbeText(std::shared_ptr<Aka4Splitter>& demux,bool non_tx3g)
+bool MP4MediaStream::ProbeText(std::shared_ptr<Aka4Splitter>& demux,bool non_tx3g) throw()
 {
 	if (!non_tx3g)
 		_movsub2text = true;

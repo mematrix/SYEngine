@@ -7,7 +7,7 @@
 
 #include "H264AnnexBParser.h"
 
-bool H264AnnexBParser::InitFromStartCode(unsigned char* pb,unsigned buf_len)
+bool H264AnnexBParser::InitFromStartCode(unsigned char* pb,unsigned buf_len) throw()
 {
 	if (pb == nullptr)
 		return false;

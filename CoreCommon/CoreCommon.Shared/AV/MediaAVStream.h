@@ -22,8 +22,8 @@ public:
 
 	virtual int GetStreamIndex() = 0;
 
-	virtual char* GetStreamName() { return nullptr; }
-	virtual char* GetLanguageName() { return "und"; }
+	virtual const char* GetStreamName() { return nullptr; }
+	virtual const char* GetLanguageName() { return "und"; }
 
 	virtual bool CopyAttachedData(void* copy_to) { return false; }
 	virtual unsigned GetAttachedDataSize() { return 0; }

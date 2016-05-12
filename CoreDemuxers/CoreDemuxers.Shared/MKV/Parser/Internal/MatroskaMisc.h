@@ -2,6 +2,7 @@
 #define _MATROSKA_MISC_H
 
 #ifndef _MSC_VER
+#include <limits.h>
 #define MKV_SWAP16(x) \
 	((((x) & 0xFF00U) >> 8) | (((x) & 0x00FFU) << 8))
 #define MKV_SWAP32(x) \

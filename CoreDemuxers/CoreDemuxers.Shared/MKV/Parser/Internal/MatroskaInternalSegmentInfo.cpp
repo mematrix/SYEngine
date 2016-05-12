@@ -3,7 +3,7 @@
 using namespace MKV;
 using namespace MKV::Internal::Object;
 
-bool SegmentInfo::ParseSegmentInfo(long long size)
+bool SegmentInfo::ParseSegmentInfo(long long size) throw()
 {
 	_info.TimecodeScale = 1000000; //default.
 

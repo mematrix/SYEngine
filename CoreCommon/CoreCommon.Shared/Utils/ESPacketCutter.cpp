@@ -1,6 +1,6 @@
 #include "ESPacketCutter.h"
 
-bool ESPacketCutter::Parse(unsigned char* buf,unsigned bufSize)
+bool ESPacketCutter::Parse(unsigned char* buf,unsigned bufSize) throw()
 {
 	if (buf == nullptr || bufSize < _syncWordSize)
 		return false;
@@ -34,7 +34,7 @@ bool ESPacketCutter::Parse(unsigned char* buf,unsigned bufSize)
 	return true;
 }
 
-bool ESPacketCutter::GetFrame(unsigned index,unsigned* offset,unsigned* size)
+bool ESPacketCutter::GetFrame(unsigned index,unsigned* offset,unsigned* size) throw()
 {
 	if (offset == nullptr || size == nullptr)
 		return false;

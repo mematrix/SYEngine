@@ -1,8 +1,8 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include "CommonAudioDescription.h"
 
-CommonAudioDescription::CommonAudioDescription(CommonAudioCore& core)
+CommonAudioDescription::CommonAudioDescription(CommonAudioCore& core) throw()
 {
 	memset(&_core,0,sizeof(_core));
 	CopyAudioCore(&core);

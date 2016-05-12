@@ -4,7 +4,7 @@ using namespace MKV;
 using namespace MKV::Internal;
 using namespace MKV::Internal::Object;
 
-MatroskaSegment::MatroskaSegment(DataSource::IDataSource* dataSource)
+MatroskaSegment::MatroskaSegment(DataSource::IDataSource* dataSource) throw()
 {
 	_dataSource = dataSource;
 	_core.Status = 0;
@@ -13,7 +13,7 @@ MatroskaSegment::MatroskaSegment(DataSource::IDataSource* dataSource)
 	_user_req_calc_cluster_pos = false;
 }
 
-unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_size)
+unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_size) throw()
 {
 	_start_pos = (unsigned)_dataSource->Tell();
 
@@ -37,7 +37,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.SeekHead.get() == nullptr)
 			{
 				_core.SeekHead = 
-					std::make_unique<Object::SeekHead>(head);
+					std::make_shared<Object::SeekHead>(head);
 				if (!_core.SeekHead->ParseSeekHead(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_SEEKHEAD);
 
@@ -50,7 +50,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.SegmentInfo.get() == nullptr)
 			{
 				_core.SegmentInfo = 
-					std::make_unique<Object::SegmentInfo>(head);
+					std::make_shared<Object::SegmentInfo>(head);
 				if (!_core.SegmentInfo->ParseSegmentInfo(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_INFO);
 
@@ -63,7 +63,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.Tracks.get() == nullptr)
 			{
 				_core.Tracks = 
-					std::make_unique<Object::Tracks>(head);
+					std::make_shared<Object::Tracks>(head);
 				if (!_core.Tracks->ParseTracks(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_TRACKS);
 
@@ -76,7 +76,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.Cues.get() == nullptr)
 			{
 				_core.Cues = 
-					std::make_unique<Object::Cues>(head);
+					std::make_shared<Object::Cues>(head);
 				if (!_core.Cues->ParseCues(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_CUES);
 
@@ -89,7 +89,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.Chapters.get() == nullptr)
 			{
 				_core.Chapters = 
-					std::make_unique<Object::Chapters>(head);
+					std::make_shared<Object::Chapters>(head);
 				if (!_core.Chapters->ParseChapters(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_CHAPTERS);
 
@@ -102,7 +102,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.Tags.get() == nullptr)
 			{
 				_core.Tags = 
-					std::make_unique<Object::Tags>(head);
+					std::make_shared<Object::Tags>(head);
 				if (!_core.Tags->ParseTags(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_TAGS);
 
@@ -115,7 +115,7 @@ unsigned MatroskaSegment::Parse(long long segmentSize,long long* first_cluster_s
 			if (_core.Attachments.get() == nullptr)
 			{
 				_core.Attachments = 
-					std::make_unique<Object::Attachments>(head);
+					std::make_shared<Object::Attachments>(head);
 				if (!_core.Attachments->ParseAttachments(head.Size()))
 					BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_FILES);
 
@@ -178,7 +178,7 @@ unsigned MatroskaSegment::ExecuteSeekHead() throw()
 				if (_core.Cues.get() == nullptr)
 				{
 					_core.Cues = 
-						std::make_unique<Object::Cues>(head);
+						std::make_shared<Object::Cues>(head);
 					if (!_core.Cues->ParseCues(head.Size()))
 						BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_CUES);
 					
@@ -191,7 +191,7 @@ unsigned MatroskaSegment::ExecuteSeekHead() throw()
 				if (_core.Chapters.get() == nullptr)
 				{
 					_core.Chapters = 
-						std::make_unique<Object::Chapters>(head);
+						std::make_shared<Object::Chapters>(head);
 					if (!_core.Chapters->ParseChapters(head.Size()))
 						BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_CHAPTERS);
 					
@@ -204,7 +204,7 @@ unsigned MatroskaSegment::ExecuteSeekHead() throw()
 				if (_core.Tags.get() == nullptr)
 				{
 					_core.Tags = 
-						std::make_unique<Object::Tags>(head);
+						std::make_shared<Object::Tags>(head);
 					if (!_core.Tags->ParseTags(head.Size()))
 						BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_TAGS);
 					
@@ -217,7 +217,7 @@ unsigned MatroskaSegment::ExecuteSeekHead() throw()
 				if (_core.Attachments.get() == nullptr)
 				{
 					_core.Attachments = 
-						std::make_unique<Object::Attachments>(head);
+						std::make_shared<Object::Attachments>(head);
 					if (!_core.Attachments->ParseAttachments(head.Size()))
 						BREAK_AND_SET_RESULT(result,MKV_ERR_PARSE_FILES);
 					
@@ -255,7 +255,7 @@ bool MatroskaSegment::IsParsed(unsigned id) throw()
 	return true;
 }
 
-bool MatroskaSegment::ProcessFirstClusterAndGetInfo()
+bool MatroskaSegment::ProcessFirstClusterAndGetInfo() throw()
 {
 	_cluster_is_fixed_size = 0;
 
@@ -293,7 +293,7 @@ bool MatroskaSegment::ProcessFirstClusterAndGetInfo()
 	return true;
 }
 
-unsigned MatroskaSegment::NextCluster(long long clusterSize)
+unsigned MatroskaSegment::NextCluster(long long clusterSize) throw()
 {
 	if (clusterSize == 0)
 		return MKV_ERR_INVALID_SIZE;
@@ -305,7 +305,7 @@ unsigned MatroskaSegment::NextCluster(long long clusterSize)
 	return MKV_ERR_OK;
 }
 
-unsigned MatroskaSegment::NextClusterWithStart()
+unsigned MatroskaSegment::NextClusterWithStart() throw()
 {
 	EBML::EbmlHead head;
 	if (!EBML::FastParseEbmlHeadIfSize(head,_dataSource))

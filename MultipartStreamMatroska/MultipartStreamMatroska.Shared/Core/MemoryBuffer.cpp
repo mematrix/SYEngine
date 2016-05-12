@@ -1,6 +1,6 @@
 #include "MemoryBuffer.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 
 #define MEMORY_ALLOC_ALIGN(x) ((((x) >> 2) << 2) + 8)

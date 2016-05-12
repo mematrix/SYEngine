@@ -1,9 +1,13 @@
 #include "MatroskaInternalTags.h"
 
+#ifndef _MSC_VER
+#define strcmpi strcasecmp
+#endif
+
 using namespace MKV;
 using namespace MKV::Internal::Object;
 
-bool Tags::ParseTags(long long size)
+bool Tags::ParseTags(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -33,7 +37,7 @@ bool Tags::ParseTags(long long size)
 	return true;
 }
 
-bool Tags::ParseTag(long long size)
+bool Tags::ParseTag(long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -68,7 +72,7 @@ bool Tags::ParseTag(long long size)
 	return true;
 }
 
-bool Tags::ParseSimpleTag(SimpleTag& tag,long long size)
+bool Tags::ParseSimpleTag(SimpleTag& tag,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)

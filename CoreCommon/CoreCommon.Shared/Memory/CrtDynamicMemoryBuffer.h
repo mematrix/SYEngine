@@ -1,7 +1,7 @@
 #ifndef __CRT_DYNAMINC_MEMORY_BUFFER_H
 #define __CRT_DYNAMINC_MEMORY_BUFFER_H
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include "DynamicMemoryBuffer.h"
 

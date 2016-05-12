@@ -4,6 +4,7 @@
 #include "DurationCalcInterface.h"
 #include "vorbis/codec.h"
 
+#ifndef _MKV_PARSER_NOUSE_VORBIS
 class VorbisDurationCalcParser : public IDurationCalc
 {
 	vorbis_info _vi;
@@ -25,6 +26,7 @@ public:
 		delete this;
 	}
 };
+#endif
 
 inline IDurationCalc* CreateVorbisDurationCalcEngine() throw()
 {

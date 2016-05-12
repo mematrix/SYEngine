@@ -3,7 +3,7 @@
 using namespace MKV;
 using namespace MKV::Internal::Object;
 
-bool Attachments::ParseAttachments(long long size)
+bool Attachments::ParseAttachments(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -43,7 +43,7 @@ bool Attachments::ParseAttachments(long long size)
 	return true;
 }
 
-bool Attachments::ParseAttachedFile(AttachedFile& file,long long size)
+bool Attachments::ParseAttachedFile(AttachedFile& file,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)

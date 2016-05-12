@@ -1,6 +1,6 @@
 #include "MemoryStream.h"
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 
 unsigned MemoryStream::Read(void* buf, unsigned size, bool non_move_offset)

@@ -501,7 +501,7 @@ static MediaCodecType InitMSVFWTrack(MKVParser::MKVTrackInfo& info,std::shared_p
 	return result;
 }
 
-bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parser,bool force_avc1)
+bool MKVMediaStream::ProbeVideo(std::shared_ptr<MKVParser::MKVFileParser>& parser,bool force_avc1) throw()
 {
 	_main_type = MediaMainType::MEDIA_MAIN_TYPE_VIDEO;
 	_fps = _info.Video.FrameRate;

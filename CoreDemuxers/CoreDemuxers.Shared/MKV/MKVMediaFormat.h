@@ -6,7 +6,7 @@
 #define __MKV_MEDIA_FORMAT_H
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory>
 
 #include <IOReader/IOPoolReader.h>
@@ -53,9 +53,9 @@ public: //IAVMediaFormat
 
 	unsigned GetFormatFlags()
 	{ return MEDIA_FORMAT_CAN_SEEK_ALL|MEDIA_FORMAT_CAN_FLUSH; }
-	char* GetFormatName()
+	const char* GetFormatName()
 	{ return MEDIA_FORMAT_MKV_NAME; }
-	char* GetMimeType()
+	const char* GetMimeType()
 	{ return MEDIA_FORMAT_MKV_MIME; }
 
 	void SetReadFlags(unsigned flags);

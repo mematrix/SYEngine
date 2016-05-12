@@ -1,6 +1,6 @@
 #include "FLACAudioDescription.h"
 
-FLACAudioDescription::FLACAudioDescription(unsigned char* ph,unsigned size)
+FLACAudioDescription::FLACAudioDescription(unsigned char* ph,unsigned size) throw()
 {
 	memset(&_basic_desc,0,sizeof(_basic_desc));
 	memset(&_profile,0,sizeof(_profile));

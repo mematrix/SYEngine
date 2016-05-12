@@ -6,7 +6,7 @@
 #define __FLV_MEDIA_FORMAT_H
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <memory>
 
@@ -54,8 +54,8 @@ public: //IAVMediaFormat
 	IAVMediaStream* GetStream(int index);
 
 	unsigned GetFormatFlags();
-	char* GetFormatName();
-	char* GetMimeType();
+	const char* GetFormatName();
+	const char* GetMimeType();
 
 	AV_MEDIA_ERR Flush();
 	AV_MEDIA_ERR Reset();
@@ -92,7 +92,7 @@ private:
 private:
 	bool _opened;
 	IAVMediaIO* _av_io;
-	std::unique_ptr<IOPoolReader> _io_pool;
+	std::shared_ptr<IOPoolReader> _io_pool;
 	unsigned _force_io_pool_size;
 
 	std::shared_ptr<FLVParser::FLVStreamParser> _parser;

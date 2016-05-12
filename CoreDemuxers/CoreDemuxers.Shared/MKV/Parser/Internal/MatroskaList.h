@@ -1,6 +1,9 @@
 #ifndef _MATROSKA_LIST_H
 #define _MATROSKA_LIST_H
 
+#include <stdlib.h>
+#include <memory.h>
+
 template<class T,unsigned Count = 2>
 struct MatroskaList
 {

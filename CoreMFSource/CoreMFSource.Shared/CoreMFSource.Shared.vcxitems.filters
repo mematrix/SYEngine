@@ -12,9 +12,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\DemuxerFactory.cpp">
       <Filter>Demuxer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\PathHelp.cpp">
-      <Filter>Demuxer</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DbgLogOutput.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GlobalSettings.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HDCoreByteStreamHandler.cpp" />
@@ -49,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Common\MFMiscHelp2.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Demuxer\PathHelp.cpp">
+      <Filter>Demuxer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

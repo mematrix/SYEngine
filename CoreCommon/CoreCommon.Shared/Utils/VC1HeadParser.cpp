@@ -1,4 +1,4 @@
-#include "stagefright/ABitReader.h"
+#include <stagefright/ABitReader.h>
 #include "VC1HeadParser.h"
 
 static const struct {int num,den;} kVC1AspectRatios[] = {

@@ -52,7 +52,7 @@ private:
 	void InternalCopyExtradata(H264AnnexBParser& parser);
 
 private:
-	std::unique_ptr<H264AnnexBParser> _parser;
+	std::shared_ptr<H264AnnexBParser> _parser;
 	bool _init_ok;
 
 	std::unique_ptr<unsigned char> _extradata;

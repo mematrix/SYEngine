@@ -38,8 +38,8 @@ public:
 	MediaSubtitleStreamInfo* GetSubtitleInfo() { return &_subtitle_info; }
 
 	int GetStreamIndex() { return _stream_index; }
-	char* GetStreamName();
-	char* GetLanguageName();
+	const char* GetStreamName();
+	const char* GetLanguageName();
 
 	float GetContainerFps() { return _fps; }
 

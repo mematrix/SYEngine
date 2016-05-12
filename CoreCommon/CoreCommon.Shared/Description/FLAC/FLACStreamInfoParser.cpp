@@ -1,4 +1,4 @@
-#include "stagefright/ABitReader.h"
+#include <stagefright/ABitReader.h>
 #include "FLACStreamInfoParser.h"
 
 int FindFlacStreamInfoOffset(unsigned char* p,unsigned len)

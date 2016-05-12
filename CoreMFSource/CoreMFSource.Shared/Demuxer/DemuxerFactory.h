@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <MediaAVFormat.h>
 
 typedef bool (*AVSniffFileStreamCallback)(IAVMediaIO*);
