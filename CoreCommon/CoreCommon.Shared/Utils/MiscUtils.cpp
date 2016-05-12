@@ -1,5 +1,30 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <memory.h>
+
+char* msvc_strlwr(char* s)
+{
+    auto str = s;
+    while (1) {
+        if (*str == '\0')
+            break;
+        *str = tolower(*str);
+        str++;
+    }
+    return s;
+}
+
+char* msvc_strupr(char* s)
+{
+    auto str = s;
+    while (1) {
+        if (*str == '\0')
+            break;
+        *str = toupper(*str);
+        str++;
+    }
+    return s;
+}
 
 unsigned short MakeAACAudioSpecificConfig(unsigned audioObjectType,unsigned samplingFrequency,unsigned channelConfiguration)
 {

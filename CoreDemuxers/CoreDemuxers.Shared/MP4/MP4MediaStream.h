@@ -35,9 +35,9 @@ public:
 	MediaSubtitleStreamInfo* GetSubtitleInfo() { return &_subtitle_info; }
 
 	int GetStreamIndex() { return _stream_index; }
-	char* GetStreamName()
+	const char* GetStreamName()
 	{ return _info->Name ? _info->Name:nullptr; }
-	char* GetLanguageName() { return _info->LangId; }
+	const char* GetLanguageName() { return _info->LangId; }
 
 	double GetDuration()
 	{ return _info->InternalTimeScale > 0 ? (double)_info->InternalTrack->TotalDuration / _info->InternalTimeScale:0; }

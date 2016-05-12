@@ -2,7 +2,7 @@
 #define __DOWNLOAD_TASK_MANAGER_BASE_H
 
 #include "DownloadTask.h"
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <string.h>
 

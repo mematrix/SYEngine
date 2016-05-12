@@ -272,10 +272,9 @@ bool FLVStreamParser::ProcessAACAudioSpecificConfig(unsigned char* pb,unsigned s
 	return true;
 }
 
+bool ReadFlvStreamTag(FLVParser::IFLVParserIO* pIo, unsigned& tag_type, unsigned& data_size, unsigned& timestamp);
 double FLVStreamParser::SearchDurationFromLastTimestamp()
 {
-	bool ReadFlvStreamTag(FLVParser::IFLVParserIO* pIo,unsigned& tag_type,unsigned& data_size,unsigned& timestamp);
-
 	auto size = _flv_io->GetSize();
 	if (size < 8)
 		return 0.0;

@@ -4,7 +4,7 @@ using namespace MKV;
 using namespace MKV::Internal::Object;
 using namespace MKV::Internal::Object::Context;
 
-bool Chapters::ParseChapters(long long size)
+bool Chapters::ParseChapters(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -38,7 +38,7 @@ bool Chapters::ParseChapters(long long size)
 	return true;
 }
 
-bool Chapters::ParseEditionEntry(long long size)
+bool Chapters::ParseEditionEntry(long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -76,7 +76,7 @@ static const unsigned ChapterAtomUIntIdList[] = {
 	MKV_ID_L4_CHAPTERS_CHAPTERFLAGHIDDEN,
 	MKV_ID_L4_CHAPTERS_CHAPTERFLAGENABLED};
 
-bool Chapters::ParseChapterAtom(Context::ChapterAtom& atom,long long size)
+bool Chapters::ParseChapterAtom(Context::ChapterAtom& atom,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -126,7 +126,7 @@ bool Chapters::ParseChapterAtom(Context::ChapterAtom& atom,long long size)
 	return true;
 }
 
-bool Chapters::ParseChapterDisplay(Context::ChapterDisplay& display,long long size)
+bool Chapters::ParseChapterDisplay(Context::ChapterDisplay& display,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)

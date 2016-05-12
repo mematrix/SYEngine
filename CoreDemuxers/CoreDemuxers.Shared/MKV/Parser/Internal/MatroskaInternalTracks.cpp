@@ -4,7 +4,7 @@ using namespace MKV;
 using namespace MKV::Internal::Object;
 using namespace MKV::Internal::Object::Context;
 
-bool Tracks::ParseTracks(long long size)
+bool Tracks::ParseTracks(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -73,7 +73,7 @@ static const unsigned TrackVideoUIntIdList[] = {MKV_ID_L4_TRACK_VIDEO_FRAMERATE,
 	MKV_ID_L4_TRACK_VIDEO_ALPHAMODE,
 	MKV_ID_L4_TRACK_VIDEO_ASPECTRATIO};
 
-bool Tracks::ParseTrackEntry(Context::TrackEntry& entry,long long size)
+bool Tracks::ParseTrackEntry(Context::TrackEntry& entry,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -189,7 +189,7 @@ bool Tracks::ParseTrackEntry(Context::TrackEntry& entry,long long size)
 	return true;
 }
 
-bool Tracks::ParseAudioTrack(Context::AudioTrack& audio,long long size)
+bool Tracks::ParseAudioTrack(Context::AudioTrack& audio,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -238,7 +238,7 @@ bool Tracks::ParseAudioTrack(Context::AudioTrack& audio,long long size)
 	return true;
 }
 
-bool Tracks::ParseVideoTrack(Context::VideoTrack& video,long long size)
+bool Tracks::ParseVideoTrack(Context::VideoTrack& video,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -322,7 +322,7 @@ bool Tracks::ParseVideoTrack(Context::VideoTrack& video,long long size)
 	return true;
 }
 
-bool Tracks::ParseEncodings(Context::TrackEntry& entry,long long size)
+bool Tracks::ParseEncodings(Context::TrackEntry& entry,long long size) throw()
 {
 	int count_of_cncodings = 0;
 
@@ -356,7 +356,7 @@ bool Tracks::ParseEncodings(Context::TrackEntry& entry,long long size)
 	return true;
 }
 
-bool Tracks::ParseEncoding(Context::TrackEncoding& enc,long long size)
+bool Tracks::ParseEncoding(Context::TrackEncoding& enc,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -404,7 +404,7 @@ bool Tracks::ParseEncoding(Context::TrackEncoding& enc,long long size)
 	return true;
 }
 
-bool Tracks::ParseCompression(Context::TrackCompression& comp,long long size)
+bool Tracks::ParseCompression(Context::TrackCompression& comp,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)

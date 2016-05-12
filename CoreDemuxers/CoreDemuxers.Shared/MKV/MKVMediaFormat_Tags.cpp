@@ -1,5 +1,9 @@
 #include "MKVMediaFormat.h"
 
+#ifndef _MSC_VER
+#define strcmpi strcasecmp
+#endif
+
 unsigned MKVMediaFormat::GetValue(const char* name,void* copyTo)
 {
 	unsigned result = 0;

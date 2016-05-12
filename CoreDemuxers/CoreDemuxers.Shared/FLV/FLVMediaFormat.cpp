@@ -59,7 +59,7 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 			io_buf_size = _128KB * 6;
 	}
 
-	_io_pool = std::make_unique<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
+	_io_pool = std::make_shared<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
 	_av_io = _io_pool.get();
 
 	if (!io->IsAliveStream()) {
@@ -161,12 +161,12 @@ unsigned FLVMediaFormat::GetFormatFlags()
 	return MEDIA_FORMAT_CAN_SEEK_ALL|MEDIA_FORMAT_CAN_FLUSH;
 }
 
-char* FLVMediaFormat::GetFormatName()
+const char* FLVMediaFormat::GetFormatName()
 {
 	return MEDIA_FORMAT_FLV_NAME;
 }
 
-char* FLVMediaFormat::GetMimeType()
+const char* FLVMediaFormat::GetMimeType()
 {
 	return MEDIA_FORMAT_FLV_MIME;
 }

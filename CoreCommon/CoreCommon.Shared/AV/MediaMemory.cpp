@@ -1,6 +1,6 @@
 #include "MediaMemory.h"
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #define ALLOC_ALIGNED(x) ((((x) >> 2) << 2) + 8) //4bytes.
 

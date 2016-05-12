@@ -4,7 +4,7 @@
 
 using namespace AVUtils;
 
-bool Buffer::Alloc(unsigned init_size,bool zero_mem)
+bool Buffer::Alloc(unsigned init_size,bool zero_mem) throw()
 {
 	_core.TrueSize = init_size;
 	if (init_size > _core.InternalSize)
@@ -21,7 +21,7 @@ bool Buffer::Alloc(unsigned init_size,bool zero_mem)
 	return _core.Pointer != nullptr;
 }
 
-bool Buffer::Realloc(unsigned new_size)
+bool Buffer::Realloc(unsigned new_size) throw()
 {
 	if (new_size < _core.InternalSize)
 		return Alloc(new_size,true);
@@ -34,7 +34,7 @@ bool Buffer::Realloc(unsigned new_size)
 	return _core.Pointer != nullptr;
 }
 
-void Buffer::Free()
+void Buffer::Free() throw()
 {
 	if (_core.Pointer)
 		free(_core.Pointer);

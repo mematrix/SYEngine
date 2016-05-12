@@ -17,7 +17,7 @@ class AutoStrConv final
 public:
 	AutoStrConv() throw() : _pb(nullptr), _cp(CP_ACP) {}
 
-	explicit AutoStrConv(const PCHAR pAnsiStr,UINT cp = CP_ACP) throw() : _pb(nullptr), _cp(cp)
+	explicit AutoStrConv(const char* pAnsiStr,unsigned cp = CP_ACP) throw() : _pb(nullptr), _cp(cp)
 	{
 		if (pAnsiStr == nullptr)
 			return;
@@ -30,7 +30,7 @@ public:
 		}
 	}
 
-	explicit AutoStrConv(const PWCHAR pUniStr,UINT cp = CP_ACP) throw() : _pb(nullptr), _cp(cp)
+	explicit AutoStrConv(const wchar_t* pUniStr,unsigned cp = CP_ACP) throw() : _pb(nullptr), _cp(cp)
 	{
 		if (pUniStr == nullptr)
 			return;
@@ -50,7 +50,7 @@ public:
 	}
 
 public:
-	const PWCHAR operator()(const PCHAR pAnsiStr,UINT cp = CP_ACP) throw()
+	const wchar_t* operator()(const char* pAnsiStr,unsigned cp = CP_ACP) throw()
 	{
 		if (_pb)
 			_aligned_free(_pb);
@@ -69,7 +69,7 @@ public:
 		return GetResultW();
 	}
 
-	const PCHAR operator()(const PWCHAR pUniStr,UINT cp = CP_ACP) throw()
+	const char* operator()(const wchar_t* pUniStr,unsigned cp = CP_ACP) throw()
 	{
 		if (_pb)
 			_aligned_free(_pb);
@@ -89,14 +89,14 @@ public:
 	}
 
 public:
-	const PCHAR GetResultA() const throw()
+	const char* GetResultA() const throw()
 	{
-		return (const PCHAR)_pb;
+		return (const char*)_pb;
 	}
 
-	const PWCHAR GetResultW() const throw()
+	const wchar_t* GetResultW() const throw()
 	{
-		return (const PWCHAR)_pb;
+		return (const wchar_t*)_pb;
 	}
 };
 

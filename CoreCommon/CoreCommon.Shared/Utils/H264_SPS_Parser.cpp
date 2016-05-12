@@ -9,7 +9,7 @@
 #include "H264_SPS_Parser.h"
 #include "HEVCAnnexBParser.h" //HEVC_EBSP2RBSP
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 unsigned H264ParseSPS(unsigned char* ebsp,unsigned sps_len,H264_SPS* sps)
 {

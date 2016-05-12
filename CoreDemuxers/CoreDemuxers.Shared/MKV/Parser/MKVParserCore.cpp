@@ -4,7 +4,7 @@
 
 using namespace MKVParser;
 
-bool MKVFileParser::ParseNext()
+bool MKVFileParser::ParseNext() throw()
 {
 	if (_frame.nextClusterSize == 0)
 		return false;
@@ -41,7 +41,7 @@ bool MKVFileParser::ParseNext()
 	}
 }
 
-void MKVFileParser::BlockInfo::Next(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv)
+void MKVFileParser::BlockInfo::Next(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv) throw()
 {
 	if (IsFull()) //判断是不是Block里面的Frame已经处理完成
 	{
@@ -65,7 +65,7 @@ void MKVFileParser::BlockInfo::Next(std::shared_ptr<MKV::Internal::MatroskaSegme
 	}
 }
 
-unsigned MKVFileParser::ReadPacket(MKVPacket* packet,bool fast)
+unsigned MKVFileParser::ReadPacket(MKVPacket* packet,bool fast) throw()
 {
 	if (packet == nullptr)
 		return PARSER_MKV_ERR_MEMORY;
@@ -85,14 +85,15 @@ unsigned MKVFileParser::ReadPacket(MKVPacket* packet,bool fast)
 	packet->Number = ConvertTrackNumber(fi.TrackNumber);
 	packet->KeyFrame = fi.KeyFrame;
 
-	if (fi.Size == 0) {
-		packet->SkipThis = true;
-		goto done;
-	}
-
 	auto info = FindTrackInfo(fi.TrackNumber);
 	bool wavpackTrack = false;
 	unsigned pktWriteOffset = 0;
+
+    if (fi.Size == 0) {
+        packet->SkipThis = true;
+        goto done;
+    }
+
 	if (info)
 	{
 		//如果是WV的数据，要特殊处理
@@ -248,7 +249,7 @@ done:
 	return PARSER_MKV_OK;
 }
 
-unsigned MKVFileParser::Seek(double seconds,bool fuzzy,unsigned base_on_track_number)
+unsigned MKVFileParser::Seek(double seconds,bool fuzzy,unsigned base_on_track_number) throw()
 {
 	/*
 	 * 没有KeyFrame索引的情况：
@@ -329,7 +330,7 @@ unsigned MKVFileParser::Seek(double seconds,bool fuzzy,unsigned base_on_track_nu
 	return PARSER_MKV_OK;
 }
 
-unsigned MKVFileParser::Reset()
+unsigned MKVFileParser::Reset() throw()
 {
 	if (!_io->Seek(_resetPointer))
 		return PARSER_MKV_ERR_IO;
@@ -341,7 +342,7 @@ unsigned MKVFileParser::Reset()
 	return PARSER_MKV_OK;
 }
 
-MKVTrackInfo* MKVFileParser::FindTrackInfo(unsigned TrackNumber)
+MKVTrackInfo* MKVFileParser::FindTrackInfo(unsigned TrackNumber) throw()
 {
 	unsigned count = _tracks.GetCount();
 	for (unsigned i = 0;i < count;i++)
@@ -353,7 +354,7 @@ MKVTrackInfo* MKVFileParser::FindTrackInfo(unsigned TrackNumber)
 	return nullptr;
 }
 
-unsigned MKVFileParser::OnExternalSeek()
+unsigned MKVFileParser::OnExternalSeek() throw()
 {
 	MKV::EBML::EbmlHead head;
 	if (!MKV::EBML::FastParseEbmlHeadIfSize(head,this))
@@ -364,7 +365,7 @@ unsigned MKVFileParser::OnExternalSeek()
 	return MKV_ERR_OK;
 }
 
-unsigned MKVFileParser::ReadSinglePacket(MKVPacket* packet,unsigned number,bool key_frame,bool auto_reset)
+unsigned MKVFileParser::ReadSinglePacket(MKVPacket* packet,unsigned number,bool key_frame,bool auto_reset) throw()
 {
 	auto oldPos = _io->Tell();
 	if (oldPos == 0)
@@ -412,7 +413,7 @@ unsigned MKVFileParser::ReadSinglePacket(MKVPacket* packet,unsigned number,bool 
 	return i > 90 ? PARSER_MKV_ERR_READ_FRAME_INVALID:PARSER_MKV_OK;
 }
 
-void MKVFileParser::MakeKeyFramesIndex()
+void MKVFileParser::MakeKeyFramesIndex() throw()
 {
 	Reset();
 	while (1)

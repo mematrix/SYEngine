@@ -3,7 +3,7 @@
 
 #include "DownloadCore.h"
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 namespace Downloader {
 namespace Core {

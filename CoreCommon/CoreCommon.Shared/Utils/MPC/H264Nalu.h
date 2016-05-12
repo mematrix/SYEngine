@@ -19,6 +19,7 @@
  */
 
 #pragma once
+#include <cstddef>
 
 enum NALU_TYPE {
 	NALU_TYPE_UNKNOWN  = -1,
@@ -86,6 +87,6 @@ class CH265Nalu : public CH264Nalu
 {
 public:
 	CH265Nalu() : CH264Nalu() {};
-	bool ReadNext();
+	bool ReadNext265();
 };
 

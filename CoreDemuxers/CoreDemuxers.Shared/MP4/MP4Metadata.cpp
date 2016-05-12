@@ -1,5 +1,9 @@
 #include "MP4MediaFormat.h"
 
+#ifndef _MSC_VER
+#define strcmpi strcasecmp
+#endif
+
 unsigned MP4MediaFormat::GetValue(const char* name,void* copyTo)
 {
 	unsigned result = 0;

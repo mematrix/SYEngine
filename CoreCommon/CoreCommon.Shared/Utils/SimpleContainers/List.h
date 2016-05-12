@@ -17,7 +17,7 @@ protected:
 	unsigned _tsize; //模板T结构的大小
 
 public:
-	explicit List(unsigned InitCount) throw() { InitList(InitCount); }
+	explicit List(unsigned userInitCount) throw() { InitList(userInitCount); }
 	List() throw() { InitList(InitCount); }
 	virtual ~List() throw() { FreeList(); }
 

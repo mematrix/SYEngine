@@ -1,7 +1,7 @@
 ﻿#ifndef __AKA_MATROSKA_PREHEAD_H
 #define __AKA_MATROSKA_PREHEAD_H
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <string.h>
 #include <math.h>

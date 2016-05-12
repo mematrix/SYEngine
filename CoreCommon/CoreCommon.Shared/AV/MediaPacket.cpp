@@ -8,7 +8,7 @@ unsigned AllocMediaPacket(AVMediaPacket* packet,unsigned size)
 		size == 0)
 		return 0;
 
-	memset(packet,0,sizeof AVMediaPacket);
+	memset(packet,0,sizeof(AVMediaPacket));
 	
 	if (!InitMediaBuffer(&packet->data,size))
 		return 0;
@@ -119,6 +119,6 @@ void FreeMediaPacket(AVMediaPacket* packet)
 			FreeMediaBuffer(&packet->side_data);
 	}
 
-	memset(packet,0,sizeof AVMediaPacket);
+	memset(packet,0,sizeof(AVMediaPacket));
 	packet->stream_index = -1;
 }

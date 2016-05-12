@@ -1,4 +1,4 @@
-#include "stagefright\ABitReader.h"
+#include <stagefright/ABitReader.h>
 #include "HVC1mkvToAnnexB.h"
 #include <memory.h>
 

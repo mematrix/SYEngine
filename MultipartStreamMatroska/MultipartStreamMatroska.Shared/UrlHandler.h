@@ -121,7 +121,7 @@ protected:
 private:
 	std::recursive_mutex _mutex;
 
-	WCHAR _list_file[MAX_PATH];
+	wchar_t _list_file[MAX_PATH];
 	ComPtr<IUnknown> _stream;
 	ComPtr<IMFAsyncResult> _result;
 

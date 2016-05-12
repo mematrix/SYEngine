@@ -104,9 +104,9 @@ bool CH264Nalu::ReadNext()
 	return true;
 }
 
-bool CH265Nalu::ReadNext()
+bool CH265Nalu::ReadNext265()
 {
-	if (__super::ReadNext()) {
+	if (ReadNext()) {
 		nal_unit_type = (NALU_TYPE)((m_pBuffer[m_nNALDataPos] >> 1) & 0x3F);
 		return true;
 	}

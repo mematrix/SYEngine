@@ -43,9 +43,9 @@ public: //IAVMediaFormat
 
 	unsigned GetFormatFlags()
 	{ return MEDIA_FORMAT_CAN_SEEK_ALL|MEDIA_FORMAT_CAN_FLUSH; }
-	char* GetFormatName()
+	const char* GetFormatName()
 	{ return MEDIA_FORMAT_MP4_NAME; }
-	char* GetMimeType()
+	const char* GetMimeType()
 	{ return MEDIA_FORMAT_MP4_MIME; }
 
 	AV_MEDIA_ERR Flush() { return AV_ERR_OK; }

@@ -3,6 +3,10 @@
 
 #include "MatroskaEbml.h"
 
+#ifndef _MSC_VER
+#define strcmpi strcasecmp
+#endif
+
 namespace MKV {
 namespace EBML {
 

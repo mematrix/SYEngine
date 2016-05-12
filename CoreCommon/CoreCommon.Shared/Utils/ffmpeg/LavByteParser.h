@@ -22,6 +22,8 @@
 #ifndef ___LAV_BYTE_PARSER_H___
 #define ___LAV_BYTE_PARSER_H___
 
+#include <cstddef>
+
 struct GetBitContext;
 
 /**

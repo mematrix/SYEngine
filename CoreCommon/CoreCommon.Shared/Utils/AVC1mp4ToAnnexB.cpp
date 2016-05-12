@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 
 #pragma pack(1)

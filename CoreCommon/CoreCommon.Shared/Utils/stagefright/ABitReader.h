@@ -19,6 +19,7 @@
 #define A_BIT_READER_H_
 
 #include "ABase.h"
+#include <cstddef>
 
 namespace stagefright {
 

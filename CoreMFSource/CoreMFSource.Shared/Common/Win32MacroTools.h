@@ -14,16 +14,34 @@
 
 #define FORCEINLINE __forceinline
 #define INLINE __inline
+#else
+#define DLL_EXPORT
+#define DLL_IMPORT
+
+#define FORCEINLINE inline
+#define INLINE inline
 #endif
 
+#ifdef _MSC_VER
 #define _HeapAlloc(dwFlags,dwBytes) HeapAlloc(GetProcessHeap(),(dwFlags),(dwBytes))
 #define _HeapSize(lpMem) HeapSize(GetProcessHeap(),0,(lpMem))
 #define _HeapFree(lpMem) HeapFree(GetProcessHeap(),0,(lpMem))
+#else
+#define _HeapAlloc(dwFlags,dwBytes) calloc(dwBytes,1)
+#define _HeapFree(lpMem) free(lpMem)
+#endif
 
 #endif //_WIN32_MACRO_TOOLS
 
 #ifndef _HR_TOOLS
 #define _HR_TOOLS
+
+#ifndef SUCCEEDED
+#define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+#endif
+#ifndef FAILED
+#define FAILED(hr) (((HRESULT)(hr)) < 0)
+#endif
 
 #define HR_FAILED_END(hr) if (FAILED(hr)) { return; }
 #define HR_FAILED_RET(hr) if (FAILED(hr)) { return hr; }

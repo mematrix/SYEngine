@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 
 #ifdef _MSC_VER
 #define FF_INLINE __forceinline

@@ -212,7 +212,7 @@ private:
 	std::recursive_mutex _mutex; //安全同步lock
 	ComPtr<IMFAttributes> _attrs; //属性的thunk
 
-	WCHAR _list_file[MAX_PATH]; //分p的文件列表（可以是本地或者网络）
+	wchar_t _list_file[MAX_PATH]; //分p的文件列表（可以是本地或者网络）
 	QWORD _stm_length, _stm_cur_pos; //不准（fake）的流长度和curpos
 	bool _flag_eof, _flag_user_stop;
 

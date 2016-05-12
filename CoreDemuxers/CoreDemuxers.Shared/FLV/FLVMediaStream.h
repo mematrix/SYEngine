@@ -20,7 +20,7 @@ public:
 	MediaCodecType GetCodecType();
 
 	int GetStreamIndex();
-	char* GetStreamName();
+	const char* GetStreamName();
 
 	float GetContainerFps() { return _fps; }
 

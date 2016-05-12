@@ -1,5 +1,9 @@
 #include "MKVParser.h"
 
+#ifndef _MSC_VER
+#define strcmpi strcasecmp
+#endif
+
 using namespace MKVParser;
 
 static int MKVDurationToSeconds(const char* duration)
@@ -22,13 +26,13 @@ static int MKVDurationToSeconds(const char* duration)
 	return seconds + (minute * 60) + (hour * 60 * 60);
 }
 
-MKVFileParser::MKVFileParser(IMKVParserIO* io) : _io(io)
+MKVFileParser::MKVFileParser(IMKVParserIO* io) throw() : _io(io)
 {
 	memset(&_info,0,sizeof(_info));
 	memset(&_frame,0,sizeof(_frame));
 }
 
-unsigned MKVFileParser::Open(bool ignore_duratin_zero,bool do_not_parse_seekhead)
+unsigned MKVFileParser::Open(bool ignore_duratin_zero,bool do_not_parse_seekhead) throw()
 {
 	if (_io == nullptr)
 		return PARSER_MKV_ERR_UNEXPECTED;
@@ -124,7 +128,7 @@ unsigned MKVFileParser::Open(bool ignore_duratin_zero,bool do_not_parse_seekhead
 	return PARSER_MKV_OK;
 }
 
-bool MKVFileParser::Close()
+bool MKVFileParser::Close() throw()
 {
 	memset(&_info,0,sizeof(_info));
 	memset(&_frame,0,sizeof(_frame));
@@ -147,7 +151,7 @@ bool MKVFileParser::Close()
 	return true;
 }
 
-bool MKVFileParser::GetGlobalInfo(MKVGlobalInfo* info)
+bool MKVFileParser::GetGlobalInfo(MKVGlobalInfo* info) throw()
 {
 	if (info == nullptr)
 		return false;
@@ -156,7 +160,7 @@ bool MKVFileParser::GetGlobalInfo(MKVGlobalInfo* info)
 	return true;
 }
 
-bool MKVFileParser::GetTrackInfo(unsigned index,MKVTrackInfo* info)
+bool MKVFileParser::GetTrackInfo(unsigned index,MKVTrackInfo* info) throw()
 {
 	if (index >= GetTrackCount())
 		return false;
@@ -167,7 +171,7 @@ bool MKVFileParser::GetTrackInfo(unsigned index,MKVTrackInfo* info)
 	return true;
 }
 
-void MKVFileParser::InitGlobalInfo(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv)
+void MKVFileParser::InitGlobalInfo(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv) throw()
 {
 	auto p = mkv->GetSegmentInfo();
 	if (p == nullptr)
@@ -190,7 +194,7 @@ void MKVFileParser::InitGlobalInfo(std::shared_ptr<MKV::Internal::MatroskaSegmen
 		_info.Duration = ((double)p->GetTimecodeScale() / MKV_TIMESTAMP_UNIT_NANOSEC) * p->GetDuration();
 }
 
-bool MKVFileParser::InitTracks(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv)
+bool MKVFileParser::InitTracks(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv) throw()
 {
 	auto p = mkv->GetTracks();
 	if (p == nullptr)
@@ -247,7 +251,7 @@ bool MKVFileParser::InitTracks(std::shared_ptr<MKV::Internal::MatroskaSegment>& 
 	return _tracks.GetCount() != 0;
 }
 
-bool MKVFileParser::ConvertTrackEntry2MKVTrackInfo(MKV::Internal::Object::Context::TrackEntry* entry,MKVTrackInfo* info)
+bool MKVFileParser::ConvertTrackEntry2MKVTrackInfo(MKV::Internal::Object::Context::TrackEntry* entry,MKVTrackInfo* info) throw()
 {
 	//只支持视频、音频、字幕
 	if (!IsTrackTypeSupported(entry->TrackType))
@@ -376,7 +380,7 @@ bool MKVFileParser::ConvertTrackEntry2MKVTrackInfo(MKV::Internal::Object::Contex
 	return true;
 }
 
-bool MKVFileParser::InitKeyFrameIndex(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv)
+bool MKVFileParser::InitKeyFrameIndex(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv) throw()
 {
 	if (mkv->GetCues() == nullptr ||
 		mkv->GetCues()->GetCuePointCount() == 0)
@@ -427,7 +431,7 @@ bool MKVFileParser::InitKeyFrameIndex(std::shared_ptr<MKV::Internal::MatroskaSeg
 	return true;
 }
 
-double MKVFileParser::InitDurationFromTags(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv)
+double MKVFileParser::InitDurationFromTags(std::shared_ptr<MKV::Internal::MatroskaSegment>& mkv) throw()
 {
 	if (mkv->GetTags() == nullptr)
 		return 0.0;
@@ -451,7 +455,7 @@ double MKVFileParser::InitDurationFromTags(std::shared_ptr<MKV::Internal::Matros
 	return result;
 }
 
-double MKVFileParser::InitDurationFromKeyFrameIndex()
+double MKVFileParser::InitDurationFromKeyFrameIndex() throw()
 {
 	if (_info.NonKeyFrameIndex)
 		return 0.0;
@@ -462,7 +466,7 @@ double MKVFileParser::InitDurationFromKeyFrameIndex()
 	return p->Time + 15;
 }
 
-double MKVFileParser::CalcAudioTrackDefaultDuration(MKVTrackInfo* info)
+double MKVFileParser::CalcAudioTrackDefaultDuration(MKVTrackInfo* info) throw()
 {
 	double result = 0.0;
 	if (info->Type != MKVTrackInfo::TrackTypeAudio)
@@ -495,7 +499,7 @@ double MKVFileParser::CalcAudioTrackDefaultDuration(MKVTrackInfo* info)
 	return result;
 }
 
-void MKVFileParser::InitDurationCalcEngine(MKVTrackInfo* info)
+void MKVFileParser::InitDurationCalcEngine(MKVTrackInfo* info) throw()
 {
 	if (info->InternalDurationCalc)
 		return;
@@ -530,7 +534,7 @@ void MKVFileParser::InitDurationCalcEngine(MKVTrackInfo* info)
 			info->Codec.CodecPrivate,info->Codec.CodecPrivateSize);
 }
 
-bool MKVFileParser::CheckMatroskaAudioOnly()
+bool MKVFileParser::CheckMatroskaAudioOnly() throw()
 {
 	if (_tracks.GetCount() == 1)
 	{

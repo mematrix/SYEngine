@@ -1,6 +1,6 @@
 #include "ALACAudioDescription.h"
 
-ALACAudioDescription::ALACAudioDescription(unsigned char* ph,unsigned size)
+ALACAudioDescription::ALACAudioDescription(unsigned char* ph,unsigned size) throw()
 {
 	memset(&_basic_desc,0,sizeof(_basic_desc));
 	FlushAudioDescription(ph,size);

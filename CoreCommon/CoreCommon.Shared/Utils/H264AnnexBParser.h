@@ -8,7 +8,7 @@
 #ifndef __H264_ANNEXB_PARSER_H
 #define __H264_ANNEXB_PARSER_H
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include "H264Spec.h"
 
