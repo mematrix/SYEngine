@@ -591,7 +591,11 @@ HRESULT FFmpegVideoDecoder::InitNV12MTCopy()
 		return hr;
 
 	for (int i = 0; i < _countof(_yuv420_mtcopy.Worker); i++) {
-		hr = MFAllocateSerialWorkQueue(MFASYNC_CALLBACK_QUEUE_MULTITHREADED, &_yuv420_mtcopy.Worker[i]);
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+		hr = MFAllocateWorkQueue(&_yuv420_mtcopy.Worker[i]);
+#else
+        hr = MFAllocateSerialWorkQueue(MFASYNC_CALLBACK_QUEUE_MULTITHREADED, &_yuv420_mtcopy.Worker[i]);
+#endif
 		if (FAILED(hr))
 			return hr;
 	}
