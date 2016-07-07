@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpUrlHandler.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpThread.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\amf.c">
+      <Filter>librtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\log.c">
+      <Filter>librtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\parseurl.c">
+      <Filter>librtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\rtmp.c">
+      <Filter>librtmp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpUrlHandler.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpThread.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\amf.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\bytes.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\handshake.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\log.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\rtmp.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\rtmp_sys.h">
+      <Filter>librtmp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="librtmp">
+      <UniqueIdentifier>{d51c18a6-5264-4e54-a4c0-51162f24a8da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
