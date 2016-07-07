@@ -36,6 +36,9 @@ public:
 
 private:
 	HDMediaStream(int index,HDMediaSource* pMediaSource,IMFStreamDescriptor* pStreamDesc);
+#if _MSC_VER > 1800
+public: //VS2015, Wrl ComPtr.
+#endif
 	virtual ~HDMediaStream() { DbgLogPrintf(L"%s::Deleted.",L"HDMediaStream"); }
 
 public: //IUnknown
