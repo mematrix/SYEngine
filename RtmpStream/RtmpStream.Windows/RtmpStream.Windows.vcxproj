@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
@@ -26,73 +26,52 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Universal\CoreDemuxers.Universal.vcxproj">
-      <Project>{93170c68-1cf1-4e09-a00c-0eb6a0c4c1b0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.Universal\CoreMFSource.Universal.vcxproj">
-      <Project>{0b875bcd-00c6-46e7-b389-aac04b7c7072}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Universal\MultipartStreamMatroska.Universal.vcxproj">
-      <Project>{41c20a0f-50fc-4030-a647-2a5a13ebb562}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RtmpStream\RtmpStream.Universal\RtmpStream.Universal.vcxproj">
-      <Project>{b3988fca-f171-4641-92b6-807adf8f0452}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{e5741a57-347a-40e3-8be7-8add0d3440a5}</ProjectGuid>
-    <Keyword>WindowsRuntimeComponent</Keyword>
-    <ProjectName>SYEngine.Universal</ProjectName>
-    <RootNamespace>SYEngine</RootNamespace>
+    <ProjectGuid>{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}</ProjectGuid>
+    <RootNamespace>RtmpStream</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
-    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <ApplicationTypeRevision>8.1</ApplicationTypeRevision>
+    <ConvergedProjectType>CodeSharingDll</ConvergedProjectType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-    <Import Project="..\SYEngine.Shared\SYEngine.Shared.vcxitems" Label="Shared" />
-  </ImportGroup>
+  <Import Project="..\RtmpStream.Shared\RtmpStream.Shared.vcxitems" Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -112,40 +91,45 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 10\</OutDir>
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Windows 8.1\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
     <TargetName>$(ItemsRootNamespace)</TargetName>
   </PropertyGroup>
@@ -153,123 +137,111 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
-      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>28204;4996</DisableSpecificWarnings>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>4996;4267;4244;</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\ffcodecs\ffmpeg\include\;</AdditionalIncludeDirectories>
       <SDLCheck />
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ModuleDefinitionFile>..\RtmpStream.def</ModuleDefinitionFile>
+      <AdditionalDependencies>kernel32.lib;mfplat.lib;mfuuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
