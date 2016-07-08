@@ -7,8 +7,6 @@
 RtmpStream::RtmpStream(std::wstring& rtmp_url)
     : _ref_count(1), _rtmp(nullptr), _rtmp_connected(false), _received_length(0), _first_read(true), _is_eof(false) {
     // ¡ü fuck ref count
-    WSADATA wsa;
-    WSAStartup(MAKEWORD(2, 2), &wsa);
 
     MFCreateAttributes(&_attrs, 0);
 
@@ -35,8 +33,6 @@ RtmpStream::~RtmpStream() {
     CloseHandle(_event_async_exit);
 
     Module<InProc>::GetModule().DecrementObjectCount();
-
-    WSACleanup();
 }
 
 HRESULT RtmpStream::QueryInterface(REFIID iid, void** ppv) {
@@ -76,7 +72,7 @@ bool RtmpStream::Open(IMFAttributes* config) {
     }
 
     _rtmp->Link.lFlags |= RTMP_LF_LIVE;
-    RTMP_SetBufferMS(_rtmp, 1000);
+    RTMP_SetBufferMS(_rtmp, 500);
 
     if (!RTMP_Connect(_rtmp, nullptr)) {
         RTMP_Close(_rtmp);
@@ -172,19 +168,17 @@ STDMETHODIMP RtmpStream::StopBuffering() {
 STDMETHODIMP RtmpStream::Read(BYTE *pb, ULONG cb, ULONG *pcbRead) {
     std::lock_guard<decltype(_mutex)> lock(_mutex);
 
-    int read = this->ReadRtmp((uint8_t*)pb, cb);
+    bool is_header = false;
+
+    int read = this->ReadRtmp((uint8_t*)pb, cb, &is_header);
     if (read < 0) {
         return E_FAIL;
     } else if (read == 0) {
         _is_eof = true;
         // also set 0 to *pcbRead
     } else {
-        if (_first_read || _received_length < 13) {
-            _first_read = false;
-            // FLV header, for seeking
-            memcpy(_flv_header + _received_length, pb, read);
-        }
-        _received_length += read;
+        if (!is_header)
+            _received_length += read;
     }
 
 
@@ -235,17 +229,39 @@ STDMETHODIMP RtmpStream::Seek(MFBYTESTREAM_SEEK_ORIGIN SeekOrigin, LONGLONG llSe
     return E_FAIL;
 }
 
-int RtmpStream::ReadRtmp(uint8_t* buffer, size_t size) {
-    if (_request_seek == true && _first_read == false && _received_length <= 13) {
+int RtmpStream::ReadRtmp(uint8_t* buffer, size_t size, bool* is_header) {
+    if (_first_read) {
+        _first_read = false;
+        RTMP_Read(_rtmp, (char*)_flv_header, sizeof(_flv_header));
+        _received_length += sizeof(_flv_header);
+        return this->ReadRtmp(buffer, size, is_header);
+    }
+    if (_request_seek == true && _first_read == false && _received_length >= sizeof(_flv_header)) {
         _request_seek = false;
         int length = (std::min)(size, sizeof(_flv_header));
         memcpy(buffer, _flv_header, length);
+        if (is_header) *is_header = true;
         return length;
     }
     return RTMP_Read(_rtmp, (char*)buffer, (int)size);
 }
 
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
+
+#pragma pack(push,8)
+typedef struct tagTHREADNAME_INFO
+{
+    DWORD dwType; // Must be 0x1000.
+    LPCSTR szName; // Pointer to name (in user addr space).
+    DWORD dwThreadID; // Thread ID (-1=caller thread).
+    DWORD dwFlags; // Reserved for future use, must be zero.
+} THREADNAME_INFO;
+#pragma pack(pop)
+
 void RtmpStream::RtmpLoop(void*) {
+    DWORD thread_id = GetCurrentThreadId();
+    SetThreadName(thread_id, "Rtmp Receive Thread");
+
     while (true) {
         HANDLE events[] = {_event_async_read, _event_async_exit};
         DWORD state = WaitForMultipleObjectsEx(2, events, FALSE, INFINITE, FALSE);
@@ -265,7 +281,9 @@ void RtmpStream::RtmpLoop(void*) {
                                 &result
             );
 
-            int read = this->ReadRtmp(_async_read_ps.pb, _async_read_ps.size);
+            bool is_header = false;
+
+            int read = this->ReadRtmp(_async_read_ps.pb, _async_read_ps.size, &is_header);
             if (read < 0) {
                 result->SetStatus(E_FAIL);
                 break;
@@ -273,12 +291,8 @@ void RtmpStream::RtmpLoop(void*) {
                 _is_eof = true;
                 break;
             } else {
-                if (_first_read || _received_length < 13) {
-                    _first_read = false;
-                    // FLV header, for seeking
-                    memcpy(_flv_header + _received_length, _async_read_ps.pb, read);
-                }
-                _received_length += read;
+                if (!is_header)
+                    _received_length += read;
             }
 
             result->SetStatus(S_OK);
@@ -287,4 +301,21 @@ void RtmpStream::RtmpLoop(void*) {
         }
         MFInvokeCallback(result.Get());
     }
+}
+
+void RtmpStream::SetThreadName(DWORD thread_id, const char* thread_name) {
+    THREADNAME_INFO info;
+    info.dwType = 0x1000;
+    info.szName = thread_name;
+    info.dwThreadID = thread_id;
+    info.dwFlags = 0;
+
+#pragma warning(push)
+#pragma warning(disable: 6320 6322)
+    __try {
+        RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER) {
+    }
+#pragma warning(pop)
 }
