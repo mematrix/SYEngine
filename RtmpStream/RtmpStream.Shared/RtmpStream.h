@@ -156,6 +156,7 @@ public: // IMFAttributes
     }
 
 private:
+    void StopBackgroundRtmpThread();
     int ReadRtmp(uint8_t* buffer, size_t size, bool* is_header);
     void RtmpLoop(void* userData);
     void SetThreadName(DWORD thread_id, const char* thread_name);

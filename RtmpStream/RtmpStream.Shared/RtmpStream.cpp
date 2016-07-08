@@ -6,7 +6,6 @@
 
 RtmpStream::RtmpStream(std::wstring& rtmp_url)
     : _ref_count(1), _rtmp(nullptr), _rtmp_connected(false), _received_length(0), _first_read(true), _is_eof(false) {
-    // ¡ü fuck ref count
 
     MFCreateAttributes(&_attrs, 0);
 
@@ -19,6 +18,7 @@ RtmpStream::RtmpStream(std::wstring& rtmp_url)
     int len = WideCharToMultiByte(CP_ACP, 0, rtmp_url.c_str(), -1, nullptr, 0, nullptr, nullptr);
     if (len > 0) {
         _url.reserve(len + 1);
+        _url.resize(len);
         WideCharToMultiByte(CP_ACP, 0, rtmp_url.c_str(), -1, &_url[0], len + 1, nullptr, nullptr);
     }
     Module<InProc>::GetModule().IncrementObjectCount();
@@ -95,18 +95,8 @@ bool RtmpStream::Open(IMFAttributes* config) {
 }
 
 STDMETHODIMP RtmpStream::Close() {
-    std::lock_guard<decltype(_mutex)> lock(_mutex);
-
-    if (_rtmp_connected || _rtmp) {
-        RTMP_Close(_rtmp);
-        RTMP_Free(_rtmp);
-        _rtmp_connected = false;
-        _rtmp = nullptr;
-    }
-
-    if (_thread.joinable()) {
-        SetEvent(_event_async_exit);
-        _thread.join();
+    if (_rtmp) {
+        StopBackgroundRtmpThread();
     }
 
     return S_OK;
@@ -139,30 +129,30 @@ STDMETHODIMP RtmpStream::IsEndOfStream(BOOL *pfEndOfStream) {
 
 STDMETHODIMP RtmpStream::EnableBuffering(BOOL fEnable) {
     if (fEnable == FALSE && _rtmp) {
-        RTMP_Close(_rtmp);
-        RTMP_Free(_rtmp);
-        _rtmp = nullptr;
-
-        if (_thread.joinable()) {
-            SetEvent(_event_async_exit);
-            _thread.join();
-        }
+        StopBackgroundRtmpThread();
     }
     return S_OK;
 }
 
 STDMETHODIMP RtmpStream::StopBuffering() {
-    if (_rtmp) {
+    StopBackgroundRtmpThread();
+    return S_OK;
+}
+
+void RtmpStream::StopBackgroundRtmpThread() {
+    std::lock_guard<decltype(_mutex)> lock(_mutex);
+
+    if (_rtmp_connected || _rtmp) {
         RTMP_Close(_rtmp);
         RTMP_Free(_rtmp);
+        _rtmp_connected = false;
         _rtmp = nullptr;
-
-        if (_thread.joinable()) {
-            SetEvent(_event_async_exit);
-            _thread.join();
-        }
     }
-    return S_OK;
+
+    if (_thread.joinable()) {
+        SetEvent(_event_async_exit);
+        _thread.join();
+    }
 }
 
 STDMETHODIMP RtmpStream::Read(BYTE *pb, ULONG cb, ULONG *pcbRead) {
@@ -177,10 +167,10 @@ STDMETHODIMP RtmpStream::Read(BYTE *pb, ULONG cb, ULONG *pcbRead) {
         _is_eof = true;
         // also set 0 to *pcbRead
     } else {
-        if (!is_header)
+        if (!is_header) {
             _received_length += read;
+        }
     }
-
 
     *pcbRead = (ULONG)read;
 
@@ -188,6 +178,10 @@ STDMETHODIMP RtmpStream::Read(BYTE *pb, ULONG cb, ULONG *pcbRead) {
 }
 
 STDMETHODIMP RtmpStream::BeginRead(BYTE *pb, ULONG cb, IMFAsyncCallback *pCallback, IUnknown *punkState) {
+    if (pb == nullptr || cb == 0 || pCallback == nullptr) {
+        return E_INVALIDARG;
+    }
+
     std::lock_guard<decltype(_mutex)> lock(_mutex);
 
     if (_rtmp == nullptr)
@@ -279,8 +273,9 @@ void RtmpStream::RtmpLoop(void*) {
                 _is_eof = true;
                 break;
             } else {
-                if (!is_header)
+                if (!is_header) {
                     _received_length += read;
+                }
             }
 
             result->SetStatus(S_OK);
