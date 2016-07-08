@@ -58,6 +58,8 @@ HRESULT RtmpStream::QueryInterface(REFIID iid, void** ppv) {
 bool RtmpStream::Open(IMFAttributes* config) {
     std::lock_guard<decltype(_mutex)> lock(_mutex);
 
+	_attrs->SetUINT32(MF_BYTESTREAM_TRANSCODED, 1935);
+
     _rtmp = RTMP_Alloc();
     if (_rtmp == nullptr) {
         return false;
