@@ -183,7 +183,7 @@ HRESULT HDMediaSource::CreateStreams()
 			fps = 60.0f;
 
 		// Optmize for low latency not best performance
-		if (_network_live_stream) {
+		if (_pMediaIO->IsLiveStream()) {
 			dwQueueSize = 10;
 		}
 
