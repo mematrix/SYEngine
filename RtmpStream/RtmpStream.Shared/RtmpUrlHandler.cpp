@@ -30,6 +30,7 @@ HRESULT RtmpUrlHandler::BeginCreateObject(
     if (pwszURL) {
         size_t len = wcslen(pwszURL);
         _rtmp_url.reserve(len + 1);
+        _rtmp_url.resize(len);
         wcscpy(&_rtmp_url[0], pwszURL);
     }
 
