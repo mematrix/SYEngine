@@ -156,9 +156,9 @@ public: // IMFAttributes
     }
 
 private:
-    int ReadRtmp(uint8_t* buffer, size_t size);
+    int ReadRtmp(uint8_t* buffer, size_t size, bool* is_header);
     void RtmpLoop(void* userData);
-
+    void SetThreadName(DWORD thread_id, const char* thread_name);
 private:
     uint32_t _ref_count;
     std::mutex _mutex;
@@ -172,7 +172,7 @@ private:
     HANDLE _event_async_read;
     HANDLE _event_async_exit;
 
-    uint8_t _flv_header[13];
+    uint8_t _flv_header[9];
     uint64_t _received_length;
     bool _first_read;
     bool _request_seek;
