@@ -1,6 +1,8 @@
 #include "FLVMediaFormat.h"
 
 #define _128KB 131072
+#define _64KB 65536
+#define _32KB 32768
 #define _10MINUTE 600
 
 AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
@@ -51,7 +53,11 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 	if (info.no_keyframe_index)
 	{
 		io_buf_size = _128KB * 4;
-		if (info.duration > (_10MINUTE * 6))
+		// If io_buf_size larger than bitrate of live stream, may cause more lantency
+		// and more bandwidth pressure for media server 
+		if (io->IsAliveStream())
+			io_buf_size = _32KB;
+		else if (info.duration > (_10MINUTE * 6))
 			io_buf_size = _128KB * 10;
 		else if (info.duration > (_10MINUTE * 3))
 			io_buf_size = _128KB * 8;
