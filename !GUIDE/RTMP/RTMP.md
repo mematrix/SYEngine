@@ -3,13 +3,12 @@
 ## Client
 
 ### Winsocks
-You must init winsocks before playing RTMP stream.
+You must init winsocks before playing RTMP stream (desktop).
 ```
 WSADATA wsa;
 WSAStartup(MAKEWORD(2,2), &wsa);
 ```
-
-It can't be use in WinRT environment.
+This is not required for WinRT.
 
 ## Server
 
