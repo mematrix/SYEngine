@@ -267,12 +267,16 @@ HRESULT HDMediaSource::DoOpen()
 	if (_state != STATE_OPENING)
 		return MF_E_INVALID_STATE_TRANSITION;
 
+	bool pAttrsValid = false;
+	ComPtr<IMFAttributes> pAttrs;
+	if (SUCCEEDED(_pByteStream.As(&pAttrs))) {
+		pAttrsValid = true;
+	}
+
 #if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	GlobalSettings->SetUINT32(kNetworkForceUseSyncIO,TRUE);
 
-	ComPtr<IMFAttributes> pAttrs;
-	if (SUCCEEDED(_pByteStream.As(&pAttrs)))
-		if (MFGetAttributeUINT32(pAttrs.Get(),MF_BYTESTREAM_TRANSCODED,0) == 1234) //MultipartStreamMatroska
+	if (pAttrsValid && MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234) //MultipartStreamMatroska
 			GlobalSettings->DeleteItem(kNetworkForceUseSyncIO);
 
 	QWORD temp;
@@ -289,6 +293,9 @@ HRESULT HDMediaSource::DoOpen()
 		_pMediaIO = std::make_shared<MFMediaIO>(_pByteStream.Get());
 		pMediaIO = _pMediaIO.get();
 	}
+
+	if (pAttrsValid && MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1935) // RTMP
+		pMediaIO->_IsLiveStream = true;
 	
 	if (pMediaIO->GetSize() == 0)
 		return MF_E_INVALID_STREAM_DATA;

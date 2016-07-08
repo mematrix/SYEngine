@@ -55,7 +55,7 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 		io_buf_size = _128KB * 4;
 		// If io_buf_size larger than bitrate of live stream, may cause more lantency
 		// and more bandwidth pressure for media server 
-		if (io->IsAliveStream()) {
+		if (io->IsLiveStream()) {
 			if (info.video_info.bitrate <= 0)
 				io_buf_size = _32KB;
 			else

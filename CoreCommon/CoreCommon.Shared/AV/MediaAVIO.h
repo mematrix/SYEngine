@@ -8,12 +8,15 @@
 class IAVMediaIO
 {
 public:
+	bool _IsLiveStream = false;
+
 	virtual unsigned Read(void* pb,unsigned size) = 0;
 	virtual unsigned Write(void* pb,unsigned size) = 0;
 	virtual bool Seek(long long offset,int whence) = 0;
 	virtual long long Tell() = 0;
 	virtual long long GetSize() = 0;
 
+	virtual bool IsLiveStream() { return _IsLiveStream;  }
 	virtual bool IsAliveStream() { return false; }
 
 	virtual bool IsCancel() { return false; }
