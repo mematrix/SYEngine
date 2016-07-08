@@ -246,18 +246,6 @@ int RtmpStream::ReadRtmp(uint8_t* buffer, size_t size, bool* is_header) {
     return RTMP_Read(_rtmp, (char*)buffer, (int)size);
 }
 
-const DWORD MS_VC_EXCEPTION = 0x406D1388;
-
-#pragma pack(push,8)
-typedef struct tagTHREADNAME_INFO
-{
-    DWORD dwType; // Must be 0x1000.
-    LPCSTR szName; // Pointer to name (in user addr space).
-    DWORD dwThreadID; // Thread ID (-1=caller thread).
-    DWORD dwFlags; // Reserved for future use, must be zero.
-} THREADNAME_INFO;
-#pragma pack(pop)
-
 void RtmpStream::RtmpLoop(void*) {
     DWORD thread_id = GetCurrentThreadId();
     SetThreadName(thread_id, "Rtmp Receive Thread");
@@ -302,6 +290,18 @@ void RtmpStream::RtmpLoop(void*) {
         MFInvokeCallback(result.Get());
     }
 }
+
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
+
+#pragma pack(push,8)
+typedef struct tagTHREADNAME_INFO
+{
+    DWORD dwType; // Must be 0x1000.
+    LPCSTR szName; // Pointer to name (in user addr space).
+    DWORD dwThreadID; // Thread ID (-1=caller thread).
+    DWORD dwFlags; // Reserved for future use, must be zero.
+} THREADNAME_INFO;
+#pragma pack(pop)
 
 void RtmpStream::SetThreadName(DWORD thread_id, const char* thread_name) {
     THREADNAME_INFO info;
