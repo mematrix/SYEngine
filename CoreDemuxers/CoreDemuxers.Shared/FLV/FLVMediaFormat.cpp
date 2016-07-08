@@ -59,7 +59,7 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 			if (info.video_info.bitrate <= 0)
 				io_buf_size = _32KB;
 			else
-				io_buf_size = (info.video_info.bitrate * 1024) / 8;
+				io_buf_size = ((info.video_info.bitrate * 1024) / 8) + ((info.audio_info.bitrate * 1024) / 8);
 		}else if (info.duration > (_10MINUTE * 6))
 			io_buf_size = _128KB * 10;
 		else if (info.duration > (_10MINUTE * 3))
