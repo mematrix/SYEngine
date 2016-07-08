@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "winsock2.h"
 #include <map>
 #include <string>
 
@@ -56,6 +57,10 @@ bool Core::Initialize()
 		_STM_HANDLER_FILE,
 		h.FileExtension,
 		h.MimeType);
+
+
+	WSADATA wsa;
+	WSAStartup(MAKEWORD(2, 2), &wsa);
 
 	return true;
 }
