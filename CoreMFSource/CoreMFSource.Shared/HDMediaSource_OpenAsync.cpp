@@ -295,7 +295,7 @@ HRESULT HDMediaSource::DoOpen()
 	}
 
 	if (pAttrsValid && MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1935) // RTMP
-		pMediaIO->_IsLiveStream = true;
+		pMediaIO->SetLiveStream();
 	
 	if (pMediaIO->GetSize() == 0)
 		return MF_E_INVALID_STREAM_DATA;
