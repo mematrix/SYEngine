@@ -3,10 +3,12 @@
 
 **[ > 快速整合指南 | Quick Start Guide](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/GUIDE.md)**  **[(分段视频无缝播放指南)](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/Segment/Segment.md)**
 
+**[ > 关于 RTMP 直播流 | RTMP Playback](https://github.com/amamiya/SYEngine/blob/master/!GUIDE/RTMP/RTMP.md)**
+
 **[ > 下载 VSIX 包 | Download VSIX Package](https://coding.net/u/amamiya/p/SYEngine_VSIX/git)**
 
 ### 开发信息
- - 开发者：**ShanYe** [联合开发 @saki-saki、@3meng、@silverdragon727]
+ - 开发者：**ShanYe** [联合开发 @saki-saki、@3meng、@silverdragon727、@xqq、@typcn]
  - 完成度：100% [实现跟系统播放MP4(本地或网络)一样的性能、稳定性、效果、API兼容性。]
  
 ### 许可协议
@@ -21,6 +23,7 @@
  - 下载最新的zip压缩包进行源码级别的整合。
 
 ### 版本历史 (简单信息)
+ - 2016-07-10：添加标准协议RTMP直播的支持。(感谢xqq和typcn的实现)
  - 2016-02-05：添加UWP支持。
  - 2016-02-01：添加FFmpeg的视频、音频软件解码，仅支持部分codec。
  - 2016-01-07：添加 `SYEngine.MediaInformation` 运行时类，可以通过这个类在不播放的情况下获取到媒体容器的详细信息。
