@@ -4,9 +4,11 @@
 
 #define _STM_HANDLER_CLSID L"{1A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
 #define _URL_HANDLER_CLSID L"{2A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
+#define _RTMP_HANDLER_CLSID L"{F3B71F9B-0656-4562-8ED8-97C2C1A10F30}"
 
 #define _STM_HANDLER_FILE L"CoreMFSource.dll"
 #define _URL_HANDLER_FILE L"MultipartStreamMatroska.dll"
+#define _RTMP_HANDLER_FILE L"RtmpStream.dll"
 
 void InitSystemUIStyle()
 {
@@ -63,6 +65,10 @@ void InstallMediaExtensions(MediaExtensionInstaller* Installer)
 	Installer->InstallSchemeHandler(_URL_HANDLER_CLSID,
 		NULL, _URL_HANDLER_FILE,
 		L"plist:");
+
+    Installer->InstallSchemeHandler(_RTMP_HANDLER_CLSID,
+        NULL, _RTMP_HANDLER_FILE,
+        L"rtmp:");
 }
 
 int main()

@@ -1,15 +1,19 @@
 #include "Core.h"
+#include "winsock2.h"
 #include <map>
 #include <string>
 
 #define _STM_HANDLER_CLSID L"{1A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
 #define _URL_HANDLER_CLSID L"{2A0DFC9E-009C-4266-ADFF-CA37D7F8E450}"
+#define _RTMP_HANDLER_CLSID L"{F3B71F9B-0656-4562-8ED8-97C2C1A10F30}"
 
 #define _STM_HANDLER_NAME L"CoreMFSource.HDCoreByteStreamHandler"
 #define _URL_HANDLER_NAME L"MultipartStreamMatroska.UrlHandler"
+#define _RTMP_HANDLER_NAME L"RtmpStream.RtmpUrlHandler"
 
 #define _STM_HANDLER_FILE L"CoreMFSource.dll"
 #define _URL_HANDLER_FILE L"MultipartStreamMatroska.dll"
+#define _RTMP_HANDLER_FILE L"RtmpStream.dll"
 
 using namespace SYEngine;
 using namespace Windows::Foundation;
@@ -30,6 +34,12 @@ bool Core::Initialize()
 		L"plist:"))
 		return false;
 
+    if (!Installer->InstallSchemeHandler(_RTMP_HANDLER_CLSID,
+        _RTMP_HANDLER_NAME,
+        _RTMP_HANDLER_FILE,
+        L"rtmp:"))
+        return false;
+
 	struct ByteStreamHandlerPair
 	{
 		LPCWSTR FileExtension;
@@ -47,6 +57,10 @@ bool Core::Initialize()
 		_STM_HANDLER_FILE,
 		h.FileExtension,
 		h.MimeType);
+
+
+	WSADATA wsa;
+	WSAStartup(MAKEWORD(2, 2), &wsa);
 
 	return true;
 }

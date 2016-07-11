@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{D6799258-5A11-44D2-96A4-A7CA0E03F5BF}</ItemsProjectGuid>
+    <ItemsRootNamespace>RtmpStream</ItemsRootNamespace>
+    <ItemsProjectName>RtmpStream.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\amf.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\log.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\parseurl.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)librtmp\rtmp.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpThread.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RtmpUrlHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\amf.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\bytes.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\handshake.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\log.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\rtmp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)librtmp\rtmp_sys.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpThread.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RtmpUrlHandler.h" />
+  </ItemGroup>
+</Project>
