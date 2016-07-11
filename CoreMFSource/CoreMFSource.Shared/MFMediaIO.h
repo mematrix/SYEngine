@@ -7,10 +7,10 @@
 class MFMediaIO : public IAVMediaIO
 {
 	ComPtr<IMFByteStream> _pByteStream;
-	bool _alive;
+	bool _alive, _live;
 
 public:
-	MFMediaIO(IMFByteStream* pByteStream) throw() : _alive(false)
+	MFMediaIO(IMFByteStream* pByteStream) throw() : _alive(false), _live(false)
 	{
 		pByteStream->AddRef();
 		_pByteStream.Attach(pByteStream);
@@ -77,6 +77,8 @@ public:
 		return (long long)qw;
 	}
 
+    void SetLiveStream() { _live = true; }
+    bool IsLiveStream() { return _live; }
 	bool IsAliveStream() { return _alive; }
 
 	bool GetPlatformSpec(void** pp,int* spec_code)

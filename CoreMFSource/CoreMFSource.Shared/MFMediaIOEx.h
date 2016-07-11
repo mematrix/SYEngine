@@ -51,6 +51,10 @@ public:
 	long long GetSize()
 	{ return _pReader->GetSize(); }
 
+    void SetLiveStream()
+    { _pReader->SetLiveStream(); }
+    bool IsLiveStream()
+    { return _pReader->IsLiveStream(); }
 	bool IsAliveStream()
 	{ return _pReader->IsAliveStream(); }
 
