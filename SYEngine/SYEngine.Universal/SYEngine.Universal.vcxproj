@@ -36,6 +36,9 @@
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Universal\MultipartStreamMatroska.Universal.vcxproj">
       <Project>{41c20a0f-50fc-4030-a647-2a5a13ebb562}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\RtmpStream\RtmpStream.Universal\RtmpStream.Universal.vcxproj">
+      <Project>{b3988fca-f171-4641-92b6-807adf8f0452}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{e5741a57-347a-40e3-8be7-8add0d3440a5}</ProjectGuid>
@@ -162,7 +165,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
@@ -183,7 +186,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
@@ -203,7 +206,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
@@ -224,7 +227,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
@@ -244,7 +247,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
@@ -265,7 +268,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>WindowsApp.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;ws2_32.lib;mfplat.lib;mfuuid.lib;mf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <WindowsMetadataFile>$(OutDir)$(ItemsRootNamespace).winmd</WindowsMetadataFile>
     </Link>
   </ItemDefinitionGroup>
