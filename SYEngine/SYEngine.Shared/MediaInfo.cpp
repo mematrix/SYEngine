@@ -85,7 +85,12 @@ HRESULT MediaInfo::InternalOpen(IUnknown* punk)
 	if (FAILED(hr))
 		return hr;
 
-	MFGetService(source.Get(), MF_SCRUBBING_SERVICE, IID_PPV_ARGS(&_seekInfo));
+    //MFGetService(source.Get(), MF_SCRUBBING_SERVICE, IID_PPV_ARGS(&_seekInfo));
+    ComPtr<IMFGetService> s;
+    hr = source.As(&s);
+    if (SUCCEEDED(hr))
+        s->GetService(MF_SCRUBBING_SERVICE, IID_PPV_ARGS(&_seekInfo));
+
 	_mediaSource = source;
 	return S_OK;
 }
