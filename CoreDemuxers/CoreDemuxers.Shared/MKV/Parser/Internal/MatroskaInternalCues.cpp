@@ -4,7 +4,7 @@ using namespace MKV;
 using namespace MKV::Internal::Object;
 using namespace MKV::Internal::Object::Context;
 
-bool Cues::ParseCues(long long size)
+bool Cues::ParseCues(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -38,7 +38,7 @@ bool Cues::ParseCues(long long size)
 	return true;
 }
 
-bool Cues::ParseCuePoint(Context::CuePoint& point,long long size)
+bool Cues::ParseCuePoint(Context::CuePoint& point,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)
@@ -81,7 +81,7 @@ static const unsigned CuePosUIntIdList[] = {MKV_ID_L4_CUES_POINT_POS_CUETRACK,
 	MKV_ID_L4_CUES_POINT_POS_CUEDURATION,
 	MKV_ID_L4_CUES_POINT_POS_CUEBLOCKNUMBER};
 
-bool Cues::ParseCueTrackPositions(Context::CueTrackPositions& pos,long long size)
+bool Cues::ParseCueTrackPositions(Context::CueTrackPositions& pos,long long size) throw()
 {
 	long long endPos = DataSource::SizeToAbsolutePosition(size,_head.GetDataSource());
 	while (1)

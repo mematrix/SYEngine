@@ -91,6 +91,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MultipartStreamMatroska.Des
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransformFilter.Desktop", "TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj", "{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RtmpStream", "RtmpStream", "{C6A07B94-50ED-4F69-BF98-8BC47EE64B87}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtmpStream.Shared", "RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems", "{D6799258-5A11-44D2-96A4-A7CA0E03F5BF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtmpStream.Desktop", "RtmpStream\RtmpStream.Desktop\RtmpStream.Desktop.vcxproj", "{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtmpStream.Windows", "RtmpStream\RtmpStream.Windows\RtmpStream.Windows.vcxproj", "{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtmpStream.WindowsPhone", "RtmpStream\RtmpStream.WindowsPhone\RtmpStream.WindowsPhone.vcxproj", "{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{404150b6-9a3a-449e-a410-5d64ff3b85d3}*SharedItemsImports = 4
@@ -126,6 +136,10 @@ Global
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}*SharedItemsImports = 4
 		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{54f23214-4129-4eb9-9ec7-66dc7221ca6c}*SharedItemsImports = 9
 		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
+		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{48e670e5-2d7c-4ae7-a398-ac7193aaa3d5}*SharedItemsImports = 4
+		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{aa001c02-8fb2-46b5-afd3-2c836d68a7f8}*SharedItemsImports = 4
+		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{d6799258-5a11-44d2-96a4-a7ca0e03f5bf}*SharedItemsImports = 9
+		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{df0bfdaa-efcb-4b50-ba10-6f1c38003cf1}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -400,6 +414,36 @@ Global
 		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x64.ActiveCfg = Release|Win32
 		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x86.ActiveCfg = Release|Win32
 		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638}.Release|x86.Build.0 = Release|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Debug|ARM.ActiveCfg = Debug|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Debug|x64.ActiveCfg = Debug|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Debug|x86.ActiveCfg = Debug|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Debug|x86.Build.0 = Debug|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Release|ARM.ActiveCfg = Release|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Release|x64.ActiveCfg = Release|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Release|x86.ActiveCfg = Release|Win32
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1}.Release|x86.Build.0 = Release|Win32
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|ARM.Build.0 = Debug|ARM
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|x64.ActiveCfg = Debug|x64
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|x64.Build.0 = Debug|x64
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Debug|x86.Build.0 = Debug|Win32
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|ARM.ActiveCfg = Release|ARM
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|ARM.Build.0 = Release|ARM
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|x64.ActiveCfg = Release|x64
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|x64.Build.0 = Release|x64
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|x86.ActiveCfg = Release|Win32
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8}.Release|x86.Build.0 = Release|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Debug|ARM.ActiveCfg = Debug|ARM
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Debug|ARM.Build.0 = Debug|ARM
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Debug|x64.ActiveCfg = Debug|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Debug|x86.ActiveCfg = Debug|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Debug|x86.Build.0 = Debug|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Release|ARM.ActiveCfg = Release|ARM
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Release|ARM.Build.0 = Release|ARM
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Release|x64.ActiveCfg = Release|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Release|x86.ActiveCfg = Release|Win32
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -440,5 +484,9 @@ Global
 		{67810348-F9AF-45F1-892A-945299564494} = {E0205808-386B-4E6E-9929-60183ACFAE87}
 		{B39BE607-B19B-4D04-BF3E-E08AFF32F6A7} = {DC0F91E4-90EA-45E3-8EEC-08D37215941C}
 		{D9EF1AB9-19B0-4FBC-907A-7A6D3920A638} = {F9A7B95E-545D-4BE2-8605-7A7D254EFA16}
+		{D6799258-5A11-44D2-96A4-A7CA0E03F5BF} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
+		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
+		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
+		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
 	EndGlobalSection
 EndGlobal

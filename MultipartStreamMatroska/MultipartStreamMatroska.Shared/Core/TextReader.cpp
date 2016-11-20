@@ -2,7 +2,7 @@
 #include "StringArray.h"
 #include <stdio.h>
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <fstream>
 #include <iostream>
 #include <string>

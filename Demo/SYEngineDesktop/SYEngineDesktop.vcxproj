@@ -25,6 +25,9 @@
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Desktop\MultipartStreamMatroska.Desktop.vcxproj">
       <Project>{b39be607-b19b-4d04-bf3e-e08aff32f6a7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\RtmpStream\RtmpStream.Desktop\RtmpStream.Desktop.vcxproj">
+      <Project>{df0bfdaa-efcb-4b50-ba10-6f1c38003cf1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MediaExtensionActivate.h" />

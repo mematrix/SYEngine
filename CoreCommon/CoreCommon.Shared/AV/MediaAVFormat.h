@@ -58,8 +58,8 @@ public:
 	virtual IAVMediaStream* GetStream(int index) = 0; //indexÏÂ±ê0
 
 	virtual unsigned GetFormatFlags() { return MEDIA_FORMAT_CAN_SEEK_ALL; }
-	virtual char* GetFormatName() { return nullptr; }
-	virtual char* GetMimeType() { return nullptr; }
+	virtual const char* GetFormatName() { return nullptr; }
+	virtual const char* GetMimeType() { return nullptr; }
 
 	virtual void SetReadFlags(unsigned flags) {}
 	virtual void SetIoCacheSize(unsigned size) {}

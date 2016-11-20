@@ -70,13 +70,13 @@ private:
 	struct Core
 	{
 		unsigned Status;
-		std::unique_ptr<Object::SeekHead> SeekHead;
-		std::unique_ptr<Object::SegmentInfo> SegmentInfo;
-		std::unique_ptr<Object::Tracks> Tracks;
-		std::unique_ptr<Object::Cues> Cues;
-		std::unique_ptr<Object::Chapters> Chapters;
-		std::unique_ptr<Object::Tags> Tags;
-		std::unique_ptr<Object::Attachments> Attachments;
+		std::shared_ptr<Object::SeekHead> SeekHead;
+		std::shared_ptr<Object::SegmentInfo> SegmentInfo;
+		std::shared_ptr<Object::Tracks> Tracks;
+		std::shared_ptr<Object::Cues> Cues;
+		std::shared_ptr<Object::Chapters> Chapters;
+		std::shared_ptr<Object::Tags> Tags;
+		std::shared_ptr<Object::Attachments> Attachments;
 	};
 	Core _core;
 

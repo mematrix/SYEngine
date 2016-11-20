@@ -1,7 +1,7 @@
 #ifndef __IO_POOL_WRITER_H
 #define __IO_POOL_WRITER_H
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include "MediaAVIO.h"
 

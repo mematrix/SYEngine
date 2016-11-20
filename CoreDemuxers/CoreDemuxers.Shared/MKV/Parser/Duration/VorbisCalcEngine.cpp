@@ -39,6 +39,7 @@ static int ParseOggVorbisUserdata(unsigned char* buf,unsigned size,unsigned* h1s
 	return p2size;
 }
 
+#ifndef _MKV_PARSER_NOUSE_VORBIS
 bool VorbisDurationCalcParser::Initialize(unsigned char* extradata,unsigned len)
 {
 	memset(&_vi,0,sizeof(_vi));
@@ -95,3 +96,4 @@ bool VorbisDurationCalcParser::Calc(unsigned char* buf,unsigned size,double* tim
 	*time = (double)duration / (double)_vi.rate;
 	return true;
 }
+#endif

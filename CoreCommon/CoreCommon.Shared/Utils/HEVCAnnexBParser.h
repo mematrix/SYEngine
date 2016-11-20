@@ -8,7 +8,7 @@
 #ifndef __HEVC_ANNEXB_PARSER_H
 #define __HEVC_ANNEXB_PARSER_H
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 
 enum HEVC_NALU_TYPE

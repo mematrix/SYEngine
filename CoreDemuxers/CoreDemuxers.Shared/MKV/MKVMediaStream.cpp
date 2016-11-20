@@ -11,8 +11,7 @@ MKVMediaStream::MKVMediaStream(MKVParser::MKVTrackInfo* info)
 	_has_bFrame = false;
 	_decode_timestamp = 0.0;
 }
-
-char* MKVMediaStream::GetStreamName()
+const char* MKVMediaStream::GetStreamName()
 {
 	if (_info.Name == nullptr ||
 		strlen(_info.Name) == 0)
@@ -21,7 +20,7 @@ char* MKVMediaStream::GetStreamName()
 	return _info.Name;
 }
 
-char* MKVMediaStream::GetLanguageName()
+const char* MKVMediaStream::GetLanguageName()
 {
 	if (strlen(_info.LangID) == 0)
 		return "und";

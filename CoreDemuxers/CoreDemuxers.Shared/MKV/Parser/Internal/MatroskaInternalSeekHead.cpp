@@ -4,7 +4,7 @@ using namespace MKV;
 using namespace MKV::Internal::Object;
 using namespace MKV::Internal::Object::Context;
 
-bool SeekHead::ParseSeekHead(long long size)
+bool SeekHead::ParseSeekHead(long long size) throw()
 {
 	if (_head.GetDataSource() == nullptr)
 		return false;
@@ -42,7 +42,7 @@ bool SeekHead::ParseSeekHead(long long size)
 	return true;
 }
 
-bool SeekHead::ParseSeekEntry(unsigned* id,long long* pos)
+bool SeekHead::ParseSeekEntry(unsigned* id,long long* pos) throw()
 {
 	while (1)
 	{

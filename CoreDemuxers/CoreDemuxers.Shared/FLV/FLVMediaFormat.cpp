@@ -1,6 +1,8 @@
 #include "FLVMediaFormat.h"
 
 #define _128KB 131072
+#define _64KB 65536
+#define _32KB 32768
 #define _10MINUTE 600
 
 AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
@@ -51,7 +53,14 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 	if (info.no_keyframe_index)
 	{
 		io_buf_size = _128KB * 4;
-		if (info.duration > (_10MINUTE * 6))
+		// If io_buf_size larger than bitrate of live stream, may cause more lantency
+		// and more bandwidth pressure for media server 
+		if (io->IsLiveStream()) {
+			if (info.video_info.bitrate <= 0)
+				io_buf_size = _32KB;
+			else
+				io_buf_size = ((info.video_info.bitrate * 1024) / 8) + ((info.audio_info.bitrate * 1024) / 8);
+		}else if (info.duration > (_10MINUTE * 6))
 			io_buf_size = _128KB * 10;
 		else if (info.duration > (_10MINUTE * 3))
 			io_buf_size = _128KB * 8;
@@ -59,7 +68,7 @@ AV_MEDIA_ERR FLVMediaFormat::Open(IAVMediaIO* io)
 			io_buf_size = _128KB * 6;
 	}
 
-	_io_pool = std::make_unique<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
+	_io_pool = std::make_shared<IOPoolReader>(io,_force_io_pool_size == 0 ? io_buf_size:_force_io_pool_size);
 	_av_io = _io_pool.get();
 
 	if (!io->IsAliveStream()) {
@@ -161,12 +170,12 @@ unsigned FLVMediaFormat::GetFormatFlags()
 	return MEDIA_FORMAT_CAN_SEEK_ALL|MEDIA_FORMAT_CAN_FLUSH;
 }
 
-char* FLVMediaFormat::GetFormatName()
+const char* FLVMediaFormat::GetFormatName()
 {
 	return MEDIA_FORMAT_FLV_NAME;
 }
 
-char* FLVMediaFormat::GetMimeType()
+const char* FLVMediaFormat::GetMimeType()
 {
 	return MEDIA_FORMAT_FLV_MIME;
 }

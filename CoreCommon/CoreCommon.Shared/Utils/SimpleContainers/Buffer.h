@@ -2,7 +2,7 @@
 #define __AV_UTILS_BUFFER_H
 
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 //帮助类，处理内存的自动申请释放功能。
 namespace AVUtils {

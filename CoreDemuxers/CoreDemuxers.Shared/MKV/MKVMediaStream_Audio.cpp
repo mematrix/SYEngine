@@ -521,7 +521,7 @@ static bool InitRealCookTrack(MKVParser::MKVTrackInfo& info,std::shared_ptr<IAud
 	return true;
 }
 
-bool MKVMediaStream::ProbeAudio(std::shared_ptr<MKVParser::MKVFileParser>& parser)
+bool MKVMediaStream::ProbeAudio(std::shared_ptr<MKVParser::MKVFileParser>& parser) throw()
 {
 	_main_type = MediaMainType::MEDIA_MAIN_TYPE_AUDIO;
 

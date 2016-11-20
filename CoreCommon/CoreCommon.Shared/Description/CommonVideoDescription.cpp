@@ -1,8 +1,8 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include "CommonVideoDescription.h"
 
-CommonVideoDescription::CommonVideoDescription(CommonVideoCore& core)
+CommonVideoDescription::CommonVideoDescription(CommonVideoCore& core) throw()
 {
 	memset(&_core,0,sizeof(_core));
 	CopyVideoCore(&core);

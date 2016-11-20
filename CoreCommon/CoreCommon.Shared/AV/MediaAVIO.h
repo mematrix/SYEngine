@@ -14,6 +14,8 @@ public:
 	virtual long long Tell() = 0;
 	virtual long long GetSize() = 0;
 
+    virtual void SetLiveStream() {}
+	virtual bool IsLiveStream() { return false;  }
 	virtual bool IsAliveStream() { return false; }
 
 	virtual bool IsCancel() { return false; }

@@ -1,6 +1,6 @@
 #include "MKVMediaStream.h"
 
-bool MKVMediaStream::ProbeSubtitle(std::shared_ptr<MKVParser::MKVFileParser>& parser)
+bool MKVMediaStream::ProbeSubtitle(std::shared_ptr<MKVParser::MKVFileParser>& parser) throw()
 {
 	if (_info.Codec.CodecID[0] != 'S')
 		return false;

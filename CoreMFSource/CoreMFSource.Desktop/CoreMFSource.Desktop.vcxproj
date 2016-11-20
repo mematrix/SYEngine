@@ -14,6 +14,9 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.Desktop\CoreCommon.Desktop.vcxproj">
       <Project>{2d83279c-3bb2-43ec-8503-8e62fb1f3a99}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Desktop\CoreDemuxers.Desktop.vcxproj">
+      <Project>{b7708226-c65a-442a-b937-2fc31a923b5a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\TransformFilter\TransformFilter.Desktop\TransformFilter.Desktop.vcxproj">
       <Project>{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}</Project>
     </ProjectReference>

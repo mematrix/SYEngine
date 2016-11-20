@@ -4,6 +4,24 @@
 extern HMODULE khInstance;
 #endif
 
+#if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)) && defined(_SYENGINE_DEMUX)
+#define _SYENGINE_STATIC_DEMUX_MODULE
+#endif
+
+#ifdef _SYENGINE_STATIC_DEMUX_MODULE
+IAVMediaFormat* CreateFLVMediaDemuxer();
+std::shared_ptr<IAVMediaFormat> CreateFLVMediaDemuxerSP();
+bool CheckFileStreamFLV(IAVMediaIO* pIo);
+
+IAVMediaFormat* CreateMKVMediaDemuxer();
+std::shared_ptr<IAVMediaFormat> CreateMKVMediaDemuxerSP();
+bool CheckFileStreamMKV(IAVMediaIO* pIo);
+
+IAVMediaFormat* CreateMP4MediaDemuxer();
+std::shared_ptr<IAVMediaFormat> CreateMP4MediaDemuxerSP();
+bool CheckFileStreamMP4(IAVMediaIO* pIo);
+#endif
+
 HRESULT GetExeModulePath(LPWSTR lpstrPath,HMODULE hModule);
 
 static unsigned GetAllStreamsBitrate(IAVMediaFormat* parser,bool forceAllStream = true)
@@ -249,12 +267,16 @@ HRESULT HDMediaSource::DoOpen()
 	if (_state != STATE_OPENING)
 		return MF_E_INVALID_STATE_TRANSITION;
 
+	bool pAttrsValid = false;
+	ComPtr<IMFAttributes> pAttrs;
+	if (SUCCEEDED(_pByteStream.As(&pAttrs))) {
+		pAttrsValid = true;
+	}
+
 #if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	GlobalSettings->SetUINT32(kNetworkForceUseSyncIO,TRUE);
 
-	ComPtr<IMFAttributes> pAttrs;
-	if (SUCCEEDED(_pByteStream.As(&pAttrs)))
-		if (MFGetAttributeUINT32(pAttrs.Get(),MF_BYTESTREAM_TRANSCODED,0) == 1234) //MultipartStreamMatroska
+	if (pAttrsValid && MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1234) //MultipartStreamMatroska
 			GlobalSettings->DeleteItem(kNetworkForceUseSyncIO);
 
 	QWORD temp;
@@ -271,6 +293,9 @@ HRESULT HDMediaSource::DoOpen()
 		_pMediaIO = std::make_shared<MFMediaIO>(_pByteStream.Get());
 		pMediaIO = _pMediaIO.get();
 	}
+
+	if (pAttrsValid && MFGetAttributeUINT32(pAttrs.Get(), MF_BYTESTREAM_TRANSCODED, 0) == 1935) // RTMP
+		pMediaIO->SetLiveStream();
 	
 	if (pMediaIO->GetSize() == 0)
 		return MF_E_INVALID_STREAM_DATA;
@@ -306,11 +331,14 @@ HRESULT HDMediaSource::DoOpen()
 	}
 #endif
 
+    std::shared_ptr<IAVMediaFormat> parser;
+    _pMediaParser.reset();
+
+#ifndef _SYENGINE_STATIC_DEMUX_MODULE
 	if (_hCurrentDemuxMod)
 		FreeLibrary(_hCurrentDemuxMod);
 	_hCurrentDemuxMod = nullptr;
 
-	_pMediaParser.reset();
 	auto factory = AVDemuxerFactory::CreateFactory();
 #if !(WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
 	if (!factory->NewComponent(L"AudioCoreSource",
@@ -358,7 +386,6 @@ HRESULT HDMediaSource::DoOpen()
 		"CheckFileStream","CreateFFMediaDemuxers",true))
 		return E_FAIL;
 
-	std::shared_ptr<IAVMediaFormat> parser;
 	bool create_result = false;
 	switch (_url_type)
 	{
@@ -381,6 +408,18 @@ HRESULT HDMediaSource::DoOpen()
 
 	_hCurrentDemuxMod = (decltype(_hCurrentDemuxMod))factory->GetCurrent()->mod;
 	factory->GetCurrent()->mod = nullptr;
+#else
+    if (CheckFileStreamFLV(pMediaIO))
+        parser = CreateFLVMediaDemuxerSP();
+    if (parser == nullptr && pMediaIO->Seek(0,SEEK_SET) && CheckFileStreamMKV(pMediaIO))
+        parser = CreateMKVMediaDemuxerSP();
+    if (parser == nullptr && pMediaIO->Seek(0,SEEK_SET) && CheckFileStreamMP4(pMediaIO))
+        parser = CreateMP4MediaDemuxerSP();
+
+    pMediaIO->Seek(0,SEEK_SET);
+    if (parser == nullptr)
+        return MF_E_INVALID_FILE_FORMAT;
+#endif
 
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 	SetCurrentDirectoryW(szCurPath);

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define INVALID_EBML_UINT32 0xFFFFFFFFUL

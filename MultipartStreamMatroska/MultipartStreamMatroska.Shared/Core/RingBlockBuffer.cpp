@@ -1,6 +1,6 @@
 #include "RingBlockBuffer.h"
 #include "MemoryStream.h"
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <new>
 

@@ -90,11 +90,11 @@ unsigned long long CGolombBuffer::BitRead(int nBits, bool fPeek)
 	if (nBits == 64) {
 		ret = m_bitbuff;
 	} else {
-		ret = (m_bitbuff >> bitlen) & ((1ui64 << nBits) - 1);
+		ret = (m_bitbuff >> bitlen) & ((1ULL << nBits) - 1);
 	}
 
 	if (!fPeek) {
-		m_bitbuff	&= ((1ui64 << bitlen) - 1);
+		m_bitbuff	&= ((1ULL << bitlen) - 1);
 		m_bitlen	= bitlen;
 	}
 
@@ -107,7 +107,7 @@ unsigned long long CGolombBuffer::UExpGolombRead()
 	for (unsigned char b = 0; !b && !IsEOF(); n++) {
 		b = (unsigned char)BitRead(1);
 	}
-	return (1ui64 << n) - 1 + BitRead(n);
+	return (1ULL << n) - 1 + BitRead(n);
 }
 
 unsigned int CGolombBuffer::UintGolombRead()

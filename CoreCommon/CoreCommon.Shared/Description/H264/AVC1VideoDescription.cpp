@@ -1,9 +1,9 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "AVC1VideoDescription.h"
 
 unsigned AVCDecoderConfigurationRecord2AnnexB(unsigned char* src,unsigned char** dst,unsigned* profile,unsigned* level,unsigned* nal_size,unsigned max_annexb_size);
 
-AVC1VideoDescription::AVC1VideoDescription(unsigned char* avcc,unsigned avcc_size,unsigned width,unsigned height)
+AVC1VideoDescription::AVC1VideoDescription(unsigned char* avcc,unsigned avcc_size,unsigned width,unsigned height) throw()
 {
 	memset(&_profile,0,sizeof(_profile));
 	_avcc = nullptr;

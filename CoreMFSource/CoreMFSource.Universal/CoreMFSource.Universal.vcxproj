@@ -30,6 +30,9 @@
     <ProjectReference Include="..\..\CoreCommon\CoreCommon.Universal\CoreCommon.Universal.vcxproj">
       <Project>{701d4f5f-a7dd-4d71-b43e-c3b448775eb1}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Universal\CoreDemuxers.Universal.vcxproj">
+      <Project>{93170c68-1cf1-4e09-a00c-0eb6a0c4c1b0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\TransformFilter\TransformFilter.Universal\TransformFilter.Universal.vcxproj">
       <Project>{5274cae8-c1fc-458e-989d-5b4366e7e274}</Project>
     </ProjectReference>

@@ -182,7 +182,17 @@ HRESULT HDMediaSource::CreateStreams()
 		if (fps > 120.0f)
 			fps = 60.0f;
 
-		if (_forceQueueSize == MF_SOURCE_STREAM_QUEUE_FPS_AUTO && fps > 3)
+		// Optmize for low latency not best performance
+        bool liveStream = false;
+        if (_pMediaIO)
+            liveStream = _pMediaIO->IsLiveStream();
+        else if (_pMediaIOEx)
+            liveStream = _pMediaIOEx->IsLiveStream();
+
+		if (liveStream)
+			dwQueueSize = 10;
+
+		if (!liveStream && _forceQueueSize == MF_SOURCE_STREAM_QUEUE_FPS_AUTO && fps > 3)
 			dwQueueSize = SetupVideoQueueSize(fps,width,height);
 
 		//如果外部强制设置大小

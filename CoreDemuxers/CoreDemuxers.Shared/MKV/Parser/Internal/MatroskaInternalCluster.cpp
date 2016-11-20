@@ -3,7 +3,7 @@
 using namespace MKV;
 using namespace MKV::Internal::Object;
 
-bool Cluster::ParseCluster(EBML::EbmlHead& head,bool calc_cluster_pos,unsigned calc_head_size_offset)
+bool Cluster::ParseCluster(EBML::EbmlHead& head,bool calc_cluster_pos,unsigned calc_head_size_offset) throw()
 {
 	_head = &head;
 	_timeCode = -1;
@@ -45,13 +45,13 @@ bool Cluster::ParseCluster(EBML::EbmlHead& head,bool calc_cluster_pos,unsigned c
 	return _timeCode != -1;
 }
 
-Cluster::Block* Cluster::ParseNextBlock(long long* next_cluster_size,bool no_more_data)
+Cluster::Block* Cluster::ParseNextBlock(long long* next_cluster_size,bool no_more_data) throw()
 {
 	*next_cluster_size = 0;
 	for (unsigned i = 0;i < 10;i++)
 	{
 		if (!EBML::FastParseEbmlHeadIfSizeWithNoErr(FAST_PARSE_WITH_IO_P(_head),true))
-			return false;
+			return nullptr;
 
 		if (_head->IsCluster())
 		{
@@ -76,12 +76,12 @@ Cluster::Block* Cluster::ParseNextBlock(long long* next_cluster_size,bool no_mor
 	return nullptr;
 }
 
-bool Cluster::ProcessSimpleBlock()
+bool Cluster::ProcessSimpleBlock() throw()
 {
 	return _block.InitBlock(_head);
 }
 
-bool Cluster::ProcessBlockGroup(bool no_more_data)
+bool Cluster::ProcessBlockGroup(bool no_more_data) throw()
 {
 	bool blockFound = false;
 	bool refFound = false;
@@ -133,7 +133,7 @@ bool Cluster::ProcessBlockGroup(bool no_more_data)
 	return blockFound;
 }
 
-bool Cluster::Block::InitBlock(EBML::EbmlHead* head,bool simpleBlock)
+bool Cluster::Block::InitBlock(EBML::EbmlHead* head,bool simpleBlock) throw()
 {
 	if (!_ioBuffer.Alloc((unsigned)head->Size(),true))
 		return false;
@@ -156,7 +156,7 @@ bool Cluster::Block::InitBlock(EBML::EbmlHead* head,bool simpleBlock)
 	return true;
 }
 
-bool Cluster::Block::GetFrameInfo(Cluster::Block::FrameInfo* info,unsigned index)
+bool Cluster::Block::GetFrameInfo(Cluster::Block::FrameInfo* info,unsigned index) throw()
 {
 	if (index >= _listCount)
 		return false;
@@ -176,7 +176,7 @@ bool Cluster::Block::GetFrameInfo(Cluster::Block::FrameInfo* info,unsigned index
 	return true;
 }
 
-bool Cluster::Block::ReadFrame(void* pb,unsigned index)
+bool Cluster::Block::ReadFrame(void* pb,unsigned index) throw()
 {
 	if (index >= _listCount)
 		return false;
@@ -197,7 +197,7 @@ bool Cluster::Block::ReadFrame(void* pb,unsigned index)
 	return true;
 }
 
-bool Cluster::Block::ReadFrameDirectPointer(unsigned char** ppbuf,unsigned* ppsize,unsigned index)
+bool Cluster::Block::ReadFrameDirectPointer(unsigned char** ppbuf,unsigned* ppsize,unsigned index) throw()
 {
 	//直接返回IOBuffer的缓冲区指针。
 	if (index >= _listCount)
@@ -223,7 +223,7 @@ bool Cluster::Block::ReadFrameDirectPointer(unsigned char** ppbuf,unsigned* ppsi
 	return true;
 }
 
-unsigned Cluster::Block::ParseBlockHeader()
+unsigned Cluster::Block::ParseBlockHeader() throw()
 {
 	auto p = _ioBuffer.Get<unsigned char>();
 	if (EBML::Core::GetVIntLength(*p) > 1)
@@ -234,7 +234,7 @@ unsigned Cluster::Block::ParseBlockHeader()
 	return 3;
 }
 
-unsigned Cluster::Block::ParseLacingType()
+unsigned Cluster::Block::ParseLacingType() throw()
 {
 	auto p = _ioBuffer.Get<unsigned char>() + _packet_offset;
 
@@ -246,7 +246,7 @@ unsigned Cluster::Block::ParseLacingType()
 	return 1;
 }
 
-bool Cluster::Block::ParseSimpleBlock()
+bool Cluster::Block::ParseSimpleBlock() throw()
 {
 	_packet_offset += ParseBlockHeader();
 	if (_packet_offset == 0)
@@ -265,7 +265,7 @@ bool Cluster::Block::ParseSimpleBlock()
 	return InitFrameList();
 }
 
-bool Cluster::Block::ParseBlock()
+bool Cluster::Block::ParseBlock() throw()
 {
 	_packet_offset += ParseBlockHeader();
 	if (_packet_offset == 0)
@@ -281,7 +281,7 @@ bool Cluster::Block::ParseBlock()
 	return InitFrameList();
 }
 
-bool Cluster::Block::InitFrameList()
+bool Cluster::Block::InitFrameList() throw()
 {
 	_listCount = *(_ioBuffer.Get<unsigned char>() + _packet_offset);
 	if (_listCount == 0)
@@ -308,7 +308,7 @@ bool Cluster::Block::InitFrameList()
 	return InitXiphFrameList();
 }
 
-bool Cluster::Block::InitEbmlFrameList()
+bool Cluster::Block::InitEbmlFrameList() throw()
 {
 	auto list = _listBuffer.Get<unsigned>();
 	auto p = _ioBuffer.Get<unsigned char>() + _packet_offset;
@@ -341,7 +341,7 @@ bool Cluster::Block::InitEbmlFrameList()
 	return true;
 }
 
-bool Cluster::Block::InitXiphFrameList()
+bool Cluster::Block::InitXiphFrameList() throw()
 {
 	auto list = _listBuffer.Get<unsigned>();
 	auto p = _ioBuffer.Get<unsigned char>() + _packet_offset;
@@ -370,7 +370,7 @@ bool Cluster::Block::InitXiphFrameList()
 	return true;
 }
 
-unsigned Cluster::Block::CalcListOffsetSize(unsigned index)
+unsigned Cluster::Block::CalcListOffsetSize(unsigned index) throw()
 {
 	unsigned total = 0;
 	for (unsigned i = 0;i < index;i++)
@@ -379,7 +379,7 @@ unsigned Cluster::Block::CalcListOffsetSize(unsigned index)
 	return total;
 }
 
-void Cluster::Block::SetListLastNumber()
+void Cluster::Block::SetListLastNumber() throw()
 {
 	unsigned total = CalcListOffsetSize(_listCount - 1);
 

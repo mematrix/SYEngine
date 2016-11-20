@@ -36,7 +36,7 @@ int FLVMediaStream::GetStreamIndex()
 	return _stream_index;
 }
 
-char* FLVMediaStream::GetStreamName()
+const char* FLVMediaStream::GetStreamName()
 {
 	return _main_type == MEDIA_MAIN_TYPE_AUDIO ?
 		"FLV Audio Stream":"FLV Video Stream";

@@ -1,6 +1,10 @@
 #include "MPEG_Audio_Parser.h"
 #include <stdlib.h>
 
+#ifndef _countof
+#define _countof(_array) (sizeof(_array) / sizeof(_array[0]))
+#endif
+
 static const unsigned kMPEGAudioV10SampleRateIndex[] = {44100,48000,32000,0};
 static const unsigned kMPEGAudioV20SampleRateIndex[] = {22050,24000,16000,0};
 static const unsigned kMPEGAudioV25SampleRateIndex[] = {11025,12000,8000,0};

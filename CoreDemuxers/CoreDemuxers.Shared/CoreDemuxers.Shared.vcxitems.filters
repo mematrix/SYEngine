@@ -207,6 +207,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MP4\MP4MediaStream.h">
       <Filter>MP4</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\VorbisCalcEngine.h">
+      <Filter>MKV\Parser\Duration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)FLV\Parser\FLVParser.cpp">
@@ -376,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MP4\NaluHelp.cpp">
       <Filter>MP4</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MKV\Parser\Duration\VorbisCalcEngine.cpp">
+      <Filter>MKV\Parser\Duration</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

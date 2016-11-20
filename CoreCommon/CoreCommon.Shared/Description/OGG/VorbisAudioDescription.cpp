@@ -29,7 +29,7 @@ struct VorbisIdentificationHeader
 };
 #pragma pack(1)
 
-VorbisAudioDescription::VorbisAudioDescription(unsigned char* ph,unsigned size)
+VorbisAudioDescription::VorbisAudioDescription(unsigned char* ph,unsigned size) throw()
 {
 	memset(&_basic_desc,0,sizeof(_basic_desc));
 	memset(&_profile,0,sizeof(_profile));

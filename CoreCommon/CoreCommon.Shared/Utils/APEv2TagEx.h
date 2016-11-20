@@ -3,7 +3,7 @@
 
 #include <MediaAVIO.h>
 #include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #define APETAGEX_FLAG 0x5845474154455041ULL
 #define APETAGEX_VER 2000

@@ -1,6 +1,6 @@
 #include "BitReader.h"
 #include "AVCParser.h"
-#include <malloc.h>
+#include <stdlib.h>
 #include <memory.h>
 
 #ifdef _MSC_VER
