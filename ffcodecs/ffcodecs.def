@@ -137,8 +137,6 @@ EXPORTS
 	avio_write
 	avio_feof
 	ff_get_buffer
-	ff_init_buffer_info
-	ff_alloc_packet
 	ff_alloc_packet2
 	ff_read_packet
 	ff_read_frame_flush
@@ -157,7 +155,6 @@ EXPORTS
 	avpriv_split_xiph_headers
 	avpriv_dca_convert_bitstream
 	avpriv_dca_sample_rates
-	avpriv_aac_parse_header
 	avpriv_ac3_parse_header
 	avpriv_ac3_channel_layout_tab
 	avpriv_copy_bits

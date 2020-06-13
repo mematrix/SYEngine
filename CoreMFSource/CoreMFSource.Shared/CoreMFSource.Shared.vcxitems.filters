@@ -119,5 +119,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Common\Win32MacroTools.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkList.h" />
   </ItemGroup>
 </Project>

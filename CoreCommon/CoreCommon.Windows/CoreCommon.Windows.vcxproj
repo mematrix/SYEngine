@@ -40,35 +40,29 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\CoreCommon.Shared\CoreCommon.Shared.vcxitems" Label="Shared" />
@@ -136,6 +130,7 @@
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +151,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -175,6 +171,7 @@
       </SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,6 +192,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -215,6 +213,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4244;</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -236,6 +235,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\AV\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Description\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Memory\;$(ProjectDir)\..\..\$(ItemsRootNamespace)\$(ItemsProjectName)\Utils\;</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4244;</DisableSpecificWarnings>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

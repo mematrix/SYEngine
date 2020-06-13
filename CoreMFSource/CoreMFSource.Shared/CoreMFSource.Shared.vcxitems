@@ -72,6 +72,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HDCoreByteStreamHandler.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HDMediaSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HDMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkList.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MFMediaIO.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MFMediaIOEx.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MFsGlobalSettings.h" />

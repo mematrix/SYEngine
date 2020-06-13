@@ -34,7 +34,7 @@ IMFMediaType* FFmpegAudioDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 	UINT32 userdataLen = 0;
 	pMediaType->GetAllocatedBlob(MF_MT_USER_DATA, &userdata, &userdataLen);
 	if (userdata) {
-		_context->extradata = (unsigned char*)av_mallocz(userdataLen * 2 + FF_INPUT_BUFFER_PADDING_SIZE);
+		_context->extradata = (unsigned char*)av_mallocz(userdataLen * 2 + AV_INPUT_BUFFER_PADDING_SIZE);
 		if (_context->extradata) {
 			_context->extradata_size = (int)userdataLen;
 			if (codecid == AV_CODEC_ID_AAC) {

@@ -443,7 +443,8 @@ public:
     }
 
 protected:
-    HRESULT InsertAfter(Ptr item, Node *pBefore)
+    typedef typename List<Ptr>::Node Node;
+    HRESULT InsertAfter(Ptr item, Node *pBefore) override
     {
         // Do not allow nullptr item pointers unless NULLABLE is true.
         if (item == nullptr && !NULLABLE)

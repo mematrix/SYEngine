@@ -216,7 +216,7 @@ IMFMediaType* FFmpegVideoDecoder::Open(AVCodecID codecid, IMFMediaType* pMediaTy
 		subType != MFVideoFormat_HEVC &&
 		subType != MFVideoFormat_HEVC_ES)) {
 		codecprivate_len = extraLen > 0 ? extraLen : userdataLen;
-		codecprivate = (unsigned char*)av_mallocz(codecprivate_len + FF_INPUT_BUFFER_PADDING_SIZE);
+		codecprivate = (unsigned char*)av_mallocz(codecprivate_len + AV_INPUT_BUFFER_PADDING_SIZE);
 		if (codecprivate) {
 			if (extraLen > 0)
 				pMediaType->GetBlob(MF_MT_MPEG_SEQUENCE_HEADER, codecprivate, codecprivate_len, &extraLen);

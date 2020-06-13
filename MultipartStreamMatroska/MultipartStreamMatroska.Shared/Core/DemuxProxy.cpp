@@ -16,7 +16,7 @@ bool DemuxProxy::OpenByteStream(int io_buf_size, bool non_find_stream_info)
 
 	av_init_packet((AVPacket*)_core.NowPacket);
 	int avio_buffer_size = (io_buf_size == 0 ? 1024 * 64 : io_buf_size); //default is 64K
-	unsigned char* avio_buf = (unsigned char*)av_malloc(avio_buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
+	unsigned char* avio_buf = (unsigned char*)av_malloc(avio_buffer_size + AV_INPUT_BUFFER_PADDING_SIZE);
 	if (avio_buf == NULL)
 		return false;
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngineRuntime", "SYEngineRuntime", "{536118D9-2E17-4167-888D-93F547C7A6CC}"
 EndProject
@@ -103,51 +103,51 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RtmpStream.WindowsPhone", "
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{404150b6-9a3a-449e-a410-5d64ff3b85d3}*SharedItemsImports = 4
-		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{2d83279c-3bb2-43ec-8503-8e62fb1f3a99}*SharedItemsImports = 4
-		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b23e3639-d675-49b2-85b1-fae680012b71}*SharedItemsImports = 9
-		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{f1079a95-c042-429f-ad7b-97a91ec8be65}*SharedItemsImports = 9
-		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{7e0215a1-1e2d-414f-a8e9-ca3c7118a192}*SharedItemsImports = 9
-		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{927c14c4-15ff-4939-b03c-3176a684ee09}*SharedItemsImports = 4
-		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}*SharedItemsImports = 4
-		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{abb4bcb5-19ff-4d89-ae67-0c4eb952ef22}*SharedItemsImports = 4
-		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{17fa6670-7feb-4abf-a408-aba3c7bd604d}*SharedItemsImports = 9
+		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
 		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{093733b8-464d-407e-a941-af33ac8406be}*SharedItemsImports = 13
-		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{c27ba662-2926-49a2-92a1-0a71cee1391c}*SharedItemsImports = 4
-		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{b39be607-b19b-4d04-bf3e-e08aff32f6a7}*SharedItemsImports = 4
+		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{12c720a6-7590-4da1-9666-0adf59555e03}*SharedItemsImports = 4
 		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{13d48622-327d-455f-ab40-ccd9b85d50e5}*SharedItemsImports = 4
-		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{a9b9dd1d-5628-4c46-996c-0e3fde97a3a4}*SharedItemsImports = 4
+		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{17fa6670-7feb-4abf-a408-aba3c7bd604d}*SharedItemsImports = 9
+		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{1a1821c0-5072-48d7-93ad-2ecdcd267f4d}*SharedItemsImports = 4
+		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{26e240b7-dc62-4b94-b4ea-a7ac1c8a1e23}*SharedItemsImports = 4
+		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{2d83279c-3bb2-43ec-8503-8e62fb1f3a99}*SharedItemsImports = 4
+		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{32326bd5-23d8-4993-a79f-46a819bcc794}*SharedItemsImports = 4
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{371b4e0d-44ec-4781-8350-55471e26c599}*SharedItemsImports = 4
+		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{404150b6-9a3a-449e-a410-5d64ff3b85d3}*SharedItemsImports = 4
+		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{48e670e5-2d7c-4ae7-a398-ac7193aaa3d5}*SharedItemsImports = 4
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{54f23214-4129-4eb9-9ec7-66dc7221ca6c}*SharedItemsImports = 9
+		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{5589aedb-6143-4b48-a7a3-1dd0c73e5723}*SharedItemsImports = 9
 		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{5b969656-ea9b-4479-9dcc-4b47bab474a1}*SharedItemsImports = 9
-		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{6c77118b-c47c-461b-8d53-ab673c312dac}*SharedItemsImports = 4
+		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{5f555a02-e82f-415e-8043-d7209194be92}*SharedItemsImports = 4
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{67810348-f9af-45f1-892a-945299564494}*SharedItemsImports = 4
+		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{6c77118b-c47c-461b-8d53-ab673c312dac}*SharedItemsImports = 4
+		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{7e0215a1-1e2d-414f-a8e9-ca3c7118a192}*SharedItemsImports = 9
+		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{891804b9-2f50-4a9a-b8b0-f2af397d4ae8}*SharedItemsImports = 4
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{8be11e1a-2bcc-4764-9a72-bd80012974c3}*SharedItemsImports = 4
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{8d81cb54-ab9e-4675-9321-06de84bb47f7}*SharedItemsImports = 4
-		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{371b4e0d-44ec-4781-8350-55471e26c599}*SharedItemsImports = 4
-		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{5589aedb-6143-4b48-a7a3-1dd0c73e5723}*SharedItemsImports = 9
-		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{fb33c1e7-872f-46bc-a7b5-3317d9b93e74}*SharedItemsImports = 4
-		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{891804b9-2f50-4a9a-b8b0-f2af397d4ae8}*SharedItemsImports = 4
-		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{32326bd5-23d8-4993-a79f-46a819bcc794}*SharedItemsImports = 4
-		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{26e240b7-dc62-4b94-b4ea-a7ac1c8a1e23}*SharedItemsImports = 4
-		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b7708226-c65a-442a-b937-2fc31a923b5a}*SharedItemsImports = 4
 		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{9130683d-7a7d-44b7-8a12-b446ea5f05aa}*SharedItemsImports = 4
-		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{5f555a02-e82f-415e-8043-d7209194be92}*SharedItemsImports = 4
-		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{1a1821c0-5072-48d7-93ad-2ecdcd267f4d}*SharedItemsImports = 4
-		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{12c720a6-7590-4da1-9666-0adf59555e03}*SharedItemsImports = 4
-		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}*SharedItemsImports = 4
-		SYEngine\SYEngine.Shared\SYEngine.Shared.vcxitems*{54f23214-4129-4eb9-9ec7-66dc7221ca6c}*SharedItemsImports = 9
-		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
-		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{48e670e5-2d7c-4ae7-a398-ac7193aaa3d5}*SharedItemsImports = 4
+		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{927c14c4-15ff-4939-b03c-3176a684ee09}*SharedItemsImports = 4
+		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{a9b9dd1d-5628-4c46-996c-0e3fde97a3a4}*SharedItemsImports = 4
 		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{aa001c02-8fb2-46b5-afd3-2c836d68a7f8}*SharedItemsImports = 4
+		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{abb4bcb5-19ff-4d89-ae67-0c4eb952ef22}*SharedItemsImports = 4
+		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b23e3639-d675-49b2-85b1-fae680012b71}*SharedItemsImports = 9
+		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{b39be607-b19b-4d04-bf3e-e08aff32f6a7}*SharedItemsImports = 4
+		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b7708226-c65a-442a-b937-2fc31a923b5a}*SharedItemsImports = 4
+		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{c27ba662-2926-49a2-92a1-0a71cee1391c}*SharedItemsImports = 4
 		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{d6799258-5a11-44d2-96a4-a7ca0e03f5bf}*SharedItemsImports = 9
+		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{d9ef1ab9-19b0-4fbc-907a-7a6d3920a638}*SharedItemsImports = 4
 		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{df0bfdaa-efcb-4b50-ba10-6f1c38003cf1}*SharedItemsImports = 4
+		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}*SharedItemsImports = 4
+		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{f1079a95-c042-429f-ad7b-97a91ec8be65}*SharedItemsImports = 9
+		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{fb33c1e7-872f-46bc-a7b5-3317d9b93e74}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Debug|x64 = Debug|x64
 		Debug|ARM = Debug|ARM
-		Release|x86 = Release|x86
-		Release|x64 = Release|x64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -488,5 +488,8 @@ Global
 		{DF0BFDAA-EFCB-4B50-BA10-6F1C38003CF1} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
 		{AA001C02-8FB2-46B5-AFD3-2C836D68A7F8} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
 		{48E670E5-2D7C-4AE7-A398-AC7193AAA3D5} = {C6A07B94-50ED-4F69-BF98-8BC47EE64B87}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2640C62E-7431-4C67-9FF9-1259F89F5DC3}
 	EndGlobalSection
 EndGlobal
