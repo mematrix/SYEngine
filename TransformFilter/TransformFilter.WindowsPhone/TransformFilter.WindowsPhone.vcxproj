@@ -18,11 +18,6 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ffcodecs\ffcodecs.WindowsPhone\ffcodecs.WindowsPhone.vcxproj">
-      <Project>{fb33c1e7-872f-46bc-a7b5-3317d9b93e74}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c27ba662-2926-49a2-92a1-0a71cee1391c}</ProjectGuid>
     <RootNamespace>TransformFilter</RootNamespace>

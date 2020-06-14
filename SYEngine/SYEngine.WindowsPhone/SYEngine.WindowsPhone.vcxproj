@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.WindowsPhone\CoreDemuxers.WindowsPhone.vcxproj">
-      <Project>{12c720a6-7590-4da1-9666-0adf59555e03}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.WindowsPhone\CoreMFSource.WindowsPhone.vcxproj">
       <Project>{32326bd5-23d8-4993-a79f-46a819bcc794}</Project>
     </ProjectReference>

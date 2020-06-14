@@ -27,9 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Windows\CoreDemuxers.Windows.vcxproj">
-      <Project>{927c14c4-15ff-4939-b03c-3176a684ee09}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.Windows\CoreMFSource.Windows.vcxproj">
       <Project>{5f555a02-e82f-415e-8043-d7209194be92}</Project>
     </ProjectReference>

@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ffcodecs\ffcodecs.WindowsPhone\ffcodecs.WindowsPhone.vcxproj">
-      <Project>{fb33c1e7-872f-46bc-a7b5-3317d9b93e74}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\WinhttpWrapper\WinhttpWrapper.WindowsPhone\WinhttpWrapper.WindowsPhone.vcxproj">
       <Project>{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}</Project>
     </ProjectReference>

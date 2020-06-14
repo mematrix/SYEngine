@@ -26,11 +26,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ffcodecs\ffcodecs.Windows\ffcodecs.Windows.vcxproj">
-      <Project>{8be11e1a-2bcc-4764-9a72-bd80012974c3}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{26e240b7-dc62-4b94-b4ea-a7ac1c8a1e23}</ProjectGuid>
     <RootNamespace>TransformFilter</RootNamespace>

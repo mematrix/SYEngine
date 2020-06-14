@@ -27,9 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ffcodecs\ffcodecs.Windows\ffcodecs.Windows.vcxproj">
-      <Project>{8be11e1a-2bcc-4764-9a72-bd80012974c3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\WinhttpWrapper\WinhttpWrapper.Windows\WinhttpWrapper.Windows.vcxproj">
       <Project>{8d81cb54-ab9e-4675-9321-06de84bb47f7}</Project>
     </ProjectReference>

@@ -19,12 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreCommon\CoreCommon.WindowsPhone\CoreCommon.WindowsPhone.vcxproj">
-      <Project>{abb4bcb5-19ff-4d89-ae67-0c4eb952ef22}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.WindowsPhone\CoreDemuxers.WindowsPhone.vcxproj">
-      <Project>{12c720a6-7590-4da1-9666-0adf59555e03}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\TransformFilter\TransformFilter.WindowsPhone\TransformFilter.WindowsPhone.vcxproj">
       <Project>{c27ba662-2926-49a2-92a1-0a71cee1391c}</Project>
     </ProjectReference>

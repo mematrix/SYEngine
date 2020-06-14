@@ -27,12 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreCommon\CoreCommon.Windows\CoreCommon.Windows.vcxproj">
-      <Project>{13d48622-327d-455f-ab40-ccd9b85d50e5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CoreDemuxers\CoreDemuxers.Windows\CoreDemuxers.Windows.vcxproj">
-      <Project>{927c14c4-15ff-4939-b03c-3176a684ee09}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\TransformFilter\TransformFilter.Windows\TransformFilter.Windows.vcxproj">
       <Project>{26e240b7-dc62-4b94-b4ea-a7ac1c8a1e23}</Project>
     </ProjectReference>
