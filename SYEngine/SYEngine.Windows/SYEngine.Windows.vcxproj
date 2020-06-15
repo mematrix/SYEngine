@@ -27,9 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.Windows\CoreMFSource.Windows.vcxproj">
-      <Project>{5f555a02-e82f-415e-8043-d7209194be92}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.Windows\MultipartStreamMatroska.Windows.vcxproj">
       <Project>{404150b6-9a3a-449e-a410-5d64ff3b85d3}</Project>
     </ProjectReference>

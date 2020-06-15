@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreMFSource\CoreMFSource.WindowsPhone\CoreMFSource.WindowsPhone.vcxproj">
-      <Project>{32326bd5-23d8-4993-a79f-46a819bcc794}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\MultipartStreamMatroska\MultipartStreamMatroska.WindowsPhone\MultipartStreamMatroska.WindowsPhone.vcxproj">
       <Project>{1a1821c0-5072-48d7-93ad-2ecdcd267f4d}</Project>
     </ProjectReference>
