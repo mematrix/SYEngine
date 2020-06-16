@@ -18,11 +18,6 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\WinhttpWrapper\WinhttpWrapper.WindowsPhone\WinhttpWrapper.WindowsPhone.vcxproj">
-      <Project>{f0c38dc9-a02d-4cf1-9e0e-3e8ae64e589a}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A1821C0-5072-48D7-93AD-2ECDCD267F4D}</ProjectGuid>
     <RootNamespace>MultipartStreamMatroska</RootNamespace>
