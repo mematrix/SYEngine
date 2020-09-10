@@ -8,7 +8,9 @@
 *.pdb
 *.log
 *.config
+!packages.config
 *.VC.db
+*.pfx
 
 [Dd]ebug/
 [Rr]elease/
@@ -22,8 +24,10 @@ build/
 
 Generated Files/
 AppPackages/
+packages/
 
 .vs/
+.vscode/
 
 /!Packages/
 !/ffcodecs/ffmpeg/lib/runtime/arm/

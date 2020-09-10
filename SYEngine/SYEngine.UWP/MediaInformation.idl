@@ -1,0 +1,19 @@
+namespace SYEngine
+{
+    runtimeclass MediaInformation
+    {
+        [default_overload]
+        Windows.Foundation.IAsyncAction OpenAsync(Windows.Foundation.Uri uri);
+        Windows.Foundation.IAsyncAction OpenAsync(Windows.Storage.Streams.IRandomAccessStream stream);
+
+        Windows.Media.MediaProperties.AudioEncodingProperties GetAudioInfo();
+        Windows.Media.MediaProperties.VideoEncodingProperties GetVideoInfo();
+
+        Double Duration { get; };
+        Int64 FileSize { get; };
+
+        String MimeType { get; };
+
+        Double GetKeyFrameTime(Double user_time);
+    }
+}

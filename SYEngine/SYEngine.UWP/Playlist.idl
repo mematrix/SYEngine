@@ -1,0 +1,44 @@
+namespace SYEngine
+{
+    enum PlaylistTypes
+    {
+        LocalFile,
+        NetworkHttp,
+    };
+
+    struct PlaylistNetworkConfigs
+    {
+        Double ExplicitTotalDurationSeconds;
+		Boolean DetectDurationForParts;
+		Boolean NotUseCorrectTimestamp;
+		Boolean DownloadRetryOnFail;
+		Int32 FetchNextPartThresholdSeconds;
+		Int32 BufferBlockSizeKB;
+		Int32 BufferBlockCount;
+		String HttpCookie;
+		String HttpReferer;
+		String HttpUserAgent;
+		String UniqueId;
+    };
+
+    runtimeclass Playlist
+    {
+        Playlist(PlaylistTypes type);
+
+        PlaylistNetworkConfigs NetworkConfigs;
+
+        Boolean Append(String url, Int32 sizeInBytes, Single durationInSeconds);
+        void Clear();
+        void SetDebugFile(String fileName);
+        Windows.Foundation.IAsyncOperation<Windows.Foundation.Uri> SaveAndGetFileUriAsync();
+    };
+
+    interface IPlaylistNetworkUpdateInfo
+    {
+        String Url;
+        Int32 Timeout;
+
+        Boolean SetRequestHeader(String name, String value);
+        String GetRequestHeader(String name);
+    };
+}

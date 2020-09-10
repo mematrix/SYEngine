@@ -1,0 +1,26 @@
+import "Playlist.idl";
+
+namespace SYEngine
+{
+    delegate String PlaylistSegmentUrlUpdateEventHandler
+    (String unique_id, String op_type, Int32 cur_index, Int32 total_count, String cur_url);
+
+    delegate Boolean PlaylistSegmentDetailUpdateEventHandler
+    (String unique_id, String op_type, Int32 cur_index, Int32 total_count, IPlaylistNetworkUpdateInfo info);
+
+    static runtimeclass Core
+    {
+        static Boolean Initialize();
+        static Boolean Initialize(IMapView<String, String> custom_handler);
+        static void Uninitialize();
+
+        static Double NetworkBufferTimeInSeconds { get; set; };
+        static Int32 NetworkBufferSizeInBytes { get; set; };
+
+        static Boolean ForceNetworkMode { get; set; };
+        static Boolean ForceSoftwareDecode { get; set; };
+
+        static PlaylistSegmentUrlUpdateEventHandler PlaylistSegmentUrlUpdateDelegate { get; set; };
+        static PlaylistSegmentDetailUpdateEventHandler PlaylistSegmentDetailUpdateDelegate { get; set; };
+    }
+}
