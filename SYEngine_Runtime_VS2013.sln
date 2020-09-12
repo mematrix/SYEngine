@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SYEngineRuntime", "SYEngineRuntime", "{536118D9-2E17-4167-888D-93F547C7A6CC}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SYEngineRuntime.Shared", "Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.shproj", "{093733B8-464D-407E-A941-AF33AC8406BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.Windows", "Demo\SYEngineRuntime\SYEngineRuntime.Windows\SYEngineRuntime.Windows.csproj", "{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYEngineRuntime.WindowsPhone", "Demo\SYEngineRuntime\SYEngineRuntime.WindowsPhone\SYEngineRuntime.WindowsPhone.csproj", "{9130683D-7A7D-44B7-8A12-B446EA5F05AA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SYEngineDesktop", "Demo\SYEngineDesktop\SYEngineDesktop.vcxproj", "{9B751D95-0F4D-4F80-83B1-494AF2D68C36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{F8AC52D1-E5E8-440C-A0F2-B2612988F8A9}"
@@ -86,7 +78,6 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TransformFilter\TransformFilter.Shared\TransformFilter.Shared.vcxitems*{08d15c5a-38fe-42bc-be6c-4afeeb347b7e}*SharedItemsImports = 9
-		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{093733b8-464d-407e-a941-af33ac8406be}*SharedItemsImports = 13
 		CoreCommon\CoreCommon.Shared\CoreCommon.Shared.vcxitems*{175ef67b-b5c4-4d04-944a-c524d4a0ebe6}*SharedItemsImports = 4
 		WinhttpWrapper\WinhttpWrapper.Shared\WinhttpWrapper.Shared.vcxitems*{17fa6670-7feb-4abf-a408-aba3c7bd604d}*SharedItemsImports = 9
 		RtmpStream\RtmpStream.Shared\RtmpStream.Shared.vcxitems*{1ce98421-c4b6-4707-929c-89016b21e03f}*SharedItemsImports = 4
@@ -99,8 +90,6 @@ Global
 		ffcodecs\ffcodecs.Shared\ffcodecs.Shared.vcxitems*{7e0215a1-1e2d-414f-a8e9-ca3c7118a192}*SharedItemsImports = 9
 		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{85d390a9-2c6a-4e78-a180-584ab5110971}*SharedItemsImports = 4
 		CoreMFSource\CoreMFSource.Shared\CoreMFSource.Shared.vcxitems*{891804b9-2f50-4a9a-b8b0-f2af397d4ae8}*SharedItemsImports = 4
-		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{9130683d-7a7d-44b7-8a12-b446ea5f05aa}*SharedItemsImports = 4
-		Demo\SYEngineRuntime\SYEngineRuntime.Shared\SYEngineRuntime.Shared.projitems*{a9b9dd1d-5628-4c46-996c-0e3fde97a3a4}*SharedItemsImports = 4
 		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b23e3639-d675-49b2-85b1-fae680012b71}*SharedItemsImports = 9
 		MultipartStreamMatroska\MultipartStreamMatroska.Shared\MultipartStreamMatroska.Shared.vcxitems*{b39be607-b19b-4d04-bf3e-e08aff32f6a7}*SharedItemsImports = 4
 		CoreDemuxers\CoreDemuxers.Shared\CoreDemuxers.Shared.vcxitems*{b7708226-c65a-442a-b937-2fc31a923b5a}*SharedItemsImports = 4
@@ -123,42 +112,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.ActiveCfg = Debug|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.Build.0 = Debug|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM.Deploy.0 = Debug|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|ARM64.ActiveCfg = Debug|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x64.ActiveCfg = Debug|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x64.Build.0 = Debug|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x64.Deploy.0 = Debug|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x86.ActiveCfg = Debug|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x86.Build.0 = Debug|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Debug|x86.Deploy.0 = Debug|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|ARM.ActiveCfg = Release|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|ARM.Build.0 = Release|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|ARM.Deploy.0 = Release|ARM
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|ARM64.ActiveCfg = Release|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x64.ActiveCfg = Release|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x64.Build.0 = Release|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x64.Deploy.0 = Release|x64
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x86.ActiveCfg = Release|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x86.Build.0 = Release|x86
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4}.Release|x86.Deploy.0 = Release|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|ARM.ActiveCfg = Debug|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|ARM.Build.0 = Debug|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|ARM.Deploy.0 = Debug|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|x86.ActiveCfg = Debug|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|x86.Build.0 = Debug|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Debug|x86.Deploy.0 = Debug|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|ARM.ActiveCfg = Release|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|ARM.Build.0 = Release|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|ARM.Deploy.0 = Release|ARM
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|x64.ActiveCfg = Release|Any CPU
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|x86.ActiveCfg = Release|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|x86.Build.0 = Release|x86
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA}.Release|x86.Deploy.0 = Release|x86
 		{9B751D95-0F4D-4F80-83B1-494AF2D68C36}.Debug|ARM.ActiveCfg = Debug|Win32
 		{9B751D95-0F4D-4F80-83B1-494AF2D68C36}.Debug|ARM64.ActiveCfg = Debug|Win32
 		{9B751D95-0F4D-4F80-83B1-494AF2D68C36}.Debug|x64.ActiveCfg = Debug|Win32
@@ -410,10 +363,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{536118D9-2E17-4167-888D-93F547C7A6CC} = {F8AC52D1-E5E8-440C-A0F2-B2612988F8A9}
-		{093733B8-464D-407E-A941-AF33AC8406BE} = {536118D9-2E17-4167-888D-93F547C7A6CC}
-		{A9B9DD1D-5628-4C46-996C-0E3FDE97A3A4} = {536118D9-2E17-4167-888D-93F547C7A6CC}
-		{9130683D-7A7D-44B7-8A12-B446EA5F05AA} = {536118D9-2E17-4167-888D-93F547C7A6CC}
 		{9B751D95-0F4D-4F80-83B1-494AF2D68C36} = {F8AC52D1-E5E8-440C-A0F2-B2612988F8A9}
 		{F1079A95-C042-429F-AD7B-97A91EC8BE65} = {0600FC55-B804-4376-A6AE-2227E2F8D4C1}
 		{5B969656-EA9B-4479-9DCC-4B47BAB474A1} = {E06CE943-2079-42A6-ACB0-6DA84138033D}
