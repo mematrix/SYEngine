@@ -16,8 +16,4 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)MultipartStreamMatroska\0.mp4" />
-    <Content Include="$(MSBuildThisFileDirectory)MultipartStreamMatroska\1.mp4" />
-  </ItemGroup>
 </Project>

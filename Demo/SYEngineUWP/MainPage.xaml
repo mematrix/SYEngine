@@ -1,0 +1,58 @@
+﻿<Page
+    x:Class="SYEngineUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SYEngineUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="150" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <MediaElement x:Name="Player" Width="960" Height="540" Margin="10"
+                      AreTransportControlsEnabled="True" AutoPlay="True" IsLooping="True"
+                      CurrentStateChanged="Player_OnCurrentStateChanged"
+                      BufferingProgressChanged="Player_OnBufferingProgressChanged"
+                      DownloadProgressChanged="Player_OnDownloadProgressChanged" />
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="10">
+                <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                    <CheckBox Content="Loop" IsChecked="{Binding ElementName=Player, Mode=TwoWay, Path=IsLooping}" />
+                    <CheckBox x:Name="SoftDecodeCheckbox" Content="Force Software Decode" Margin="10,0"
+                              Checked="SoftDecodeCheckbox_OnChecked" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Play File..." Width="150" Height="55" Click="PlayFileBtn_OnClick" />
+                    <Button Content="Test For MultipartStreamMatroska (AppLocal)" Width="350" Height="55"
+                            Margin="10,0" Click="MultiFilesBtn_OnClick" />
+                    <Button Content="Test For MultipartStreamMatroska (File)" Width="350" Height="55"
+                            Click="RemuxPlayBtn_OnClick" />
+                </StackPanel>
+                <TextBox x:Name="NetworkUrlTextBox" TextWrapping="NoWrap" Margin="0,10"
+                         IsSpellCheckEnabled="False" HorizontalAlignment="Left"
+                         Width="870" FontSize="13" InputScope="Url" PlaceholderText="Video Url" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Play Network..." Width="150" Height="55" Click="PlayNetworkBtn_OnClick" />
+                    <Button Content="Test For MultipartStreamMatroska (Network)" Width="350" Height="55"
+                            Margin="10,0" Click="MultiUrlBtn_OnClick" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" Margin="10">
+            <TextBlock x:Name="PlayStatusBlock" FontSize="21" />
+            <TextBlock x:Name="DownloadProgressBlock" Margin="20,0,0,0" FontSize="21" />
+        </StackPanel>
+    </Grid>
+</Page>

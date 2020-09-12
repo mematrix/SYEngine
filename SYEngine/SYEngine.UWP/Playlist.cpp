@@ -186,33 +186,30 @@ std::unique_ptr<Playlist::LineStream> Playlist::SerializeForNetworkHttp() noexce
                 }
                 case Status::serial_header_6: {
                     status_ = Status::serial_header_7;
-                    return std::to_string(cfg_.BufferBlockSizeKB > 8 ? cfg_.BufferBlockSizeKB : 64);
+                    return std::to_string(cfg_.BufferBlockSizeKB > 8 ? cfg_.BufferBlockSizeKB : 64) + "|" +
+                        std::to_string(cfg_.BufferBlockCount > 2 ? cfg_.BufferBlockCount : 80);
                 }
                 case Status::serial_header_7: {
                     status_ = Status::serial_header_8;
-                    return std::to_string(cfg_.BufferBlockCount > 2 ? cfg_.BufferBlockCount : 80);
+                    return "NULL";
                 }
                 case Status::serial_header_8: {
                     status_ = Status::serial_header_9;
-                    return "NULL";
+                    return to_string(cfg_.HttpCookie);
                 }
                 case Status::serial_header_9: {
                     status_ = Status::serial_header_10;
-                    return to_string(cfg_.HttpCookie);
+                    return to_string(cfg_.HttpReferer);
                 }
                 case Status::serial_header_10: {
                     status_ = Status::serial_header_11;
-                    return to_string(cfg_.HttpReferer);
+                    return to_string(cfg_.HttpUserAgent);
                 }
                 case Status::serial_header_11: {
                     status_ = Status::serial_header_12;
-                    return to_string(cfg_.HttpUserAgent);
-                }
-                case Status::serial_header_12: {
-                    status_ = Status::serial_header_13;
                     return to_string(cfg_.UniqueId);
                 }
-                case Status::serial_header_13: {
+                case Status::serial_header_12: {
                     status_ = Status::serial_list_size;
                     return to_string(dbg_file_);
                 }
@@ -250,7 +247,6 @@ std::unique_ptr<Playlist::LineStream> Playlist::SerializeForNetworkHttp() noexce
             serial_header_10,
             serial_header_11,
             serial_header_12,
-            serial_header_13,
             serial_list_size,
             serial_list_url
         };
